@@ -9,4 +9,13 @@
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
+	<script>
+		import {theme} from '$lib/shared/stores/darkMode.js'
+
+	let htmlTag;
+	if($theme == 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		htmlTag = document.querySelector('html')
+		htmlTag.classList.add('dark')
+	}
+	</script>
 </html>
