@@ -1,8 +1,8 @@
 <script>
 	// @ts-nocheck
 	import '../app.css';
-	import logo from '$lib/images/App_Title.svg';
-	import '$lib/images/App_Title.svg';
+	import logo from '$lib/assets/App_Title.svg';
+	import '$lib/assets/App_Title.svg';
 
 	import MenuBar from './MenuBar.svelte';
 	import Modal from './Modal.svelte';
@@ -10,48 +10,57 @@
 	import ConfigOptions from './ConfigOptions.svelte';
 
 	import { goto } from '$app/navigation';
-	import { enhance } from '$app/forms';
-	import { fade } from 'svelte/transition';
+	// import { enhance } from '$app/forms';
+	// import { fade } from 'svelte/transition';
 
-	async function onSubmit(data) {
-		const formDict = Object.assign({}, { alliance: alliance }, formToDict(data));
-		console.log(formDict);
-		storeData(formDict);
-		goto('/autonomous');
-	}
-	function formToDict(a) {
-		const formData = new FormData(a.target);
-		const data = {};
-		for (let field of formData) {
-			const [key, value] = field;
-			data[key] = value;
-		}
-		return data;
-	}
-	function storeData(payload) {
-		for (var key in payload) {
-			sessionStorage.setItem(key, payload[key]);
-		}
-	}
-	function getData(key) {
-		return sessionStorage.getItem(key);
-	}
+	// async function onSubmit(data) {
+	// 	if(team_number == '' || match_number == '' || team_position == '') {
+	// 		validationError = true;
+	// 	}else {
+	// 		validationError = false;
+	// 		const formDict = Object.assign({}, { alliance: alliance }, formToDict(data));
+	// 		console.log(formDict);
+	// 		storeData(formDict);
+	// 		goto('/autonomous');
+	// 	}
+	// }
+	// function formToDict(a) {
+	// 	const formData = new FormData(a.target);
+	// 	const data = {};
+	// 	for (let field of formData) {
+	// 		const [key, value] = field;
+	// 		data[key] = value;
+	// 	}
+	// 	return data;
+	// }
+	// function storeData(payload) {
+	// 	for (var key in payload) {
+	// 		// sessionStorage.setItem(key, payload[key]);
+	// 	}
+	// }
+	// function getData(key) {
+	// 	// return sessionStorage.getItem(key);
+	// }
 	let alliance = 'BLUE';
 
 	let showModal = false;
 	let showConfig = false;
 
-	const awaitReload = new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve('foo');
-		}, 300);
-	});
-
+	let team_number = '';
+	let match_number = '';
+	let team_position = '';
+	let validationError = false;
+	
+	// const awaitReload = new Promise((resolve, reject) => {
+	// 	setTimeout(() => {
+	// 		resolve('foo');
+	// 	}, 300);
+	// });
 </script>
 
-{#await awaitReload}
+<!-- {#await awaitReload}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
-{/await}
+{/await} -->
 
 <section>
 	<MenuBar
@@ -144,7 +153,7 @@
 
 	<hr />
 
-	<form id="team-info" class="w-4/5 team_info" on:submit|preventDefault={onSubmit} use:enhance>
+	<form id="team-info" class="w-4/5 team_info" on:forminput={() => {console.log('erro')}}>
 		<div class="center-container">
 			<label class="relative inline-flex cursor-pointer alliance-check">
 				<input
@@ -167,19 +176,22 @@
 		</div>
 
 		<div class="">
-			<label for="team_number" class="home-label">Número da equipe</label>
-			<input name="team_number" type="text" class="home-inp" placeholder="5800" />
+			<label for="team_number" class="home-label in">Número da equipe</label>
+			<input bind:value={team_number} name="team_number" type="text" class="home-inp {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="5800" />
+			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
 		</div>
 		<div class="">
 			<label for="match_number" class="home-label">Número da partida</label>
-			<input name="match_number" type="text" class="home-inp" placeholder="32" />
+			<input bind:value={match_number} name="match_number" type="text" class="home-inp {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="32" />
+			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
 		</div>
 		<div class="">
 			<label for="team_position" class="home-label">Posição da equipe</label>
-			<input name="team_position" type="text" class="home-inp" placeholder="1, 2 ou 3" />
+			<input bind:value={team_position} name="team_position" type="text" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
+			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
 		</div>
-		<button class="w-full submit_team_info btn" type="submit"> Continuar </button>
 	</form>
+    <button class="w-full submit_team_info btn" on:click={() => {goto('/autonomous')}}> Continuar </button>
 
 	<div class="separator"></div>
 
@@ -212,7 +224,7 @@
 	{/if}
 </Modal>
 
-<style>
+<style lang='postcss'>
 	header {
 		color: white;
 		font-weight: 900;
@@ -269,5 +281,12 @@
 		to {
 			transform: rotate(1turn);
 		}
+	}
+
+	.validation-error {
+   		@apply outline outline empty:outline-redTheme-600;
+	}
+	.validation-error-message {
+   		@apply text-red-300 font-medium ml-2;
 	}
 </style>

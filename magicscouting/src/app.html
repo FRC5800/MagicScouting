@@ -1,8 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>
@@ -10,12 +9,12 @@
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 	<script>
-		import {theme} from '$lib/shared/stores/darkMode.js'
+		import { theme } from '$lib/shared/stores/darkMode.js';
 
-	let htmlTag;
-	if($theme == 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
-		htmlTag = document.querySelector('html')
-		htmlTag.classList.add('dark')
-	}
+		let htmlTag;
+		if ($theme == 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			htmlTag = document.querySelector('html');
+			htmlTag.classList.add('dark');
+		}
 	</script>
 </html>

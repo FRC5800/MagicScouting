@@ -1,17 +1,18 @@
 <script>
 	import './styles.css';
+	import '../app.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 
 	beforeUpdate(() => {
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-		document.querySelector('html').classList.add($theme == 'sistema' ? systemTheme : $theme);
+		document.querySelector('html')?.classList.add($theme == 'sistema' ? systemTheme : $theme);
 	});
 </script>
 
 <div class="flex app">
-	<main class="bg-[#EAEAEC] dark:bg-[#060024]">
+	<main class="bg-[#EAEAEC] dark:bg-[#060024] p-2">
 		<slot />
 	</main>
 </div>

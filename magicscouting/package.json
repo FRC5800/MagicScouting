@@ -12,6 +12,7 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@capacitor/assets": "^3.0.4",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/kit": "^2.0.0",
@@ -38,6 +39,7 @@
 		"@capacitor/core": "^5.6.0",
 		"@capacitor/geolocation": "^5.0.6",
 		"@capacitor/ios": "^5.6.0",
-		"@fortawesome/fontawesome-free": "^6.5.1"
+		"@fortawesome/fontawesome-free": "^6.5.1",
+		"qrcode": "^1.5.3"
 	}
 }

@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
@@ -27,13 +29,14 @@
 
 	// @ts-ignore
 	let selected_language;
-	$: selected_theme = $theme;
+	let inicialTheme = $theme;
+	let selected_theme;
 	let selected_color = $colorTheme;
 	$: $colorTheme = selected_color;
 
 	function handle_selection() {
 		localStorage.setItem('language', selected_language['value']);
-		$theme = selected_theme;
+		$theme = selected_theme['value'];
 
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 		let htmlTagClasses = document.querySelector('html').classList;
@@ -66,20 +69,22 @@
 		options={linguagens}
 		bind:opcaoSelecionada={selected_language}
 		showMore={showMoreLanguages}
+		componentId={'language'}
 		on:selection_updated={handle_selection}
 	/>
 	<div class="py-2">Tema</div>
 	<SelectInput
 		options={themes}
+		inicialOption={inicialTheme}
 		bind:opcaoSelecionada={selected_theme}
 		showMore={showMoreThemes}
 		componentId={'theme'}
 		on:selection_updated={handle_selection}
 	/>
 </div>
-<div class="py-2">Cor Primária</div>
+<div class="py-2 font-defaultText font-bold text-[1.2rem]">Cor Primária</div>
 <div
-	class="flex flex-row justify-around flex-wrap w-full overflow-auto p-1 rounded-2xl border-[#666666] border-[3px]"
+	class="flex flex-row justify-around flex-wrap w-full p-1 rounded-2xl border-[#666666] border-[3px]"
 	id="colorContainer"
 >
 	{#each colors as color}
