@@ -1,0 +1,9 @@
+html[data-theme='pink'] {
+	--color-primary: #a1166a;
+	--color-primary-light: #e051a8;
+	--color-primary-heavy: #12000b;
+	--color-secondary: #20a36a;
+	--color-buttons: #d92793;
+	--color-gradient-light: #d92793;
+	--color-gradient-heavy: #4f0933;
+}

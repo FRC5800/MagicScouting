@@ -34,6 +34,10 @@
 	let inicialTheme = $theme;
 	let selected_theme;
 	let selected_color = $colorTheme;
+	$: if(selected_color != $colorTheme) {
+		$colorTheme = selected_color;
+		document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
+	}
 	$: $colorTheme = selected_color;
 
 	function handle_theme_selection() {
@@ -61,6 +65,9 @@
 
 	function handleColorTheme() {
 		$colorTheme = selected_color;
+		// console.log($colorTheme)
+		// console.log(selected_color)
+		document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
 	}
 </script>
 
@@ -109,7 +116,6 @@
 					id={color.content}
 					type="radio"
 					class="appearance-none"
-					on:click={handleColorTheme}
 				/>
 			</label>
 		</div>

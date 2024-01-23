@@ -6,27 +6,25 @@
     import { goto } from '$app/navigation';
     import { _ } from 'svelte-i18n';
 
-    /** @type {import('./$types').PageData} */
-
-    $: ataque = {
+    let ataque = {
         name : "atk",
         options: [{id: 0, value: false}, {id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected:'undefined'
+        selected: false
     }
 
-    $: defesa = {
+    let defesa = {
         name : "def",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected:'undefined'
+        selected:false
     }
 
-    $: suporte = {
+    let suporte = {
         name : "sup",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected:'undefined'
+        selected:false
     }
     // function storeData(payload) {
 	// 	for (var key in payload) {

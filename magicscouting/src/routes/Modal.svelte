@@ -26,10 +26,10 @@
 	bind:this={dialog}
 	on:close={handleClose}
 	on:click|self={() => dialog.close()}
-	class="bg-[#EAEAEC] dark:bg-[#060024] dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
+	class="bg-[#EAEAEC] dark:bg-primary-heavy dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="py-4 px-[5vw] sm:px-[15vw] h-[55vh]">
+	<div class="py-4 px-[5vw] sm:px-[15vw] h-[55vh] w-[60vw] max-sm:w-fit min-w-[60vw]">
 		<i
 			class="fa-solid fa-x absolute top-[1em] right-[1em] hover:cursor-pointer"
 			on:click={() => {

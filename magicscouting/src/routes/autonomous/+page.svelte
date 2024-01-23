@@ -134,9 +134,9 @@
 	<button
 		on:click={handleLeave}
 		id="leave"
-		class="leave p-2 rounded-xl {leave
-			? 'border-0 text-white bg-blueTheme-500 '
-			: 'text-neutral-600 bg-transparent border-[1px] dark:bg-blueTheme-100'}">{$_('autonomous.leave_button')}</button
+		class="leave p-2 rounded-xl box-border {leave
+			? ' text-white bg-primary-base '
+			: 'text-neutral-600 bg-transparent dark:bg-slate-100'}">{$_('autonomous.leave_button')}</button
 	>
 
 	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={() => {goto('/teleop')}}> {$_('autonomous.continue_button')} </button>
@@ -166,9 +166,8 @@
 	}
 
 	.separator {
-		@apply my-3;
+		@apply my-3 bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;
-		background: linear-gradient(to right, #5de0e6, #004aad) !important;
 		width: 60%;
 	}
 

@@ -25,7 +25,7 @@
 <textarea on:input={updateQr} bind:value={appData} class="box-border resize-none p-4 rounded-lg w-[70vw] text-[#EAEAEC] bg-grey-heavy mt-4"></textarea>
 
 <span class="mt-4">(Offline)</span>
-<button on:click={() => {showQrCode = !showQrCode}} class="transition-none {showQrCode ? 'dark:hover:bg-white' : ''} min-w-[50vw] rounded-3xl border-0 m-0 w-fit btn {showQrCode ? 'rounded-b-none' : ''}">
+<button on:click={() => {showQrCode = !showQrCode}} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] rounded-3xl border-0 m-0 w-fit btn">
     {$_('qrcode.qrcode_button')}
 </button>
 
@@ -35,7 +35,7 @@
         </div>
     {/if}
 
-<i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down"></i>
+<i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>
 
 <span class="m-4">{$_('qrcode.or')}</span>
 

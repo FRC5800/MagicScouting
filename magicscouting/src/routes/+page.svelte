@@ -10,6 +10,7 @@
 	import ConfigOptions from './ConfigOptions.svelte';
 
 	import { goto } from '$app/navigation';
+	import colorTheme from '$lib/shared/stores/colorTheme.js';
 
 	import { _ } from 'svelte-i18n'
 	// import { enhance } from '$app/forms';
@@ -68,18 +69,10 @@
 	let team_position = '';
 	let validationError = false;
 	
-	// const awaitReload = new Promise((resolve, reject) => {
-	// 	setTimeout(() => {
-	// 		resolve('foo');
-	// 	}, 300);
-	// });
+	$: primaryColor = `bg-${$colorTheme}-300`
 </script>
 
-<!-- {#await awaitReload}
-	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
-{/await} -->
-
-<section>
+<section class="">
 	<MenuBar
 		on:keydown={(e) => {
 			showModal = e.key == 'Enter' ? true : false;
@@ -91,7 +84,7 @@
 	<header>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			class="stroke-1 stroke-black fill-[#666666] dark:stroke-none dark:fill-white"
+			class="stroke-1 stroke-primary-heavy fill-[#666666] dark:stroke-none dark:fill-white"
 			stroke="black"
 			stroke-width="1"
 			xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -267,43 +260,11 @@
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		font-size: 15px;
 	}
-
-	.loader {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: #333333;
-		z-index: 1;
-	}
-
-	.loader::after {
-		content: '';
-		width: 50px;
-		height: 50px;
-		border: 10px solid #dddddd;
-		border-top-color: #009578;
-		border-radius: 50%;
-		animation: loading 0.75s ease infinite;
-	}
-
-	@keyframes loading {
-		from {
-			transform: rotate(0turn);
-		}
-		to {
-			transform: rotate(1turn);
-		}
-	}
-
 	.validation-error {
    		@apply outline outline empty:outline-redTheme-600;
 	}
 	.validation-error-message {
    		@apply text-red-300 font-medium ml-2;
 	}
+
 </style>

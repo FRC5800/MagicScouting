@@ -22,6 +22,6 @@
 
 <style>
     .option:hover{
-        text-shadow: 0 0 1rem #5DE0E6;
+        text-shadow: 0 0 1rem theme(colors.primary.light);
     }
 </style>

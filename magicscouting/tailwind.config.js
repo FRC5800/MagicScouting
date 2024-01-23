@@ -1,11 +1,41 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: 'class',
-	content: ['./src/**/*.{html,js,svelte,ts}', '.src/app.html',],
+	content: ['./src/**/*.{html,js,svelte,ts}', '.src/app.html'],
+	safeList: [
+		{
+			pattern:
+				/bg-(redTheme|greenTheme|blueTheme|pinkTheme|purpleTheme|neutralTheme)-(100|200|300|400|500|600|700|800|900)/
+		},
+		{
+			pattern:
+				/text-(redTheme|greenTheme|blueTheme|pinkTheme|purpleTheme|neutralTheme)-(100|200|300|400|500|600|700|800|900)/,
+			variants: ['hover']
+		},
+		{
+			pattern:
+				/border-(redTheme|greenTheme|blueTheme|pinkTheme|purpleTheme|neutralTheme)-(100|200|300|400|500|600|700|800|900)/,
+			variants: ['hover']
+		},
+		{
+			pattern: /bg-(red|green|blue)-(100|200|300)/
+		}
+	],
 	theme: {
 		extend: {
 			colors: {
 				'color-5800-1': '#6184FA',
+				primary: {
+					base: 'var(--color-primary)',
+					light: 'var(--color-primary-light)',
+					heavy: 'var(--color-primary-heavy)'
+				},
+				secondary: 'var(--color-secondary)',
+				buttons: 'var(--color-buttons)',
+				gradient: {
+					light: 'var(--color-gradient-light)',
+					heavy: 'var(--color-gradient-heavy)'
+				},
 				blueTheme: {
 					100: '#F1F4F4',
 					200: '#C1D9DB',
@@ -71,10 +101,6 @@ export default {
 					700: '#23293F',
 					800: '#0F152B',
 					900: '#060024'
-				},
-				gradient: {
-					light: '#5DE0E6',
-					heavy: '#004AAD'
 				},
 				grey: {
 					light: '#494462',

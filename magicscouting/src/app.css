@@ -1,3 +1,9 @@
+@import '$lib/styles/themes/blueTheme.css';
+@import '$lib/styles/themes/greenTheme.css';
+@import '$lib/styles/themes/pinkTheme.css';
+@import '$lib/styles/themes/purpleTheme.css';
+@import '$lib/styles/themes/redTheme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +12,18 @@
 	--blue-main: #060024;
 	--grey-heavy: #004aad;
 	--grey-light: #5de0e6;
+}
+
+@layer base {
+	html[data-theme=''] {
+		--color-primary: #356ee8;
+		--color-primary-light: #68cce3;
+		--color-primary-heavy: #060024;
+		--color-secondary: #eb3a31;
+		--color-buttons: #35b8e8;
+		--color-gradient-light: #35b8e8;
+		--color-gradient-heavy: #1e3edf;
+	}
 }
 
 @layer components {
@@ -36,12 +54,12 @@
 		font-weight: 900;
 		font-size: 20px;
 		width: 100%;
-		@apply my-4 dark:border-2 p-2 hover:bg-[#35CEE8] border-[#474747] dark:border-[#0F152B] dark:hover:text-white dark:hover:bg-[#35CEE8] dark:text-[#060024] dark:bg-white rounded-3xl bg-[#35CEE8] border-0 text-white uppercase transition-all duration-[0.2s] ease-in-out active:scale-95;
+		@apply my-4 dark:border-2 p-2 hover:bg-buttons border-[#474747] dark:border-[#0F152B] dark:hover:text-white dark:hover:bg-buttons dark:text-[#060024] dark:bg-white rounded-3xl bg-buttons border-0 text-white uppercase transition-all duration-[0.2s] ease-in-out active:scale-95;
 	}
 
 	.separator {
+		@apply bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;
-		background: linear-gradient(to right, #5de0e6, #004aad) !important;
 		margin: 15px 0;
 		width: 80%;
 	}

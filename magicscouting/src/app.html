@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,12 +9,13 @@
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 	<script>
-		import { theme } from '$lib/shared/stores/darkMode.js';
+		import theme from '$lib/shared/stores/darkMode.js';
+		import colorTheme from '$lib/shared/stores/colorTheme.js';
 
-		let htmlTag;
+		let htmlTag = document.querySelector('html');
 		if ($theme == 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			htmlTag = document.querySelector('html');
 			htmlTag.classList.add('dark');
 		}
+		htmlTag.setAttribute('data-theme', $colorTheme);
 	</script>
 </html>

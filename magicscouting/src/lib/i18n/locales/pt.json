@@ -21,7 +21,7 @@
 
 		"settings": {
 			"title": "Configurações",
-			"option_language": "Selecione uma linguagem",
+			"option_language": "Selecione Linguagem",
 			"option_theme": {
 				"title": "Tema",
 				"option_light": "Claro",

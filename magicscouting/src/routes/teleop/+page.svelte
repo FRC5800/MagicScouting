@@ -370,25 +370,25 @@
 		@apply flex flex-col justify-between items-center w-3/6 min-h-[120px] bg-transparent border-[1px] border-neutral-600 dark:border-0 dark:bg-[#2e2947] pt-2 rounded-b-xl overflow-auto;
 	}
 	.points {
-		@apply bg-blue-400 transition-all duration-[0.15s] ease-in-out active:scale-90;
+		@apply bg-primary-light transition-all duration-[0.15s] ease-in-out active:scale-90;
 		width: 50%;
 		margin: 0;
 		font-size: 30px;
 		text-align: center;
 	}
 	.count{
-		@apply w-[50%] bg-blue-500 rounded-2xl text-white;
+		@apply w-[50%] bg-primary-base rounded-2xl text-white;
 	}
 	.cicle {
 		@apply w-1/2 min-h-[150px];
 	}
 	.startCicle{
-		@apply  w-1/2 h-full p-2 border-l cursor-pointer hover:bg-blue-500 border-neutral-300;
+		@apply  w-1/2 h-full p-2 border-l cursor-pointer hover:bg-primary-base border-neutral-300;
 	}
 
 	.separator {
+		@apply bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;
-		background: linear-gradient(to right, #5de0e6, #004aad) !important;
 		margin-top: 6px;
 		margin-bottom: 10px;
 		width: 60%;
