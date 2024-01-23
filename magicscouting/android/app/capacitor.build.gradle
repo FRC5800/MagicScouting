@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-mlkit-barcode-scanning')
     implementation project(':capacitor-device')
     implementation project(':capacitor-geolocation')
+    implementation project(':capacitor-preferences')
 
 }
 

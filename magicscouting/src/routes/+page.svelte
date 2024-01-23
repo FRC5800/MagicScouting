@@ -3,6 +3,7 @@
 	import '../app.css';
 	import logo from '$lib/assets/App_Title.svg';
 	import '$lib/assets/App_Title.svg';
+	import QrcodeReader from './qrcodeReader.svelte';
 
 	import MenuBar from './MenuBar.svelte';
 	import Modal from './Modal.svelte';
@@ -10,40 +11,22 @@
 	import ConfigOptions from './ConfigOptions.svelte';
 
 	import { goto } from '$app/navigation';
-	import colorTheme from '$lib/shared/stores/colorTheme.js';
 
+	import storeData from "$lib/shared/scripts/controlData.js";
 	import { _ } from 'svelte-i18n'
-	// import { enhance } from '$app/forms';
-	// import { fade } from 'svelte/transition';
+	
+	async function onSubmit() {
+		console.log('aldawldmaodwmwmdk')
+		if(team_number == '' || match_number == '' || team_position == '') {
+			validationError = true;
+		}else {
+			validationError = false;
+			const teamData = { "red/blue": alliance, team:team_number, match:match_number, arenaPos:team_position};
+			storeData(teamData);
+			goto('/autonomous');
+		}
+	}
 
-	// async function onSubmit(data) {
-	// 	if(team_number == '' || match_number == '' || team_position == '') {
-	// 		validationError = true;
-	// 	}else {
-	// 		validationError = false;
-	// 		const formDict = Object.assign({}, { alliance: alliance }, formToDict(data));
-	// 		console.log(formDict);
-	// 		storeData(formDict);
-	// 		goto('/autonomous');
-	// 	}
-	// }
-	// function formToDict(a) {
-	// 	const formData = new FormData(a.target);
-	// 	const data = {};
-	// 	for (let field of formData) {
-	// 		const [key, value] = field;
-	// 		data[key] = value;
-	// 	}
-	// 	return data;
-	// }
-	// function storeData(payload) {
-	// 	for (var key in payload) {
-	// 		// sessionStorage.setItem(key, payload[key]);
-	// 	}
-	// }
-	// function getData(key) {
-	// 	// return sessionStorage.getItem(key);
-	// }
 	let alliance = $_('home_page.alliance.option_blue');
 	$: if(alliance != $_('home_page.alliance.option_blue') && alliance != $_('home_page.alliance.option_red')) {
 		switch (alliance) {
@@ -69,7 +52,6 @@
 	let team_position = '';
 	let validationError = false;
 	
-	$: primaryColor = `bg-${$colorTheme}-300`
 </script>
 
 <section class="">
@@ -81,17 +63,19 @@
 			showModal = true;
 		}}
 	/>
+	<QrcodeReader />
 	<header>
+		
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			class="stroke-1 stroke-primary-heavy fill-[#666666] dark:stroke-none dark:fill-white"
+			class="stroke-1 stroke-primary-heavy fill-[#666666] dark:stroke-none dark:fill-white max-[425px]:scale-95"
 			stroke="black"
 			stroke-width="1"
 			xmlns:xlink="http://www.w3.org/1999/xlink"
-			width="300"
+			width="80vw"
 			zoomAndPan="magnify"
 			viewBox="0 0 224.87999 74.999997"
-			height="100"
+			height="90"
 			preserveAspectRatio="xMidYMid meet"
 			version="1.0"
 			><defs><g /></defs><g fill-opacity="1"
@@ -159,11 +143,11 @@
 		<!-- <img src={logo} alt="logo"> -->
 	</header>
 
-	<div class="separator"></div>
+	<div class="separator mt-0"></div>
 
 	<hr />
 
-	<form id="team-info" class="w-4/5 team_info" on:forminput={() => {console.log('erro')}}>
+	<form id="team-info" class="w-4/5 team_info" on:forminput={() => {console.log('erro')}} on:submit|preventDefault={onSubmit}>
 		<div class="center-container">
 			<label class="relative inline-flex cursor-pointer alliance-check">
 				<input
@@ -187,32 +171,30 @@
 
 		<div class="">
 			<label for="team_number" class="home-label in">{$_('home_page.team_number')}</label>
-			<input bind:value={team_number} name="team_number" type="text" class="home-inp {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="5800" />
+			<input bind:value={team_number} name="team_number" type="number" class="home-inp {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="5800" />
 			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">
 			<label for="match_number" class="home-label">{$_('home_page.match_number')}</label>
-			<input bind:value={match_number} name="match_number" type="text" class="home-inp {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="32" />
+			<input bind:value={match_number} name="match_number" type="number" class="home-inp {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="32" />
 			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">
 			<label for="team_position" class="home-label">{$_('home_page.team_position')}</label>
-			<input bind:value={team_position} name="team_position" type="text" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
+			<input bind:value={team_position} name="team_position" type="number" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
 			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
+		<button class="w-full submit_team_info btn mt-0" type="submit"> {$_('home_page.continue_button')} </button>
 	</form>
-    <button class="w-full submit_team_info btn" on:click={() => {goto('/autonomous')}}> {$_('home_page.continue_button')} </button>
 
 	<div class="separator"></div>
 
-	<!-- <div >
-		<label for="team_position" class="text-sm home-label" >Pesquisa na base de dados local</label>
-		<input name="team_position" type="text" class="home-inp " placeholder="digite a partida #">	
-		<button class="btn" type="submit">
-			Pesquisar
+	<div >
+		<button type="button" on:click={() => {goto('/qrcodeStorage')}} class="mb-0 btn">
+				Armazenamento
 		</button>
+		<!-- <label class="text-sm font-black home-label dark:text-neutral-400">Há # Qr Codes não escaneados</label> -->
 	</div>
-		-->
 </section>
 
 <Modal bind:showModal bind:showConfig>

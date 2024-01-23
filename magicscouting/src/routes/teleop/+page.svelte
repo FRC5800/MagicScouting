@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import { _ } from 'svelte-i18n'
+	import storeData from "$lib/shared/scripts/controlData.js";
 
 	let ampSpeakerStructure = [
 		{title: $_('teleop.speaker'), score: 0, miss: 0},
@@ -47,35 +48,22 @@
 		{ id: '3', content: $_('teleop.trap.option3'), value: '1' }
 	];
 	let showMoreTrap = 'hidden';
-	/**
-	//  * @param {string} key
-	//  */
-	// function getData(key) {
-	// 	return localStorage.getItem(key);
-	// }
-	// /**
-	//  * @param {{ [x: string]: any }} payload
-	//  */
-	// function storeData(payload) {
-	// 	for (var key in payload) {
-	// 		localStorage.setItem(key, payload[key]);
-	// 	}
-	// }
+
 	function onSubmit() {
-		// storeData({
-		// 	 	"teleopAmpScore": ampScoreTeleop,
-		// 		"teleopAmpMiss": ampMissTeleop,
-		// 		"teleopSpeakerScore": speakerScoreTeleop,
-		// 		"teleopSpeakerMiss": speakerMissTeleop,
-		// 		"speakerAmplifiedScore":speakerAmplifiedScore,
-		// 		"trapStatus":selected_trap.value,
-		// 		"onStageStatus": selected_chain.value,
-		// 		"onStageTime": onstageCicle,
-		// 		"sourceCycleTime": JSON.stringify(sourceCicle).replaceAll("[", "").replaceAll("]", ""),
-		// 		"floorCycleTime":JSON.stringify(floorCicle).replaceAll("[", "").replaceAll("]", ""),
-		// 		"highNoteStatus": selected_highNote.value,
-		// 		});
-		goto('/Info');
+		storeData({
+			 	"teleopAmpScore": ampScoreTeleop,
+				"teleopAmpMiss": ampMissTeleop,
+				"teleopSpeakerScore": speakerScoreTeleop,
+				"teleopSpeakerMiss": speakerMissTeleop,
+				"speakerAmplifiedScore":speakerAmplifiedScore,
+				"trapStatus":selected_trap.value,
+				"onStageStatus": selected_chain.value,
+				"onStageTime": onstageCicle,
+				"sourceCycleTime": JSON.stringify(sourceCicle).replaceAll("[", "").replaceAll("]", ""),
+				"floorCycleTime":JSON.stringify(floorCicle).replaceAll("[", "").replaceAll("]", ""),
+				"highNoteStatus": selected_highNote.value,
+				});
+		goto('/info');
 	}
 
 	let selected_chain;
@@ -159,18 +147,6 @@
 	}
 	function handleOnstage() {
 		onstageCicle = 0;
-	}
-
-	let coopertition = false;
-	function handleCoopertition() {
-		coopertition = !coopertition;
-		let el = document.getElementById('coopertition');
-		if (coopertition) {
-			//el aparece com erro mas ta dando certo
-			el.style.cssText = 'color: #060024;' + 'background-color: white;';
-		} else {
-			el.style.cssText = 'color: white;' + 'background-color: #262223;';
-		}
 	}
 
 </script>

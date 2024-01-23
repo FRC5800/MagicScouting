@@ -3,26 +3,13 @@
 	import { goto } from '$app/navigation';
 	import speaker from '$lib/assets/speaker.png';
 	import amp from '$lib/assets/amp.png';
-	import { _ } from 'svelte-i18n'
+	import { _ } from 'svelte-i18n';
+	import storeData from "$lib/shared/scripts/controlData.js";
 
-	// /**
-	//  * @param {string} key
-	//  */
-	// function getData(key) {
-	// 	// return sessionStorage.getItem(key);
-	// }
-	// /**
-	//  * @param {{ [x: string]: any }} payload
-	//  */
-	// function storeData(payload) {
-	// 	for (var key in payload) {
-	// 		// sessionStorage.setItem(key, payload[key]);
-	// 	}
-	// }
-	// function onSubmit() {
-	// 	storeData({ AutoPoints: points });
-	// 	goto('/teleop');
-	// }
+	function onSubmit() {
+		storeData({"autoAmpScore": ampScoreAuto, "autoAmpMiss": ampMissAuto, "autoSpeakerScore": speakerScoreAuto, "autoSpeakerMiss": speakerMissAuto, "isLeave": leave ? 1 : 0});
+		goto('/teleop');
+	}
 	let points = 0;
 
 	//SPEAKER VALUES
@@ -38,15 +25,6 @@
 
 	function handleLeave() {
 		leave = !leave;
-		// let el = document.getElementById('leave');
-		// if (leave) {
-		// 	//el aparece com erro mas ta dando certo
-		// 	// @ts-ignore
-		// 	el.style.cssText = 'color: #060024;' + 'background-color: white;';
-		// } else {
-		// 	// @ts-ignore
-		// 	el.style.cssText = 'color: white;' + 'background-color: #262223;';
-		// }
 	}
 </script>
 
@@ -139,7 +117,7 @@
 			: 'text-neutral-600 bg-transparent dark:bg-slate-100'}">{$_('autonomous.leave_button')}</button
 	>
 
-	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={() => {goto('/teleop')}}> {$_('autonomous.continue_button')} </button>
+	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">
