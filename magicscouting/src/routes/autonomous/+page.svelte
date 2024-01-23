@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import speaker from '$lib/assets/speaker.png';
 	import amp from '$lib/assets/amp.png';
+	import { _ } from 'svelte-i18n'
 
 	// /**
 	//  * @param {string} key
@@ -50,16 +51,16 @@
 </script>
 
 <section class="text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
-	<h1 class="text-4xl header">Autonomous</h1>
+	<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
 	<div class="separator"></div>
 
-	<h2 class="text-[1.5rem]">Speaker</h2>
+	<h2 class="text-[1.5rem]">{$_('autonomous.speaker')}</h2>
 	<div class="container">
 		<div class="image">
 			<img class="speaker-img" src={speaker} alt="" />
 		</div>
 		<div class="scores">
-			<h4>Scores</h4>
+			<h4>{$_('autonomous.scores')}</h4>
 			<button
 				class="points"
 				on:click={() => {
@@ -75,7 +76,7 @@
 			<p>{speakerScoreAuto}</p>
 		</div>
 		<div class="miss">
-			<h4>Misses</h4>
+			<h4>{$_('autonomous.misses')}</h4>
 			<button
 				class="points"
 				on:click={() => {
@@ -92,13 +93,13 @@
 		</div>
 	</div>
 
-	<h2 class="text-[1.5rem]">Amp</h2>
+	<h2 class="text-[1.5rem]">{$_('autonomous.amp')}</h2>
 	<div class="container">
 		<div class="image">
 			<img class="amp-img" src={amp} alt="" />
 		</div>
 		<div class="scores">
-			<h4>Scores</h4>
+			<h4>{$_('autonomous.scores')}</h4>
 			<button
 				class="points"
 				on:click={() => {
@@ -114,7 +115,7 @@
 			<p>{ampScoreAuto}</p>
 		</div>
 		<div class="miss">
-			<h4>Misses</h4>
+			<h4>{$_('autonomous.misses')}</h4>
 			<button
 				class="points"
 				on:click={() => {
@@ -135,10 +136,10 @@
 		id="leave"
 		class="leave p-2 rounded-xl {leave
 			? 'border-0 text-white bg-blueTheme-500 '
-			: 'text-neutral-600 bg-transparent border-[1px] dark:bg-blueTheme-100'}">Leave</button
+			: 'text-neutral-600 bg-transparent border-[1px] dark:bg-blueTheme-100'}">{$_('autonomous.leave_button')}</button
 	>
 
-	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={() => {goto('/teleop')}}> Continuar </button>
+	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={() => {goto('/teleop')}}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">

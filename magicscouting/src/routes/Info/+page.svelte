@@ -1,33 +1,31 @@
 <script>
+// @ts-nocheck
+
     import "../../app.css";
     import InfoSelect from "./infoSelect.svelte";
-    import SelectInput from "$lib/components/SelectInput.svelte";
     import { goto } from '$app/navigation';
+    import { _ } from 'svelte-i18n';
 
     /** @type {import('./$types').PageData} */
 
     $: ataque = {
         name : "atk",
         options: [{id: 0, value: false}, {id: 1, value: true}],
-        content: ['Não', 'Sim'],
+        content: [$_('info.no'), $_('info.yes')],
         selected:'undefined'
     }
-    function handleAttack(e) {
-        console.log(e)
-    }
-    $: handleAttack(ataque.selected)
 
     $: defesa = {
         name : "def",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: ['Não', 'Sim'],
+        content: [$_('info.no'), $_('info.yes')],
         selected:'undefined'
     }
 
     $: suporte = {
         name : "sup",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: ['Não', 'Sim'],
+        content: [$_('info.no'), $_('info.yes')],
         selected:'undefined'
     }
     // function storeData(payload) {
@@ -47,14 +45,14 @@
 
 </script>
 
-<h2 class="pt-4 pb-2 mt-4">Jogou no Ataque</h2>
+<h2 class="pt-4 pb-2 mt-4">{$_('info.attack_title')}</h2>
 <InfoSelect instance_options={ataque} bind:selectedOption={ataque.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">Jogou no Defesa</h2>
+<h2 class="pt-4 pb-2 mt-4">{$_('info.defense_title')}</h2>
 <InfoSelect instance_options={defesa} bind:selectedOption={defesa.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">Jogou de Suporte</h2>
+<h2 class="pt-4 pb-2 mt-4">{$_('info.support_title')}</h2>
 <InfoSelect instance_options={suporte} bind:selectedOption={suporte.selected} width={'20vw'} />
 
-<button on:click={onSubmit} class="w-6/12 mt-16 btn">Continuar</button>
+<button on:click={onSubmit} class="w-6/12 mt-16 btn">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
     h2{

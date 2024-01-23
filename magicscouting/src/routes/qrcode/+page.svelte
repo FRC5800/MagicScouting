@@ -1,6 +1,7 @@
 <script>
     import QRCode from 'qrcode'
 	import { onMount } from 'svelte';
+    import { _ } from 'svelte-i18n'
     
     let appData = '[1,2,3,4,5,6,7,8,9]'
 
@@ -25,7 +26,7 @@
 
 <span class="mt-4">(Offline)</span>
 <button on:click={() => {showQrCode = !showQrCode}} class="transition-none {showQrCode ? 'dark:hover:bg-white' : ''} min-w-[50vw] rounded-3xl border-0 m-0 w-fit btn {showQrCode ? 'rounded-b-none' : ''}">
-    Qr Code
+    {$_('qrcode.qrcode_button')}
 </button>
 
     {#if (showQrCode)}
@@ -36,14 +37,14 @@
 
 <i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down"></i>
 
-<span class="m-4">OU</span>
+<span class="m-4">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit btn">Upload</button>
+<button class="min-w-[50vw] rounded-3xl m-0 w-fit btn">{$_('qrcode.upload_button')}</button>
 
 <div class="w-[30vw] separator my-8"></div>
 
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit btn">Reset</button>
+<button class="min-w-[50vw] rounded-3xl m-0 w-fit btn">{$_('qrcode.finish_button')}</button>
 
 <style>
     :global(.qrCode-container  > img){

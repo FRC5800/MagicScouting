@@ -10,6 +10,8 @@
 	import ConfigOptions from './ConfigOptions.svelte';
 
 	import { goto } from '$app/navigation';
+
+	import { _ } from 'svelte-i18n'
 	// import { enhance } from '$app/forms';
 	// import { fade } from 'svelte/transition';
 
@@ -41,7 +43,22 @@
 	// function getData(key) {
 	// 	// return sessionStorage.getItem(key);
 	// }
-	let alliance = 'BLUE';
+	let alliance = $_('home_page.alliance.option_blue');
+	$: if(alliance != $_('home_page.alliance.option_blue') && alliance != $_('home_page.alliance.option_red')) {
+		switch (alliance) {
+			case 'Blue':
+				alliance = $_('home_page.alliance.option_blue')
+				break
+			case 'Azul':
+				alliance = $_('home_page.alliance.option_blue')
+				break
+			case 'Red':
+				alliance = $_('home_page.alliance.option_red')
+				break
+			case 'Vermelha':
+				alliance = $_('home_page.alliance.option_red')
+		}
+	}
 
 	let showModal = false;
 	let showConfig = false;
@@ -162,7 +179,7 @@
 					class="align-middle sr-only peer"
 					name="alliance"
 					on:click={(a) => {
-						alliance = alliance == 'BLUE' ? 'RED' : 'BLUE';
+						alliance = alliance == $_('home_page.alliance.option_blue') ? $_('home_page.alliance.option_red') : $_('home_page.alliance.option_blue');
 					}}
 				/>
 				<div
@@ -170,28 +187,28 @@
 				></div>
 				<span
 					class="text-sm font-medium text-[#474747] dark:text align-middle ms-3 dark:text-gray-300"
-					>Alliance: {alliance}</span
+					>{$_('home_page.alliance.title')}: {alliance}</span
 				>
 			</label>
 		</div>
 
 		<div class="">
-			<label for="team_number" class="home-label in">Número da equipe</label>
+			<label for="team_number" class="home-label in">{$_('home_page.team_number')}</label>
 			<input bind:value={team_number} name="team_number" type="text" class="home-inp {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="5800" />
-			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
+			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">
-			<label for="match_number" class="home-label">Número da partida</label>
+			<label for="match_number" class="home-label">{$_('home_page.match_number')}</label>
 			<input bind:value={match_number} name="match_number" type="text" class="home-inp {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="32" />
-			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
+			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">
-			<label for="team_position" class="home-label">Posição da equipe</label>
+			<label for="team_position" class="home-label">{$_('home_page.team_position')}</label>
 			<input bind:value={team_position} name="team_position" type="text" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
-			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">Preencha o campo!</span>
+			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 	</form>
-    <button class="w-full submit_team_info btn" on:click={() => {goto('/autonomous')}}> Continuar </button>
+    <button class="w-full submit_team_info btn" on:click={() => {goto('/autonomous')}}> {$_('home_page.continue_button')} </button>
 
 	<div class="separator"></div>
 

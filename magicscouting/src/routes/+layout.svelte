@@ -4,10 +4,16 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
+	import { waitLocale } from 'svelte-i18n'
 
+	export async function preload() {
+	// awaits for the loading of the 'en-US' and 'en' dictionaries
+	return waitLocale()
+	}
+	
 	beforeUpdate(() => {
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-		document.querySelector('html')?.classList.add($theme == 'sistema' ? systemTheme : $theme);
+		document.querySelector('html')?.classList.add($theme == 'system' ? systemTheme : $theme);
 	});
 </script>
 

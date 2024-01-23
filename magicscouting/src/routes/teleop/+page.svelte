@@ -4,16 +4,17 @@
 	import '../.././app.css';
 	import { goto } from '$app/navigation';
 	import SelectInput from '$lib/components/SelectInput.svelte';
+	import { _ } from 'svelte-i18n'
 
 	let ampSpeakerStructure = [
-		{title: 'Speaker', score: 0, miss: 0},
-		{title: 'Speaker amplified', score: 0, miss: null},
-		{title: 'Amp', score: 0, miss: 0},
+		{title: $_('teleop.speaker'), score: 0, miss: 0},
+		{title: $_('teleop.speaker_amplified'), score: 0, miss: null},
+		{title: $_('teleop.amp'), score: 0, miss: 0},
 	]
 
 	let TimerOptions = [
-		{ id: '1', content: 'Chão', value: 'floor', handler: handleFloor },
-		{ id: '2', content: 'Source', value: 'source', handler: handleSource}
+		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: handleFloor },
+		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: handleSource}
 	];
 	let selected_timer;
 	let showMoreTimers = 'hidden';
@@ -23,27 +24,27 @@
 	}
 
 	let highNoteOptions = [
-		{ id: '1', content: 'Another teams Human Player', value: '-1' },
-		{ id: '2', content: '0', value: '0' },
-		{ id: '3', content: '1', value: '1' },
-		{ id: '4', content: '2', value: '2' },
-		{ id: '5', content: '3', value: '3' }
+		{ id: '1', content: $_('teleop.high_notes.option1'), value: '-1' },
+		{ id: '2', content: $_('teleop.high_notes.option2'), value: '0' },
+		{ id: '3', content: $_('teleop.high_notes.option3'), value: '1' },
+		{ id: '4', content: $_('teleop.high_notes.option4'), value: '2' },
+		{ id: '5', content: $_('teleop.high_notes.option5'), value: '3' }
 	];
 	let showMoreHighNotes = 'hidden';
 
 	let chainOptions = [
-		{ id: '1', content: 'Tried and missed', value: '-1' },
-		{ id: '2', content: "Didn't try", value: '0' },
-		{ id: '3', content: 'Climbed alone', value: '1' },
-		{ id: '4', content: 'Climbed with 1 more robot', value: '2' },
-		{ id: '5', content: 'Climbed with 2 more robots', value: '3' }
+		{ id: '1', content: $_('teleop.onstage.option1'), value: '-1' },
+		{ id: '2', content: $_('teleop.onstage.option2'), value: '0' },
+		{ id: '3', content: $_('teleop.onstage.option3'), value: '1' },
+		{ id: '4', content: $_('teleop.onstage.option4'), value: '2' },
+		{ id: '5', content: $_('teleop.onstage.option5'), value: '3' }
 	];
 	let showMoreChain = 'hidden';
 
 	let trapOptions = [
-		{ id: '1', content: "Dind't try", value: '0' },
-		{ id: '2', content: 'Missed', value: '-1' },
-		{ id: '3', content: 'Scored', value: '1' }
+		{ id: '1', content: $_('teleop.trap.option1'), value: '0' },
+		{ id: '2', content: $_('teleop.trap.option2'), value: '-1' },
+		{ id: '3', content: $_('teleop.trap.option3'), value: '1' }
 	];
 	let showMoreTrap = 'hidden';
 	/**
@@ -175,7 +176,7 @@
 </script>
 
 <main class="mt-[3vh] dark:text-white text-neutral-600">
-	<h1 class="text-4xl font-[Lucida Sans]">Teleoperado</h1>
+	<h1 class="text-4xl font-[Lucida Sans]">{$_('teleop.title')}</h1>
 
 	<div class="w-[30vw] separator mb-1"></div>
 
@@ -188,7 +189,7 @@
 					</div>
 					<div class="flex flex-row justify-around w-full">
 						<div class="plusMinusBlock">
-							<p class="label">Scores</p>
+							<p class="label">{$_('teleop.scores')}</p>
 							<p class="count">{item.score}</p>
 							<div class="flex flex-row w-full">
 								<button
@@ -207,7 +208,7 @@
 
 						</div>
 						<div class="plusMinusBlock">
-							<p class="label">Misses</p>
+							<p class="label">{$_('teleop.misses')}</p>
 							<p class="count">{item.miss ?? ampSpeakerStructure[0].miss}</p>
 							<div class="flex flex-row w-full">
 								<button
@@ -231,7 +232,7 @@
 
 		<br />
 		<div class="flex flex-col items-center justify-between cicle">
-			<h4>Cicle Time</h4>
+			<h4>{$_('teleop.note_cycle.title')}</h4>
 			<div class="flex flex-col items-center justify-center w-full">
 				<div class="flex flex-row items-center border-[3px] border-[#494462] rounded-xl {!noteCicleCouting ? 'justify-between w-4/5' : 'justify-center w-1/3 border-b-0 rounded-b-none	'} overflow-auto">
 					<div class="text-center {!noteCicleCouting ? 'border-r border-black w-1/2' : ''}">
@@ -239,7 +240,7 @@
 					</div>
 					{#if !noteCicleCouting}
 						<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startNoteCicle()}} on:click={startNoteCicle} class="startCicle">
-							<p class="">Start</p>
+							<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
 						</div>
 					{/if}
 				</div>
@@ -265,11 +266,11 @@
 		</div>
 	</div>
 
-	<h3>End Game</h3>
+	<h3>{$_('teleop.endgame_title')}</h3>
 	<div class="separator"></div>
-	<div class="select-holder flex flex-col items-center">
-		<div class="highNote w-3/4">
-			<h4 class="label-endgame">High Notes</h4>
+	<div class="flex flex-col items-center select-holder">
+		<div class="w-3/4 highNote">
+			<h4 class="label-endgame">{$_('teleop.high_notes.title')}</h4>
 			<SelectInput
 				options={highNoteOptions}
 				bind:opcaoSelecionada={selected_highNote}
@@ -278,8 +279,8 @@
 			/>
 		</div>
 
-		<div class="trap w-3/4">
-			<h4 class="label-endgame">Trap</h4>
+		<div class="w-3/4 trap">
+			<h4 class="label-endgame">{$_('teleop.trap.title')}</h4>
 			<SelectInput
 				options={chainOptions}
 				bind:opcaoSelecionada={selected_chain}
@@ -287,8 +288,8 @@
 				componentId={"chain"}
 			/>
 		</div>
-		<div class="chain w-3/4">
-			<h4 class="label-endgame">Chain</h4>
+		<div class="w-3/4 chain">
+			<h4 class="label-endgame">{$_('teleop.onstage.title')}</h4>
 			<SelectInput
 				options={trapOptions}
 				bind:opcaoSelecionada={selected_trap}
@@ -298,15 +299,15 @@
 		</div>
 	</div>
 
-	<div class="cicleOnstage flex flex-col justify-center items-center">
-		<h4 class="time-onstage-title">Onstage Time</h4>
+	<div class="flex flex-col items-center justify-center cicleOnstage">
+		<h4 class="time-onstage-title">{$_('teleop.onstage_cycle.title')}</h4>
 		<div class="flex flex-row items-center justify-between w-4/5 overflow-auto border-[3px] border-[#494462] rounded-xl">
 			<div class="w-1/2 text-center border-r border-black">
 				<p class="p-2"><b> {onstageCicle.toFixed(1)} </b></p>
 			</div>
 			{#if !onstageCicleCouting}
 				<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startOnstageCicle()}} on:click={startOnstageCicle} class="startCicle">
-					<p class="">Start</p>
+					<p class="">{$_('teleop.onstage_cycle.start_cycle')}</p>
 				</div>
 			{:else}
 				<div class="flex flex-row items-center justify-around w-1/2 h-full p-2 border-l cursor-pointer">
@@ -325,7 +326,7 @@
 				</div>
 			{/if}
 		</div>
-		<button on:click={onSubmit} class="btn w-2/3 p-2 mt-8">Continuar</button>
+		<button on:click={onSubmit} class="w-2/3 p-2 mt-8 btn">{$_('teleop.continue_button')}</button>
 	</div>
 
 	<br />

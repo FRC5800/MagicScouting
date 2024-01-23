@@ -37,9 +37,11 @@
 		"@capacitor/android": "^5.6.0",
 		"@capacitor/cli": "^5.6.0",
 		"@capacitor/core": "^5.6.0",
+		"@capacitor/device": "^5.0.6",
 		"@capacitor/geolocation": "^5.0.6",
 		"@capacitor/ios": "^5.6.0",
 		"@fortawesome/fontawesome-free": "^6.5.1",
-		"qrcode": "^1.5.3"
+		"qrcode": "^1.5.3",
+		"svelte-i18n": "^4.0.0"
 	}
 }

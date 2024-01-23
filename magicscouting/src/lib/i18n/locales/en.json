@@ -1,0 +1,103 @@
+{
+	"home_page": {
+		"alliance": {
+			"title": "Alliance",
+			"option_red": "Red",
+			"option_blue": "Blue"
+		},
+
+		"team_number": "Team Number",
+		"match_number": "Match Number",
+		"team_position": "Team Position",
+		"validation_error_message": "Empty field!",
+		"continue_button": "Start",
+
+		"menu": {
+			"title": "Menu",
+			"option_config": "Settings",
+			"option_guide": "User Guide",
+			"option_about": "About"
+		},
+
+		"settings": {
+			"title": "Settings",
+			"option_language": "Select Language",
+			"option_theme": {
+				"title": "Theme",
+				"option_light": "Light",
+				"option_dark": "Dark",
+				"option_system": "System"
+			},
+			"option_color": "Primary Color"
+		}
+	},
+	"storage": {},
+	"autonomous": {
+		"title": "Autonomous",
+		"speaker": "Speaker",
+		"amp": "Amp",
+		"scores": "Scores",
+		"misses": "Misses",
+		"leave_button": "Leave",
+		"continue_button": "Continue"
+	},
+	"teleop": {
+		"title": "TeleOp",
+		"endgame_title": "End Game",
+		"speaker": "Speaker",
+		"speaker_amplified": "Speaker Amplified",
+		"amp": "Amp",
+		"scores": "Scores",
+		"misses": "Misses",
+		"high_notes": {
+			"title": "High Notes",
+			"option1": "Another team's Human Player",
+			"option2": "0",
+			"option3": "1",
+			"option4": "2",
+			"option5": "3"
+		},
+		"trap": {
+			"title": "Trap",
+			"option1": "Didn't try",
+			"option2": "Missed",
+			"option3": "Scored"
+		},
+		"onstage": {
+			"title": "OnStage",
+			"option1": "Tried and Missed",
+			"option2": "Didn't try",
+			"option3": "Climbed alone",
+			"option4": "Climbed with Harmony",
+			"option5": "Climbed with double Harmony"
+		},
+		"note_cycle": {
+			"title": "Note Cycle",
+			"start_cycle": "Start",
+			"option_floor": "Floor",
+			"option_source": "Source"
+		},
+		"onstage_cycle": {
+			"title": "Onstage Cycle",
+			"start_cycle": "Start"
+		},
+		"continue_button": "Continue"
+	},
+	"info": {
+		"title": "Role in match",
+		"attack_title": "Played as Attacker",
+		"defense_title": "Played as Defender",
+		"support_title": "Played as Supporter",
+		"yes": "Yes",
+		"no": "No",
+		"continue_button": "Continue"
+	},
+	"qrcode": {
+		"title": "Scouting Data",
+		"or": "OR",
+		"qrcode_button": "QR Code",
+		"upload_button": "Upload",
+		"store_button": "Store",
+		"finish_button": "Finish"
+	}
+}

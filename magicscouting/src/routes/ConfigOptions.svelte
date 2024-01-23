@@ -4,16 +4,17 @@
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
+	import { locale, _ } from 'svelte-i18n';
 
 	let linguagens = [
 		{ id: '1', content: 'English', value: 'en' },
-		{ id: '2', content: 'Português (Brasil)', value: 'pt-br' }
+		{ id: '2', content: 'Português (Brasil)', value: 'pt' }
 	];
 
 	let themes = [
-		{ id: '1', content: 'Claro', value: 'light' },
-		{ id: '2', content: 'Escuro', value: 'dark' },
-		{ id: '3', content: 'Sistema', value: 'sistema' }
+		{ id: '1', content: $_('home_page.settings.option_theme.option_light'), value: 'light' },
+		{ id: '2', content: $_('home_page.settings.option_theme.option_dark'), value: 'dark' },
+		{ id: '3', content: $_('home_page.settings.option_theme.option_system'), value: 'system' }
 	];
 
 	let colors = [
@@ -29,13 +30,13 @@
 
 	// @ts-ignore
 	let selected_language;
+	let inicialLanguage = $locale;
 	let inicialTheme = $theme;
 	let selected_theme;
 	let selected_color = $colorTheme;
 	$: $colorTheme = selected_color;
 
-	function handle_selection() {
-		localStorage.setItem('language', selected_language['value']);
+	function handle_theme_selection() {
 		$theme = selected_theme['value'];
 
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -53,36 +54,42 @@
 		}
 	}
 
+	function handle_language_selection() {
+		$locale = selected_language['value'];
+		window.localStorage.setItem('language', $locale);
+	}
+
 	function handleColorTheme() {
 		$colorTheme = selected_color;
 	}
 </script>
 
-<h1 class="text-2xl">Configurações</h1>
+<h1 class="text-2xl">{$_('home_page.settings.title')}</h1>
 <div class="separator" style="width: 50%;"></div>
 
 <div
 	class=" flex flex-col items-center px-[5vw] sm:px-[5vw] font-defaultText font-bold text-[1.2rem]"
 >
-	<div class="py-2">Selecione a Linguagem</div>
+	<div class="py-2">{$_('home_page.settings.option_language')}</div>
 	<SelectInput
 		options={linguagens}
+		inicialOption={inicialLanguage}
 		bind:opcaoSelecionada={selected_language}
 		showMore={showMoreLanguages}
 		componentId={'language'}
-		on:selection_updated={handle_selection}
+		on:selection_updated={handle_language_selection}
 	/>
-	<div class="py-2">Tema</div>
+	<div class="py-2">{$_('home_page.settings.option_theme.title')}</div>
 	<SelectInput
 		options={themes}
 		inicialOption={inicialTheme}
 		bind:opcaoSelecionada={selected_theme}
 		showMore={showMoreThemes}
 		componentId={'theme'}
-		on:selection_updated={handle_selection}
+		on:selection_updated={handle_theme_selection}
 	/>
 </div>
-<div class="py-2 font-defaultText font-bold text-[1.2rem]">Cor Primária</div>
+<div class="py-2 font-defaultText font-bold text-[1.2rem]">{$_('home_page.settings.option_color')}</div>
 <div
 	class="flex flex-row justify-around flex-wrap w-full p-1 rounded-2xl border-[#666666] border-[3px]"
 	id="colorContainer"
