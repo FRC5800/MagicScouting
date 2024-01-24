@@ -21,6 +21,7 @@
 
  .trash-box {
 	 width: 50px;
+	 min-width: 50px;
 	 height: 50px;
 	 position: relative;
      transform: scale(var(--scale));
