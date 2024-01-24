@@ -36,7 +36,7 @@
     <div class="separator w-[50%] m-0 mb-4"></div>
     <div class="w-[50vw] flex flex-col items-center">
         <p class="text-base text-justify font-bold dark:text-gray-400 text-gray-600">{$_('home_page.database.message')}</p>
-        <a href="" class="m-4 text-primary-base underline">{$_('home_page.database.repository')}</a>
+        <a href="https://github.com/FRC5800/MagicScouting" class="m-4 text-primary-base underline">{$_('home_page.database.repository')}</a>
     </div>
     <input type="text" bind:value={team_database} placeholder="Database" class="w-full rounded-md p-2 text-base text-neutral-600">
     <button on:click={handleDataBase} class="mb-10 mt-4 bg-buttons p-2 rounded-lg w-[80%] btn">{$_('home_page.database.confirm_button')}</button>

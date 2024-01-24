@@ -42,6 +42,7 @@
 	},
 	"storage": {
 		"title": "Armazenamento",
+		"empty_message": "Nenhuma partida armazenada!",
 		"team": "Equipe",
 		"match": "Partida",
 		"upload_button": "Upload",

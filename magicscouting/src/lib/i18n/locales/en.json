@@ -23,7 +23,7 @@
 
 		"database": {
 			"title": "Database",
-			"message": "Select the database to use to store the matches. If you have any questions about how to create one, access the README in our repository:",
+			"message": "Select the database used to upload the data. If you have any questions about how to create one, access the README in our repository:",
 			"repository": "Github Repository",
 			"confirm_button": "Confirm"
 		},
@@ -42,6 +42,7 @@
 	},
 	"storage": {
 		"title": "Storage",
+		"empty_message": "There're no stored matches!",
 		"team": "Team",
 		"match": "Match",
 		"upload_button": "Upload",
