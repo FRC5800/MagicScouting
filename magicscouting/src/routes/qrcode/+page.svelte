@@ -107,7 +107,7 @@
 <span class="m-4">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : ''}" disabled={uploadDisabled ? true : stored ? true : false} on:click={HandleUpload}>{$_('qrcode.upload_button')}</button>
+<button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : ''}" disabled={uploadDisabled ? true : stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
 <button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 

@@ -1,12 +1,16 @@
 <script>
-    import { _ } from 'svelte-i18n'
+    import { _ } from 'svelte-i18n';
     import dataBase from '$lib/shared/stores/dataBase';
 
     export let showDataBase = false;
     let team_database = $dataBase;
 
     function handleDataBase() {
-        $dataBase = team_database;
+        if (team_database.includes("script.google")){
+            $dataBase = team_database[team_database.length-1] == "?" ? team_database : team_database + "?";
+        }else{
+            alert("Url invalido");
+        }        
     }
 </script>
 
