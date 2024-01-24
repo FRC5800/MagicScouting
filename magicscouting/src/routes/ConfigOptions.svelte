@@ -75,7 +75,7 @@
 <div class="separator" style="width: 50%;"></div>
 
 <div
-	class=" flex flex-col items-center px-[5vw] sm:px-[5vw] font-defaultText font-bold text-[1.2rem]"
+	class=" flex flex-col w-[100%] items-center px-[5vw] sm:px-[5vw] font-defaultText font-bold text-[1.2rem]"
 >
 	<div class="py-2">{$_('home_page.settings.option_language')}</div>
 	<SelectInput

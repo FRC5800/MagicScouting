@@ -1,12 +1,9 @@
 <script>
-	/**
-	 * @type {boolean}
-	 */
+// @ts-nocheck
+
 	export let showModal;
-	/**
-	 * @type {boolean}
-	 */
 	export let showConfig;
+	export let showDataBase;
 
 	/**
 	 * @type {HTMLDialogElement}
@@ -18,6 +15,7 @@
 	function handleClose() {
 		showModal = false;
 		showConfig = false;
+		showDataBase = false
 	}
 </script>
 
@@ -29,18 +27,18 @@
 	class="bg-[#EAEAEC] dark:bg-primary-heavy dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="py-4 px-[5vw] sm:px-[15vw] h-[55vh] w-[60vw] max-sm:w-fit min-w-[60vw]">
+	<div class="py-4 px-[5vw] sm:px-[15vw] min-h-fit w-[60vw] max-sm:w-fit min-w-[70vw]">
 		<i
 			class="fa-solid fa-x absolute top-[1em] right-[1em] hover:cursor-pointer"
 			on:click={() => {
 				dialog.close();
 			}}
 		></i>
-		{#if showConfig}
+		{#if showConfig || showDataBase}
 			<i
 				class="fa-solid fa-arrow-left absolute top-[1em] left-[1em] hover:cursor-pointer"
 				on:click={() => {
-					(showConfig = false), (showModal = true);
+					(showConfig = false), (showModal = true), (showDataBase = false);
 				}}
 			></i>
 		{/if}

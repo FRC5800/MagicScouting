@@ -10,13 +10,22 @@
 		"match_number": "Número da Partida",
 		"team_position": "Posição da Equipe",
 		"validation_error_message": "Preencha o campo!",
+		"storage_button": "Armazenamento",
 		"continue_button": "Iniciar",
 
 		"menu": {
 			"title": "Menu",
 			"option_config": "Configurações",
 			"option_guide": "Guia de uso",
-			"option_about": "Sobre"
+			"option_about": "Sobre",
+			"option_database": "Banco de dados"
+		},
+
+		"database": {
+			"title": "Database",
+			"message": "Selecione o banco de dados a ser usado para armazenar as análises. Caso tenha alguma dúvida sobre como criar um, acesse o README de nosso repositório:",
+			"repository": "Github Repository",
+			"confirm_button": "Confirmar"
 		},
 
 		"settings": {
@@ -31,7 +40,17 @@
 			"option_color": "Cor primária"
 		}
 	},
-	"storage": {},
+	"storage": {
+		"title": "Armazenamento",
+		"team": "Equipe",
+		"match": "Partida",
+		"upload_button": "Upload",
+		"scan_button": "Escanear",
+		"modal": {
+			"title": "QR Code",
+			"scan_me": "Escaneie!"
+		}
+	},
 	"autonomous": {
 		"title": "Autonomous",
 		"speaker": "Speaker",
@@ -97,7 +116,7 @@
 		"or": "OU",
 		"qrcode_button": "QR Code",
 		"upload_button": "Upload",
-		"store_button": "Store",
+		"store_button": "Armazenar",
 		"finish_button": "Concluir"
 	}
 }

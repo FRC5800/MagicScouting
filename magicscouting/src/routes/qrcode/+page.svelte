@@ -6,6 +6,7 @@
     import { _ } from 'svelte-i18n'
     import { goto } from '$app/navigation';
 	import entriesSync from "../../lib/shared/stores/toSyncData";
+    import dataBase from '$lib/shared/stores/dataBase';
     
     let payload = {};
     let appData;
@@ -33,10 +34,10 @@
     let uploadDisabled = false;
 
     async function send_to_sheets(payload){
-        console.log("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload))
+        console.log($dataBase + new URLSearchParams(payload))
         try{
-            // return self.fetch('https://corsproxy.io/?' + encodeURIComponent("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload)),{
-            return self.fetch("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload),{
+            // return self.fetch('https://corsproxy.io/?' + encodeURIComponent($dataBase + new URLSearchParams(payload)),{
+            return self.fetch($dataBase + new URLSearchParams(payload),{
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
@@ -108,7 +109,7 @@
 <span >(Online)</span>
 <button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : ''}" disabled={uploadDisabled ? true : stored ? true : false} on:click={HandleUpload}>{$_('qrcode.upload_button')}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>Store</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-8"></div>
 

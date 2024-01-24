@@ -3,16 +3,18 @@
     import TrashCan from '$lib/components/TrashCan.svelte'
     import Modal from '../../routes/Modal.svelte';
 	import entriesSync from "../shared/stores/toSyncData";
+    import { _ } from "svelte-i18n";
+    import dataBase from "$lib/shared/stores/dataBase";
 
     export let payload = {"team":5800, "match":2};
     let src = ''
 
     let showQrCode = false
     async function send_to_sheets(payload){
-        console.log("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload))
+        console.log($dataBase + new URLSearchParams(payload))
         try{
-            // return self.fetch('https://corsproxy.io/?' + encodeURIComponent("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload)),{
-            return self.fetch("https://script.google.com/macros/s/AKfycbwuJXjCSjgDuAy4ncpD7NfNWKzuwsbuuTBWWfgvSBqS5jnr1iqz0UZ6pSfoxsJhMSgW/exec?" + new URLSearchParams(payload),{
+            // return self.fetch('https://corsproxy.io/?' + encodeURIComponent($dataBase + new URLSearchParams(payload)),{
+            return self.fetch($dataBase + new URLSearchParams(payload),{
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
@@ -57,7 +59,7 @@
     createQr()
 </script>
 
-<section class="flex flex-row w-full p-2 border-2">
+<section class="flex flex-row w-full p-2 border-2 mb-4">
     <div class="pr-3 border-r border-grey-heavy w-fit flex items-center justify-center">
         <i {src} alt="A Qr Code"  class="fa-solid fa-qrcode {uploadSuccess === true ? 'text-green-600' : uploadSuccess === false ? 'text-red-600' : ''} text-[100px]"></i>
     </div>
@@ -65,8 +67,8 @@
     <div class="flex flex-col items-start justify-between w-full ml-3 overflow-auto">
         
         <div class="flex flex-row justify-around w-full text-lg">
-            <h1>Equipe: {payload.team}</h1>
-            <h1>Partida: {payload.match}</h1>
+            <h1>{$_('storage.team')}: {payload.team}</h1>
+            <h1>{$_('storage.match')}: {payload.match}</h1>
         </div>
         
         <div class="w-full p-2 overflow-hidden overflow-x-auto rounded-lg bg-grey-heavy">{JSON.stringify(payload)}</div>
@@ -80,10 +82,10 @@
 </section>
 
 <Modal bind:showModal={showQrCode}> 
-    <h1 class="text-[1.8rem] font-semibold">QR Code</h1>
+    <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
     <div class="flex items-center justify-center border-[1rem] rounded-lg border-blueTheme-500">
         <img class="w-[40vw] h-auto" {src} alt="">
     </div>
-    <h1 class="text-[1.4rem] font-semibold">Scan Me</h1>
+    <h1 class="text-[1.4rem] font-semibold">{$_('storage.modal.scan_me')}</h1>
 </Modal>
 

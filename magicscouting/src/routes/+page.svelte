@@ -27,25 +27,11 @@
 		}
 	}
 
-	let alliance = $_('home_page.alliance.option_blue');
-	$: if(alliance != $_('home_page.alliance.option_blue') && alliance != $_('home_page.alliance.option_red')) {
-		switch (alliance) {
-			case 'Blue':
-				alliance = $_('home_page.alliance.option_blue')
-				break
-			case 'Azul':
-				alliance = $_('home_page.alliance.option_blue')
-				break
-			case 'Red':
-				alliance = $_('home_page.alliance.option_red')
-				break
-			case 'Vermelha':
-				alliance = $_('home_page.alliance.option_red')
-		}
-	}
+	$: alliance = $_('home_page.alliance.option_blue');
 
 	let showModal = false;
 	let showConfig = false;
+	let showDataBase = false;
 
 	let team_number = '';
 	let match_number = '';
@@ -152,7 +138,6 @@
 			<label class="relative inline-flex cursor-pointer alliance-check">
 				<input
 					type="checkbox"
-					bind:value={alliance}
 					class="align-middle sr-only peer"
 					name="alliance"
 					on:click={(a) => {
@@ -189,17 +174,17 @@
 
 	<div class="separator"></div>
 
-	<div >
+	<div class="w-4/5">
 		<button type="button" on:click={() => {goto('/qrcodeStorage')}} class="mb-0 btn">
-				Armazenamento
+				{$_('home_page.storage_button')}
 		</button>
 		<!-- <label class="text-sm font-black home-label dark:text-neutral-400">Há # Qr Codes não escaneados</label> -->
 	</div>
 </section>
 
-<Modal bind:showModal bind:showConfig>
+<Modal bind:showModal bind:showConfig bind:showDataBase>
 	{#if showModal && !showConfig}
-		<MenuOptions
+		<MenuOptions bind:showDataBase={showDataBase}
 			on:keydown={(e) => {
 				if (e.key == 'Enter') {
 					showConfig = true;
