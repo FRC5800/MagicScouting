@@ -69,7 +69,7 @@
     createQr()
 </script>
 
-<section class="flex flex-row w-full bg-gray-700 p-1 rounded-md border-b-2 mb-4">
+<section class="flex flex-row w-full shadow-sm shadow-primary-light bg-gray-300 dark:bg-gray-700 p-1 rounded-md border-b-2 mb-4">
     <div class="pr-3 border-r border-grey-heavy w-fit flex items-center justify-center">
         <i {src} alt="A Qr Code"  class="fa-solid fa-qrcode {uploadSuccess === true ? 'text-green-600' : uploadSuccess === false ? 'text-red-600' : ''} text-[100px]"></i>
     </div>
@@ -81,7 +81,7 @@
             <h1 class="text-2xl">{$_('storage.match')}: {payload.match}</h1>
         </div>
         
-        <div class="w-full p-2 overflow-hidden overflow-x-auto rounded-lg bg-grey-heavy">{JSON.stringify(payload)}</div>
+        <div class="w-full p-2 overflow-hidden overflow-x-auto rounded-lg text-gray-300 bg-grey-heavy">{JSON.stringify(payload)}</div>
 
         <div class="flex flex-row items-center justify-around w-full">
             <button class="p-3 btn w-fit h-fit text-xs {buttonColor}" disabled={uploadDisabled}  on:click={HandleUpload}>{buttonText}</button>
