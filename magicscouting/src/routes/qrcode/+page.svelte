@@ -45,9 +45,6 @@
             let sourceAverage = sourceTimes.length > 0 ? sourceTimes.reduce((a, b) => a + b, 0) / sourceTimes.length : 0;
             let floorAverage = floorTimes.length > 0 ? floorTimes.reduce((a, b) => a + b, 0) / floorTimes.length : 0;
             
-            console.log("srcAvg " + sourceAverage);
-            console.log("gnAvg " + floorAverage);
-
             return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": Math.round(sourceAverage*10)/10, "floorAverage":Math.round(floorAverage*10)/10})), {
                 method: "POST",
                 headers: {
