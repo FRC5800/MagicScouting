@@ -156,7 +156,7 @@
 		width: 75%;
 	}
 	.container {
-		@apply border-[1px] border-black dark:border-neutral-200 rounded-md mb-4 p-3 flex flex-row justify-around w-[80%];
+		@apply border-[1px] border-black dark:border-neutral-200 rounded-md mb-3 p-3 flex flex-row justify-around w-[80%];
 	}
 
 	.container > div {

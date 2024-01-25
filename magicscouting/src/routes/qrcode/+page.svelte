@@ -96,7 +96,7 @@
     }
 </script>
 
-<textarea on:input={updateQr} bind:value={appData} class="box-border resize-none p-4 rounded-lg w-[70vw] text-[#EAEAEC] bg-grey-heavy mt-4"></textarea>
+<div on:input={updateQr} class="box-border h-auto break-words p-4 rounded-lg w-[70vw] text-[#EAEAEC] bg-grey-heavy mt-4">{appData}</div>
 
 <span class="mt-4">(Offline)</span>
 <button on:click={() => {showQrCode = !showQrCode}} disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] rounded-3xl border-0 m-0 w-fit btn {uploadStatus == 'Uploaded' ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : stored ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : ''}">
@@ -113,14 +113,14 @@
     <i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>    
 {/if}
 
-<span class="m-4">{$_('qrcode.or')}</span>
+<span class="m-2">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
 <button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : ''}" disabled={uploadDisabled ? true : stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
 <button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'dark:bg-neutral-600 dark:hover:bg-neutral-600 dark:hover:text-[#060024]' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
-<div class="w-[30vw] separator my-8"></div>
+<div class="w-[30vw] separator my-6"></div>
 
 <button class="min-w-[50vw] rounded-3xl m-0 w-fit btn" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
 

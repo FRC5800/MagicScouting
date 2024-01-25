@@ -3,7 +3,7 @@
 
 </script>
 
-<i tabindex="0" role="button" class="text-[#474747] dark:text-white fa-solid fa-bars hover:cursor-pointer" on:keydown|stopPropagation on:click|stopPropagation></i>
+<i tabindex="0" role="button" class="z-10 text-[#474747] dark:text-white fa-solid fa-bars hover:cursor-pointer" on:keydown|stopPropagation on:click|stopPropagation></i>
 
 <style lang="postcss">
     i{
