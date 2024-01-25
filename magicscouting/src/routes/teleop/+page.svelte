@@ -136,12 +136,12 @@
 	}
 
 	function handleFloor() {
-		floorCicle.push(noteCicle.toFixed(1));
+		floorCicle.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
 		console.log(floorCicle);
 	}
 	function handleSource() {
-		sourceCicle.push(noteCicle.toFixed(1));
+		sourceCicle.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
 		console.log(sourceCicle);
 	}
