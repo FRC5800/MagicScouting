@@ -125,6 +125,11 @@
 		"qrcode_button": "QR Code",
 		"upload_button": "Upload",
 		"store_button": "Armazenar",
-		"finish_button": "Concluir"
+		"finish_button": "Concluir",
+		"confirmation_modal": {
+			"title": "Resetar App?",
+			"yes_button": "Sim",
+			"no_button": "Não"
+		}
 	}
 }

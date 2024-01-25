@@ -87,9 +87,9 @@
 						on:click={(e) => {
 							opcaoSelecionada = lingua;
 						}}
-						class="box-border p-2 cursor-pointer group border-l-[3px] {opcaoSelecionada == lingua ? 'border-primary-base dark:border-primary-base' : ''} dark:hover:border-primary-base hover:bg-primary-base hover:text-white text-[#666666] focus:border-primary-base focus:bg-primary-base focus:text-white dark:border-grey-heavy"
+						class="box-border p-2 cursor-pointer group border-l-[3px] {opcaoSelecionada == lingua ? 'border-primary-base dark:border-primary-base' : ''} dark:hover:border-primary-base hover:bg-primary-base hover:text-white hover:border-primary-base focus:border-primary-base focus:bg-primary-base focus:text-white dark:border-grey-heavy"
 					>
-						<a href={null} class="block hover:text-white dark:text-white box-border border-transparent hover:no-underline font-semibold"
+						<a href={null} class="block text-[#666666] hover:text-white dark:text-white box-border border-transparent hover:no-underline font-semibold"
 							>{lingua.content}
 						</a>
 					</div>

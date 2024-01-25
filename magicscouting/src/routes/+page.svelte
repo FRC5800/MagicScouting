@@ -137,6 +137,8 @@
 	{/if}
 </Modal>
 
+<h4 class="absolute bottom-3 right-4 text-gray-500 italic font-semibold">MagicScouting Beta v1.1</h4>
+
 <style lang='postcss'>
 	header {
 		color: white;

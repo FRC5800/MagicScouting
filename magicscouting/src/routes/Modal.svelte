@@ -4,6 +4,7 @@
 	export let showModal;
 	export let showConfig;
 	export let showDataBase;
+	export let showX = true;
 
 	/**
 	 * @type {HTMLDialogElement}
@@ -28,12 +29,15 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="py-4 px-[5vw] sm:px-[15vw] min-h-fit w-[60vw] max-sm:w-fit min-w-[70vw]">
-		<i
+		{#if showX}
+			<i
 			class="fa-solid fa-x absolute top-[1em] right-[1em] hover:cursor-pointer"
 			on:click={() => {
 				dialog.close();
 			}}
-		></i>
+			></i>
+		{/if}
+
 		{#if showConfig || showDataBase}
 			<i
 				class="fa-solid fa-arrow-left absolute top-[1em] left-[1em] hover:cursor-pointer"
