@@ -30,7 +30,7 @@
 
 		"settings": {
 			"title": "Configurações",
-			"option_language": "Selecione Linguagem",
+			"option_language": "Selecione Idioma",
 			"option_theme": {
 				"title": "Tema",
 				"option_light": "Claro",
@@ -38,6 +38,13 @@
 				"option_system": "Padrão do Sistema"
 			},
 			"option_color": "Cor primária"
+		},
+
+		"database_alert": {
+			"title": "Aviso",
+			"message": "Antes de usar o aplicativo, adicione o banco de dados que será usado para armazenar as partidas na aba de Menu. Caso tenha alguma dúvida, acesse o nosso README no repositório do projeto:",
+			"repository": "Repositório",
+			"menu_button": "Ir para menu"
 		}
 	},
 	"storage": {

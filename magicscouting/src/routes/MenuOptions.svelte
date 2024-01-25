@@ -8,6 +8,7 @@
     function handleDataBase() {
         if (team_database.includes("script.google")){
             $dataBase = team_database[team_database.length-1] == "?" ? team_database : team_database + "?";
+            showDataBase = false;
         }else{
             alert("Url invalido");
         }        

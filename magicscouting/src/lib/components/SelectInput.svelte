@@ -34,7 +34,7 @@
 			>
 				<label
 					for="show_more-{componentId}"
-					class="flex flex-row items-center justify-between w-full text-[#3A3A41] dark:text-white align-middle transition-all border-l border-gray-200 dark:border-grey-heavy outline-none cursor-pointer focus:outline-none hover:text-[#474747]"
+					class="flex flex-row items-center justify-between w-full text-gray-600 font-semibold dark:text-white align-middle transition-all border-l border-gray-200 dark:border-grey-heavy outline-none cursor-pointer focus:outline-none hover:text-[#474747]"
 				>
 					{opcaoSelecionada.content}
 					<svg
@@ -89,7 +89,7 @@
 						}}
 						class="box-border p-2 cursor-pointer group border-l-[3px] {opcaoSelecionada == lingua ? 'border-primary-base dark:border-primary-base' : ''} dark:hover:border-primary-base hover:bg-primary-base hover:text-white text-[#666666] focus:border-primary-base focus:bg-primary-base focus:text-white dark:border-grey-heavy"
 					>
-						<a href={null} class="block hover:text-white dark:text-white box-border font-normal border-transparent hover:no-underline"
+						<a href={null} class="block hover:text-white dark:text-white box-border border-transparent hover:no-underline font-semibold"
 							>{lingua.content}
 						</a>
 					</div>

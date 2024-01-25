@@ -38,6 +38,13 @@
 				"option_system": "System"
 			},
 			"option_color": "Primary Color"
+		},
+
+		"database_alert": {
+			"title": "Alert",
+			"message": "Before using the app, add the database that will be used to store the games in the Menu tab. If you have any questions, access our README in the project repository:",
+			"repository": "Repository",
+			"menu_button": "Go to menu"
 		}
 	},
 	"storage": {
