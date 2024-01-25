@@ -21,16 +21,13 @@
 </script>
 
 <div class="flex app">
-	<!-- {#await preload()	}
+	{#await preload()	}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
 	{:then resolved} 
 	<main class="bg-[#EAEAEC] dark:bg-primary-heavy p-2">
 		<slot />
 	</main>
-	{/await} -->
-	<main class="bg-[#EAEAEC] dark:bg-primary-heavy p-2">
-		<slot />
-	</main>
+	{/await}
 </div>
 
 <style lang="postcss">

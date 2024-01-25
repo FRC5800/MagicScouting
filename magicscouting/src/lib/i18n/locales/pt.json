@@ -88,8 +88,8 @@
 			"option1": "Tentou e Errou",
 			"option2": "Não tentou",
 			"option3": "Climbou sozinho",
-			"option4": "Harmonia",
-			"option5": "Harmonia Dupla"
+			"option4": "Climbou com +1 Robôs",
+			"option5": "Climbou com +2 Robôs"
 		},
 		"note_cycle": {
 			"title": "Ciclo de Notes",
@@ -98,7 +98,7 @@
 			"option_source": "Source"
 		},
 		"onstage_cycle": {
-			"title": "Ciclo de Stage",
+			"title": "Ciclo OnStage",
 			"start_cycle": "Iniciar"
 		},
 		"continue_button": "Continuar"

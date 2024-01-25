@@ -88,8 +88,8 @@
 			"option1": "Tried and Missed",
 			"option2": "Didn't try",
 			"option3": "Climbed alone",
-			"option4": "Climbed with Harmony",
-			"option5": "Climbed with double Harmony"
+			"option4": "Climbed with 1+ Robot",
+			"option5": "Climbed with 2+ Robots"
 		},
 		"note_cycle": {
 			"title": "Note Cycle",
@@ -98,7 +98,7 @@
 			"option_source": "Source"
 		},
 		"onstage_cycle": {
-			"title": "Onstage Cycle",
+			"title": "OnStage Cycle",
 			"start_cycle": "Start"
 		},
 		"continue_button": "Continue"

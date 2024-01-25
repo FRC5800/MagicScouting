@@ -176,7 +176,7 @@
 							>
 							<button
 								on:click={() => {
-									item.score -= 1;
+									if (item.score != 0) item.score -= 1;
 								}}
 								class="points">-</button
 							>
@@ -195,7 +195,12 @@
 								>
 								<button
 									on:click={() => {
-										item.miss != null ? item.miss -= 1 : ampSpeakerStructure[0].miss -= 1;
+										if (item.miss != null) {
+											if (item.miss != 0) item.miss -= 1
+										}
+										else {
+											if (ampSpeakerStructure[0].miss != 0) {ampSpeakerStructure[0].miss -= 1}
+										}
 									}}
 									class="points">-</button
 								>
@@ -258,7 +263,7 @@
 		<div class="w-3/4 trap">
 			<h4 class="label-endgame">{$_('teleop.trap.title')}</h4>
 			<SelectInput
-				options={chainOptions}
+				options={trapOptions}
 				bind:opcaoSelecionada={selected_chain}
 				showMore={showMoreChain}
 				componentId={"chain"}
@@ -267,7 +272,7 @@
 		<div class="w-3/4 chain">
 			<h4 class="label-endgame">{$_('teleop.onstage.title')}</h4>
 			<SelectInput
-				options={trapOptions}
+				options={chainOptions}
 				bind:opcaoSelecionada={selected_trap}
 				showMore={showMoreTrap}
 				componentId={"trap"}

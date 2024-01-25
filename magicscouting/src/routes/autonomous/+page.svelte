@@ -48,7 +48,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					speakerScoreAuto -= 1;
+					if (speakerScoreAuto != 0) speakerScoreAuto -= 1;
 				}}>-</button
 			>
 			<p>{speakerScoreAuto}</p>
@@ -64,7 +64,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					speakerMissAuto -= 1;
+					if (speakerMissAuto != 0) speakerMissAuto -= 1;
 				}}>-</button
 			>
 			<p>{speakerMissAuto}</p>
@@ -87,7 +87,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					ampScoreAuto -= 1;
+					if (ampScoreAuto != 0) ampScoreAuto -= 1;
 				}}>-</button
 			>
 			<p>{ampScoreAuto}</p>
@@ -103,7 +103,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					ampMissAuto -= 1;
+					if (ampMissAuto != 0) ampMissAuto -= 1;
 				}}>-</button
 			>
 			<p>{ampMissAuto}</p>
@@ -112,9 +112,9 @@
 	<button
 		on:click={handleLeave}
 		id="leave"
-		class="leave p-2 rounded-xl box-border {leave
-			? ' text-white bg-primary-base '
-			: 'text-neutral-600 bg-transparent dark:bg-slate-100'}">{$_('autonomous.leave_button')}</button
+		class="leave p-2 rounded-xl box-border border-2 dark:border-0 {leave
+			? ' text-white bg-primary-base border-primary-base'
+			: 'text-neutral-600 bg-transparent dark:bg-slate-100 border-gray-700'}">{$_('autonomous.leave_button')}</button
 	>
 
 	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
@@ -137,7 +137,7 @@
 		margin-top: 2px;
 	}
 	.points {
-		@apply flex items-center justify-center w-full h-9 border-[1px] border-black dark:border-neutral-600 rounded-md bg-transparent dark:bg-neutral-200 text-neutral-600 hover:text-neutral-800 active:bg-blueTheme-500;
+		@apply flex items-center justify-center w-full h-9 border-[1px] border-black dark:border-neutral-600 rounded-md bg-transparent dark:bg-neutral-200 text-neutral-600 hover:text-neutral-800 active:bg-buttons;
 		font-size: 40px;
 		font-weight: 700;
 		text-align: center;
