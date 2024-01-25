@@ -36,8 +36,16 @@
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
-            // return self.fetch('https://corsproxy.io/?' + encodeURIComponent($dataBase + new URLSearchParams(payload)),{
-            return self.fetch($dataBase + new URLSearchParams(payload),{
+            payload["sourceCycleTime"] = payload["sourceCycleTime"]=="" ? "0" : payload["sourceCycleTime"]
+            payload["floorCycleTime"] = payload["floorCycleTime"]=="" ? "0" : payload["floorCycleTime"]
+
+            let sourceTimes = payload["sourceCycleTime"].split(",").map((value) => {return value!="" ? parseFloat(value) : 0});
+            let floorTimes = payload["floorCycleTime"].split(",").map((value) => {return value!="" ? parseFloat(value) : 0});
+
+            let sourceAverage = sourceTimes.length > 0 ? sourceTimes.reduce((a, b) => a + b, 0) / sourceTimes.length : 0;
+            let floorAverage = floorTimes.length > 0 ? floorTimes.reduce((a, b) => a + b, 0) / floorTimes.length : 0;
+            
+            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": Math.round(sourceAverage*10)/10, "floorAverage":Math.round(floorAverage*10)/10})), {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
@@ -45,7 +53,8 @@
 
             });
         }catch (e) {
-            return false;
+            console.log(e);
+            return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
         }
     } 
 
