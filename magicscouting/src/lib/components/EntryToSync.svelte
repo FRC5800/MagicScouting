@@ -62,7 +62,7 @@
     }
 
     function createQr() {
-        QRCode.toDataURL(JSON.stringify(payload), { errorCorrectionLevel: 'L' }, function (err, url) {
+        QRCode.toDataURL(JSON.stringify(Object.keys(payload).map(function(key){return payload[key]})), { errorCorrectionLevel: 'L' }, function (err, url) {
         src = url;
     })
     }
