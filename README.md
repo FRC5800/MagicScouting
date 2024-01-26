@@ -1,6 +1,7 @@
-#Tutorial setup DB to MagicScouting DB
+# Tutorial setup DB to MagicScouting DB
+
 1. First navigate to [https://docs.google.com/spreadsheets/](https://docs.google.com/spreadsheets/u/0/?tgif=d)
-2. Click create blank sheet ![[Pasted image 20240126200238.png]]
+2. Click create blank sheet ![print](Images/Pasted image 20240126200238.png)
 3. Click Extensions > App Scripts ![[Pasted image 20240126200347.png]]
 4. In a new tab, navigate to [https://github.com/FRC5800/MagicScouting](https://github.com/FRC5800/MagicScouting)
 5. Click "[AppScriptDB.gs](http://AppScriptDB.gs)" ![[Pasted image 20240126200430.png]]
