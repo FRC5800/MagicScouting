@@ -59,8 +59,8 @@
 				"trapStatus":selected_trap.value,
 				"onStageStatus": selected_chain.value,
 				"onStageTime": onstageCicle,
-				"sourceCycleTime": JSON.stringify(sourceCicle).replaceAll("[", "").replaceAll("]", ""),
-				"floorCycleTime":JSON.stringify(floorCicle).replaceAll("[", "").replaceAll("]", ""),
+				"sourceCycleTime": JSON.stringify(sourceCicle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
+				"floorCycleTime":JSON.stringify(floorCicle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"highNoteStatus": selected_highNote.value,
 				});
 		goto('/info');
