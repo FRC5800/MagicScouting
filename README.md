@@ -1,20 +1,80 @@
 # Tutorial setup DB to MagicScouting DB
 
 1. First navigate to [https://docs.google.com/spreadsheets/](https://docs.google.com/spreadsheets/u/0/?tgif=d)
-2. Click create blank sheet ![print](Images/Pasted image 20240126200238.png)
-3. Click Extensions > App Scripts ![[Pasted image 20240126200347.png]]
-4. Click Extensions > App Scripts ![print](Images/Pasted&#32;image&#32;20240126200347.png)
-5. In a new tab, navigate to [https://github.com/FRC5800/MagicScouting](https://github.com/FRC5800/MagicScouting)
-6. Click "[AppScriptDB.gs](http://AppScriptDB.gs)" ![print](Images/Pasted&#32;image&#32;20240126200430.png)
-7. Click copy raw file ![print](Images/Pasted&#32;image&#32;20240126200450.png)
-8. Get back to the AppScript tab, remove all the code and paste the copied code ![print](Images/Pasted&#32;image&#32;20240126200611.png)
-9. Click Save ![print](Images/Pasted&#32;image&#32;20240126200632.png)
-10. Click deploy ![print](Images/Pasted&#32;image&#32;20240126201713.png)
-11. Click "New deployment" ![print](Images/Pasted&#32;image&#32;20240126201725.png)
-12. Click "settings" ![print](Images/Pasted&#32;image&#32;20240126201801.png)
-13. Click WebApp ![print](Images/Pasted&#32;image&#32;20240126201841.png)
-14. Click the "New description" field. ![print](Images/Pasted&#32;image&#32;20240126201902.png)
-15. Write "DB Sync" and then click who has access and select anyone ![print](Images/Pasted&#32;image&#32;20240126201952.png)
-16. Click "Deploy" ![print](Images/Pasted&#32;image&#32;20240126202012.png)
-17. Copy this link ![print](Images/Pasted&#32;image&#32;20240126202035.png)
-18. Click in the 3 bars in the top left, click "database" and then paste the url ![print](Images/Pasted&#32;image&#32;20240126202150.png)
+2. Click create blank sheet
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-2.png" alt="Step 2" width="80%"/>
+</div>
+3. Click Extensions > App Scripts
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-3.png" alt="Step 3" width="80%"/>
+</div>
+4. In a new tab, navigate to https://github.com/FRC5800/MagicScouting
+<br/><br/>
+6. Click "[AppScriptDB.gs](http://AppScriptDB.gs)"
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-6.png" alt="Step 6" width="80%"/>
+</div>
+7. Click copy raw file
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-7.png" alt="Step 7" width="80%"/>
+</div>
+8. Get back to the AppScript tab, remove all the code and paste the copied code
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-8.png" alt="Step 8" width="80%"/>
+</div>
+9. Click Save
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-9.png" alt="Step 9" width="80%"/>
+</div>
+10. Click deploy
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-10.png" alt="Step 10" width="80%"/>
+</div>
+11. Click "New deployment"
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-11.png" alt="Step 11" width="80%"/>
+</div>
+12. Click "settings"
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-12.png" alt="Step 12" width="80%"/>
+</div>
+13. Click WebApp
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-13.png" alt="Step 13" width="80%"/>
+</div>
+14. Click the "New description" field
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-14.png" alt="Step 14" width="80%"/>
+</div>
+15. Write "DB Sync" and then click who has access and select anyone
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-15.png" alt="Step 15" width="80%"/>
+</div>
+16. Click "Deploy"
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-16.png" alt="Step 16" width="80%"/>
+</div>
+17. Copy this link
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-17.png" alt="Step 17" width="80%"/>
+</div>
+18. Click in the 3 bars in the top left, click "database" and then paste the url
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-8.png" alt="Step 18" width="80%"/>
+</div>
