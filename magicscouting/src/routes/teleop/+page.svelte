@@ -264,8 +264,8 @@
 			<h4 class="label-endgame">{$_('teleop.trap.title')}</h4>
 			<SelectInput
 				options={trapOptions}
-				bind:opcaoSelecionada={selected_chain}
-				showMore={showMoreChain}
+				bind:opcaoSelecionada={selected_trap}
+				showMore={showMoreTrap}
 				componentId={"chain"}
 			/>
 		</div>
@@ -273,8 +273,8 @@
 			<h4 class="label-endgame">{$_('teleop.onstage.title')}</h4>
 			<SelectInput
 				options={chainOptions}
-				bind:opcaoSelecionada={selected_trap}
-				showMore={showMoreTrap}
+				bind:opcaoSelecionada={selected_chain}
+				showMore={showMoreChain}
 				componentId={"trap"}
 			/>
 		</div>
