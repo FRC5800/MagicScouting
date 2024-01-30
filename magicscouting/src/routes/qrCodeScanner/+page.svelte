@@ -8,7 +8,7 @@
     import { App } from '@capacitor/app';
 
     
-    App.addListener("backButton", ()=>{if (!scanning) {goto('/')} else {stopScan()}});
+    App.addListener("backButton", ()=>{showModal=false;if (!scanning) {goto('/')} else {stopScan()}});
 
     let scanning = false;
     let data = {};
@@ -40,7 +40,6 @@
                     for (let i = 0; i < keys.length; i++){
                         data[keys[i]] = JSON.parse(result.barcode.displayValue)[i];
                     }
-                    alert("valid qr")
                     showModal = true;
                 }
             },
