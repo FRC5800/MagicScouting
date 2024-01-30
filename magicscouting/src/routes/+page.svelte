@@ -51,7 +51,7 @@
 		isDataBaseSetted = false;
 	}
 	$: console.log(isDataBaseSetted)
-	
+
 </script>
 
 <section class="pt-2">
