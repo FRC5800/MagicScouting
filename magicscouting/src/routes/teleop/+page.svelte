@@ -72,13 +72,13 @@
 
 
 	//VARIAVEIS DE SPEAKER
-	let speakerScoreTeleop = 0;
-	let speakerMissTeleop = 0;
-	let speakerAmplifiedScore = 0;
+	$: speakerScoreTeleop = ampSpeakerStructure[0].score;
+	$: speakerMissTeleop = ampSpeakerStructure[0].miss;
+	$: speakerAmplifiedScore = ampSpeakerStructure[1].score;
 
 	//VARIAVEIS DE AMP
-	let ampScoreTeleop = 0;
-	let ampMissTeleop = 0;
+	$: ampScoreTeleop = ampSpeakerStructure[2].score;
+	$: ampMissTeleop = ampSpeakerStructure[2].miss;
 
 	//note cicle timer
 	let noteTimer;
