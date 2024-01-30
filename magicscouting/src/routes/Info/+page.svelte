@@ -6,6 +6,7 @@
     import { goto } from '$app/navigation';
     import ResetModal from '$lib/components/ResetModal.svelte';
     import { _ } from 'svelte-i18n';
+	import { App } from '@capacitor/app';
     import storeData from "$lib/shared/scripts/controlData.js";
 
     let ataque = {
