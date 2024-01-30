@@ -27,6 +27,10 @@
                 await stopScan();
                 if (result.barcode.displayValue.length != keys.length){
                     alert("qrcode inválido");
+                    alert(result.barcode.displayValue)
+                    alert(result.barcode.displayValue.length)
+                    alert(keys)
+                    alert(keys.length)
                     validQr = false;
                 }else{
                     for (let i = 0; i < keys.length; i++){
