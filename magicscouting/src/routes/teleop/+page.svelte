@@ -70,16 +70,6 @@
 	let selected_highNote;
 	let selected_trap;
 
-
-	//VARIAVEIS DE SPEAKER
-	let speakerScoreTeleop = 0;
-	let speakerMissTeleop = 0;
-	let speakerAmplifiedScore = 0;
-
-	//VARIAVEIS DE AMP
-	let ampScoreTeleop = 0;
-	let ampMissTeleop = 0;
-
 	//note cicle timer
 	let noteTimer;
 	let noteCicle = 0;
@@ -117,8 +107,9 @@
 
 	function startOnstageCicle() {
 		onstageCicleCouting = true;
+		onstageCicle = 0;
 		onstageTimer = setInterval(() => {
-			if(pauseOnstageCicle != 'paused') onstageCicle += 0.1;
+			if(pauseOnstageCicle != 'paused') onstageCicle = Math.round((onstageCicle+0.1)*10)/10;
 		}, 100);
 	}
 	function stopOnstageCicle() {
@@ -126,7 +117,6 @@
 		pauseOnstageCicle = '';
 		clearInterval(onstageTimer);
 		console.log(onstageCicle);
-		handleOnstage()
 	}
 	function discartOnstageCicle() {
 		onstageCicleCouting = false;
@@ -144,9 +134,6 @@
 		sourceCicle.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
 		console.log(sourceCicle);
-	}
-	function handleOnstage() {
-		onstageCicle = 0;
 	}
 
 </script>

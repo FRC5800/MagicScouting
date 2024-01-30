@@ -166,7 +166,7 @@
 		font-size: 15px;
 	}
 	.validation-error {
-   		@apply outline outline empty:outline-redTheme-600;
+   		@apply outline empty:outline-redTheme-600;
 	}
 	.validation-error-message {
    		@apply text-red-300 font-medium ml-2;
