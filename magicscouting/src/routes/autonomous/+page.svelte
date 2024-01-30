@@ -4,7 +4,9 @@
 	import speaker from '$lib/assets/speaker.png';
 	import amp from '$lib/assets/amp.png';
 	import { _ } from 'svelte-i18n';
+    import ResetModal from '$lib/components/ResetModal.svelte';
 	import storeData from "$lib/shared/scripts/controlData.js";
+	import { App } from '@capacitor/app';
 
 	function onSubmit() {
 		storeData({"autoAmpScore": ampScoreAuto, "autoAmpMiss": ampMissAuto, "autoSpeakerScore": speakerScoreAuto, "autoSpeakerMiss": speakerMissAuto, "isLeave": leave ? 1 : 0});
@@ -26,7 +28,11 @@
 	function handleLeave() {
 		leave = !leave;
 	}
+
+	let resetConfirmation = false;
+	App.addListener("backButton", ()=>{resetConfirmation = true;});
 </script>
+<ResetModal resetConfirmation={resetConfirmation}/>
 
 <section class="text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<h1 class="text-4xl header">{$_('autonomous.title')}</h1>

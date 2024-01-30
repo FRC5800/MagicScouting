@@ -7,8 +7,10 @@
     import { goto } from '$app/navigation';
 	import entriesSync from "../../lib/shared/stores/toSyncData";
     import dataBase from '$lib/shared/stores/dataBase';
+    import ResetModal from '$lib/components/ResetModal.svelte';
 	import Modal from '../Modal.svelte';
-    
+    import { App } from '@capacitor/app';
+
     let payload = {};
     let appData;
     
@@ -35,6 +37,8 @@
     let uploadDisabled = false;
     let resetConfirmation = false;
 
+	App.addListener("backButton", ()=>{resetConfirmation = true;});
+    
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
@@ -131,15 +135,7 @@
 
 <button class="min-w-[50vw] rounded-3xl m-0 w-fit btn" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
 
-{#if resetConfirmation}
-    <Modal bind:showModal={resetConfirmation} showX={false}>
-        <h2 class="text-2xl mb-2">{$_('qrcode.confirmation_modal.title')}</h2>
-        <div class="flex flex-row justify-between box-border w-full border">
-            <button on:click={() => {keys.forEach((key) => {localStorage.setItem(key, null)}); goto("/")}} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">{$_('qrcode.confirmation_modal.yes_button')}</button>
-            <button on:click={() => {resetConfirmation = false}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">{$_('qrcode.confirmation_modal.no_button')}</button>
-        </div>
-    </Modal>
-{/if}
+<ResetModal resetConfirmation={resetConfirmation}/>
 
 <style lang="postcss">
     .disabled{

@@ -6,6 +6,8 @@
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import { _ } from 'svelte-i18n'
 	import storeData from "$lib/shared/scripts/controlData.js";
+    import ResetModal from '$lib/components/ResetModal.svelte';
+	import { App } from '@capacitor/app';
 
 	let ampSpeakerStructure = [
 		{title: $_('teleop.speaker'), score: 0, miss: 0},
@@ -23,7 +25,9 @@
 	function handle_selection() {
 
 	}
-
+	let resetConfirmation = false;
+	App.addListener("backButton", ()=>{resetConfirmation = true;});
+	
 	let highNoteOptions = [
 		{ id: '1', content: $_('teleop.high_notes.option1'), value: '-1' },
 		{ id: '2', content: $_('teleop.high_notes.option2'), value: '0' },
@@ -48,11 +52,11 @@
 		{ id: '3', content: $_('teleop.trap.option3'), value: '1' }
 	];
 	let showMoreTrap = 'hidden';
-
+	
 	function onSubmit() {
 		storeData({
 			 	"teleopAmpScore": ampSpeakerStructure[2]["score"],
-				"teleopAmpMiss": ampSpeakerStructure[2]["miss"],
+				 "teleopAmpMiss": ampSpeakerStructure[2]["miss"],
 				"teleopSpeakerScore": ampSpeakerStructure[0]["score"],
 				"teleopSpeakerMiss": ampSpeakerStructure[0]["miss"],
 				"speakerAmplifiedScore":ampSpeakerStructure[1]["score"],
@@ -65,11 +69,11 @@
 				});
 		goto('/info');
 	}
-
+	
 	let selected_chain;
 	let selected_highNote;
 	let selected_trap;
-
+	
 	//note cicle timer
 	let noteTimer;
 	let noteCicle = 0;
@@ -95,7 +99,7 @@
 		pauseNoteCicle = '';
 		clearInterval(noteTimer);
 		console.log(noteCicle);
-
+		
 		selected_timer.handler()
 	}
 	function discartNoteCicle() {
@@ -104,7 +108,7 @@
 		clearInterval(noteTimer);
 		noteCicle = 0;
 	}
-
+	
 	function startOnstageCicle() {
 		onstageCicleCouting = true;
 		onstageCicle = 0;
@@ -124,7 +128,7 @@
 		clearInterval(onstageTimer);
 		onstageCicle = 0;
 	}
-
+	
 	function handleFloor() {
 		floorCicle.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
@@ -135,8 +139,9 @@
 		noteCicle = 0;
 		console.log(sourceCicle);
 	}
-
+	
 </script>
+<ResetModal resetConfirmation={resetConfirmation}/>
 
 <main class="mt-[3vh] dark:text-white text-neutral-600">
 	<h1 class="text-4xl font-[Lucida Sans]">{$_('teleop.title')}</h1>

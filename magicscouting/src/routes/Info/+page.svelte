@@ -4,6 +4,7 @@
     import "../../app.css";
     import InfoSelect from "./infoSelect.svelte";
     import { goto } from '$app/navigation';
+    import ResetModal from '$lib/components/ResetModal.svelte';
     import { _ } from 'svelte-i18n';
     import storeData from "$lib/shared/scripts/controlData.js";
 
@@ -40,9 +41,11 @@
         goto("/qrcode")
     }
 
-
+    let resetConfirmation = false;
+	App.addListener("backButton", ()=>{resetConfirmation = true;});
 
 </script>
+<ResetModal resetConfirmation={resetConfirmation}/>
 
 <h2 class="pt-4 pb-2 mt-4">{$_('info.attack_title')}</h2>
 <InfoSelect instance_options={ataque} bind:selectedOption={ataque.selected} width={'20vw'} />
