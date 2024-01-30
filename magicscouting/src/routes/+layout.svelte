@@ -20,11 +20,11 @@
 	});
 </script>
 
-<div class="flex app">
+<div class="bg-[#EAEAEC] dark:bg-primary-heavy app">
 	{#await preload()	}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
 	{:then resolved} 
-	<main class="bg-[#EAEAEC] dark:bg-primary-heavy p-2">
+	<main class="p-2">
 		<slot />
 	</main>
 	{/await}
