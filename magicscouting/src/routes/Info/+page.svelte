@@ -6,27 +6,28 @@
     import { goto } from '$app/navigation';
     import ResetModal from '$lib/components/ResetModal.svelte';
     import { _ } from 'svelte-i18n';
+	import { App } from '@capacitor/app';
     import storeData from "$lib/shared/scripts/controlData.js";
 
     let ataque = {
         name : "atk",
         options: [{id: 0, value: false}, {id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
 
     let defesa = {
         name : "def",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
 
     let suporte = {
         name : "sup",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
     // function storeData(payload) {
 	// 	for (var key in payload) {

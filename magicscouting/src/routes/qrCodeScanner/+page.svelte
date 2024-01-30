@@ -1,50 +1,67 @@
 <script>
+// @ts-nocheck
+
     import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 	import Modal from "../Modal.svelte";
+	import { goto } from "$app/navigation";
+	import entriesSync from "../../lib/shared/stores/toSyncData";
 
     let scanning = false;
-    let data = '';
-    $: showModal = data == '' ? false : true;
+    let data = {};
+    $: showModal = Object.keys(data).length == 0 ? false : true;
+
+    let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
+    let validQr = true;
 
     const startScan = async () => {
     // Hide all elements in the WebView
         document.querySelector("body")?.classList.add("barcode-scanning-active");
         scanning = true;
-
+        
         // Add the `barcodeScanned` listener
         const listener = await BarcodeScanner.addListener(
             "barcodeScanned",
             async (result) => {
-            // Print the found barcode to the console
-            console.log(result.barcode);
-            await stopScan();
-            data = result.barcode.displayValue;
+                // Print the found barcode to the console
+                console.log(result.barcode);
+                await stopScan();
+                if (result.barcode.displayValue.length != keys.length){
+                    alert("qrcode inválido");
+                    validQr = false;
+                }else{
+                    for (let i = 0; i < keys.length; i++){
+                        data[keys[i]] = result.barcode.displayValue[i];
+                    }
+                }
             },
-        );
-
-        // Start the barcode scanner
+            );
+            // Start the barcode scanner
         await BarcodeScanner.startScan();
     };
-
+    
     const stopScan = async () => {
-    // Make all elements in the WebView visible again
+        // Make all elements in the WebView visible again
         document.querySelector("body")?.classList.remove("barcode-scanning-active");
         scanning = false;
-
+        
         // Remove all listeners
         await BarcodeScanner.removeAllListeners();
-
+        
         // Stop the barcode scanner
         await BarcodeScanner.stopScan();
     };
-
-    function handleData(){
-        
+    
+    function HandleStore(){
+        let sameGame = false;
+        $entriesSync.forEach((key) => {sameGame = (sameGame || (data["team"] == key["team"] && data["match"] == key["match"]))}) 
+        if (!sameGame) {
+            $entriesSync = $entriesSync.concat(data); 
+            console.log($entriesSync);
+        }
+        data = {};
     }
 
-    function handleStore(){
-        
-    }
+
 </script>
 
 <h1 class="text-red-600">QR Code Scanner</h1>
@@ -72,11 +89,5 @@
 {/if}
 
 <style lang="postcss">
-.barcode-scanning-active {
-  visibility: hidden;
-}
 
-.barcode-scanning-modal {
-  visibility: visible;
-}
 </style>
