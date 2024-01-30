@@ -28,9 +28,12 @@
                 if (result.barcode.displayValue.length != keys.length){
                     alert("qrcode inválido");
                     alert(result.barcode.displayValue)
+                    alert(typeof result.barcode.displayValue)
                     alert(result.barcode.displayValue.length)
                     alert(keys)
                     alert(keys.length)
+                    alert(JSON.parse(result.barcode.displayValue))
+                    alert(JSON.parse(result.barcode.displayValue).length)
                     validQr = false;
                 }else{
                     for (let i = 0; i < keys.length; i++){
