@@ -18,7 +18,8 @@
 
     let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
     let validQr = true;
-
+    let showModal = false;
+    
     const startScan = async () => {
     // Hide all elements in the WebView
         document.querySelector("body")?.classList.add("barcode-scanning-active");
@@ -33,10 +34,14 @@
                 await stopScan();
                 if (JSON.parse(result.barcode.displayValue).length != keys.length){
                     validQr = false;
+                    alert("invalid qr")
+                    alert(JSON.parse(result.barcode.displayValue))
+                    alert(keys)
                 }else{
                     for (let i = 0; i < keys.length; i++){
                         data[keys[i]] = JSON.parse(result.barcode.displayValue)[i];
                     }
+                    alert("valid qr")
                     showModal = true;
                 }
             },
