@@ -51,11 +51,11 @@
 
 	function onSubmit() {
 		storeData({
-			 	"teleopAmpScore": ampScoreTeleop,
-				"teleopAmpMiss": ampMissTeleop,
-				"teleopSpeakerScore": speakerScoreTeleop,
-				"teleopSpeakerMiss": speakerMissTeleop,
-				"speakerAmplifiedScore":speakerAmplifiedScore,
+			 	"teleopAmpScore": ampSpeakerStructure[2]["score"],
+				"teleopAmpMiss": ampSpeakerStructure[2]["miss"],
+				"teleopSpeakerScore": ampSpeakerStructure[0]["score"],
+				"teleopSpeakerMiss": ampSpeakerStructure[0]["miss"],
+				"speakerAmplifiedScore":ampSpeakerStructure[1]["score"],
 				"trapStatus":selected_trap.value,
 				"onStageStatus": selected_chain.value,
 				"onStageTime": onstageCicle,
@@ -69,16 +69,6 @@
 	let selected_chain;
 	let selected_highNote;
 	let selected_trap;
-
-
-	//VARIAVEIS DE SPEAKER
-	$: speakerScoreTeleop = ampSpeakerStructure[0].score;
-	$: speakerMissTeleop = ampSpeakerStructure[0].miss;
-	$: speakerAmplifiedScore = ampSpeakerStructure[1].score;
-
-	//VARIAVEIS DE AMP
-	$: ampScoreTeleop = ampSpeakerStructure[2].score;
-	$: ampMissTeleop = ampSpeakerStructure[2].miss;
 
 	//note cicle timer
 	let noteTimer;
@@ -117,8 +107,9 @@
 
 	function startOnstageCicle() {
 		onstageCicleCouting = true;
+		onstageCicle = 0;
 		onstageTimer = setInterval(() => {
-			if(pauseOnstageCicle != 'paused') onstageCicle += 0.1;
+			if(pauseOnstageCicle != 'paused') onstageCicle = Math.round((onstageCicle+0.1)*10)/10;
 		}, 100);
 	}
 	function stopOnstageCicle() {
@@ -126,7 +117,6 @@
 		pauseOnstageCicle = '';
 		clearInterval(onstageTimer);
 		console.log(onstageCicle);
-		handleOnstage()
 	}
 	function discartOnstageCicle() {
 		onstageCicleCouting = false;
@@ -145,9 +135,6 @@
 		noteCicle = 0;
 		console.log(sourceCicle);
 	}
-	function handleOnstage() {
-		onstageCicle = 0;
-	}
 
 </script>
 
@@ -161,7 +148,7 @@
 			<div class="w-1/2 p-1">
 				<div class="flex flex-col items-center containerBox">
 					<div class="title">
-						<h4>{item.title}</h4>
+						<h5 class="font-semibold">{item.title}</h5>
 					</div>
 					<div class="flex flex-row justify-around w-full">
 						<div class="plusMinusBlock">
@@ -302,7 +289,7 @@
 					
 					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCicle()}} on:click={stopOnstageCicle} class="w-3/12 text-center text-[1.8rem] fa-solid fa-check"></i>
 					
-					<i on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}
