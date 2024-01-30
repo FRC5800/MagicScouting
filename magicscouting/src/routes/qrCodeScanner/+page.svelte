@@ -1,51 +1,66 @@
 <script>
+// @ts-nocheck
+
     import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 	import Modal from "../Modal.svelte";
 	import { goto } from "$app/navigation";
+	import entriesSync from "../../lib/shared/stores/toSyncData";
 
     let scanning = false;
-    let data = '';
+    let data = {};
     $: showModal = data == '' ? false : true;
+
+    let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
+    let validQr = true;
 
     const startScan = async () => {
     // Hide all elements in the WebView
         document.querySelector("body")?.classList.add("barcode-scanning-active");
         scanning = true;
-
+        
         // Add the `barcodeScanned` listener
         const listener = await BarcodeScanner.addListener(
             "barcodeScanned",
             async (result) => {
-            // Print the found barcode to the console
-            console.log(result.barcode);
-            await stopScan();
-            data = result.barcode.displayValue;
+                // Print the found barcode to the console
+                console.log(result.barcode);
+                await stopScan();
+                if (result.barcode.displayValue.length != keys.length){
+                    alert("qrcode inválido");
+                    validQr = false;
+                }else{
+                    for (let i = 0; i < keys.length; i++){
+                        data[keys[i]] = result.barcode.displayValue[i];
+                    }
+                }
             },
-        );
-
-        // Start the barcode scanner
+            );
+            // Start the barcode scanner
         await BarcodeScanner.startScan();
     };
-
+    
     const stopScan = async () => {
-    // Make all elements in the WebView visible again
+        // Make all elements in the WebView visible again
         document.querySelector("body")?.classList.remove("barcode-scanning-active");
         scanning = false;
-
+        
         // Remove all listeners
         await BarcodeScanner.removeAllListeners();
-
+        
         // Stop the barcode scanner
         await BarcodeScanner.stopScan();
     };
-
-    function handleData(){
-        
+    
+    function HandleStore(){
+        let sameGame = false;
+        $entriesSync.forEach((key) => {sameGame = (sameGame || (data["team"] == key["team"] && data["match"] == key["match"]))}) 
+        if (!sameGame) {
+            $entriesSync = $entriesSync.concat(data); 
+            console.log($entriesSync);
+        }
     }
 
-    function handleStore(){
-        
-    }
+
 </script>
 
 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-1 stroke-primary-heavy fill-[#666666] dark:stroke-none dark:fill-white scale-[1.2]" stroke="black" stroke-width="1" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" zoomAndPan="magnify" viewBox="0 0 224.87999 74.999997" height="100" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><g/><clipPath id="27b539f97f"><path d="M 123 32 L 224.761719 32 L 224.761719 49 L 123 49 Z M 123 32 " clip-rule="nonzero"/>
@@ -66,21 +81,15 @@
 {/if}
 
 {#if showModal}
-<Modal bind:showModal={showModal} showX={false}>
-    <h2 class="mb-2 text-2xl">Armazenar Dados?</h2>
-        <div class="box-border flex flex-row justify-between w-full">
-            <button on:click={handleStore} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">Sim</button>
-            <button on:click={() => {showModal = false; console.log(showModal)}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">Não</button>
-        </div>
-</Modal>
+    <Modal bind:showModal={showModal} showX={false}>
+        <h2 class="mb-2 text-2xl">Armazenar Dados?</h2>
+            <div class="box-border flex flex-row justify-between w-full">
+                <button on:click={HandleStore} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">Sim</button>
+                <button on:click={() => {showModal = false; console.log(showModal)}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">Não</button>
+            </div>
+    </Modal>
 {/if}
 
 <style lang="postcss">
-.barcode-scanning-active {
-  visibility: hidden;
-}
 
-.barcode-scanning-modal {
-  visibility: visible;
-}
 </style>
