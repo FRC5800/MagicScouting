@@ -6,10 +6,7 @@
 	export let showDataBase;
 	export let showX = true;
 
-	/**
-	 * @type {HTMLDialogElement}
-	 */
-	let dialog; // HTMLDialogElement
+	let dialog;
 
 	$: if (dialog && showModal) dialog.showModal();
 
@@ -94,9 +91,6 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 	i:hover {
 		text-shadow:

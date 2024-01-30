@@ -2,12 +2,12 @@
 	// @ts-nocheck
 
 	import '../.././app.css';
-	import { goto } from '$app/navigation';
-	import SelectInput from '$lib/components/SelectInput.svelte';
 	import { _ } from 'svelte-i18n'
+	import { App } from '@capacitor/app';
+	import { goto } from '$app/navigation';
 	import storeData from "$lib/shared/scripts/controlData.js";
     import ResetModal from '$lib/components/ResetModal.svelte';
-	import { App } from '@capacitor/app';
+	import SelectInput from '$lib/components/SelectInput.svelte';
 
 	let ampSpeakerStructure = [
 		{title: $_('teleop.speaker'), score: 0, miss: 0},
@@ -16,17 +16,14 @@
 	]
 
 	let TimerOptions = [
-		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: handleFloor },
-		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: handleSource}
+		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: () => {handleNoteCycle(floorCicle)} },
+		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: () => {handleNoteCycle(sourceCicle)}}
 	];
 	let selected_timer;
 	let showMoreTimers = 'hidden';
-
-	function handle_selection() {
-
-	}
 	let resetConfirmation = false;
-	App.addListener("backButton", ()=>{resetConfirmation = true;});
+
+	App.addListener("backButton", () => {resetConfirmation = true;});
 	
 	let highNoteOptions = [
 		{ id: '1', content: $_('teleop.high_notes.option1'), value: '-1' },
@@ -129,16 +126,19 @@
 		onstageCicle = 0;
 	}
 	
-	function handleFloor() {
-		floorCicle.push(Math.round(noteCicle*10)/10);
+	function handleNoteCycle(location){
+		location.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
-		console.log(floorCicle);
+		console.log(location);
 	}
-	function handleSource() {
-		sourceCicle.push(Math.round(noteCicle*10)/10);
-		noteCicle = 0;
-		console.log(sourceCicle);
-	}
+
+	// function handleNoteCycle(f() => {loorCicle)() {}
+	// }
+	// () => {function(sourceCicle)} handleSource() {
+	// 	sourceCicle.push(Math.round(noteCicle*10)/10);
+	// 	noteCicle = 0;
+	// 	console.log(sourceCicle);
+	// }
 	
 </script>
 <ResetModal resetConfirmation={resetConfirmation}/>
@@ -234,7 +234,7 @@
 			</div>
 
 			<div class="w-1/2">
-				<SelectInput options={TimerOptions} bind:opcaoSelecionada={selected_timer} showMore={showMoreTimers} componentId={'timers'} on:selection_updated={handle_selection} />
+				<SelectInput options={TimerOptions} bind:opcaoSelecionada={selected_timer} showMore={showMoreTimers} componentId={'timers'} />
 			</div>
 		</div>
 	</div>

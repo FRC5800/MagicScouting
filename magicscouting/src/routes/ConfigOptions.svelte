@@ -62,13 +62,6 @@
 		$locale = selected_language['value'];
 		window.localStorage.setItem('language', $locale);
 	}
-
-	function handleColorTheme() {
-		$colorTheme = selected_color;
-		// console.log($colorTheme)
-		// console.log(selected_color)
-		document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
-	}
 </script>
 
 <h1 class="text-2xl">{$_('home_page.settings.title')}</h1>

@@ -18,11 +18,10 @@
 	import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 
     const requestPermissions = async () => {
-    await BarcodeScanner.requestPermissions();
+    	await BarcodeScanner.requestPermissions();
     };
 	
 	async function onSubmit() {
-		console.log('aldawldmaodwmwmdk')
 		if(team_number == '' || match_number == '' || team_position == '') {
 			validationError = true;
 		}else {
