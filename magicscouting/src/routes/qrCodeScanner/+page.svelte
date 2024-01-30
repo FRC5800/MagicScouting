@@ -8,7 +8,7 @@
     import { App } from '@capacitor/app';
 
     
-    App.addListener("backButton", ()=>{showModal=false;if (!scanning) {goto('/')} else {stopScan()}});
+    $: App.addListener("backButton", ()=>{showModal=false; if (!scanning) {goto('/')} else {stopScan()}});
 
     let scanning = false;
     let data = {};
