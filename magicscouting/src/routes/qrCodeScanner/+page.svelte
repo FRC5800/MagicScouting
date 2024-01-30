@@ -8,8 +8,7 @@
     import { App } from '@capacitor/app';
 
     
-    if (!scanning) {App.addListener("backButton", ()=>{goto('/')});}
-    else {App.addListener("backButton", ()=>{stopScan()});}
+    App.addListener("backButton", ()=>{if (!scanning) {goto('/')} else {stopScan()}});
 
     let scanning = false;
     let data = {};
@@ -93,7 +92,7 @@
 <Modal bind:showModal={showModal} showX={false}>
     <h2 class="mb-2 text-2xl">Armazenar Dados?</h2>
     <div class="box-border flex flex-row justify-between w-full">
-        <button on:click={HandleStore} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">Sim</button>
+        <button on:click={HandleStore; showModal = false} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">Sim</button>
         <button on:click={() => {showModal = false; console.log(showModal)}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">Não</button>
     </div>
 </Modal>
