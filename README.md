@@ -1,18 +1,31 @@
 # Tutorial setup DB to MagicScouting DB
 
-1. First navigate to [https://docs.google.com/spreadsheets/](https://docs.google.com/spreadsheets/u/0/?tgif=d)
-2. Click create blank sheet
+Refazer o guia no stripe com imagens em inglês
+Fazer a página inicial do README
+Mudar o logo para SVG
+Criar um readme para cada página
+Pensar em uma estrutura de wiki
+Criar documentação sobre como fazer build do apk do código
+
+1. First navigate to [Navigate to https://docs.google.com/spreadsheets/d/1UJSpJfSC_g9Sw5jJv3QAlookCk0J1dQea8edINo33nU/edit#gid=0](Navigate to https://docs.google.com/spreadsheets/d/1UJSpJfSC_g9Sw5jJv3QAlookCk0J1dQea8edINo33nU/edit#gid=0)
+2. Click in "File"
 <div align="center">
   <br/>
   <img src="Images/DB-step-2.png" alt="Step 2" width="80%"/>
 </div>
-3. Click Extensions > App Scripts
+3. Click "Make a copy"
+<div align="center">
+  <br/>
+  <img src="Images/DB-step-6.png" alt="Step 6" width="80%"/>
+</div>
+
+4. Click Extensions > App Scripts
 <div align="center">
   <br/>
   <img src="Images/DB-step-3.png" alt="Step 3" width="80%"/>
 </div>
-4. In a new tab, navigate to https://github.com/FRC5800/MagicScouting
-<br/><br/>
+5. In a new tab, navigate to https://github.com/FRC5800/MagicScouting
+   <br/><br/>
 6. Click "[AppScriptDB.gs](http://AppScriptDB.gs)"
 <div align="center">
   <br/>
@@ -76,5 +89,5 @@
 18. Click in the 3 bars in the top left, click "database" and then paste the url
 <div align="center">
   <br/>
-  <img src="Images/DB-step-8.png" alt="Step 18" width="80%"/>
+  <img src="Images/DB-step-18.png" alt="Step 18" width="80%"/>
 </div>
