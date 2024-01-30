@@ -5,7 +5,7 @@
     export let options = instance_options.options;
     export let name = instance_options.name;
     export let content = instance_options.content;
-    export let selectedOption = '';
+    export let selectedOption = false;
     export let width = '';
 </script>
 

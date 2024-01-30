@@ -13,21 +13,21 @@
         name : "atk",
         options: [{id: 0, value: false}, {id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
 
     let defesa = {
         name : "def",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
 
     let suporte = {
         name : "sup",
         options: [{ id: 0, value: false}, { id: 1, value: true}],
         content: [$_('info.no'), $_('info.yes')],
-        selected: 'undefined'
+        selected: false
     }
     // function storeData(payload) {
 	// 	for (var key in payload) {
