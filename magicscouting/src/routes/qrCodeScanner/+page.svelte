@@ -8,7 +8,7 @@
 
     let scanning = false;
     let data = {};
-    $: showModal = data == '' ? false : true;
+    $: showModal = Object.keys(data).length == 0 ? false : true;
 
     let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
     let validQr = true;
@@ -58,6 +58,7 @@
             $entriesSync = $entriesSync.concat(data); 
             console.log($entriesSync);
         }
+        data = {};
     }
 
 
