@@ -40,20 +40,24 @@
     let uploadSuccess = 'undefined';
     let buttonText = "Upload";
     async function HandleUpload(){
-        uploadDisabled = true;
-        let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
-        let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
-        clearInterval(animation);
-        console.log(response)
-        if (response.result == "success"){
-            buttonColor = "dark:bg-green-600 bg-green-600 ";
-            HandleDelete();
-            buttonText = "Uploaded";
-            uploadSuccess = true;
-        }else{
-            buttonColor = "dark:bg-red-600 bg-red-600 ";
-            buttonText = "Failed";
-            uploadSuccess = false;
+        try{
+            uploadDisabled = true;
+            let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
+            let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
+            clearInterval(animation);
+            console.log(response)
+            if (response.result == "success"){
+                buttonColor = "dark:bg-green-600 bg-green-600 ";
+                HandleDelete();
+                buttonText = "Uploaded";
+                uploadSuccess = true;
+            }else{
+                buttonColor = "dark:bg-red-600 bg-red-600 ";
+                buttonText = "Failed";
+                uploadSuccess = false;
+            }
+        }catch(e){
+            alert(e);
         }
     } 
     function HandleDelete(){                
