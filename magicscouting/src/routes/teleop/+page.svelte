@@ -51,11 +51,11 @@
 
 	function onSubmit() {
 		storeData({
-			 	"teleopAmpScore": ampScoreTeleop,
-				"teleopAmpMiss": ampMissTeleop,
-				"teleopSpeakerScore": speakerScoreTeleop,
-				"teleopSpeakerMiss": speakerMissTeleop,
-				"speakerAmplifiedScore":speakerAmplifiedScore,
+			 	"teleopAmpScore": ampSpeakerStructure[2]["score"],
+				"teleopAmpMiss": ampSpeakerStructure[2]["miss"],
+				"teleopSpeakerScore": ampSpeakerStructure[0]["score"],
+				"teleopSpeakerMiss": ampSpeakerStructure[0]["miss"],
+				"speakerAmplifiedScore":ampSpeakerStructure[1]["score"],
 				"trapStatus":selected_trap.value,
 				"onStageStatus": selected_chain.value,
 				"onStageTime": onstageCicle,
@@ -161,7 +161,7 @@
 			<div class="w-1/2 p-1">
 				<div class="flex flex-col items-center containerBox">
 					<div class="title">
-						<h4>{item.title}</h4>
+						<h5 class="font-semibold">{item.title}</h5>
 					</div>
 					<div class="flex flex-row justify-around w-full">
 						<div class="plusMinusBlock">

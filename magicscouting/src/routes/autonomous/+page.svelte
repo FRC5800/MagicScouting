@@ -48,7 +48,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					if (speakerScoreAuto != 0) speakerScoreAuto -= 1;
+					speakerScoreAuto = Math.max(speakerScoreAuto-1,0);
 				}}>-</button
 			>
 			<p>{speakerScoreAuto}</p>
@@ -64,7 +64,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					if (speakerMissAuto != 0) speakerMissAuto -= 1;
+					speakerMissAuto = Math.max(speakerMissAuto-1,0);
 				}}>-</button
 			>
 			<p>{speakerMissAuto}</p>
@@ -87,7 +87,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					if (ampScoreAuto != 0) ampScoreAuto -= 1;
+					ampScoreAuto = Math.max(ampScoreAuto-1,0);
 				}}>-</button
 			>
 			<p>{ampScoreAuto}</p>
@@ -103,7 +103,7 @@
 			<button
 				class="points"
 				on:click={() => {
-					if (ampMissAuto != 0) ampMissAuto -= 1;
+					ampMissAuto = Math.max(ampMissAuto-1, 0);
 				}}>-</button
 			>
 			<p>{ampMissAuto}</p>
