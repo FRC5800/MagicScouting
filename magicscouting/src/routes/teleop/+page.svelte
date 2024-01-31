@@ -6,6 +6,8 @@
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import { _ } from 'svelte-i18n'
 	import storeData from "$lib/shared/scripts/controlData.js";
+    import ResetModal from '$lib/components/ResetModal.svelte';
+	import { App } from '@capacitor/app';
 
 	let ampSpeakerStructure = [
 		{title: $_('teleop.speaker'), score: 0, miss: 0},
@@ -21,6 +23,12 @@
 	let showMoreTimers = 'hidden';
 
 
+	function handle_selection() {
+
+	}
+	let resetConfirmation = false;
+	App.addListener("backButton", ()=>{resetConfirmation = true;});
+	
 	let highNoteOptions = [
 		{ id: '1', content: $_('teleop.high_notes.option1'), value: '-1' },
 		{ id: '2', content: $_('teleop.high_notes.option2'), value: '0' },
@@ -45,14 +53,14 @@
 		{ id: '3', content: $_('teleop.trap.option3'), value: '1' }
 	];
 	let showMoreTrap = 'hidden';
-
+	
 	function onSubmit() {
 		storeData({
-			 	"teleopAmpScore": ampScoreTeleop,
-				"teleopAmpMiss": ampMissTeleop,
-				"teleopSpeakerScore": speakerScoreTeleop,
-				"teleopSpeakerMiss": speakerMissTeleop,
-				"speakerAmplifiedScore":speakerAmplifiedScore,
+			 	"teleopAmpScore": ampSpeakerStructure[2]["score"],
+				 "teleopAmpMiss": ampSpeakerStructure[2]["miss"],
+				"teleopSpeakerScore": ampSpeakerStructure[0]["score"],
+				"teleopSpeakerMiss": ampSpeakerStructure[0]["miss"],
+				"speakerAmplifiedScore":ampSpeakerStructure[1]["score"],
 				"trapStatus":selected_trap.value,
 				"onStageStatus": selected_chain.value,
 				"onStageTime": onstageCicle,
@@ -62,21 +70,11 @@
 				});
 		goto('/info');
 	}
-
+	
 	let selected_chain;
 	let selected_highNote;
 	let selected_trap;
-
-
-	//VARIAVEIS DE SPEAKER
-	let speakerScoreTeleop = 0;
-	let speakerMissTeleop = 0;
-	let speakerAmplifiedScore = 0;
-
-	//VARIAVEIS DE AMP
-	let ampScoreTeleop = 0;
-	let ampMissTeleop = 0;
-
+	
 	//note cicle timer
 	let noteTimer;
 	let noteCicle = 0;
@@ -103,9 +101,8 @@
 		pauseNoteCicle = '';
 		clearInterval(noteTimer);
 		console.log(noteCicle);
-		askType = true;
-
-		selected_timer.handler();		
+		
+		selected_timer.handler()
 	}
 	function discartNoteCicle() {
 		noteCicleCouting = false;
@@ -113,11 +110,12 @@
 		clearInterval(noteTimer);
 		noteCicle = 0;
 	}
-
+	
 	function startOnstageCicle() {
 		onstageCicleCouting = true;
+		onstageCicle = 0;
 		onstageTimer = setInterval(() => {
-			if(pauseOnstageCicle != 'paused') onstageCicle += 0.1;
+			if(pauseOnstageCicle != 'paused') onstageCicle = Math.round((onstageCicle+0.1)*10)/10;
 		}, 100);
 	}
 	function stopOnstageCicle() {
@@ -125,7 +123,6 @@
 		pauseOnstageCicle = '';
 		clearInterval(onstageTimer);
 		console.log(onstageCicle);
-		handleOnstage()
 	}
 	function discartOnstageCicle() {
 		onstageCicleCouting = false;
@@ -133,7 +130,7 @@
 		clearInterval(onstageTimer);
 		onstageCicle = 0;
 	}
-
+	
 	function handleFloor() {
 		floorCicle.push(Math.round(noteCicle*10)/10);
 		noteCicle = 0;
@@ -146,11 +143,9 @@
 		console.log(sourceCicle);
 		askType = false;
 	}
-	function handleOnstage() {
-		onstageCicle = 0;
-	}
-
+	
 </script>
+<ResetModal resetConfirmation={resetConfirmation}/>
 
 <main class="mt-[3vh] dark:text-white text-neutral-600">
 	<h1 class="text-4xl font-[Lucida Sans]">{$_('teleop.title')}</h1>
@@ -162,7 +157,7 @@
 			<div class="w-1/2 p-1">
 				<div class="flex flex-col items-center containerBox">
 					<div class="title">
-						<h4>{item.title}</h4>
+						<h5 class="font-semibold">{item.title}</h5>
 					</div>
 					<div class="flex flex-row justify-around w-full">
 						<div class="plusMinusBlock">
@@ -346,7 +341,7 @@
 					
 					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCicle()}} on:click={stopOnstageCicle} class="w-3/12 bg-green-700 text-center text-[1.8rem] fa-solid fa-check"></i>
 					
-					<i on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 bg-red-600 text-center text-[1.6rem]"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}

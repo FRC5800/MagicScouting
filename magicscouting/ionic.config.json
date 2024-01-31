@@ -1,0 +1,7 @@
+{
+  "name": "magicscouting",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

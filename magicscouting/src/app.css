@@ -63,4 +63,8 @@
 		margin: 15px 0;
 		width: 80%;
 	}
+
+	.barcode-scanning-active {
+		visibility: hidden;
+	}
 }
