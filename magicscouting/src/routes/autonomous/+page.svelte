@@ -32,7 +32,7 @@
 	let resetConfirmation = false;
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
 </script>
-<ResetModal resetConfirmation={resetConfirmation}/>
+<ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <section class="text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<h1 class="text-4xl header">{$_('autonomous.title')}</h1>

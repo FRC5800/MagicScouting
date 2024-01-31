@@ -2,7 +2,7 @@
 // @ts-nocheck
 
     import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
-	import Modal from "../Modal.svelte";
+    import Modal from '$lib/components/Modal.svelte';
 	import { goto } from "$app/navigation";
 	import entriesSync from "../../lib/shared/stores/toSyncData";
     import { App } from '@capacitor/app';

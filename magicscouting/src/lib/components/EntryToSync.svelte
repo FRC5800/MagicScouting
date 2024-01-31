@@ -3,7 +3,7 @@
 
     import QRCode from "qrcode";
     import TrashCan from '$lib/components/TrashCan.svelte'
-    import Modal from '../../routes/Modal.svelte';
+    import Modal from '$lib/components/Modal.svelte';
 	import entriesSync from "../shared/stores/toSyncData";
     import { _ } from "svelte-i18n";
     import dataBase from "$lib/shared/stores/dataBase";

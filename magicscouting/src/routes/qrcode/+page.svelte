@@ -8,7 +8,7 @@
 	import entriesSync from "../../lib/shared/stores/toSyncData";
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
-	import Modal from '../Modal.svelte';
+    import Modal from '$lib/components/Modal.svelte';
     import { App } from '@capacitor/app';
 
     let payload = {};
@@ -135,7 +135,7 @@
 
 <button class="min-w-[50vw] rounded-3xl m-0 w-fit btn" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
 
-<ResetModal resetConfirmation={resetConfirmation}/>
+<ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <style lang="postcss">
     .disabled{

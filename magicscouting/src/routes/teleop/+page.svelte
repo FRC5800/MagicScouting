@@ -141,7 +141,7 @@
 	// }
 	
 </script>
-<ResetModal resetConfirmation={resetConfirmation}/>
+<ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <main class="mt-[3vh] dark:text-white text-neutral-600">
 	<h1 class="text-4xl font-[Lucida Sans]">{$_('teleop.title')}</h1>

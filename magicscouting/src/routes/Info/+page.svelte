@@ -46,7 +46,8 @@
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
 
 </script>
-<ResetModal resetConfirmation={resetConfirmation}/>
+
+<ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <h2 class="pt-4 pb-2 mt-4">{$_('info.attack_title')}</h2>
 <InfoSelect instance_options={ataque} bind:selectedOption={ataque.selected} width={'20vw'} />

@@ -5,7 +5,7 @@
 	import '$lib/assets/App_Title.svg';
 
 	import MenuBar from './MenuBar.svelte';
-	import Modal from './Modal.svelte';
+    import Modal from '$lib/components/Modal.svelte';
 	import MenuOptions from './MenuOptions.svelte';
 	import ConfigOptions from './ConfigOptions.svelte';
 
