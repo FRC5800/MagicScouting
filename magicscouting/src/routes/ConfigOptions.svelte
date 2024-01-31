@@ -11,7 +11,7 @@
 		{ id: '2', content: 'Português (Brasil)', value: 'pt' }
 	];
 
-	let themes = [
+	$: themes = [
 		{ id: '1', content: $_('home_page.settings.option_theme.option_light'), value: 'light' },
 		{ id: '2', content: $_('home_page.settings.option_theme.option_dark'), value: 'dark' },
 		{ id: '3', content: $_('home_page.settings.option_theme.option_system'), value: 'system' }

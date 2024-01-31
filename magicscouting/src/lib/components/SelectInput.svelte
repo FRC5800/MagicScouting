@@ -13,7 +13,7 @@
 	 * @type {{ content: any; id?: string; value?: string; }}
 	 */
 	 export let opcaoSelecionada = options[0];
-	if(inicialOption != '') {
+	$: if(inicialOption != '') {
 		console.log(inicialOption)
 		// @ts-ignore
 		options.forEach((option) => {if (option['value'] == inicialOption) opcaoSelecionada = option })
