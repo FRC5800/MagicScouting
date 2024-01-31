@@ -94,7 +94,7 @@
 					>{$_('home_page.alliance.title')}: {alliance}</span
 				>
 			</label>
-		</div>
+		</div> 
 
 		<div class="">
 			<label for="team_number" class="home-label in">{$_('home_page.team_number')}</label>

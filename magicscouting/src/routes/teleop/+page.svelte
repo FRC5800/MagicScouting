@@ -22,6 +22,11 @@
 
 	let selected_timer;
 	let showMoreTimers = 'hidden';
+
+
+	function handle_selection() {
+
+	}
 	let resetConfirmation = false;
 
 	App.addListener("backButton", () => {resetConfirmation = true;});
@@ -77,6 +82,7 @@
 	let noteCicle = 0;
 	let pauseNoteCicle = '';
 	let noteCicleCouting = false;
+	let askType = false;
 	let floorCicle = [];
 	let sourceCicle = [];
 
@@ -177,8 +183,7 @@
 									on:click={() => {
 										item.miss != null ? item.miss += 1 : ampSpeakerStructure[0].miss += 1;
 									}}
-									class="points">+</button
-								>
+									class="points">+</button>
 								<button
 									on:click={() => {
 										if (item.miss != null) {
@@ -200,7 +205,48 @@
 		<br />
 		<div class="flex flex-col items-center justify-between cicle">
 			<h4>{$_('teleop.note_cycle.title')}</h4>
-			<div class="flex flex-col items-center justify-center w-full">
+
+			<div class=""><b>{noteCicle.toFixed(1)}</b></div>
+
+			<div class="">
+				{#if !noteCicleCouting && !askType}
+				<div role="button" on:keydown={(e) => {if (e.key == "Enter") startNoteCicle()}} on:click={startNoteCicle} class="startCicle">
+					<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
+				</div>
+				
+				{:else if !noteCicleCouting && askType}
+
+				<div class="flex items-center">
+					
+				<button on:click={handleFloor} class="dark:bg-grey-heavy px-2 rounded-lg w-16 mx-2" >{$_('teleop.note_cycle.option_floor')}</button>
+				<button on:click={handleSource} class="dark:bg-grey-heavy px-2 rounded-lg w-16 mx-2">{$_('teleop.note_cycle.option_source')}</button>
+
+				</div>
+				
+				
+				{:else} 
+
+				<div class="flex flex-row items-center justify-between  h-full p-2 cursor-pointer border-[3px] border-[#494462] rounded-xl">
+					<i 
+					role="button" tabindex="0"
+					on:keydown={(e) => {if(e.key == "Enter") pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
+					on:click={() => {pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
+					class="w-3/12 text-center {pauseNoteCicle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
+					</i>
+					
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopNoteCicle()}} on:click={stopNoteCicle} class="w-3/12 bg-green-600 text-center text-[1.8rem] fa-solid fa-check"></i>
+					
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartNoteCicle()}} on:click={discartNoteCicle} class="fa-solid  bg-red-600 fa-x w-3/12 text-center text-[1.6rem]"></i>
+				
+				</div>
+
+
+
+				{/if}
+			
+
+
+			<!--<div class="flex flex-col items-center justify-center w-full">
 				<div class="flex flex-row items-center border-[3px] border-[#494462] rounded-xl {!noteCicleCouting ? 'justify-between w-4/5' : 'justify-center w-1/3 border-b-0 rounded-b-none	'} overflow-auto">
 					<div class="text-center {!noteCicleCouting ? 'border-r border-black w-1/2' : ''}">
 						<p class="{!noteCicleCouting ? 'p-2' : ''}"><b> {noteCicle.toFixed(1)} </b></p>
@@ -225,7 +271,7 @@
 						<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartNoteCicle()}} on:click={discartNoteCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
 					</div>
 				{/if}
-			</div>
+			</div>-->
 
 			<div class="w-1/2">
 				<SelectInput options={TimerOptions} bind:opcaoSelecionada={selected_timer} showMore={showMoreTimers} componentId={'timers'} />
@@ -268,6 +314,8 @@
 
 	<div class="flex flex-col items-center justify-center cicleOnstage">
 		<h4 class="time-onstage-title">{$_('teleop.onstage_cycle.title')}</h4>
+
+
 		<div class="flex flex-row items-center justify-between w-4/5 overflow-auto border-[3px] border-[#494462] rounded-xl">
 			<div class="w-1/2 text-center border-r border-black">
 				<p class="p-2"><b> {onstageCicle.toFixed(1)} </b></p>
@@ -286,13 +334,14 @@
 					class="w-3/12 text-center text-[1.7rem] {pauseOnstageCicle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
 					</i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCicle()}} on:click={stopOnstageCicle} class="w-3/12 text-center text-[1.8rem] fa-solid fa-check"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCicle()}} on:click={stopOnstageCicle} class="w-3/12 bg-green-700 text-center text-[1.8rem] fa-solid fa-check"></i>
 					
 					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}
 		</div>
+
 		<button on:click={onSubmit} class="w-2/3 p-2 mt-8 btn">{$_('teleop.continue_button')}</button>
 	</div>
 
@@ -318,6 +367,12 @@
 	}
 	p {
 		text-align: center;
+	}
+	i {
+		margin-left: 4px;
+		margin-right: 4px;
+		padding-left: 3px;
+		padding-right: 3px;
 	}
 	.label-endgame {
 		text-align: center;
@@ -350,7 +405,7 @@
 		@apply w-1/2 min-h-[150px];
 	}
 	.startCicle{
-		@apply  w-1/2 h-full p-2 border-l cursor-pointer hover:bg-primary-base border-neutral-300;
+		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base;
 	}
 
 	.separator {
