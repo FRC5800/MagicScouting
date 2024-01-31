@@ -3,7 +3,9 @@
 
     import { _ } from "svelte-i18n";
     import { goto } from '$app/navigation';
-    import Modal from '$lib/components/Modal.svelte';
+    
+	import Modal from '$lib/components/Modal.svelte';
+	
 	export let resetConfirmation = true;
 
 	$: console.log(resetConfirmation);

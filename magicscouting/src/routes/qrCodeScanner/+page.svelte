@@ -1,13 +1,14 @@
 <script>
 // @ts-nocheck
 
-    import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
-    import Modal from '$lib/components/Modal.svelte';
-	import { goto } from "$app/navigation";
-	import entriesSync from "../../lib/shared/stores/toSyncData";
-    import { App } from '@capacitor/app';
     import { _ } from 'svelte-i18n'
+    import { App } from '@capacitor/app';
+	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
+    import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
+    
+    import Modal from '$lib/components/Modal.svelte';
+	import entriesSync from "../../lib/shared/stores/toSyncData";
 
     
     $: App.addListener("backButton", ()=>{showModal=false; if (!scanning) {goto('/')} else {stopScan()}});

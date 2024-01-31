@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
 			enabled: true
 		}
 	},
-	appId: 'com.example.app',
+	appId: 'com.magicscouting.app',
 	appName: 'MagicScouting',
 	webDir: 'build',
 	server: {

@@ -2,12 +2,14 @@
 // @ts-nocheck
 
     import "../../app.css";
-    import InfoSelect from "./infoSelect.svelte";
-    import { goto } from '$app/navigation';
-    import ResetModal from '$lib/components/ResetModal.svelte';
+    
     import { _ } from 'svelte-i18n';
 	import { App } from '@capacitor/app';
+    import { goto } from '$app/navigation';
+    
     import storeData from "$lib/shared/scripts/controlData.js";
+    import InfoSelect from "./infoSelect.svelte";
+    import ResetModal from '$lib/components/ResetModal.svelte';
 
     let ataque = {
         name : "atk",
@@ -29,11 +31,6 @@
         content: [$_('info.no'), $_('info.yes')],
         selected: false
     }
-    // function storeData(payload) {
-	// 	for (var key in payload) {
-	// 		localStorage.setItem(key, payload[key]);
-	// 	}
-	// }
 
     function onSubmit(){
         let payload = JSON.stringify([(ataque.selected ? "Attack" : ""), (defesa.selected ? "Defense" : ""), (suporte.selected ? "Support" : "")].filter((x) => {return x!=""})).replaceAll("[", "").replaceAll("]", "").replaceAll("\"", ""); 

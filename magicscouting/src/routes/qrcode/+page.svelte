@@ -1,44 +1,46 @@
 <script>
 // @ts-nocheck
 
-    import QRCode from 'qrcode'
-	import { onMount } from 'svelte';
-    import { _ } from 'svelte-i18n'
+    import { _ } from 'svelte-i18n';
+    import { App } from '@capacitor/app';
     import { goto } from '$app/navigation';
-	import entriesSync from "../../lib/shared/stores/toSyncData";
+    import { onMount } from 'svelte';
+    
+    import QRCode from 'qrcode';
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
-    import Modal from '$lib/components/Modal.svelte';
-    import { App } from '@capacitor/app';
-
+    import entriesSync from "../../lib/shared/stores/toSyncData";
+    
     let payload = {};
     let appData;
     
     let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
     
-    function getData(key){
-        return localStorage.getItem(key);
-    }
-
-    onMount(() => {
-        keys.forEach((key)=>{payload[key] = getData(key)});
-        
-        appData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
-
-        QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
-    })
-
+    
     var src = '';
-
+    
     let showQrCode = false;
     let uploadStatus = 'Upload'
     let stored = false;
     let buttonColor;
     let uploadDisabled = false;
     let resetConfirmation = false;
-
-	App.addListener("backButton", ()=>{resetConfirmation = true;});
     
+    
+    App.addListener("backButton", ()=>{resetConfirmation = true;});
+    
+    function getData(key){
+        return localStorage.getItem(key);
+    }
+    
+    onMount(() => {
+        keys.forEach((key)=>{payload[key] = getData(key)});
+        
+        appData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
+    
+        QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
+    })
+
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
@@ -63,26 +65,33 @@
             return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
         }
     } 
-
+    
     function updateQr() {
         QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {
         src = url;
     })
-    } 
+} 
 
-    async function HandleUpload(){
+
+async function HandleUpload(){
         uploadDisabled = true;
-        let animation = setInterval(() => {uploadStatus = uploadStatus == "Uploading..." ? "Uploading" : uploadStatus == "Uploading.." ? "Uploading..." : uploadStatus == "Uploading." ? "Uploading.." :uploadStatus == "Uploading" ? "Uploading." : "Uploading...";}, 200);
+
+        let dotsAnimation = "";
+        let animation = setInterval(() => {dotsAnimation = dotsAnimation == "..." ? "" : dotsAnimation == ".." ? "..." : dotsAnimation == "." ? ".." :dotsAnimation == "" ? "." : "..."; uploadStatus = "Uploading" + dotsAnimation}, 200);
+        
         let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
+        
         clearInterval(animation)
+        
         console.log(response)
+        
         if (response.result == "success"){
             uploadStatus = 'Uploaded'
             buttonColor = "dark:bg-green-600 bg-green-600 dark:hover:bg-green-600";
         }else{
             uploadStatus = 'Failure';
             buttonColor = "dark:bg-red-600 bg-red-600 dark:hover:bg-red-600";
-            HandleStore();   
+            HandleStore();
         }
         
     } 
