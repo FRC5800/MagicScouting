@@ -87,13 +87,21 @@
         
     } 
 
+    function CheckRepeatedGame(newGame, games){
+        for (game in games){
+            if (newGame["team"] == game["team"] && newGame["match"] == game["match"]){
+                return true;
+            }
+        }
+        return false;
+    }
+
     function HandleStore(){
-        let sameGame = false;
-        $entriesSync.forEach((key) => {sameGame = (sameGame || (payload["team"] == key["team"] && payload["match"] == key["match"]))}) 
-        if (!sameGame) {
+        if (!CheckRepeatedGame(payload, $entriesSync)) {
             $entriesSync = $entriesSync.concat(payload); 
             console.log($entriesSync);
         }
+        payload = {};
     }
 
     function HandleReset(){

@@ -19,6 +19,7 @@
 		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: () => {handleNoteCycle(floorCicle)} },
 		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: () => {handleNoteCycle(sourceCicle)}}
 	];
+
 	let selected_timer;
 	let showMoreTimers = 'hidden';
 	let resetConfirmation = false;
@@ -132,13 +133,6 @@
 		console.log(location);
 	}
 
-	// function handleNoteCycle(f() => {loorCicle)() {}
-	// }
-	// () => {function(sourceCicle)} handleSource() {
-	// 	sourceCicle.push(Math.round(noteCicle*10)/10);
-	// 	noteCicle = 0;
-	// 	console.log(sourceCicle);
-	// }
 	
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
