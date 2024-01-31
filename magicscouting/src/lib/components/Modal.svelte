@@ -2,8 +2,8 @@
 // @ts-nocheck
 
 	export let showModal;
-	export let showConfig;
-	export let showDataBase;
+	export let showConfig = false;
+	export let showDataBase = false;
 	export let showX = true;
 
 	let dialog;
