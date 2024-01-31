@@ -55,8 +55,10 @@
 		"stop_button": "Parar",
 		"confirmation_modal": {
 			"title": "Armazenar Dados?",
-			"yes_button": "Sim",
-			"no_button": "Não"
+			"option_yes": "Sim",
+			"option_no": "Não",
+			"success_alert": "armazenado",
+			"failure_alert": "!Dados Repetidos!"
 		}
 	},
 	"storage": {

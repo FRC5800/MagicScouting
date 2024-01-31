@@ -55,8 +55,10 @@
 		"stop_button": "Stop",
 		"confirmation_modal": {
 			"title": "Store Data?",
-			"yes_button": "Yes",
-			"no_button": "No"
+			"option_yes": "Yes",
+			"option_no": "No",
+			"success_alert": "Stored",
+			"failure_alert": "Repeated Data"
 		}
 	},
 	"storage": {

@@ -15,6 +15,7 @@
 
     let scanning = false;
     let data = {};
+    let stored = '';
     $: showModal = false;
     $: console.log(showModal)
 
@@ -88,7 +89,6 @@
         data = {};
     }
 
-
 </script>
 
 <h1 class="text-red-600">{$_('scanner.title')}</h1>
@@ -105,15 +105,19 @@
     <button on:click={stopScan} class="btn visible absolute bottom-[10%] w-[60%]">{$_('scanner.stop_button')}</button>
 {/if}
 
-{#if showModal}
     <Modal bind:showModal={showModal} showX={false}>
-        <h2 class="mb-2 text-2xl">{$_('scanner.confirmation_modal.title')}</h2>
-        <div class="box-border flex flex-row justify-between w-full">
-            <button on:click={() => {HandleStore(); showModal = false}} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">{$_('scanner.confirmation_modal.option_yes')}</button>
-            <button on:click={() => {showModal = false; console.log(showModal)}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">{$_('scanner.confirmation_modal.option_no')}</button>
-        </div>
+        {#if stored == ''}
+            <h2 class="mb-2 text-2xl">{$_('scanner.confirmation_modal.title')}</h2>
+            <div class="box-border flex flex-row justify-between w-full">
+                <button on:click={() => {HandleStore(() => {stored = 'success'; setTimeout(() => {stored = ''; showModal = false}, 1000)}, () => {stored = 'failure'; setTimeout(() => {stored = ''; showModal = false}, 1000)})}} class="w-[45%] p-2 shadow-md shadow-black bg-white active:shadow-inner text-black rounded-md">{$_('scanner.confirmation_modal.option_yes')}</button>
+                <button on:click={() => {showModal = false; console.log(showModal)}} class="w-[45%] p-2 shadow-md shadow-black bg-white text-black rounded-md active:shadow-inner">{$_('scanner.confirmation_modal.option_no')}</button>
+            </div>
+        {:else if stored == 'success'}
+            <h2 class="mb-2 text-2xl text-green-500">{$_('scanner.confirmation_modal.success_alert')}</h2>
+        {:else if stored == 'failure'}
+        <h2 class="mb-2 text-2xl text-red-500">{$_('scanner.confirmation_modal.title.failure_alert')}</h2>
+        {/if}
     </Modal>
-{/if}
 
 <style lang="postcss">
 

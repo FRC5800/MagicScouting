@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">magicscouting</string>
     <string name="title_activity_main">magicscouting</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="package_name">com.magicscouting.app</string>
+    <string name="custom_url_scheme">com.magicscouting.app</string>
 </resources>
