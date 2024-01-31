@@ -47,6 +47,18 @@
 			"menu_button": "Go to menu"
 		}
 	},
+	"scanner": {
+		"title": "QR Code Scanner",
+		"message": "Use this scanner to scan the match QR Codes. Click \"scan\" to turn on the camera.",
+		"note": "Note: Avoid multiple QR Codes at the same time during the scanner.",
+		"scan_button": "Scan",
+		"stop_button": "Stop",
+		"confirmation_modal": {
+			"title": "Store Data?",
+			"yes_button": "Yes",
+			"no_button": "No"
+		}
+	},
 	"storage": {
 		"title": "Storage",
 		"empty_message": "There're no stored matches!",

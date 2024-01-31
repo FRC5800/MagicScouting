@@ -47,6 +47,18 @@
 			"menu_button": "Ir para menu"
 		}
 	},
+	"scanner": {
+		"title": "QR Code Scanner",
+		"message": "Scanner usado para escanear os QR Codes da partida. Clique em escanear para ligar a câmera.",
+		"note": "Observação: Evite colocar diversos QR Codes ao mesmo tempo durante o scanner.",
+		"scan_button": "Escanear",
+		"stop_button": "Parar",
+		"confirmation_modal": {
+			"title": "Armazenar Dados?",
+			"yes_button": "Sim",
+			"no_button": "Não"
+		}
+	},
 	"storage": {
 		"title": "Armazenamento",
 		"empty_message": "Nenhuma partida armazenada!",
