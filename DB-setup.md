@@ -4,7 +4,6 @@ Refazer o guia no stripe com imagens em inglês
 Fazer a página inicial do README
 Mudar o logo para SVG
 Criar um readme para cada página
-Pensar em uma estrutura de wiki
 Criar documentação sobre como fazer build do apk do código
 
 1. Navigate to <https://docs.google.com/spreadsheets/d/1UJSpJfSC_g9Sw5jJv3QAlookCk0J1dQea8edINo33nU/edit#gid=0>
