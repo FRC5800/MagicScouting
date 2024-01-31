@@ -9,6 +9,7 @@
 	let dialog;
 
 	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && !showModal) dialog.close();
 
 	function handleClose() {
 		showModal = false;
