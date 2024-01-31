@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.9' encoding='utf-8'?>
 <resources>
-    <string name="app_name">magicscouting</string>
-    <string name="title_activity_main">magicscouting</string>
+    <string name="app_name">Magic Scouting</string>
+    <string name="title_activity_main">Magic Scouting</string>
     <string name="package_name">com.magicscouting.app</string>
     <string name="custom_url_scheme">com.magicscouting.app</string>
 </resources>
