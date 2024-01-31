@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.app",
+  "applicationId": "com.magicscouting.app",
   "variantName": "release",
   "elements": [
     {

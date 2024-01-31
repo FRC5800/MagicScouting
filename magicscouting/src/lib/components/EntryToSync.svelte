@@ -1,17 +1,19 @@
 <script>
 // @ts-nocheck
-
-    import QRCode from "qrcode";
-    import TrashCan from '$lib/components/TrashCan.svelte'
-    import Modal from '../../routes/Modal.svelte';
-	import entriesSync from "../shared/stores/toSyncData";
     import { _ } from "svelte-i18n";
+    
+    import Modal from '$lib/components/Modal.svelte';
+    import QRCode from "qrcode";
     import dataBase from "$lib/shared/stores/dataBase";
+    import TrashCan from '$lib/components/TrashCan.svelte'
+	import entriesSync from "../shared/stores/toSyncData";
 
     export let payload = {"team":5800, "match":2};
+    
     let src = ''
 
     let showQrCode = false
+
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
@@ -24,7 +26,7 @@
             let sourceAverage = sourceTimes.length > 0 ? sourceTimes.reduce((a, b) => a + b, 0) / sourceTimes.length : 0;
             let floorAverage = floorTimes.length > 0 ? floorTimes.reduce((a, b) => a + b, 0) / floorTimes.length : 0;
             
-            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": Math.round(sourceAverage*10)/10, "floorAverage":Math.round(floorAverage*10)/10})),{
+            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
@@ -32,28 +34,35 @@
 
             });
         }catch (e) {
-            return false;
+            console.log(e);
+            return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
         }
-    }   
+    } 
+    
     let buttonColor = ""
     let uploadDisabled = false;
     let uploadSuccess = 'undefined';
     let buttonText = "Upload";
+
     async function HandleUpload(){
-        uploadDisabled = true;
-        let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
-        let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
-        clearInterval(animation);
-        console.log(response)
-        if (response.result == "success"){
-            buttonColor = "dark:bg-green-600 bg-green-600 ";
-            HandleDelete();
-            buttonText = "Uploaded";
-            uploadSuccess = true;
-        }else{
-            buttonColor = "dark:bg-red-600 bg-red-600 ";
-            buttonText = "Failed";
-            uploadSuccess = false;
+        try{
+            uploadDisabled = true;
+            let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
+            let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
+            clearInterval(animation);
+            console.log(response)
+            if (response.result == "success"){
+                buttonColor = "dark:bg-green-600 bg-green-600 ";
+                HandleDelete();
+                buttonText = "Uploaded";
+                uploadSuccess = true;
+            }else{
+                buttonColor = "dark:bg-red-600 bg-red-600 ";
+                buttonText = "Failed";
+                uploadSuccess = false;
+            }
+        }catch(e){
+            alert(e);
         }
     } 
     function HandleDelete(){                

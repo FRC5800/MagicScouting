@@ -1,38 +1,35 @@
 <script>
 	import '../.././app.css';
-	import { goto } from '$app/navigation';
-	import speaker from '$lib/assets/speaker.png';
-	import amp from '$lib/assets/amp.png';
-	import { _ } from 'svelte-i18n';
-    import ResetModal from '$lib/components/ResetModal.svelte';
-	import storeData from "$lib/shared/scripts/controlData.js";
-	import { App } from '@capacitor/app';
 
-	function onSubmit() {
-		storeData({"autoAmpScore": ampScoreAuto, "autoAmpMiss": ampMissAuto, "autoSpeakerScore": speakerScoreAuto, "autoSpeakerMiss": speakerMissAuto, "isLeave": leave ? 1 : 0});
-		goto('/teleop');
-	}
-	let points = 0;
+	import { _ } from 'svelte-i18n';
+	import { App } from '@capacitor/app';
+	import { goto } from '$app/navigation';
+	
+	import amp from '$lib/assets/amp.png';
+	import speaker from '$lib/assets/speaker.png';
+	import storeData from "$lib/shared/scripts/controlData.js";
+    import ResetModal from '$lib/components/ResetModal.svelte';
 
 	//SPEAKER VALUES
 	let speakerScoreAuto = 0;
 	let speakerMissAuto = 0;
-
+	
 	//AMP VALUES
 	let ampScoreAuto = 0;
 	let ampMissAuto = 0;
-
+	
 	//LEAVE VALUE
 	$: leave = false;
-
-	function handleLeave() {
-		leave = !leave;
-	}
-
+	
 	let resetConfirmation = false;
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
+	
+	function onSubmit() {
+		storeData({"autoAmpScore": ampScoreAuto, "autoAmpMiss": ampMissAuto, "autoSpeakerScore": speakerScoreAuto, "autoSpeakerMiss": speakerMissAuto, "isLeave": leave ? 1 : 0});
+		goto('/teleop');
+	}
 </script>
-<ResetModal resetConfirmation={resetConfirmation}/>
+<ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <section class="text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
@@ -116,7 +113,7 @@
 		</div>
 	</div>
 	<button
-		on:click={handleLeave}
+		on:click={() => {leave = !leave;}}
 		id="leave"
 		class="leave p-2 rounded-xl box-border border-2 dark:border-0 {leave
 			? ' text-white bg-primary-base border-primary-base'

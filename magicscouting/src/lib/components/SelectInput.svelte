@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import { createEventDispatcher } from 'svelte';
 
 	export let options = [
@@ -6,16 +7,12 @@
 		{ id: '2', content: 'undefined', value: 'not specified' }
 	];
 
-	// @ts-ignore
 	export let inicialOption = '';
-	// @ts-ignore
-	/**
-	 * @type {{ content: any; id?: string; value?: string; }}
-	 */
-	 export let opcaoSelecionada = options[0];
-	if(inicialOption != '') {
+
+	export let opcaoSelecionada = options[0];
+	
+	$: if(inicialOption != '') {
 		console.log(inicialOption)
-		// @ts-ignore
 		options.forEach((option) => {if (option['value'] == inicialOption) opcaoSelecionada = option })
 	}
 

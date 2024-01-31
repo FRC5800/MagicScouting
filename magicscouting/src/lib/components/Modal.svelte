@@ -2,16 +2,14 @@
 // @ts-nocheck
 
 	export let showModal;
-	export let showConfig;
-	export let showDataBase;
+	export let showConfig = false;
+	export let showDataBase = false;
 	export let showX = true;
 
-	/**
-	 * @type {HTMLDialogElement}
-	 */
-	let dialog; // HTMLDialogElement
+	let dialog;
 
 	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && !showModal && !showConfig) dialog.close();
 
 	function handleClose() {
 		showModal = false;
@@ -94,9 +92,6 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 	i:hover {
 		text-shadow:

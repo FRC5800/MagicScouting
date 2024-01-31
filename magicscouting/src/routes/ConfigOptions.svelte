@@ -11,7 +11,7 @@
 		{ id: '2', content: 'Português (Brasil)', value: 'pt' }
 	];
 
-	let themes = [
+	$: themes = [
 		{ id: '1', content: $_('home_page.settings.option_theme.option_light'), value: 'light' },
 		{ id: '2', content: $_('home_page.settings.option_theme.option_dark'), value: 'dark' },
 		{ id: '3', content: $_('home_page.settings.option_theme.option_system'), value: 'system' }
@@ -61,13 +61,6 @@
 	function handle_language_selection() {
 		$locale = selected_language['value'];
 		window.localStorage.setItem('language', $locale);
-	}
-
-	function handleColorTheme() {
-		$colorTheme = selected_color;
-		// console.log($colorTheme)
-		// console.log(selected_color)
-		document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
 	}
 </script>
 
