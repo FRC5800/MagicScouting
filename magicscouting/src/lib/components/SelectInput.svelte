@@ -9,11 +9,11 @@
 
 	export let inicialOption = '';
 
-	export let opcaoSelecionada = options[0];
+	export let SelectedOption = options[0];
 	
 	$: if(inicialOption != '') {
 		console.log(inicialOption)
-		options.forEach((option) => {if (option['value'] == inicialOption) opcaoSelecionada = option })
+		options.forEach((option) => {if (option['value'] == inicialOption) SelectedOption = option })
 	}
 
 	export let showMore = 'hidden';
@@ -33,7 +33,7 @@
 					for="show_more-{componentId}"
 					class="flex flex-row items-center justify-between w-full text-gray-600 font-semibold dark:text-white align-middle transition-all border-l border-gray-200 dark:border-grey-heavy outline-none cursor-pointer focus:outline-none hover:text-[#474747]"
 				>
-					{opcaoSelecionada.content}
+					{SelectedOption.content}
 					<svg
 						class="content-end w-4 h-4 mx-2 fill-current"
 						xmlns="http://www.w3.org/2000/svg"
@@ -79,12 +79,12 @@
 						tabindex="0"
 						role="button"
 						on:keydown={(e) => {
-							if (e.key == ' ') opcaoSelecionada = lingua;
+							if (e.key == ' ') SelectedOption = lingua;
 						}}
 						on:click={(e) => {
-							opcaoSelecionada = lingua;
+							SelectedOption = lingua;
 						}}
-						class="box-border p-2 cursor-pointer group border-l-[3px] {opcaoSelecionada == lingua ? 'border-primary-base dark:border-primary-base' : ''} dark:hover:border-primary-base hover:bg-primary-base hover:text-white hover:border-primary-base focus:border-primary-base focus:bg-primary-base focus:text-white dark:border-grey-heavy"
+						class="box-border p-2 cursor-pointer group border-l-[3px] {SelectedOption == lingua ? 'border-primary-base dark:border-primary-base' : ''} dark:hover:border-primary-base hover:bg-primary-base hover:text-white hover:border-primary-base focus:border-primary-base focus:bg-primary-base focus:text-white dark:border-grey-heavy"
 					>
 						<a href={null} class="block text-[#666666] hover:text-white dark:text-white box-border border-transparent hover:no-underline font-semibold"
 							>{lingua.content}

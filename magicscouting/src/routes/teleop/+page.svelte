@@ -16,8 +16,8 @@
 	]
 
 	let TimerOptions = [
-		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: () => {handleNoteCycle(floorCicle)} },
-		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: () => {handleNoteCycle(sourceCicle)}}
+		{ id: '1', content: $_('teleop.note_cycle.option_floor'), value: 'floor', handler: () => {handleNoteCycle(floorCycle)} },
+		{ id: '2', content: $_('teleop.note_cycle.option_source'), value: 'source', handler: () => {handleNoteCycle(sourceCycle)}}
 	];
 
 	let selected_timer;
@@ -65,9 +65,9 @@
 				"speakerAmplifiedScore":ampSpeakerStructure[1]["score"],
 				"trapStatus":selected_trap.value,
 				"onStageStatus": selected_chain.value,
-				"onStageTime": onstageCicle,
-				"sourceCycleTime": JSON.stringify(sourceCicle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
-				"floorCycleTime":JSON.stringify(floorCicle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
+				"onStageTime": onstageCycle,
+				"sourceCycleTime": JSON.stringify(sourceCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
+				"floorCycleTime":JSON.stringify(floorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"highNoteStatus": selected_highNote.value,
 				});
 		goto('/info');
@@ -77,70 +77,76 @@
 	let selected_highNote;
 	let selected_trap;
 	
-	//note cicle timer
+	//note Cycle timer
 	let noteTimer;
-	let noteCicle = 0;
-	let pauseNoteCicle = '';
-	let noteCicleCouting = false;
+	let noteCycle = 0;
+	let pauseNoteCycle = '';
+	let noteCycleCounting = false;
 	let askType = false;
-	let floorCicle = [];
-	let sourceCicle = [];
+	let floorCycle = [];
+	let sourceCycle = [];
 
 	//onstage timer
-	let onstageCicle = 0;
+	let onstageCycle = 0;
 	let onstageTimer;
-	let onstageCicleCouting = false;
-	let pauseOnstageCicle = '';
+	let onstageCycleCounting = false;
+	let pauseOnstageCycle = '';
 
-	function startNoteCicle() {
-		noteCicleCouting = true;
+	function startNoteCycle() {
+		noteCycleCounting = true;
 		noteTimer = setInterval(() => {
-			if(pauseNoteCicle != 'paused') noteCicle += 0.1;
+			if(pauseNoteCycle != 'paused') noteCycle += 0.1;
 		}, 100);
 	}
-	function stopNoteCicle() {
-		noteCicleCouting = false;
-		pauseNoteCicle = '';
+	function stopNoteCycle() {
+		noteCycleCounting = false;
+		pauseNoteCycle = '';
 		clearInterval(noteTimer);
-		console.log(noteCicle);
+		askType = true
+		console.log(noteCycle);
 		
 		selected_timer.handler()
 	}
-	function discartNoteCicle() {
-		noteCicleCouting = false;
-		pauseNoteCicle = '';
+	function discardNoteCycle() {
+		noteCycleCounting = false;
+		pauseNoteCycle = '';
 		clearInterval(noteTimer);
-		noteCicle = 0;
+		noteCycle = 0;
 	}
 	
-	function startOnstageCicle() {
-		onstageCicleCouting = true;
-		onstageCicle = 0;
+	function startOnstageCycle() {
+		onstageCycleCounting = true;
+		onstageCycle = 0;
 		onstageTimer = setInterval(() => {
-			if(pauseOnstageCicle != 'paused') onstageCicle = Math.round((onstageCicle+0.1)*10)/10;
+			if(pauseOnstageCycle != 'paused') onstageCycle = Math.round((onstageCycle+0.1)*10)/10;
 		}, 100);
 	}
-	function stopOnstageCicle() {
-		onstageCicleCouting = false;
-		pauseOnstageCicle = '';
+	function stopOnstageCycle() {
+		onstageCycleCounting = false;
+		pauseOnstageCycle = '';
 		clearInterval(onstageTimer);
-		console.log(onstageCicle);
+		console.log(onstageCycle);
 	}
-	function discartOnstageCicle() {
-		onstageCicleCouting = false;
-		pauseOnstageCicle = '';
+	function discardOnstageCycle() {
+		onstageCycleCounting = false;
+		pauseOnstageCycle = '';
 		clearInterval(onstageTimer);
-		onstageCicle = 0;
+		onstageCycle = 0;
 	}
 	
 	function handleNoteCycle(location){
-		location.push(Math.round(noteCicle*10)/10);
-		noteCicle = 0;
+		location.push(Math.round(noteCycle*10)/10);
+		noteCycle = 0;
 		console.log(location);
+		askType = false;
 	}
 
 	
 </script>
+<svelte:head>
+	<title>Hello world!</title>
+	<meta name="description" content="This is where the description goes for SEO" />
+</svelte:head>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <main class="mt-[3vh] dark:text-white text-neutral-600">
@@ -203,78 +209,33 @@
 		{/each}
 
 		<br />
-		<div class="flex flex-col items-center justify-between cicle">
+		<div class="flex flex-col items-center justify-between w-1/2 cycle">
 			<h4>{$_('teleop.note_cycle.title')}</h4>
 
-			<div class=""><b>{noteCicle.toFixed(1)}</b></div>
+			<div class=""><b>{noteCycle.toFixed(1)}</b></div>
 
-			<div class="">
-				{#if !noteCicleCouting && !askType}
-				<div role="button" on:keydown={(e) => {if (e.key == "Enter") startNoteCicle()}} on:click={startNoteCicle} class="startCicle">
-					<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
-				</div>
-				
-				{:else if !noteCicleCouting && askType}
-
-				<div class="flex items-center">
-					
-				<button on:click={handleFloor} class="dark:bg-grey-heavy px-2 rounded-lg w-16 mx-2" >{$_('teleop.note_cycle.option_floor')}</button>
-				<button on:click={handleSource} class="dark:bg-grey-heavy px-2 rounded-lg w-16 mx-2">{$_('teleop.note_cycle.option_source')}</button>
-
-				</div>
-				
-				
-				{:else} 
-
-				<div class="flex flex-row items-center justify-between  h-full p-2 cursor-pointer border-[3px] border-[#494462] rounded-xl">
-					<i 
-					role="button" tabindex="0"
-					on:keydown={(e) => {if(e.key == "Enter") pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
-					on:click={() => {pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
-					class="w-3/12 text-center {pauseNoteCicle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
-					</i>
-					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopNoteCicle()}} on:click={stopNoteCicle} class="w-3/12 bg-green-600 text-center text-[1.8rem] fa-solid fa-check"></i>
-					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartNoteCicle()}} on:click={discartNoteCicle} class="fa-solid  bg-red-600 fa-x w-3/12 text-center text-[1.6rem]"></i>
-				
-				</div>
-
-
-
-				{/if}
-			
-
-
-			<!--<div class="flex flex-col items-center justify-center w-full">
-				<div class="flex flex-row items-center border-[3px] border-[#494462] rounded-xl {!noteCicleCouting ? 'justify-between w-4/5' : 'justify-center w-1/3 border-b-0 rounded-b-none	'} overflow-auto">
-					<div class="text-center {!noteCicleCouting ? 'border-r border-black w-1/2' : ''}">
-						<p class="{!noteCicleCouting ? 'p-2' : ''}"><b> {noteCicle.toFixed(1)} </b></p>
+			<div class="flex flex-col items-center justify-center w-full">
+				{#if !noteCycleCounting && !askType}
+					<div role="button" on:keydown={(e) => {if (e.key == "Enter") startNoteCycle()}} on:click={startNoteCycle} class="text-base border-[3px] border-[#494462] rounded-md startCycle">
+						<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
 					</div>
-					{#if !noteCicleCouting}
-						<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startNoteCicle()}} on:click={startNoteCicle} class="startCicle">
-							<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
-						</div>
-					{/if}
-				</div>
-				{#if noteCicleCouting}
-					<div class="flex flex-row items-center justify-between w-2/3 h-full p-2 cursor-pointer border-[3px] border-[#494462] rounded-xl">
+				{:else if !noteCycleCounting && askType}
+					<div class="flex items-center">
+						<button on:click={() => {handleNoteCycle(floorCycle)} } class="w-1/2 p-2 px-6 mx-2 rounded-lg dark:bg-grey-heavy" >{$_('teleop.note_cycle.option_floor')}</button>
+						<button on:click={() => {handleNoteCycle(sourceCycle)} } class="w-1/2 p-2 px-6 mx-2 rounded-lg dark:bg-grey-heavy">{$_('teleop.note_cycle.option_source')}</button>
+					</div>
+				{:else} 
+					<div class="flex flex-row items-center justify-between  h-full p-2 cursor-pointer border-[3px] border-[#494462] rounded-xl">
 						<i 
 						role="button" tabindex="0"
-						on:keydown={(e) => {if(e.key == "Enter") pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
-						on:click={() => {pauseNoteCicle = pauseNoteCicle == 'paused' ? '' : 'paused'}}
-						class="w-3/12 text-center {pauseNoteCicle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
+						on:keydown={(e) => {if(e.key == "Enter") pauseNoteCycle = pauseNoteCycle == 'paused' ? '' : 'paused'}}
+						on:click={() => {pauseNoteCycle = pauseNoteCycle == 'paused' ? '' : 'paused'}}
+						class="w-3/12 text-center {pauseNoteCycle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
 						</i>
-						
-						<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopNoteCicle()}} on:click={stopNoteCicle} class="w-3/12 text-center text-[1.8rem] fa-solid fa-check"></i>
-						
-						<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartNoteCicle()}} on:click={discartNoteCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
+						<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopNoteCycle()}} on:click={stopNoteCycle} class="w-3/12 text-green-600 text-center text-[1.8rem] fa-solid fa-check"></i>
+						<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardNoteCycle()}} on:click={discardNoteCycle} class="fa-solid  text-red-600 fa-x w-3/12 text-center text-[1.6rem]"></i>
 					</div>
 				{/if}
-			</div>-->
-
-			<div class="w-1/2">
-				<SelectInput options={TimerOptions} bind:opcaoSelecionada={selected_timer} showMore={showMoreTimers} componentId={'timers'} />
 			</div>
 		</div>
 	</div>
@@ -286,7 +247,7 @@
 			<h4 class="label-endgame">{$_('teleop.high_notes.title')}</h4>
 			<SelectInput
 				options={highNoteOptions}
-				bind:opcaoSelecionada={selected_highNote}
+				bind:SelectedOption={selected_highNote}
 				showMore={showMoreHighNotes}
 				componentId={"highNote"}
 			/>
@@ -296,7 +257,7 @@
 			<h4 class="label-endgame">{$_('teleop.trap.title')}</h4>
 			<SelectInput
 				options={trapOptions}
-				bind:opcaoSelecionada={selected_trap}
+				bind:SelectedOption={selected_trap}
 				showMore={showMoreTrap}
 				componentId={"chain"}
 			/>
@@ -305,23 +266,23 @@
 			<h4 class="label-endgame">{$_('teleop.onstage.title')}</h4>
 			<SelectInput
 				options={chainOptions}
-				bind:opcaoSelecionada={selected_chain}
+				bind:SelectedOption={selected_chain}
 				showMore={showMoreChain}
 				componentId={"trap"}
 			/>
 		</div>
 	</div>
 
-	<div class="flex flex-col items-center justify-center cicleOnstage">
+	<div class="flex flex-col items-center justify-center CycleOnstage">
 		<h4 class="time-onstage-title">{$_('teleop.onstage_cycle.title')}</h4>
 
 
 		<div class="flex flex-row items-center justify-between w-4/5 overflow-auto border-[3px] border-[#494462] rounded-xl">
 			<div class="w-1/2 text-center border-r border-black">
-				<p class="p-2"><b> {onstageCicle.toFixed(1)} </b></p>
+				<p class="p-2"><b> {onstageCycle.toFixed(1)} </b></p>
 			</div>
-			{#if !onstageCicleCouting}
-				<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startOnstageCicle()}} on:click={startOnstageCicle} class="startCicle">
+			{#if !onstageCycleCounting}
+				<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startOnstageCycle()}} on:click={startOnstageCycle} class="startCycle">
 					<p class="">{$_('teleop.onstage_cycle.start_cycle')}</p>
 				</div>
 			{:else}
@@ -329,14 +290,14 @@
 					
 					<i 
 					role="button" tabindex="0"
-					on:keydown={(e) => {if(e.key == "Enter") pauseOnstageCicle = pauseOnstageCicle == 'paused' ? '' : 'paused'}}
-					on:click={() => {pauseOnstageCicle = pauseOnstageCicle == 'paused' ? '' : 'paused'}}
-					class="w-3/12 text-center text-[1.7rem] {pauseOnstageCicle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
+					on:keydown={(e) => {if(e.key == "Enter") pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
+					on:click={() => {pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
+					class="w-3/12 text-center text-[1.7rem] {pauseOnstageCycle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
 					</i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCicle()}} on:click={stopOnstageCicle} class="w-3/12 bg-green-700 text-center text-[1.8rem] fa-solid fa-check"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCycle()}} on:click={stopOnstageCycle} class="w-3/12 text-green-700 text-center text-[1.8rem] fa-solid fa-check"></i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discartOnstageCicle()}} on:click={discartOnstageCicle} class="fa-solid fa-x w-3/12 text-center text-[1.6rem]"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardOnstageCycle()}} on:click={discardOnstageCycle} class="fa-solid text-red-600 fa-x w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}
@@ -401,10 +362,10 @@
 	.count{
 		@apply w-[50%] bg-primary-base rounded-2xl text-white;
 	}
-	.cicle {
+	.cycle {
 		@apply w-1/2 min-h-[150px];
 	}
-	.startCicle{
+	.startCycle{
 		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base;
 	}
 

@@ -74,7 +74,7 @@
 	<SelectInput
 		options={linguagens}
 		inicialOption={inicialLanguage}
-		bind:opcaoSelecionada={selected_language}
+		bind:SelectedOption={selected_language}
 		showMore={showMoreLanguages}
 		componentId={'language'}
 		on:selection_updated={handle_language_selection}
@@ -83,7 +83,7 @@
 	<SelectInput
 		options={themes}
 		inicialOption={inicialTheme}
-		bind:opcaoSelecionada={selected_theme}
+		bind:SelectedOption={selected_theme}
 		showMore={showMoreThemes}
 		componentId={'theme'}
 		on:selection_updated={handle_theme_selection}
