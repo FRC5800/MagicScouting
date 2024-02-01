@@ -13,6 +13,11 @@ Após o início do scouting, a primeira página será relacionada ao modo autôn
 
 ## TeleOp
 
+<div align="center">
+  <img src="Images/overview-teleop.png" alt="Página de TeleOp"/>
+  <br/><br/>
+</div>
+
 Depois do modo autônomo, será possível analisar o modo *TeleOp*. O modo TeleOp conta com 3 formas de pontuação:
 1. Pontuação no **Speaker**
 2. Pontuação no **Speaker Amplificado**
@@ -20,11 +25,17 @@ Depois do modo autônomo, será possível analisar o modo *TeleOp*. O modo TeleO
 Além da pontuação, é possível anotar o **tempo de ciclo** da equipe, ou seja, o tempo necessário para a equipe pegar uma GP (Game Piece) e pontuá-la. Depois de contabilizado o tempo, é possível descrever se o ciclo foi iniciado com a GP no chão ao pega na Source.
 
 # Endgame
+
+<div align="center">
+  <img src="Images/overview-endgame.png" alt="Página de EndGame"/>
+  <br/><br/>
+</div>
+
 Presente na mesma página do modo TeleOp, o EndGame conta com 4 formas de análise:
-1. High Notes: A quantidade de High Notes acertadas pelo Human Player da equipe (caso ele esteja nesta posição);
-2. Trap: Contabiliza se a equipe fez ou não o ponto na Trap;
-3. OnStage: Contabiliza se a equipe realizou o OnStage com sucesso ou não, além de contabilizar os pontos obtidos pela Harmony;
-4. Ciclo de OnStage: contabiliza o tempo necessário para a equipe ser classificada como OnStage.
+**1. High Notes**: A quantidade de High Notes acertadas pelo Human Player da equipe (caso ele esteja nesta posição);
+2. **Trap**: Contabiliza se a equipe fez ou não o ponto na Trap;
+3. **OnStage**: Contabiliza se a equipe realizou o OnStage com sucesso ou não, além de contabilizar os pontos obtidos pela Harmony;
+4. **Ciclo de OnStage**: contabiliza o tempo necessário para a equipe ser classificada como OnStage, se inicia quando a equipe se dirige ao Stage para subir na chain.
 
 ## Informações Adicionais
 <div align="center">
