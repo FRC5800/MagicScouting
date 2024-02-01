@@ -24,9 +24,9 @@ body {
 }
 button {
 	width: 30vw;
-	//height: calc(5vh + 1rem);
-	//border-radius: 0.5rem;
-	//border: 2px var(--color-bg-1) solid;
+	/* height: calc(5vh + 1rem);
+	border-radius: 0.5rem;
+	border: 2px var(--color-bg-1) solid; */
 	background-color: var(--color-bg-1);
 	color: var(--color-theme-1);
 
