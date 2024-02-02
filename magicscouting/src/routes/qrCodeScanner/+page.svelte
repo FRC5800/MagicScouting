@@ -70,11 +70,11 @@
     
 
     function CheckRepeatedGame(newGame, games){
-        for (game in games){
-            if (newGame["team"] == game["team"] && newGame["match"] == game["match"]){
+        games.forEach((item) => {
+            if (newGame["team"] == item["team"] && newGame["match"] == item["match"]){
                 return true;
             }
-        }
+        })
         return false;
     }
 
@@ -105,7 +105,7 @@
     <button on:click={stopScan} class="btn visible absolute bottom-[10%] w-[60%]">{$_('scanner.stop_button')}</button>
 {/if}
 
-    <Modal bind:showModal={showModal} showX={false}>
+    <Modal showModal={showModal} showX={false}>
         {#if stored == ''}
             <h2 class="mb-2 text-2xl">{$_('scanner.confirmation_modal.title')}</h2>
             <div class="box-border flex flex-row justify-between w-full">

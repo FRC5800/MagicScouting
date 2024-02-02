@@ -4,7 +4,7 @@
     
     import Modal from '$lib/components/Modal.svelte';
     import QRCode from "qrcode";
-    import dataBase from "$lib/shared/stores/dataBase";
+    import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import TrashCan from '$lib/components/TrashCan.svelte'
 	import entriesSync from "../shared/stores/toSyncData";
 
@@ -78,8 +78,8 @@
     createQr()
 </script>
 
-<section class="flex flex-row w-full shadow-sm shadow-primary-light bg-gray-300 dark:bg-gray-700 p-1 rounded-md border-b-2 mb-4">
-    <div class="pr-3 border-r border-grey-heavy w-fit flex items-center justify-center">
+<section class="flex flex-row w-full p-1 mb-4 bg-gray-300 border-b-2 rounded-md shadow-sm shadow-primary-light dark:bg-gray-700">
+    <div class="flex items-center justify-center pr-3 border-r border-grey-heavy w-fit">
         <i {src} alt="A Qr Code"  class="fa-solid fa-qrcode {uploadSuccess === true ? 'text-green-600' : uploadSuccess === false ? 'text-red-600' : ''} text-[100px]"></i>
     </div>
 
@@ -90,11 +90,11 @@
             <h1 class="text-2xl">{$_('storage.match')}: {payload.match}</h1>
         </div>
         
-        <div class="w-full p-2 overflow-hidden overflow-x-auto rounded-lg text-gray-300 bg-grey-heavy">{JSON.stringify(payload)}</div>
+        <div class="w-full p-2 overflow-hidden overflow-x-auto text-gray-300 rounded-lg bg-grey-heavy">{JSON.stringify(payload)}</div>
 
         <div class="flex flex-row items-center justify-around w-full">
-            <button class="p-3 btn w-fit h-fit text-xs {buttonColor}" disabled={uploadDisabled}  on:click={HandleUpload}>{buttonText}</button>
-            <button class="p-3 btn w-fit h-fit text-xs" on:click={() => {showQrCode = true}}>Escanear</button>
+            <button class="p-3 btn w-fit h-fit text-xs {!$useDB ? 'disabled-btn' : ''} {buttonColor}" disabled={uploadDisabled || !$useDB}  on:click={HandleUpload}>{buttonText}</button>
+            <button class="p-3 text-xs btn w-fit h-fit" on:click={() => {showQrCode = true}}>Escanear</button>
             <TrashCan scale={0.7} on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}/>
         </div>
     </div>

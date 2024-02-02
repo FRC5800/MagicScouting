@@ -57,6 +57,10 @@
 		@apply my-4 dark:border-2 p-2 hover:bg-buttons border-[#474747] dark:border-[#0F152B] dark:hover:text-white dark:hover:bg-buttons dark:text-[#060024] dark:bg-white rounded-3xl bg-buttons border-0 text-white uppercase transition-all duration-[0.2s] ease-in-out active:scale-95;
 	}
 
+	.disabled-btn {
+		@apply bg-gray-500 dark:bg-gray-500 hover:bg-gray-500 dark:hover:bg-gray-500 dark:hover:text-primary-heavy;
+	}
+
 	.separator {
 		@apply bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;

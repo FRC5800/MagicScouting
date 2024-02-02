@@ -1,17 +1,18 @@
 <script>
 // @ts-nocheck
-
     import { _ } from 'svelte-i18n';
     import { App } from '@capacitor/app';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
+    import { useDB } from "$lib/shared/stores/dataBase";
     
     import QRCode from 'qrcode';
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
-    import entriesSync from "../../lib/shared/stores/toSyncData";
+    import entriesSync from "$lib/shared/stores/toSyncData";
     
     let payload = {};
+    $: localData =  $entriesSync;
     let appData;
     
     let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction"]; 
@@ -53,7 +54,7 @@
             let sourceAverage = sourceTimes.length > 0 ? sourceTimes.reduce((a, b) => a + b, 0) / sourceTimes.length : 0;
             let floorAverage = floorTimes.length > 0 ? floorTimes.reduce((a, b) => a + b, 0) / floorTimes.length : 0;
             
-            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
+            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": sourceAverage.toFixed(1).replaceAll(".", ","), "floorAverage":floorAverage.toFixed(1).replaceAll(".", ",")})), {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
@@ -97,18 +98,19 @@ async function HandleUpload(){
     } 
 
     function CheckRepeatedGame(newGame, games){
-        for (game in games){
-            if (newGame["team"] == game["team"] && newGame["match"] == game["match"]){
+        games.forEach((item) => {
+            if (newGame["team"] == item["team"] && newGame["match"] == item["match"]){
                 return true;
             }
-        }
+        })
         return false;
     }
 
     function HandleStore(){
         if (!CheckRepeatedGame(payload, $entriesSync)) {
             $entriesSync = $entriesSync.concat(payload); 
-            console.log($entriesSync);
+        } else{
+            console.log('h=what fuc');
         }
         payload = {};
     }
@@ -144,7 +146,7 @@ async function HandleUpload(){
 <span class="m-2">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored ? 'disabled' : ''}" disabled={uploadDisabled ? true : stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
+<button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
 <button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 

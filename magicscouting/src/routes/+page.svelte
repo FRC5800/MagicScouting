@@ -6,11 +6,11 @@
 	import { _ } from 'svelte-i18n'
 	import { App } from '@capacitor/app';
 	import { goto } from '$app/navigation';
-	import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
+	import { useDB }  from '$lib/shared/stores/dataBase';
+	import dataBase from '$lib/shared/stores/dataBase';
 	
     import Modal from '$lib/components/Modal.svelte';
 	import MenuBar from './MenuBar.svelte';
-	import dataBase from '$lib/shared/stores/dataBase';
 	import storeData from "$lib/shared/scripts/controlData.js";
 	import MenuOptions from './MenuOptions.svelte';
 	import ConfigOptions from './ConfigOptions.svelte';
@@ -26,14 +26,14 @@
 	let match_number = '';
 	let team_position = '';
 	let validationError = false;
-	$: isDataBaseSetted = false;
-	$: if ($dataBase != '' && $dataBase != '?') {
-		isDataBaseSetted = true;
+	let isDataBaseSet;
+	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
+		isDataBaseSet = true;
 	} else {
 		showModal = true;
-		isDataBaseSetted = false;
+		isDataBaseSet = false;
 	}
-	$: console.log(isDataBaseSetted)
+	$: console.log(isDataBaseSet)
 	
 	App.addListener("backButton", ()=>{showModal = false, showConfig = false});
 	
@@ -76,8 +76,8 @@
 	<hr />
 
 	<form id="team-info" class="w-4/5 team_info" on:forminput={() => {console.log('erro')}} on:submit|preventDefault={onSubmit}>
-		<div class="center-container">
-			<label class="relative inline-flex cursor-pointer alliance-check">
+		<div class="flex flex-row items-center justify-center center-container">
+			<label class="relative flex flex-row items-center cursor-pointer alliance-check">
 				<input
 					type="checkbox"
 					class="align-middle sr-only peer"
@@ -90,7 +90,7 @@
 					class="w-11 h-6 align-middle bg-blue-600 rounded-full peer peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-blue-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"
 				></div>
 				<span
-					class="text-sm font-medium text-[#474747] dark:text align-middle ms-3 dark:text-gray-300"
+					class="text-sm font-medium text-[#474747] dark:text align-middle ms-3 dark:text-gray-300 min-w-32"
 					>{$_('home_page.alliance.title')}: {alliance}</span
 				>
 			</label>
@@ -111,7 +111,7 @@
 			<input bind:value={team_position} name="team_position" type="number" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
 			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
-		<button class="w-full submit_team_info btn mt-0 {!isDataBaseSetted || isDataBaseSetted =='setting' ? 'bg-gray-600 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-600' : ''}" type="submit" disabled={!isDataBaseSetted || isDataBaseSetted == 'setting'}> {$_('home_page.continue_button')} </button>
+		<button class="w-full submit_team_info btn mt-0 {(!isDataBaseSet || isDataBaseSet =='setting') ? 'bg-gray-600 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-600' : ''}" type="submit" disabled={!isDataBaseSet || isDataBaseSet == 'setting'}> {$_('home_page.continue_button')} </button>
 	</form>
 
 	<div class="separator"></div>
@@ -125,7 +125,7 @@
 </section>
 
 <Modal bind:showModal bind:showConfig bind:showDataBase>
-	{#if showModal && !showConfig && isDataBaseSetted}
+	{#if showModal && !showConfig && isDataBaseSet}
 		<MenuOptions bind:showDataBase={showDataBase}
 			on:keydown={(e) => {
 				if (e.key == 'Enter') {
@@ -140,8 +140,8 @@
 		/>
 	{:else if (showConfig)}
 		<ConfigOptions />
-	{:else if showModal && !showConfig && !isDataBaseSetted}
-		<DataBaseAlert bind:isDataBaseSetted={isDataBaseSetted} bind:showDataBaseSelector={showDataBase} bind:showModal={showModal}/>
+	{:else if showModal && !showConfig && !isDataBaseSet}
+		<DataBaseAlert bind:isDataBaseSet={isDataBaseSet} bind:showDataBaseSelector={showDataBase} bind:showModal={showModal}/>
 	{/if}
 </Modal>
 

@@ -25,6 +25,7 @@
 			"title": "Database",
 			"message": "Select the database used to upload the data. If you have any questions about how to create one, access the README in our repository:",
 			"repository": "Github Repository",
+			"useDB": "Use DataBase?",
 			"confirm_button": "Confirm"
 		},
 
@@ -42,9 +43,9 @@
 
 		"database_alert": {
 			"title": "Alert",
-			"message": "Before using the app, add the database that will be used to store the games in the Menu tab. If you have any questions, access our README in the project repository:",
+			"message": "Before using the app, we recommend you to add the database that will be used to store the games in the Menu tab. If you have any questions about how to create one, access our WIKI in the project repository:",
 			"repository": "Repository",
-			"menu_button": "Go to menu"
+			"menu_button": "Go to \"DataBase\""
 		}
 	},
 	"scanner": {

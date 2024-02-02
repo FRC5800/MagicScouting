@@ -25,6 +25,7 @@
 			"title": "Database",
 			"message": "Selecione o banco de dados a ser usado para armazenar as análises. Caso tenha alguma dúvida sobre como criar um, acesse o README de nosso repositório:",
 			"repository": "Github Repository",
+			"useDB": "Usar Banco de Dados?",
 			"confirm_button": "Confirmar"
 		},
 
@@ -42,9 +43,9 @@
 
 		"database_alert": {
 			"title": "Aviso",
-			"message": "Antes de usar o aplicativo, adicione o banco de dados que será usado para armazenar as partidas na aba de Menu. Caso tenha alguma dúvida, acesse o nosso README no repositório do projeto:",
+			"message": "Antes de usar o aplicativo, recomendamos que adicione o banco de dados que será usado para armazenar as partidas na aba de Menu. Caso tenha alguma dúvida de como criar uma DB, acesse o nossa WIKI no repositório do projeto:",
 			"repository": "Repositório",
-			"menu_button": "Ir para menu"
+			"menu_button": "Ir para \"DataBase\""
 		}
 	},
 	"scanner": {
