@@ -13,6 +13,11 @@
     let src = ''
 
     let showQrCode = false
+    function avgArray(arr){
+        let sum = 0;
+        arr.forEach((n) => {sum+=n});
+        return arr.lenght > 0 ? sum/arr.length : 0;
+    }
 
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
@@ -20,11 +25,11 @@
             payload["sourceCycleTime"] = payload["sourceCycleTime"]=="" ? "0" : payload["sourceCycleTime"]
             payload["floorCycleTime"] = payload["floorCycleTime"]=="" ? "0" : payload["floorCycleTime"]
 
-            let sourceTimes = payload["sourceCycleTime"].split(",").map((value) => {return value!="" ? parseFloat(value) : 0});
-            let floorTimes = payload["floorCycleTime"].split(",").map((value) => {return value!="" ? parseFloat(value) : 0});
+            let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
+            let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
 
-            let sourceAverage = sourceTimes.length > 0 ? sourceTimes.reduce((a, b) => a + b, 0) / sourceTimes.length : 0;
-            let floorAverage = floorTimes.length > 0 ? floorTimes.reduce((a, b) => a + b, 0) / floorTimes.length : 0;
+            let sourceAverage = avgArray(sourceTimes);
+            let floorAverage = avgArray(floorTimes);
             
             return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
                 method: "POST",
@@ -37,7 +42,8 @@
             console.log(e);
             return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
         }
-    } 
+    }     
+
     
     let buttonColor = ""
     let uploadDisabled = false;
