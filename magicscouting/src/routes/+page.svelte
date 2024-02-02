@@ -15,6 +15,7 @@
 	import MenuOptions from './MenuOptions.svelte';
 	import ConfigOptions from './ConfigOptions.svelte';
 	import DataBaseAlert from './DataBaseAlert.svelte';
+	import SelectInput from '$lib/components/SelectInput.svelte';
 
 	$: alliance = $_('home_page.alliance.option_blue');
 
@@ -24,7 +25,7 @@
 
 	let team_number = '';
 	let match_number = '';
-	let team_position = '';
+	let team_position = 0;
 	let validationError = false;
 	let isDataBaseSet;
 	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
@@ -33,21 +34,38 @@
 		showModal = true;
 		isDataBaseSet = false;
 	}
-	$: console.log(isDataBaseSet)
 	
 	App.addListener("backButton", ()=>{showModal = false, showConfig = false});
 	
 	async function onSubmit() {
-		if(team_number == '' || match_number == '' || team_position == '') {
+		if(team_number == '' || match_number == '' || team_position == 0) {
 			validationError = true;
 		}else {
 			validationError = false;
-			const teamData = { "red/blue": alliance.toLocaleLowerCase() == "azul" || alliance.toLocaleLowerCase() == "blue" ? "BLUE" : "RED", team:team_number, match:match_number, arenaPos:team_position};
+			const teamData = { "red/blue": alliance.toLocaleLowerCase() == "azul" || alliance.toLocaleLowerCase() == "blue" ? "BLUE" : "RED", team:team_number, match:match_number, arenaPos:team_position.value};
 			storeData(teamData);
 			goto('/autonomous');
 		}
 	}
 
+	// options={positions}
+	// 		inicialOption={inicialPosition}
+	// 		bind:SelectedOption={selected_position}
+	// 		showMore={showMorePositions}
+	// 		componentId={'team_position'}
+	// 		on:selection_updated={handle_position_selection}
+
+	let positions = [
+		{ id: '1', content: '1', value: '1' },
+		{ id: '2', content: '2', value: '2' },
+		{ id: '3', content: '3', value: '3' }
+	];
+	let showMorePositions = 'hidden';
+	let inicialPosition = 0;
+
+	function handle_position_selection(){
+		console.log(team_position);
+	}
 
 </script>
 
@@ -108,7 +126,15 @@
 		</div>
 		<div class="">
 			<label for="team_position" class="home-label">{$_('home_page.team_position')}</label>
-			<input bind:value={team_position} name="team_position" type="number" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" />
+			<!-- <input bind:value={team_position} name="team_position" type="number" class="home-inp {((validationError) && (team_position == '')) ? 'validation-error' : ''}" placeholder="1, 2 ou 3" /> -->
+			<SelectInput
+			options={positions}
+			inicialOption={inicialPosition}
+			bind:SelectedOption={team_position}
+			showMore={showMorePositions}
+			componentId={'team_position'}
+			on:selection_updated={handle_position_selection}
+			/>
 			<span class="validation-error-message {((validationError) && (team_position == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<button class="w-full submit_team_info btn mt-0 {(!isDataBaseSet || isDataBaseSet =='setting') ? 'bg-gray-600 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-600' : ''}" type="submit" disabled={!isDataBaseSet || isDataBaseSet == 'setting'}> {$_('home_page.continue_button')} </button>
