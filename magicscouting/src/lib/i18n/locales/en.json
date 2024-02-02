@@ -74,6 +74,19 @@
 			"scan_me": "Scan me!"
 		}
 	},
+	"about": {
+		"title": "About the Project",
+		"paragraph_1": "The project for a scouting app came about at the start of 2023, when a member of the programming team came across a repository of a simple but effective scouting app. As the app was reserved for the 2022 game, we had to make some changes for the new season. After a year of using this initial project, we decided to go one step further and make a team app of our own.",
+		"purpose_title": "Project Goal",
+		"paragraph_2": "The MagicScouting app project arose from the need for a more capable app than its predecessor. The team that worked on the old project wanted to make something that had 100% team authorship, and that's what we did. In addition, we saw this project as an opportunity to help other teams during the competition, and this vision became our goal.",
+		"creators": {
+			"title": "Creators",
+			"creator_1": "Franco Valois De Luca",
+			"creator_2": "Gabrielli Fertig de Oliveira",
+			"creator_3": "Davi Feitosa Silva Santana",
+			"creator_4": "Helena Scussel Rosa"
+		}
+		},
 	"autonomous": {
 		"title": "Autonomous",
 		"speaker": "Speaker",
