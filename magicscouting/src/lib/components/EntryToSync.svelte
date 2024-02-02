@@ -13,10 +13,11 @@
     let src = ''
 
     let showQrCode = false
+    
     function avgArray(arr){
         let sum = 0;
         arr.forEach((n) => {sum+=n});
-        return arr.lenght > 0 ? sum/arr.length : 0;
+        return arr.length > 0 ? sum/arr.length : 0;
     }
 
     async function send_to_sheets(payload){
@@ -27,10 +28,10 @@
 
             let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
             let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
-
+            
             let sourceAverage = avgArray(sourceTimes);
             let floorAverage = avgArray(floorTimes);
-            
+
             return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
                 method: "POST",
                 headers: {
@@ -42,7 +43,7 @@
             console.log(e);
             return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
         }
-    }     
+    }          
 
     
     let buttonColor = ""
