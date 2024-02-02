@@ -171,7 +171,7 @@
 	{/if}
 </Modal>
 
-<h4 class="fixed italic font-semibold text-gray-500 bottom-3 right-4">MagicScouting Beta v1.99</h4>
+<h4 class="fixed italic font-semibold text-gray-500 bottom-3 right-4">MagicScouting Gamma v1.99</h4>
 
 <style lang='postcss'>
 	header {
