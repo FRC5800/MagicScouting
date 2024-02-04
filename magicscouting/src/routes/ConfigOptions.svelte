@@ -8,7 +8,7 @@
 
 	let linguagens = [
 		{ id: '1', content: 'English', value: 'en' },
-		{ id: '2', content: 'Português (Brasil)', value: 'pt' }
+		{ id: '2', content: 'Português (Brasil)', value: 'pt-BR' }
 	];
 
 	$: themes = [
@@ -31,6 +31,7 @@
 	// @ts-ignore
 	let selected_language;
 	let inicialLanguage = $locale;
+	$: console.log(inicialLanguage + ', ' + $locale);
 	let inicialTheme = $theme;
 	let selected_theme;
 	let selected_color = $colorTheme;

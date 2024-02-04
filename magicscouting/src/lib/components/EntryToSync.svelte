@@ -101,7 +101,7 @@
 
         <div class="flex flex-row items-center justify-around w-full">
             <button class="p-3 btn w-fit h-fit text-xs {!$useDB ? 'disabled-btn' : ''} {buttonColor}" disabled={uploadDisabled || !$useDB}  on:click={HandleUpload}>{buttonText}</button>
-            <button class="p-3 text-xs btn w-fit h-fit" on:click={() => {showQrCode = true}}>Escanear</button>
+            <button class="p-3 text-xs btn w-fit h-fit" on:click={() => {showQrCode = true}}>{$_('storage.scan_button')}</button>
             <TrashCan scale={0.7} on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}/>
         </div>
     </div>

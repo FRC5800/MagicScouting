@@ -9,6 +9,7 @@
 		"team_number": "Número da equipe",
 		"match_number": "Número da Partida",
 		"team_position": "Posição da Equipe",
+		"empty_position": "Selecione uma opção",
 		"validation_error_message": "Preencha o campo!",
 		"storage_button": "Armazenamento",
 		"continue_button": "Iniciar",

@@ -1,9 +1,10 @@
 <script>
 	// @ts-nocheck
 	import { createEventDispatcher } from 'svelte';
+	import { _ } from 'svelte-i18n'
 
 	export let options = [
-		{ id: '1', content: 'dawdawd', value: 'not specified' },
+		{ id: '1', content: 'undefined', value: 'not specified' },
 		{ id: '2', content: 'undefined', value: 'not specified' }
 	];
 
@@ -34,7 +35,7 @@
 					for="show_more-{componentId}"
 					class="flex flex-row items-center justify-between w-full text-gray-600 font-semibold dark:text-white align-middle transition-all border-l border-gray-200 dark:border-grey-heavy outline-none cursor-pointer focus:outline-none hover:text-[#474747]"
 				>
-					{SelectedOption.content || 'Select an option'}
+					{SelectedOption.content || $_('home_page.empty_position')}
 					<svg
 						class="content-end w-4 h-4 mx-2 fill-current"
 						xmlns="http://www.w3.org/2000/svg"

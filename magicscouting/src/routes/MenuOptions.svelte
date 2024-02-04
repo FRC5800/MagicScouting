@@ -28,7 +28,7 @@
         <hr class="border-[#666666] w-[70%] h-1"/>
         <div tabindex="0" role="button" on:keydown on:click={() => {showDataBase = true}} class="py-2 option">{$_('home_page.menu.option_database')}</div>
         <hr class="border-[#666666] w-[70%] h-1">
-        <div on:click={() =>{alert('Documentation in progress')}} class="py-2 option">{$_('home_page.menu.option_guide')}</div>
+        <div class="py-2 option"><a href="https://github.com/FRC5800/MagicScouting/wiki">{$_('home_page.menu.option_guide')}</a></div>
         <hr class="border-[#666666] w-[70%] h-1">
         <div on:click={() => {goto('/about')} } class="py-2 pb-10 option">{$_('home_page.menu.option_about')}</div>
         

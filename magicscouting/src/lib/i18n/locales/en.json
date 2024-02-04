@@ -9,6 +9,7 @@
 		"team_number": "Team Number",
 		"match_number": "Match Number",
 		"team_position": "Team Position",
+		"empty_position": "Select an Option",
 		"validation_error_message": "Empty field!",
 		"storage_button": "Storage",
 		"continue_button": "Start",
@@ -155,9 +156,9 @@
 		"store_button": "Store",
 		"finish_button": "Finish",
 		"confirmation_modal": {
-			"title": "Resetar App?",
-			"yes_button": "Sim",
-			"no_button": "Não"
+			"title": "Reset App?",
+			"yes_button": "Yes",
+			"no_button": "No"
 		}
 	}
 }
