@@ -159,7 +159,7 @@
 			<div class="w-1/2 p-1">
 				<div class="flex flex-col items-center containerBox">
 					<div class="title">
-						<h5 class="font-semibold">{item.title}</h5>
+						<h5 class="font-semibold max-[355px]:text-xs">{item.title}</h5>
 					</div>
 					<div class="flex flex-row justify-around w-full">
 						<div class="plusMinusBlock">
@@ -220,9 +220,9 @@
 						<p class="">{$_('teleop.note_cycle.start_cycle')}</p>
 					</div>
 				{:else if !noteCycleCounting && askType}
-					<div class="flex items-center">
-						<button on:click={() => {handleNoteCycle(floorCycle)} } class="w-1/2 p-2 px-6 mx-2 rounded-lg dark:bg-grey-heavy" >{$_('teleop.note_cycle.option_floor')}</button>
-						<button on:click={() => {handleNoteCycle(sourceCycle)} } class="w-1/2 p-2 px-6 mx-2 rounded-lg dark:bg-grey-heavy">{$_('teleop.note_cycle.option_source')}</button>
+					<div class="flex items-center w-full">
+						<button on:click={() => {handleNoteCycle(floorCycle)} } class="w-1/2 p-2 mx-2 rounded-lg dark:bg-grey-heavy" >{$_('teleop.note_cycle.option_floor')}</button>
+						<button on:click={() => {handleNoteCycle(sourceCycle)} } class="w-1/2 p-2 mx-2 rounded-lg dark:bg-grey-heavy">{$_('teleop.note_cycle.option_source')}</button>
 					</div>
 				{:else} 
 					<div class="flex flex-row items-center justify-between  h-full p-2 cursor-pointer border-[3px] border-[#494462] rounded-xl">
