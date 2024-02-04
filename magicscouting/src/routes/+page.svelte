@@ -9,7 +9,7 @@
 	import { useDB }  from '$lib/shared/stores/dataBase';
 	import dataBase from '$lib/shared/stores/dataBase';
 	
-    import Modal from '$lib/components/Modal.svelte';
+  import Modal from '$lib/components/Modal.svelte';
 	import MenuBar from './MenuBar.svelte';
 	import storeData from "$lib/shared/scripts/controlData.js";
 	import MenuOptions from './MenuOptions.svelte';

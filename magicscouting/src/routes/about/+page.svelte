@@ -1,5 +1,9 @@
 <script>
     import { _ } from "svelte-i18n";
+    import { App } from '@capacitor/app';
+    import { goto } from '$app/navigation';
+
+    App.addListener("backButton", ()=>{goto('/')});
 </script>
 <div class="w-full text-justify">
   <p>{$_('about.paragraph_1')}</p>
