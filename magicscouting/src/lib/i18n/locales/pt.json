@@ -86,7 +86,10 @@
 			"creator_2": "Gabrielli Fertig de Oliveira",
 			"creator_3": "Davi Feitosa Silva Santana",
 			"creator_4": "Helena Scussel Rosa"
-		}
+		},
+		"contribution_title": "Contribuição",
+		"paragraph_3": "Caso você queira ajudar o projeto, temos uma Vakinha aberta para que qualquer apoiador possa nos ajudar. Atualmente, o dinheiro ganho será usado para pagar a inscrição do app na Apple Store. Link da Vakinha abaixo:",
+		"fundraise_link": "Vakinha FRC5800 Magic Scouting"
 	},
 	"autonomous": {
 		"title": "Autonomous",
