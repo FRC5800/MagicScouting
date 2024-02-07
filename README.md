@@ -12,7 +12,7 @@ Este é um aplicativo de scouting desenvolvido pela equipe FRC 5800, com o intui
 
 # Guias Auxiliares
 
-Todos os guias de uso estão disponíveis em nossa [Wiki](https://github.com/FRC5800/MagicScouting/wiki) do repositório, antes de fazer download do projeto, não se esqueça de ler a documentação.
+Todos os guias de uso estão disponíveis em nossa [Wiki](https://github.com/FRC5800/MagicScouting/wiki) do repositório. Antes de fazer download do projeto, não se esqueça de ler a documentação.
 
 # Contribuição
 
