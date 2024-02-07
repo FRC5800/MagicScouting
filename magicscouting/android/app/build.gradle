@@ -1,13 +1,24 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        deployer{
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+            storeFile file(STORE_FILE)
+            storePassword STORE_PASSWORD
+        }
+
+    }
+
     namespace "com.magicscouting.app"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.magicscouting.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        signingConfig signingConfigs.deployer
+        versionCode 5
         versionName "2.00"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
