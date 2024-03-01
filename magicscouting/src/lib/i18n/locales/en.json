@@ -143,7 +143,7 @@
 		"continue_button": "Continue"
 	},
 	"info": {
-		"title": "Role in match",
+		"title": "Additional information",
 		"attack_title": "Played as Attacker",
 		"defense_title": "Played as Defender",
 		"support_title": "Played as Supporter",
