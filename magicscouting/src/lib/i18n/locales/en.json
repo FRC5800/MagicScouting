@@ -149,7 +149,9 @@
 		"support_title": "Played as Supporter",
 		"yes": "Yes",
 		"no": "No",
-		"continue_button": "Continue"
+		"continue_button": "Continue",
+		"broke_title": "Robot broke",
+		"communication_fault_title": "Lost communication"
 	},
 	"qrcode": {
 		"title": "Scouting Data",

@@ -32,10 +32,26 @@
         selected: false
     }
 
+    let quebrou = {
+        name : "brk",
+        options: [{ id: 0, value: false}, { id: 1, value: true}],
+        content: [$_('info.no'), $_('info.yes')],
+        selected: false
+    }
+
+    let commFault = {
+        name : "com",
+        options: [{ id: 0, value: false}, { id: 1, value: true}],
+        content: [$_('info.no'), $_('info.yes')],
+        selected: false
+    }
+
     function onSubmit(){
         let payload = JSON.stringify([(ataque.selected ? "Attack" : ""), (defesa.selected ? "Defense" : ""), (suporte.selected ? "Support" : "")].filter((x) => {return x!=""})).replaceAll("[", "").replaceAll("]", "").replaceAll("\"", ""); 
         console.log(payload);
         storeData({"matchFunction": payload});
+        storeData({"robotBroke": quebrou.selected});
+        storeData({"commFault": commFault.selected});
         goto("/qrcode")
     }
 
@@ -52,6 +68,12 @@
 <InfoSelect instance_options={defesa} bind:selectedOption={defesa.selected} width={'20vw'} />
 <h2 class="pt-4 pb-2 mt-4">{$_('info.support_title')}</h2>
 <InfoSelect instance_options={suporte} bind:selectedOption={suporte.selected} width={'20vw'} />
+<h2 class="pt-4 pb-2 mt-4">{$_('info.broke_title')}</h2>
+<InfoSelect instance_options={quebrou} bind:selectedOption={quebrou.selected} width={'20vw'} />
+<h2 class="pt-4 pb-2 mt-4">{$_('info.communication_fault_title')}</h2>
+<InfoSelect instance_options={commFault} bind:selectedOption={commFault.selected} width={'20vw'} />
+
+
 
 <button on:click={onSubmit} class="mt-16 btn">{$_('info.continue_button')}</button>
 

@@ -149,7 +149,10 @@
 		"support_title": "Jogou como Suporte",
 		"yes": "Sim",
 		"no": "Não",
-		"continue_button": "Continuar"
+		"continue_button": "Continuar",
+		"broke_title": "Robô quebrou",
+		"communication_fault_title": "Perdeu a comunicação"
+	
 	},
 	"qrcode": {
 		"title": "Dados do Scouting",
