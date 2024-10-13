@@ -8,7 +8,8 @@
 
 	let linguagens = [
 		{ id: '1', content: 'English', value: 'en' },
-		{ id: '2', content: 'Português (Brasil)', value: 'pt-BR' }
+		{ id: '2', content: 'Português (Brasil)', value: 'pt-BR' },
+		{ id: '3', content: 'Español', value: 'es' }
 	];
 
 	$: themes = [
