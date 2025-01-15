@@ -1,9 +1,10 @@
 <script>
 // @ts-nocheck
 
-    /** @type {{ data: import('./$types').PageData }} */
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
 	import { onMount } from "svelte";
+    import Chart from '$lib/components/Chart.svelte'
+	import { CommonProgramFiles } from "$env/static/private";
 
     function formatEntry(schema, data){
         let entry = {}
@@ -12,6 +13,8 @@
         }
         return entry
     }
+
+    $: config = {}
 
     onMount(async () => {
         let content = await fetch($dataBase,
@@ -32,10 +35,33 @@
         let allEntries = content.map((line) => {
             return formatEntry(schema, line)
         })
-
-        console.table(allEntries)
-
+        
     })
 
+    let chartType = 'bar'
+
+    let myData = {
+    labels: Object.values(allEntries[2]).splice(8, 15),
+    datasets: [
+                {
+                label: "Appointment Requests (by location)",
+                // backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+                data: Object.values(allEntries[2]).splice(8, 15),
+                // tension: 0.32,
+                borderWidth: 1,
+                }
+            ],
+    }
+
+let options = null
+
+config = {
+    chartType,
+    myData,
+    options 
+}
+    
+    
 </script>
 
+<Chart {config} />
