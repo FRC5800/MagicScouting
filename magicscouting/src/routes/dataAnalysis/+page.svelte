@@ -3,8 +3,17 @@
 
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
 	import { onMount } from "svelte";
-    import Chart from '$lib/components/Chart.svelte'
-	import { CommonProgramFiles } from "$env/static/private";
+
+    import '@carbon/charts-svelte/styles.css'
+	import { BarChartSimple } from '@carbon/charts-svelte'
+
+    Object.filter = (obj, predicate) => 
+                  Object.fromEntries(Object.entries(obj).filter(predicate));
+
+    function isNumeric(str) { 
+        return !isNaN(str)
+    }
+
 
     function formatEntry(schema, data){
         let entry = {}
@@ -14,7 +23,7 @@
         return entry
     }
 
-    $: config = {}
+    $: data = []
 
     onMount(async () => {
         let content = await fetch($dataBase,
@@ -36,32 +45,28 @@
             return formatEntry(schema, line)
         })
         
+        let filtered = Object.filter(allEntries, entry => isNumeric(entry))
+        console.log(filtered)
+
     })
 
-    let chartType = 'bar'
-
-    let myData = {
-    labels: Object.values(allEntries[2]).splice(8, 15),
-    datasets: [
-                {
-                label: "Appointment Requests (by location)",
-                // backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-                data: Object.values(allEntries[2]).splice(8, 15),
-                // tension: 0.32,
-                borderWidth: 1,
-                }
-            ],
-    }
-
-let options = null
-
-config = {
-    chartType,
-    myData,
-    options 
-}
     
     
 </script>
-
-<Chart {config} />
+<BarChartSimple
+	data={[
+		{ group: 'Qty', value: 65000 },
+		{ group: 'More', value: 29123 },
+		{ group: 'Sold', value: 35213 },
+		{ group: 'Restocking', value: 51213 },
+		{ group: 'Misc', value: 16932 }
+	]}
+	options={{
+		theme: 'g90',
+		title: 'Simple bar (discrete)',
+		height: '400px',
+		axes: {
+			left: { mapsTo: 'value' },
+			bottom: { mapsTo: 'group', scaleType: 'labels' }
+		}
+	}} />
