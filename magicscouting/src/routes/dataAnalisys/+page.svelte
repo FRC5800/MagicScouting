@@ -11,7 +11,7 @@
                   Object.fromEntries(Object.entries(obj).filter(predicate));
 
     function isNumeric(str) { 
-        return !isNaN(str)
+        return !isNaN(str) && !isNaN(parseFloat(str))
     }
 
 
@@ -23,7 +23,19 @@
         return entry
     }
 
-    $: data = []
+    function formatToChart(entry){
+        let chartData = []
+        
+        for (let i = 0; i < Object.keys(entry).length; i++){
+            let key = Object.keys(entry)[i]
+            let value = Object.values(entry)[i]
+            chartData.push({group: key, value: value})
+        }
+
+        return chartData
+    }
+
+    $: data = {}
 
     onMount(async () => {
         let content = await fetch($dataBase,
@@ -45,8 +57,10 @@
             return formatEntry(schema, line)
         })
         
-        let filtered = Object.filter(allEntries, entry => isNumeric(entry))
+        let filtered = Object.filter(allEntries[0], value => isNumeric(value[1]))
         console.log(filtered)
+
+        data = filtered
 
     })
 
@@ -54,13 +68,7 @@
     
 </script>
 <BarChartSimple
-	data={[
-		{ group: 'Qty', value: 65000 },
-		{ group: 'More', value: 29123 },
-		{ group: 'Sold', value: 35213 },
-		{ group: 'Restocking', value: 51213 },
-		{ group: 'Misc', value: 16932 }
-	]}
+	data={formatToChart(data)}
 	options={{
 		theme: 'g90',
 		title: 'Simple bar (discrete)',
@@ -70,3 +78,5 @@
 			bottom: { mapsTo: 'group', scaleType: 'labels' }
 		}
 	}} />
+
+<a href = "/teamAnalisys">Team Analisys</a>
