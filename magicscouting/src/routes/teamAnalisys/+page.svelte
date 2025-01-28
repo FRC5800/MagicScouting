@@ -7,6 +7,10 @@
     import '@carbon/charts-svelte/styles.css'
 	import { BarChartSimple } from '@carbon/charts-svelte'
 
+    import { writable } from 'svelte/store';
+
+
+
     Object.filter = (obj, predicate) => 
                   Object.fromEntries(Object.entries(obj).filter(predicate));
 
@@ -37,8 +41,9 @@
 
     $: data = {}
 
+    let ready = false;
     onMount(async () => {
-        let content = await fetch($dataBase,
+        let content = await fetch($dataBase + new URLSearchParams({sheet: "MagicScouting"}),
         {
             method: "GET",
             headers: {
@@ -47,6 +52,8 @@
         }).then((r) => {
             return r.json()
         })
+
+        // ERRO AQUI ESTRUTURA DO JSON COM STATUS E DATA
 
         let schema = content[0];
         content = content.splice(1)
@@ -57,16 +64,40 @@
             return formatEntry(schema, line)
         })
         
-        let filtered = Object.filter(allEntries[0], value => isNumeric(value[1]))
-        console.log(filtered)
+        data = allEntries
 
-        data = filtered
-
+        ready = true;
     })
 
+    $: teamSearch = "";
     
-    
+    $: autoCompleteTeams = writable([]);
+
+    $: if (teamSearch != ""){
+        console.log(teamSearch)
+        autoCompleteTeams.set(data.filter((entry) => {
+            return entry["team"].toString().includes(teamSearch) &&  entry["team"].toString() != teamSearch; 
+        }))
+        console.log(autoCompleteTeams)
+    }else{
+        autoCompleteTeams.set([])
+    }
+
 </script>
+
+{#if ready}
+    <input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
+{/if} 
+
+{#each $autoCompleteTeams as team}
+    <div>
+        <button on:click={() => {teamSearch=team.team}}>{team.team}</button>
+    </div>
+{/each}
+
+<!-- <button on:click={}>Sync data</button> -->
+
+
 <BarChartSimple
 	data={formatToChart(data)}
 	options={{

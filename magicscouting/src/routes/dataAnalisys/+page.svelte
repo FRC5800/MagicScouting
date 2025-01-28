@@ -38,7 +38,7 @@
     $: data = {}
 
     onMount(async () => {
-        let content = await fetch($dataBase,
+        let content = await fetch($dataBase+"?sheet=MagicScouting",
         {
             method: "GET",
             headers: {
@@ -57,7 +57,7 @@
             return formatEntry(schema, line)
         })
         
-        let filtered = Object.filter(allEntries[0], value => isNumeric(value[1]))
+        let filtered = Object.filter(allEntries[1], value => isNumeric(value[1]))
         console.log(filtered)
 
         data = filtered
@@ -80,3 +80,16 @@
 	}} />
 
 <a href = "/teamAnalisys">Team Analisys</a>
+
+<!-- 
+['timeStamp', 'team', 'match', 'arenaPos', 'red/blue', 
+'autoROneScore', 'autoRTwoScore', 'autoRThreeScore', 'autoRFourScore', 
+'autoROneMiss', 'autoRTwoMiss', 'autoRThreeMiss', 'autoRFourMiss', 
+'isLeave', 
+’autoProcessorScore’, 'autoProcessorMiss’, 
+‘autoRemoveAlgaeLow’, ‘autoRemoveAlgaeHigh’, 
+'teleopROneScore', 'teleopRTwoScore', 'teleopRThreeScore', 'teleopRFourScore', 
+'teleopROneMiss', 'teleopRTwoMiss', 'teleopRThreeMiss', 'teleopRFourMiss', 
+’teleopProcessorScore’, ‘teleopProcessorMiss’, 
+‘teleopRemoveAlgaeLow’, ‘teleopRemoveAlgaeHigh’, 
+'bargeStatus', 'bargeTime', 'stationCycleTime', 'floorCycleTime', ‘netScore’, 'humanNetScore', ‘netMiss’, 'humanNetMiss', 'matchFunction', 'stationAverage', 'floorAverage'] -->
