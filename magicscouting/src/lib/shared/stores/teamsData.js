@@ -4,17 +4,21 @@ import { writable } from 'svelte/store';
 
 const defaultValue = "Not assigned";
 
-const initialTeamsDB = browser ? (localStorage.getItem('TeamsDB') ?? defaultValue) : defaultValue;
-const initialPitTeamsDB = browser ? (localStorage.getItem('PitTeamsDB') ?? defaultValue) : defaultValue;
+export function parseLocalStorage(item) {
+    return JSON.parse(localStorage.getItem(item));
+}
 
-const initialMatchSchema = browser ? (localStorage.getItem('MatchSchema') ?? defaultValue) : defaultValue;
-const initialPitSchema = browser ? (localStorage.getItem('PitSchema') ?? defaultValue) : defaultValue;
+const initialTeamsDB = browser ? (parseLocalStorage("TeamsDB") ?? defaultValue) : defaultValue;
+const initialPitTeamsDB = browser ? (parseLocalStorage("PitTeamsDB") ?? defaultValue) : defaultValue;
+
+const initialMatchSchema = browser ? (parseLocalStorage("MatchSchema") ?? defaultValue) : defaultValue;
+const initialPitSchema = browser ? (parseLocalStorage("PitSchema") ?? defaultValue) : defaultValue;
 
 
-export const TeamsDB = writable(initialPitTeamsDB);
+export const TeamsDB = writable(initialTeamsDB);
 export const MatchSchema = writable(initialMatchSchema);
 
-export const PitTeamsDB = writable(initialTeamsDB);
+export const PitTeamsDB = writable(initialPitTeamsDB);
 export const PitSchema = writable(initialPitSchema);
 
 TeamsDB.subscribe((value) => {
@@ -41,17 +45,5 @@ PitSchema.subscribe((value) => {
 	}
 });
 
-export function getTeamsDB() {
-    return JSON.parse(localStorage.getItem('TeamsDB'));
-}
-export function getPitTeamsDB() {
-    return JSON.parse(localStorage.getItem('PitTeamsDB'));
-}
-export function getMatchSchema() {
-    return JSON.parse(localStorage.getItem('MatchSchema'));
-}
-export function getPitSchema() {
-    return JSON.parse(localStorage.getItem('PitSchema'));
-}
 
-export default {TeamsDB, PitTeamsDB, MatchSchema, PitSchema, getPitTeamsDB, getTeamsDB, getMatchSchema, getPitSchema};
+export default {TeamsDB, PitTeamsDB, MatchSchema, PitSchema};
