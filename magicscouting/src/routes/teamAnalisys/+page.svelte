@@ -52,8 +52,8 @@
         }).then((r) => {
             return r.json()
         })
-
-        // ERRO AQUI ESTRUTURA DO JSON COM STATUS E DATA
+        
+        content = content.data
 
         let schema = content[0];
         content = content.splice(1)
@@ -67,6 +67,8 @@
         data = allEntries
 
         ready = true;
+
+        console.log(data)
     })
 
     $: teamSearch = "";
@@ -75,9 +77,14 @@
 
     $: if (teamSearch != ""){
         console.log(teamSearch)
-        autoCompleteTeams.set(data.filter((entry) => {
-            return entry["team"].toString().includes(teamSearch) &&  entry["team"].toString() != teamSearch; 
-        }))
+        let alreadyIn = [];
+        let filterSugestions = data.filter((entry) => {
+            let condition = entry["team"].toString().includes(teamSearch) && entry["team"].toString() != teamSearch && !alreadyIn.includes(entry["team"].toString());
+            alreadyIn.push(entry["team"].toString())
+            return condition
+        })
+
+        autoCompleteTeams.set(filterSugestions)
         console.log(autoCompleteTeams)
     }else{
         autoCompleteTeams.set([])
@@ -98,8 +105,8 @@
 <!-- <button on:click={}>Sync data</button> -->
 
 
-<BarChartSimple
-	data={formatToChart(data)}
+<!-- <BarChartSimple
+	data={formatToChart(data[0])}
 	options={{
 		theme: 'g90',
 		title: 'Simple bar (discrete)',
@@ -108,4 +115,4 @@
 			left: { mapsTo: 'value' },
 			bottom: { mapsTo: 'group', scaleType: 'labels' }
 		}
-	}} />
+	}} /> -->
