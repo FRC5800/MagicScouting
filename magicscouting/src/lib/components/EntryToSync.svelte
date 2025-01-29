@@ -26,8 +26,8 @@
             payload["sourceCycleTime"] = payload["sourceCycleTime"]=="" ? "0" : payload["sourceCycleTime"]
             payload["floorCycleTime"] = payload["floorCycleTime"]=="" ? "0" : payload["floorCycleTime"]
 
-            let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
-            let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
+            let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value != "" ? parseFloat(value) : 0});
+            let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value != "" ? parseFloat(value) : 0});
             
             let sourceAverage = avgArray(sourceTimes);
             let floorAverage = avgArray(floorTimes);

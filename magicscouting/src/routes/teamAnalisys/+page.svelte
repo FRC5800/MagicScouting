@@ -8,6 +8,8 @@
 	import { BarChartSimple } from '@carbon/charts-svelte'
 
     import { writable } from 'svelte/store';
+	import { TeamsDB } from "$lib/shared/stores/teamsData";
+
 
 
 
@@ -39,37 +41,8 @@
         return chartData
     }
 
-    $: data = {}
-
-    let ready = false;
-    onMount(async () => {
-        let content = await fetch($dataBase + new URLSearchParams({sheet: "MagicScouting"}),
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "text/plain",
-            }
-        }).then((r) => {
-            return r.json()
-        })
-        
-        content = content.data
-
-        let schema = content[0];
-        content = content.splice(1)
-
-        console.log(schema)
-
-        let allEntries = content.map((line) => {
-            return formatEntry(schema, line)
-        })
-        
-        data = allEntries
-
-        ready = true;
-
-        console.log(data)
-    })
+    $: data = $TeamsDB
+    console.log(data)
 
     $: teamSearch = "";
     
@@ -92,9 +65,7 @@
 
 </script>
 
-{#if ready}
-    <input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
-{/if} 
+<input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
 
 {#each $autoCompleteTeams as team}
     <div>

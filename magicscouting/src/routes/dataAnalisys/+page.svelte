@@ -7,6 +7,11 @@
     import '@carbon/charts-svelte/styles.css'
 	import { BarChartSimple } from '@carbon/charts-svelte'
 
+    import { goto } from "$app/navigation";
+    import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema, getPitTeamsDB, getTeamsDB, getMatchSchema, getPitSchema } from "$lib/shared/stores/teamsData";
+    import entriesSync from "$lib/shared/stores/toSyncData";
+
+
     Object.filter = (obj, predicate) => 
                   Object.fromEntries(Object.entries(obj).filter(predicate));
 
@@ -35,10 +40,8 @@
         return chartData
     }
 
-    $: data = {}
-
-    onMount(async () => {
-        let content = await fetch($dataBase+"?sheet=MagicScouting",
+    async function getSheetData(sheet){
+        let sheetData = await fetch($dataBase + new URLSearchParams({sheet: sheet}),
         {
             method: "GET",
             headers: {
@@ -48,38 +51,55 @@
             return r.json()
         })
 
-        let schema = content[0];
-        content = content.splice(1)
+        sheetData = sheetData.data
 
-        console.log(schema)
+        let schema = sheetData[0];
+        sheetData = sheetData.splice(1)
+        return {schema: schema, data: sheetData}
+    }
 
-        let allEntries = content.map((line) => {
-            return formatEntry(schema, line)
+    async function StoreSheetData(sheet, SchemaStore, DataStore){
+        getSheetData(sheet).then((r) => {
+            let schema = r.schema;
+            let data = r.data;
+            
+            SchemaStore.set(schema);
+            
+            DataStore.set(data.map((line) => {
+                return formatEntry(schema, line)
+            }));
+            console.log(data)
+            
         })
-        
-        let filtered = Object.filter(allEntries[1], value => isNumeric(value[1]))
-        console.log(filtered)
 
-        data = filtered
+    }
 
+    function SyncData(){
+        if ($entriesSync.length != 0){
+            alert("There are entries to sync, please sync them first or delete them.")
+            return            
+        }
+
+        StoreSheetData("MagicScouting", MatchSchema, TeamsDB);
+        StoreSheetData("PitScouting", PitSchema, PitTeamsDB);
+        alert("Data Synced")
+    }
+
+    $: data = {}
+
+    onMount(async () => {
+        if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
+            SyncData();
+        }
     })
 
     
     
 </script>
-<BarChartSimple
-	data={formatToChart(data)}
-	options={{
-		theme: 'g90',
-		title: 'Simple bar (discrete)',
-		height: '400px',
-		axes: {
-			left: { mapsTo: 'value' },
-			bottom: { mapsTo: 'group', scaleType: 'labels' }
-		}
-	}} />
 
-<a href = "/teamAnalisys">Team Analisys</a>
+<button on:click={() => {SyncData()}}>Sync Data</button>
+<button on:click={() => {goto('/teamAnalisys')}}>Team Analisys</button>
+
 
 <!-- 
 ['timeStamp', 'team', 'match', 'arenaPos', 'red/blue', 
