@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 
     import '@carbon/charts-svelte/styles.css'
-	import { BarChartStacked } from '@carbon/charts-svelte'
+	import { BarChartGrouped } from '@carbon/charts-svelte'
 
     import { writable } from 'svelte/store';
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
@@ -48,6 +48,7 @@
     $: autoCompleteTeams = writable([]);
 
     $: teamData = {"logo": new Image(), "name":""};
+
     async function getTBAData(team){
         let requestData = await fetch(`https://www.thebluealliance.com/api/v3/team/frc${team}/simple`,
             {
@@ -83,9 +84,9 @@
 
     function getEntryArray(data, param){
         let entryArray = []
-        for (let i = 0; i < data.length; i++){
-            entryArray.push(data[i][param])
-        }
+        data.forEach((e) => {
+            entryArray.push(e[param])
+        })
         return entryArray
     }
 
@@ -98,6 +99,7 @@
     }
 
     function setupChartsData(data){
+        if (!data){return []}
         let chartLabels = ["L1 auto", "L2 auto", "L3 auto", "L4 auto"]
         let chartReference = ["autoROne", "autoRTwo", "autoRThree", "autoRFour"]
         
@@ -105,14 +107,14 @@
 
         chartReference.forEach((e) => {
             let scoreBar = {
-                "group": chartLabels[chartReference.indexOf(e)],
-                "Key": "Score",
-                "value": getEntryArray(data, e+"Score")
+                "key": chartLabels[chartReference.indexOf(e)],
+                "group": "Score",
+                "value": avgArray(getEntryArray(data, e+"Score"))
             }
             let missBar = {
-                "group": chartLabels[chartReference.indexOf(e)],
-                "Key": "Miss",
-                "value": getEntryArray(data, e+"Miss")
+                "key": chartLabels[chartReference.indexOf(e)],
+                "group": "Miss",
+                "value": avgArray(getEntryArray(data, e+"Miss"))
             }
 
             chartData.push(scoreBar)
@@ -122,14 +124,13 @@
 
         let teleopRFourScore = getEntryArray(data, "teleopRFourScore")
         
+        console.log(chartData)
         return chartData
-
-
     }
 
     let debounceTimeout;
 
-    let rawData;
+    let rawData = writable([]);
 
     $: if (teamSearch != "") {
         console.log(teamSearch);
@@ -141,19 +142,29 @@
         });
 
         autoCompleteTeams.set(filterSugestions);
-        console.log(autoCompleteTeams);
         
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(async () => {
-            rawData = getTeamScoutingData(teamSearch);
-            
-            setupChartsData(rawData);
-            
+            console.log(getTeamScoutingData(teamSearch))
+            rawData.set(getTeamScoutingData(teamSearch));
+
             await getTBAData(teamSearch);
         }, 300); // Adjust the debounce delay as needed
     } else {
         autoCompleteTeams.set([]);
     }
+
+    let CoralPerformanceChart;
+    const options = {
+        theme: 'g90',
+        title: 'Coral performance',
+        height: '400px',
+        axes: {
+            left: { mapsTo: 'value' },
+            bottom: { mapsTo: 'key', scaleType: 'labels' }
+        }    
+    };    
+
 
 </script>
 
@@ -168,15 +179,8 @@
     </div>
 {/each}
 
-
-<!-- <BarChartStacked
-	data={setupChartsData(rawData)}
-	options={{
-		theme: 'g90',
-		title: 'Coral performance',
-		height: '400px',
-		axes: {
-			left: { mapsTo: 'key' },
-			bottom: { mapsTo: 'key', scaleType: 'labels' }
-		}
-    }} />  -->
+<svelte:component
+    this={BarChartGrouped}
+    data={setupChartsData($rawData)}
+    options={options}
+/> 
