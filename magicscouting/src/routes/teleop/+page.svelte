@@ -75,11 +75,12 @@
 	let pauseGamePieceCycle = '';
 	let gpType = "";
 	let sourceType = "";
-	$: selectedTimerOption = gpType=="algae" ? 3 : gpType=="coral" && sourceType=="station" ? 2 : gpType=="coral" && sourceType=="floor" ? 1 : 0;
+	$: selectedTimerOption = gpType=="algae" ? 2 : gpType=="coral" && sourceType=="station" ? 1 : gpType=="coral" && sourceType=="floor" ? 0 : -1;
+	$: console.log(selectedTimerOption)
 	let TimerOptions = [
-		{ id: '1', content: "Coral Chão", value: 'coralFloor', handler: () => {handleGamePieceCycle(coralFloorCycle)} },
-		{ id: '2', content: "Coral Station", value: 'coralStaion', handler: () => {handleGamePieceCycle(coralStationCycle)}},
-		{ id: '3', content: "Algae", value: 'algae', handler: () => {handleGamePieceCycle(algaeCycle)}}
+		{ id: '0', content: "Coral Chão", value: 'coralFloor', handler: () => {handleGamePieceCycle(coralFloorCycle)} },
+		{ id: '1', content: "Coral Station", value: 'coralStation', handler: () => {handleGamePieceCycle(coralStationCycle)}},
+		{ id: '2', content: "Algae", value: 'algae', handler: () => {handleGamePieceCycle(algaeCycle)}}
 	];
 
 	function startOnstageCycle() {
@@ -129,7 +130,8 @@
 	}
 
 	function handleGamePieceCycle(location){
-		console.log(location);
+		console.log("this is floorcycle: " + coralFloorCycle)
+		console.log("this is location: " + location);
 		location.push(Math.round(gamePieceCycle*10)/10);	
 		gamePieceCycle = 0;
 	}
@@ -153,7 +155,7 @@
 				"bargeStatus": barge,
 				"bargeTime": onstageCycle,
 				"coralStationCycleTime": JSON.stringify(coralStationCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
-				"coralFloorCycleTime":JSON.stringify(coralFloorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
+				"coralFloorCycleTime": JSON.stringify(coralFloorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"algaeCycleTime":JSON.stringify(algaeCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				});
 		goto('/info');
@@ -331,8 +333,8 @@
 		<div class="w-full flex items-center">
 			<div on:click={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">Cancel</div>
 			<div on:click={()=>{if(pauseGamePieceCycle!="paused"){pauseGamePieceCycle="paused"}else{pauseGamePieceCycle=""}}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D6EAF8] text-black">{pauseGamePieceCycle!="paused" ? "Pause" : "Play"}</div>
-			{#if selectedTimerOption!=0}				
-			<div on:click={()=>{stopGamePieceCycle(); handleGamePieceCycle(TimerOptions[selectedTimerOption].handler())}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">Save</div>
+			{#if selectedTimerOption!=-1}				
+			<div on:click={()=>{stopGamePieceCycle(); TimerOptions[selectedTimerOption].handler()}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">Save</div>
 			{/if}
 		</div>
 	</div>
