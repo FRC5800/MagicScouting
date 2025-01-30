@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 
     import '@carbon/charts-svelte/styles.css'
-	import { BarChartSimple } from '@carbon/charts-svelte'
+	import { BarChartStacked } from '@carbon/charts-svelte'
 
     import { writable } from 'svelte/store';
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
@@ -81,7 +81,55 @@
         return teamData
     }
 
+    function getEntryArray(data, param){
+        let entryArray = []
+        for (let i = 0; i < data.length; i++){
+            entryArray.push(data[i][param])
+        }
+        return entryArray
+    }
+
+    function avgArray(array){
+        let sum = 0
+        array.forEach((e) => {
+            sum += e
+        })
+        return sum/array.length
+    }
+
+    function setupChartsData(data){
+        let chartLabels = ["L1 auto", "L2 auto", "L3 auto", "L4 auto"]
+        let chartReference = ["autoROne", "autoRTwo", "autoRThree", "autoRFour"]
+        
+        let chartData = []
+
+        chartReference.forEach((e) => {
+            let scoreBar = {
+                "group": chartLabels[chartReference.indexOf(e)],
+                "Key": "Score",
+                "value": getEntryArray(data, e+"Score")
+            }
+            let missBar = {
+                "group": chartLabels[chartReference.indexOf(e)],
+                "Key": "Miss",
+                "value": getEntryArray(data, e+"Miss")
+            }
+
+            chartData.push(scoreBar)
+            chartData.push(missBar)
+            
+        })
+
+        let teleopRFourScore = getEntryArray(data, "teleopRFourScore")
+        
+        return chartData
+
+
+    }
+
     let debounceTimeout;
+
+    let rawData;
 
     $: if (teamSearch != "") {
         console.log(teamSearch);
@@ -97,7 +145,10 @@
         
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(async () => {
-            console.log(getTeamScoutingData(teamSearch));
+            rawData = getTeamScoutingData(teamSearch);
+            
+            setupChartsData(rawData);
+            
             await getTBAData(teamSearch);
         }, 300); // Adjust the debounce delay as needed
     } else {
@@ -118,17 +169,14 @@
 {/each}
 
 
-<!-- <button on:click={}>Sync data</button> -->
-
-
-<!-- <BarChartSimple
-	data={formatToChart(data[0])}
+<!-- <BarChartStacked
+	data={setupChartsData(rawData)}
 	options={{
 		theme: 'g90',
-		title: 'Simple bar (discrete)',
+		title: 'Coral performance',
 		height: '400px',
 		axes: {
-			left: { mapsTo: 'value' },
-			bottom: { mapsTo: 'group', scaleType: 'labels' }
+			left: { mapsTo: 'key' },
+			bottom: { mapsTo: 'key', scaleType: 'labels' }
 		}
-	}} /> -->
+    }} />  -->
