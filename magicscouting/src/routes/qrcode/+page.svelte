@@ -15,8 +15,49 @@
     $: localData =  $entriesSync;
     let appData;
     
-    let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction", "robotBroke", "commFault"]; 
-    
+    let keys = [
+        "team",
+        "match",
+        "arenaPos",
+        "red/blue",
+        "autoLvl1CoralPoints",
+        "autoLvl2CoralPoints",
+        "autoLvl3CoralPoints",
+        "autoLvl4CoralPoints",
+        "autoLvl1CoralMisses",
+        "autoLvl2CoralMisses",
+        "autoLvl3CoralMisses",
+        "autoLvl4CoralMisses",
+        "autoLowAlgaeTakeout",
+        "autoHighAlgaeTakeout",
+        "autoProcessorPoints", 
+        "autoProcessorMisses", 
+        "autoNetPoints", 
+        "autoNetMisses",
+        "autoIsLeave",
+        "teleopLvl1CoralPoints",
+        "teleopLvl2CoralPoints",
+        "teleopLvl3CoralPoints",
+        "teleopLvl4CoralMisses",
+        "teleopLvl1CoralMisses",
+        "teleopLvl2CoralMisses",
+        "teleopLvl3CoralMisses",
+        "teleopLvl4CoralMisses",
+        "teleopHighAlgae",
+        "teleopLowAlgae",
+        "teleopProcessorPoints",
+        "teleopProcessorMisses",
+        "teleopNetPoints",
+        "teleopNetMisses",
+        "teleopBarge",
+        "teleopOnStageTime",
+        "teleopCoralStationCycle",
+        "teleopCoralFloorCycle",
+        "teleopAlgaeCycle",
+        "teamRole",
+        "robotStatus",
+        "coopertition",
+    ]; 
     
     var src = '';
     

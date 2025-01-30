@@ -11,47 +11,16 @@
     import InfoSelect from "./infoSelect.svelte";
     import ResetModal from '$lib/components/ResetModal.svelte';
 
-    let ataque = {
-        name : "atk",
-        options: [{id: 0, value: false}, {id: 1, value: true}],
-        content: [$_('info.no'), $_('info.yes')],
-        selected: false
-    }
-
-    let defesa = {
-        name : "def",
-        options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: [$_('info.no'), $_('info.yes')],
-        selected: false
-    }
-
-    let suporte = {
-        name : "sup",
-        options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: [$_('info.no'), $_('info.yes')],
-        selected: false
-    }
-
-    let quebrou = {
-        name : "brk",
-        options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: [$_('info.no'), $_('info.yes')],
-        selected: false
-    }
-
-    let commFault = {
-        name : "com",
-        options: [{ id: 0, value: false}, { id: 1, value: true}],
-        content: [$_('info.no'), $_('info.yes')],
-        selected: false
-    }
+    let teamRole = "";
+    let robotStatus = "";
+    let coopertition = "";
 
     function onSubmit(){
-        let payload = JSON.stringify([(ataque.selected ? "Attack" : ""), (defesa.selected ? "Defense" : ""), (suporte.selected ? "Support" : "")].filter((x) => {return x!=""})).replaceAll("[", "").replaceAll("]", "").replaceAll("\"", ""); 
-        console.log(payload);
-        storeData({"matchFunction": payload});
-        storeData({"robotBroke": quebrou.selected});
-        storeData({"commFault": commFault.selected});
+        storeData({
+            "teamRole": teamRole,
+            "robotStatus": robotStatus,
+            "coopertition": coopertition,
+        });
         goto("/qrcode")
     }
 
@@ -62,18 +31,37 @@
 
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
-<h2 class="pt-4 pb-2 mt-4">{$_('info.attack_title')}</h2>
-<InfoSelect instance_options={ataque} bind:selectedOption={ataque.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">{$_('info.defense_title')}</h2>
-<InfoSelect instance_options={defesa} bind:selectedOption={defesa.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">{$_('info.support_title')}</h2>
-<InfoSelect instance_options={suporte} bind:selectedOption={suporte.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">{$_('info.broke_title')}</h2>
-<InfoSelect instance_options={quebrou} bind:selectedOption={quebrou.selected} width={'20vw'} />
-<h2 class="pt-4 pb-2 mt-4">{$_('info.communication_fault_title')}</h2>
-<InfoSelect instance_options={commFault} bind:selectedOption={commFault.selected} width={'20vw'} />
+<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
+    <div class="w-full flex items-center justify-center bg-primary-base p-1">
+        <h2 class="text-white text-normal font-medium">Team Role</h2>
+    </div>
+    <div class="w-full flex items-center justify-between">
+        <div on:click={()=>{teamRole="atk"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="atk" ? 'bg-primary-base':''}">Pontuador</div>
+        <div on:click={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base':''}">Defensor</div>
+        <div on:click={()=>{teamRole="sup"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="sup" ? 'bg-primary-base':''}">Suporte</div>
+    </div>
+</div>
 
+<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
+    <div class="w-full flex items-center justify-center bg-primary-base p-1">
+        <h2 class="text-white text-normal font-medium">Robot Status</h2>
+    </div>
+    <div class="w-full flex items-center justify-between">
+        <div on:click={()=>{robotStatus="safe"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="safe" ? 'bg-primary-base':''}">Safe</div>
+        <div on:click={()=>{robotStatus="broke"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="broke" ? 'bg-primary-base':''}">Broke</div>
+        <div on:click={()=>{robotStatus="commLoss"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base':''}">Comm Loss</div>
+    </div>
+</div>
 
+<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
+    <div class="w-full flex items-center justify-center bg-primary-base p-1">
+        <h2 class="text-white text-normal font-medium">Coopertition Bonus</h2>
+    </div>
+    <div class="w-full flex items-center justify-between">
+        <div on:click={()=>{coopertition="yes"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="yes" ? 'bg-primary-base':''}">Yes</div>
+        <div on:click={()=>{coopertition="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="no" ? 'bg-primary-base':''}">No</div>
+    </div>
+</div>
 
 <button on:click={onSubmit} class="mt-16 btn">{$_('info.continue_button')}</button>
 
@@ -81,4 +69,8 @@
     h2{
         @apply font-black;
     }
+    .container {
+		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
+		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
+	}
 </style>

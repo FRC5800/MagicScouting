@@ -5,6 +5,7 @@
 	export let showConfig = false;
 	export let showDataBase = false;
 	export let showX = true;
+	export let changeNameLater = true;
 
 	let dialog;
 
@@ -21,8 +22,8 @@
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
-	on:close={handleClose}
-	on:click|self={() => dialog.close()}
+	on:close={()=>{if(changeNameLater)handleClose}}
+	on:click|self={() => {if(changeNameLater)dialog.close()}}
 	class="bg-[#EAEAEC] dark:bg-primary-heavy dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->

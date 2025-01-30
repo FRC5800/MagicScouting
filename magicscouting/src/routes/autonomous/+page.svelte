@@ -5,18 +5,31 @@
 	import { App } from '@capacitor/app';
 	import { goto } from '$app/navigation';
 	
-	import amp from '$lib/assets/amp.png';
-	import speaker from '$lib/assets/speaker.png';
 	import storeData from "$lib/shared/scripts/controlData.js";
-    import ResetModal from '$lib/components/ResetModal.svelte';
+  import ResetModal from '$lib/components/ResetModal.svelte';
 
-	//SPEAKER VALUES
-	let speakerScoreAuto = 0;
-	let speakerMissAuto = 0;
+	//CORAL VALUES
+	let lvl1CoralPoints = 0;
+	let lvl2CoralPoints = 0;
+	let lvl3CoralPoints = 0;
+	let lvl4CoralPoints = 0;
+	let coralSelectedLevel = "lvl1"
+	let lvl1CoralMisses = 0;
+	let lvl2CoralMisses = 0;
+	let lvl3CoralMisses = 0;
+	let lvl4CoralMisses = 0;
 	
-	//AMP VALUES
-	let ampScoreAuto = 0;
-	let ampMissAuto = 0;
+	//ALGAE VALUES
+	let lowAlgae = 0;
+	let highAlgae = 0;
+	let algaeSelectedLevel = "low"
+
+	// PROCESSOR
+	let processorPoints = 0;
+	let processorMisses = 0;
+
+	let netPoints = 0;
+	let netMisses = 0;
 	
 	//LEAVE VALUE
 	$: leave = false;
@@ -24,94 +37,121 @@
 	let resetConfirmation = false;
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
 	
+	function setCoralPoint(point){
+		if (coralSelectedLevel == "lvl1") {lvl1CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl2") {lvl2CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl3") {lvl3CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl4") {lvl4CoralPoints+=point}
+	}
+	function setCoralMiss(miss){
+		if (coralSelectedLevel == "lvl1") {lvl1CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl2") {lvl2CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl3") {lvl3CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl4") {lvl4CoralMisses+=miss}
+	}
+	function setAlgaePoint(point){
+		if (algaeSelectedLevel == "low") {lowAlgae+=point}
+		else if (algaeSelectedLevel == "high") {highAlgae+=point}
+	}
+	
 	function onSubmit() {
-		storeData({"autoAmpScore": ampScoreAuto, "autoAmpMiss": ampMissAuto, "autoSpeakerScore": speakerScoreAuto, "autoSpeakerMiss": speakerMissAuto, "isLeave": leave ? 1 : 0});
+		storeData({
+			"autoLvl1CoralPoints": lvl1CoralPoints, 
+			"autoLvl2CoralPoints": lvl2CoralPoints, 
+			"autoLvl3CoralPoints": lvl3CoralPoints, 
+			"autoLvl4CoralPoints": lvl4CoralPoints, 
+			"autoLvl1CoralMisses": lvl1CoralMisses, 
+			"autoLvl2CoralMisses": lvl2CoralMisses, 
+			"autoLvl3CoralMisses": lvl3CoralMisses, 
+			"autoLvl4CoralMisses": lvl4CoralMisses, 
+			"autoLowAlgaeTakeout": lowAlgae, 
+			"autoHighAlgaeTakeout": highAlgae, 
+			"autoProcessorPoints": processorPoints, 
+			"autoProcessorMisses": processorMisses, 
+			"autoNetPoints": netPoints, 
+			"autoNetMisses": netMisses, 
+			"autoIsLeave": leave ? 1 : 0
+		});
 		goto('/teleop');
 	}
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
-<section class="text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
-	<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
-	<div class="separator"></div>
-
-	<h2 class="text-[1.5rem]">{$_('autonomous.speaker')}</h2>
-	<div class="container">
-		<div class="image">
-			<img class="speaker-img" src={speaker} alt="" />
+<section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
+	<div class="flex flex-col">
+		<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
+		<div class="separator w-full"></div>
+	</div>
+	
+	<div class="container items-center justify-center rounded overflow-hidden ">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+			<h2 class="text-white text-normal font-medium">Reef - Coral</h2>
 		</div>
-		<div class="scores">
-			<h4>{$_('autonomous.scores')}</h4>
-			<button
-				class="points"
-				on:click={() => {
-					speakerScoreAuto += 1;
-				}}>+</button
-			>
-			<button
-				class="points"
-				on:click={() => {
-					speakerScoreAuto = Math.max(speakerScoreAuto-1,0);
-				}}>-</button
-			>
-			<p>{speakerScoreAuto}</p>
+		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
+			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralPoints : coralSelectedLevel=="lvl2" ? lvl2CoralPoints : coralSelectedLevel=="lvl3" ? lvl3CoralPoints : coralSelectedLevel=="lvl4" ? lvl4CoralPoints : ''}</div>
+			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747]">+</div>
 		</div>
-		<div class="miss">
-			<h4>{$_('autonomous.misses')}</h4>
-			<button
-				class="points"
-				on:click={() => {
-					speakerMissAuto += 1;
-				}}>+</button
-			>
-			<button
-				class="points"
-				on:click={() => {
-					speakerMissAuto = Math.max(speakerMissAuto-1,0);
-				}}>-</button
-			>
-			<p>{speakerMissAuto}</p>
+		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
+			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
+			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747]">+</div>
+		</div>
+		<div class="w-full flex items-center">
+			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
+			<div on:click={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
+			<div on:click={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
+			<div on:click={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base':''}">LVL4</div>
 		</div>
 	</div>
 
-	<h2 class="text-[1.5rem]">{$_('autonomous.amp')}</h2>
-	<div class="container">
-		<div class="image">
-			<img class="amp-img" src={amp} alt="" />
+	<div class="container items-center justify-center rounded overflow-hidden ">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+			<h2 class="text-white text-normal font-medium">Reef - Algae</h2>
 		</div>
-		<div class="scores">
-			<h4>{$_('autonomous.scores')}</h4>
-			<button
-				class="points"
-				on:click={() => {
-					ampScoreAuto += 1;
-				}}>+</button
-			>
-			<button
-				class="points"
-				on:click={() => {
-					ampScoreAuto = Math.max(ampScoreAuto-1,0);
-				}}>-</button
-			>
-			<p>{ampScoreAuto}</p>
+		<div class="w-full px-8 flex items-center justify-between bg-[#F4F4F4] py-1">
+			<div on:click={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{algaeSelectedLevel=="low" ? lowAlgae : algaeSelectedLevel=="high" ? highAlgae : ''}</div>
+			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747]">+</div>
 		</div>
-		<div class="miss">
-			<h4>{$_('autonomous.misses')}</h4>
-			<button
-				class="points"
-				on:click={() => {
-					ampMissAuto += 1;
-				}}>+</button
-			>
-			<button
-				class="points"
-				on:click={() => {
-					ampMissAuto = Math.max(ampMissAuto-1, 0);
-				}}>-</button
-			>
-			<p>{ampMissAuto}</p>
+		<div class="w-full flex items-center justify-around">
+			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
+			<div on:click={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">HIGH</div>
 		</div>
 	</div>
+
+	<div class="container items-center justify-center rounded overflow-hidden ">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+			<h2 class="text-white text-normal font-medium">Processor</h2>
+		</div>
+		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
+			<div on:click={()=>{processorPoints-=1}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
+			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747]">+</div>
+		</div>
+		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
+			<div on:click={()=>{processorMisses-=1}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
+			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747]">+</div>
+		</div>
+	</div>
+
+	<div class="container items-center justify-center rounded overflow-hidden ">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+			<h2 class="text-white text-normal font-medium">Net</h2>
+		</div>
+		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
+			<div on:click={()=>{netPoints-=1}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
+			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747]">+</div>
+		</div>
+		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
+			<div on:click={()=>{netMisses-=1}} class="text-2xl text-[#474747]">-</div>
+			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
+			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747]">+</div>
+		</div>
+	</div>
+	
 	<button
 		on:click={() => {leave = !leave;}}
 		id="leave"
@@ -149,7 +189,6 @@
 	.separator {
 		@apply my-3 bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;
-		width: 60%;
 	}
 
 	.speaker-img {
@@ -159,20 +198,16 @@
 		width: 75%;
 	}
 	.container {
-		@apply border-[1px] border-black dark:border-neutral-200 rounded-md mb-3 p-3 flex flex-row justify-around w-[80%];
-	}
-
-	.container > div {
-		text-align: center;
-		width: 25%;
+		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
+		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
 
 	.image {
-		@apply w-[25%] flex justify-center items-center;
+		@apply flex justify-center items-center;
 	}
 
 	.leave {
-		width: 40%;
+		width: 80vw;
 		font-size: 20px;
 		font-weight: 600;
 		justify-content: center;
