@@ -171,7 +171,23 @@
 	{/if}
 </Modal>
 
-<h4 class="fixed italic font-semibold text-gray-500 bottom-3 right-4">MagicScouting v2.0</h4>
+<div class="btm-nav">
+  <button class="active">
+    <i class="fi fi-rr-home"></i>
+  </button>
+  <button on:click={()=>{goto('/qrcodeStorage')}}>
+    <i class="fi fi-rr-database"></i>
+  </button>
+  <button>
+    <i class="fi fi-rr-camera"></i>
+  </button>
+  <button>
+    <i class="fi fi-rr-chart-histogram"></i>
+  </button>
+  <button>
+    <i class="fi fi-rr-settings-sliders"></i>
+  </button>
+</div>
 
 <style lang='postcss'>
 	header {

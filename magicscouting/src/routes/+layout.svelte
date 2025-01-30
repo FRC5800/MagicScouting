@@ -1,7 +1,7 @@
 <script>
 	import './styles.css';
 	import '../app.css';
-	import '@fortawesome/fontawesome-free/css/all.min.css';
+	// import '@fortawesome/fontawesome-free/css/all.min.css';
 	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
@@ -24,7 +24,7 @@
 	{#await preload()	}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
 	{:then resolved} 
-	<main class="p-2">
+	<main class="flex-col">
 		<slot />
 	</main>
 	{/await}
@@ -39,8 +39,8 @@
 	main {
 		min-height: 100vh;
 		display: flex;
-		justify-content: center;
-		align-items: flex-start;
+		/* justify-content: center; */
+		align-items: center;
 	}
 	
 	.loader {
