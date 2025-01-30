@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
 	import '../.././app.css';
 
 	import { _ } from 'svelte-i18n';
@@ -56,21 +58,21 @@
 	
 	function onSubmit() {
 		storeData({
-			"autoLvl1CoralPoints": lvl1CoralPoints, 
-			"autoLvl2CoralPoints": lvl2CoralPoints, 
-			"autoLvl3CoralPoints": lvl3CoralPoints, 
-			"autoLvl4CoralPoints": lvl4CoralPoints, 
-			"autoLvl1CoralMisses": lvl1CoralMisses, 
-			"autoLvl2CoralMisses": lvl2CoralMisses, 
-			"autoLvl3CoralMisses": lvl3CoralMisses, 
-			"autoLvl4CoralMisses": lvl4CoralMisses, 
-			"autoLowAlgaeTakeout": lowAlgae, 
-			"autoHighAlgaeTakeout": highAlgae, 
-			"autoProcessorPoints": processorPoints, 
-			"autoProcessorMisses": processorMisses, 
-			"autoNetPoints": netPoints, 
-			"autoNetMisses": netMisses, 
-			"autoIsLeave": leave ? 1 : 0
+			"autoROneScore": lvl1CoralPoints, 
+			"autoRTwoScore": lvl2CoralPoints, 
+			"autoRThreeScore": lvl3CoralPoints, 
+			"autoRFourScore": lvl4CoralPoints,
+			"autoROneMiss": lvl1CoralMisses,
+			"autoRTwoMiss": lvl2CoralMisses,
+			"autoRThreeMiss": lvl3CoralMisses,
+			"autoRFourMiss": lvl4CoralMisses,
+			"autoRemoveAlgaeLow": lowAlgae, 
+			"autoRemoveAlgaeHigh": highAlgae, 
+			"autoProcessorScore": processorPoints, 
+			"autoProcessorMiss": processorMisses, 
+			"autoNetScore": netPoints, 
+			"autoNetMiss": netMisses, 
+			"isLeave": leave ? 1 : 0
 		});
 		goto('/teleop');
 	}

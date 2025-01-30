@@ -17,9 +17,9 @@
 
     function onSubmit(){
         storeData({
-            "teamRole": teamRole,
+            "robotFunction": teamRole,
             "robotStatus": robotStatus,
-            "coopertition": coopertition,
+            "coopBonus": coopertition,
         });
         goto("/qrcode")
     }

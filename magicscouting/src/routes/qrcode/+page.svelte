@@ -20,43 +20,43 @@
         "match",
         "arenaPos",
         "red/blue",
-        "autoLvl1CoralPoints",
-        "autoLvl2CoralPoints",
-        "autoLvl3CoralPoints",
-        "autoLvl4CoralPoints",
-        "autoLvl1CoralMisses",
-        "autoLvl2CoralMisses",
-        "autoLvl3CoralMisses",
-        "autoLvl4CoralMisses",
-        "autoLowAlgaeTakeout",
-        "autoHighAlgaeTakeout",
-        "autoProcessorPoints", 
-        "autoProcessorMisses", 
-        "autoNetPoints", 
-        "autoNetMisses",
-        "autoIsLeave",
-        "teleopLvl1CoralPoints",
-        "teleopLvl2CoralPoints",
-        "teleopLvl3CoralPoints",
-        "teleopLvl4CoralMisses",
-        "teleopLvl1CoralMisses",
-        "teleopLvl2CoralMisses",
-        "teleopLvl3CoralMisses",
-        "teleopLvl4CoralMisses",
-        "teleopHighAlgae",
-        "teleopLowAlgae",
-        "teleopProcessorPoints",
-        "teleopProcessorMisses",
-        "teleopNetPoints",
-        "teleopNetMisses",
-        "teleopBarge",
-        "teleopOnStageTime",
-        "teleopCoralStationCycle",
-        "teleopCoralFloorCycle",
-        "teleopAlgaeCycle",
-        "teamRole",
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoROneMiss",
+        "autoRTwoMiss",
+        "autoRThreeMiss",
+        "autoRFourMiss",
+        "autoRemoveAlgaeLow",
+        "autoRemoveAlgaeHigh",
+        "autoProcessorScore", 
+        "autoProcessorMiss", 
+        "autoNetScore", 
+        "autoNetMiss",
+        "isLeave",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+        "teleopROneMiss",
+        "teleopRTwoMiss",
+        "teleopRThreeMiss",
+        "teleopRFourMiss",
+        "teleopRemoveAlgaeHigh",
+        "teleopRemoveAlgaeLow",
+        "teleopProcessorScore",
+        "teleopProcessorMiss",
+        "teleopNetScore",
+        "teleopNetMiss",
+        "bargeStatus",
+        "bargeTime",
+        "coralStationCycleTime",
+        "coralFloorCycleTime",
+        "algaeCycleTime",
+        "robotFunction",
         "robotStatus",
-        "coopertition",
+        "coopBonus",
     ]; 
     
     var src = '';
@@ -92,16 +92,7 @@
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
-            payload["sourceCycleTime"] = payload["sourceCycleTime"]=="" ? "0" : payload["sourceCycleTime"]
-            payload["floorCycleTime"] = payload["floorCycleTime"]=="" ? "0" : payload["floorCycleTime"]
-
-            let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
-            let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value!="" ? parseFloat(value) : 0});
-            
-            let sourceAverage = avgArray(sourceTimes);
-            let floorAverage = avgArray(floorTimes);
-
-            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
+            return self.fetch($dataBase + new URLSearchParams(payload), {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",

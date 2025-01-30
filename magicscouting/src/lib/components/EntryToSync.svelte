@@ -23,16 +23,7 @@
     async function send_to_sheets(payload){
         console.log($dataBase + new URLSearchParams(payload))
         try{
-            payload["sourceCycleTime"] = payload["sourceCycleTime"]=="" ? "0" : payload["sourceCycleTime"]
-            payload["floorCycleTime"] = payload["floorCycleTime"]=="" ? "0" : payload["floorCycleTime"]
-
-            let sourceTimes = payload["sourceCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value != "" ? parseFloat(value) : 0});
-            let floorTimes = payload["floorCycleTime"].replaceAll(",", ".").split(";").map((value) => {return value != "" ? parseFloat(value) : 0});
-            
-            let sourceAverage = avgArray(sourceTimes);
-            let floorAverage = avgArray(floorTimes);
-
-            return self.fetch($dataBase + new URLSearchParams(Object.assign({}, payload, {"sourceAverage": String(Math.round(sourceAverage*10)/10).replaceAll(".", ","), "floorAverage":String(Math.round(floorAverage*10)/10).replaceAll(".", ",")})), {
+            return self.fetch($dataBase + new URLSearchParams(payload), {
                 method: "POST",
                 headers: {
                     "Content-Type": "text/plain",
