@@ -7,7 +7,6 @@
 
     App.addListener("backButton", ()=>{goto('/')});
 
-    console.log($entriesToSync);
 </script>
 
 {#each $entriesToSync as entry}
