@@ -12,18 +12,8 @@
 
 	import { goto } from '$app/navigation';
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
+    import { setupChartsDataScore, getTeamScoutingData, getTBAData } from "$lib/shared/scripts/chartUtilities";
 
-    function formatToChart(entry){
-        let chartData = []
-        
-        for (let i = 0; i < Object.keys(entry).length; i++){
-            let key = Object.keys(entry)[i]
-            let value = Object.values(entry)[i]
-            chartData.push({group: key, value: value})
-        }
-
-        return chartData
-    }
 
     $: data = $TeamsDB
     console.log(data)
@@ -33,80 +23,6 @@
     $: autoCompleteTeams = writable([]);
 
     const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
-
-    async function getTBAData(team){
-        let requestData = await fetch(`https://www.thebluealliance.com/api/v3/team/frc${team}/simple`,
-            {
-                method: "GET",
-                headers: {
-                    "X-TBA-Auth-Key": "ua8GRX5X4m3IKgFxkruldDLonsaOlAc8GTlK0DLdIsUUYkTfda8KaHaKbaUEsDTq"
-                }
-            }
-        ).then((r) => {
-            return r.json()
-        })
-        let image = await fetch(`https://www.thebluealliance.com/api/v3/team/frc${team}/media/2025`,
-            {
-                method: "GET",
-                headers: {
-                    "X-TBA-Auth-Key": "ua8GRX5X4m3IKgFxkruldDLonsaOlAc8GTlK0DLdIsUUYkTfda8KaHaKbaUEsDTq"
-                }
-            }
-        ).then((r) => {
-            return r.json()
-        })
-        if (team == teamSearch){
-            $teamData.logo.src = "data:image/png;base64," + image[0].details.base64Image
-            $teamData.name = requestData.nickname
-        }
-    }
-    function getTeamScoutingData(team){
-        let teamData = $TeamsDB.filter((entry) => {
-            return entry["team"] == team
-        })
-        return teamData
-    }
-
-    function getEntryArray(data, param){
-        let entryArray = []
-        data.forEach((e) => {
-            entryArray.push(e[param])
-        })
-        return entryArray
-    }
-
-    function avgArray(array){
-        let sum = 0
-        array.forEach((e) => {
-            sum += e
-        })
-        return sum/array.length
-    }
-
-    function setupChartsDataScore(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
-        if (!data){return []}
-        
-        let chartData = []
-
-        chartReference.forEach((e) => {
-            namePatterns.forEach((pattern) => {
-                let bar = {
-                    "key": chartLabels[chartReference.indexOf(e)],
-                    "group": pattern,
-                    "value": avgArray(getEntryArray(data, e+pattern))
-                }
-                chartData.push(bar)
-            })
-            
-        })
-        
-        
-
-        let teleopRFourScore = getEntryArray(data, "teleopRFourScore")
-        
-        console.log(chartData)
-        return chartData
-    }
 
     let debounceTimeout;
 
@@ -128,15 +44,15 @@
             console.log(getTeamScoutingData(teamSearch))
             rawData.set(getTeamScoutingData(teamSearch));
 
-            await getTBAData(teamSearch);
+            getTBAData(teamSearch).then((r) => {
+                if (r.team == teamSearch){
+		            $teamData.logo.src = r.logo
+		            $teamData.name = r.name
+            	}
+            });
         }, 300); // Adjust the debounce delay as needed
     } else {
         autoCompleteTeams.set([]);
-    }
-
-    function handlePitScouting(){
-        
-        goto("/pitData")
     }
 
 
@@ -211,6 +127,4 @@
     }
 /> 
 
-<button on:click={handlePitScouting}>Pit Data</button>
-
-<button on:click={() => {goto("/dataAnalisys")}} class="bg-white">Pit Data</button>
+<button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>

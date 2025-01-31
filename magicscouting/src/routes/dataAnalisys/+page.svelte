@@ -33,7 +33,7 @@
 </script>
 
 <SyncDataButton />
-<button on:click={() => {goto('/teamAnalisys')}}>Team Analisys</button>
+<button on:click={() => {goto('/dataAnalisys/teamAnalisys')}}>Team Analisys</button>
 
 <!-- 
 ['timeStamp', 'team', 'match', 'arenaPos', 'red/blue', 
