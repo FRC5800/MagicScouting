@@ -30,6 +30,20 @@ export function getEntryArray(data, param){
 	return entryArray
 }
 
+export async function getStatBoticsData(team){
+	let requestData = await fetch(`https://api.statbotics.io/v3/team/${team}`).then((r) => {
+		return r.json()
+	})
+
+	return {
+		team: team,
+		winrate: requestData.record.season.winrate,
+		epa: requestData.norm_epa.current
+	}
+
+}
+
+
 export async function getTBAData(team){
 	let requestData = await fetch(`https://www.thebluealliance.com/api/v3/team/frc${team}/simple`,
 		{

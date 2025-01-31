@@ -12,7 +12,7 @@
 
 	import { goto } from '$app/navigation';
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
-    import { setupChartsDataScore, getTeamScoutingData, getTBAData } from "$lib/shared/scripts/chartUtilities";
+    import { setupChartsDataScore, getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
 
 
     $: data = $TeamsDB
@@ -22,7 +22,7 @@
     
     $: autoCompleteTeams = writable([]);
 
-    const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
+    const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":"", "winrate":"", "EPA":""});
 
     let debounceTimeout;
 
@@ -44,6 +44,12 @@
             console.log(getTeamScoutingData(teamSearch))
             rawData.set(getTeamScoutingData(teamSearch));
 
+            getStatBoticsData(teamSearch).then((r) => {
+                if (r.team == teamSearch){
+                    $teamData.winrate = r.winrate
+                    $teamData.EPA = r.epa
+                }
+            })
             getTBAData(teamSearch).then((r) => {
                 if (r.team == teamSearch){
 		            $teamData.logo.src = r.logo
@@ -58,11 +64,16 @@
 
 </script>
 
+
+
 <input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
 
-<img src={$teamData.logo.src} alt="Team Logo" />
-<div>{$teamData.name}</div>
-
+{#if $teamData}
+    <div class="border-color-5800-1 border-4 rounded-md">Team EPA: {$teamData.EPA}</div>
+    <div class="border-color-5800-1 border-4 rounded-md">Winrate: {$teamData.winrate}</div>
+    <img src={$teamData.logo.src} alt="Team Logo" />
+    <div>{$teamData.name}</div>
+{/if}
 {#each $autoCompleteTeams as team}
     <div>
         <button on:click={() => {teamSearch=team.team}}>{team.team}</button>

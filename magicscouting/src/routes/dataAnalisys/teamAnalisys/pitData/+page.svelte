@@ -31,7 +31,10 @@
         let fid = fileId.split("=")
         fid = fid[fid.length - 1]
         console.log(fid)
-        return `https://drive.google.com/thumbnail?id=${fid}&sz=w1000`;
+        
+        return `https://drive.google.com/uc?export=view&id=${fid}`;
+
+        // return `https://drive.google.com/thumbnail?id=${fid}&sz=w1000`;
     }
 
 </script>
@@ -41,7 +44,7 @@
 
     {#each Object.keys(pitScoutingSelectedData) as key}
         {#if key == "robotPicture"}
-            <img crossorigin src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
+            <img src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
         {:else}
             <div>{key}: {pitScoutingSelectedData[key]}</div>
         {/if}
