@@ -75,6 +75,7 @@
 			showModal = e.key == 'Enter' ? true : false;
 		}}
 		on:click={() => {
+			console.log(showModal)
 			showModal = true;
 		}}
 	/>

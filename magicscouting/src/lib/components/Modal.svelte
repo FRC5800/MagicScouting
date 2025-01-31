@@ -23,14 +23,14 @@
 <dialog
 	bind:this={dialog}
 	on:close={()=>{if(changeNameLater)handleClose}}
-	on:click|self={() => {if(changeNameLater)dialog.close()}}
+	on:click|self={() => {if(changeNameLater)dialog.close();console.log(showModal)}}
 	class="bg-[#EAEAEC] dark:bg-primary-heavy dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="py-4 px-[5vw] sm:px-[15vw] min-h-fit w-[60vw] max-sm:w-fit min-w-[70vw]">
 		{#if showX}
 			<i
-			class="fa-solid fa-x absolute top-[1em] right-[1em] hover:cursor-pointer"
+			class="fi fi-rr-cross absolute top-[1em] right-[1em] hover:cursor-pointer"
 			on:click={() => {
 				dialog.close();
 			}}
@@ -39,7 +39,7 @@
 
 		{#if showConfig || showDataBase}
 			<i
-				class="fa-solid fa-arrow-left absolute top-[1em] left-[1em] hover:cursor-pointer"
+				class="fi fi-rr-angle-left absolute top-[1em] left-[1em] hover:cursor-pointer"
 				on:click={() => {
 					(showConfig = false), (showModal = true), (showDataBase = false);
 				}}
