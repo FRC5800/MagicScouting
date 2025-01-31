@@ -10,23 +10,8 @@
     import { writable } from 'svelte/store';
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
 
-
-
-    Object.filter = (obj, predicate) => 
-                  Object.fromEntries(Object.entries(obj).filter(predicate));
-
-    function isNumeric(str) { 
-        return !isNaN(str) && !isNaN(parseFloat(str))
-    }
-
-
-    function formatEntry(schema, data){
-        let entry = {}
-        for (let i = 0; i < schema.length; i++){
-            entry[schema[i]] = data[i]
-        }
-        return entry
-    }
+	import { goto } from '$app/navigation';
+    import sessionStore from "$lib/shared/stores/sessionStorageStore";
 
     function formatToChart(entry){
         let chartData = []
@@ -47,7 +32,7 @@
     
     $: autoCompleteTeams = writable([]);
 
-    $: teamData = {"logo": new Image(), "name":""};
+    const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
 
     async function getTBAData(team){
         let requestData = await fetch(`https://www.thebluealliance.com/api/v3/team/frc${team}/simple`,
@@ -71,8 +56,8 @@
             return r.json()
         })
         if (team == teamSearch){
-            teamData.logo.src = "data:image/png;base64," + image[0].details.base64Image
-            teamData.name = requestData.nickname
+            $teamData.logo.src = "data:image/png;base64," + image[0].details.base64Image
+            $teamData.name = requestData.nickname
         }
     }
     function getTeamScoutingData(team){
@@ -149,13 +134,18 @@
         autoCompleteTeams.set([]);
     }
 
+    function handlePitScouting(){
+        
+        goto("/pitData")
+    }
+
 
 </script>
 
 <input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
 
-<img src={teamData.logo.src} alt="Team Logo" />
-<div>{teamData.name}</div>
+<img src={$teamData.logo.src} alt="Team Logo" />
+<div>{$teamData.name}</div>
 
 {#each $autoCompleteTeams as team}
     <div>
@@ -174,6 +164,7 @@
         theme: 'g90',
         title: 'AUTO CORAL',
         height: '200px',
+        width: '400px',
         axes: {
             left: { mapsTo: 'value' },
             bottom: { mapsTo: 'key', scaleType: 'labels' }
@@ -219,3 +210,7 @@
         }
     }
 /> 
+
+<button on:click={handlePitScouting}>Pit Data</button>
+
+<button on:click={() => {goto("/dataAnalisys")}} class="bg-white">Pit Data</button>

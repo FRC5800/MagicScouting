@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: 'class',
-	content: ['./src/**/*.{html,js,svelte,ts}', '.src/app.html'],
+	content: ['./src/**/*.{html,js,svelte,ts}', './src/app.html'],
 	safeList: [
 		{
 			pattern:
@@ -111,7 +111,7 @@ export default {
 			}
 		},
 		fontFamily: {
-			defaultText: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', ' sans-serif']
+			defaultText: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
 		}
 	},
 

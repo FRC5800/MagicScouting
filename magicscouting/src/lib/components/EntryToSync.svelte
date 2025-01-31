@@ -7,6 +7,7 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import TrashCan from '$lib/components/TrashCan.svelte'
 	import entriesSync from "../shared/stores/toSyncData";
+    import uploadPayload from "../shared/scripts/sheetsUpload";
 
     export let payload = {"team":5800, "match":2};
     
@@ -19,24 +20,6 @@
         arr.forEach((n) => {sum+=n});
         return arr.length > 0 ? sum/arr.length : 0;
     }
-
-    async function send_to_sheets(payload){
-        console.log($dataBase + new URLSearchParams(payload))
-        try{
-            return self.fetch($dataBase + new URLSearchParams(payload), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "text/plain",
-                },
-
-            });
-        }catch (e) {
-            console.log(e);
-            return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
-        }
-    }          
-
-    
     let buttonColor = ""
     let uploadDisabled = false;
     let uploadSuccess = 'undefined';
@@ -46,7 +29,7 @@
         try{
             uploadDisabled = true;
             let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
-            let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
+            let response = JSON.parse(await uploadPayload(payload).then((r) => {return r.text()}));
             clearInterval(animation);
             console.log(response)
             if (response.result == "success"){

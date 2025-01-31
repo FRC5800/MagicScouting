@@ -10,7 +10,8 @@
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
     import entriesSync from "$lib/shared/stores/toSyncData";
-    
+    import uploadPayload from '$lib/shared/scripts/sheetsUpload';
+
     let payload = {};
     $: localData =  $entriesSync;
     let appData;
@@ -88,22 +89,6 @@
         arr.forEach((n) => {sum+=n});
         return arr.length > 0 ? sum/arr.length : 0;
     }
-
-    async function send_to_sheets(payload){
-        console.log($dataBase + new URLSearchParams(payload))
-        try{
-            return self.fetch($dataBase + new URLSearchParams(payload), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "text/plain",
-                },
-
-            });
-        }catch (e) {
-            console.log(e);
-            return {"text": ()=>{return JSON.stringify({"result": "Error"})}};
-        }
-    }     
     
     function updateQr() {
         QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {
@@ -118,7 +103,7 @@ async function HandleUpload(){
         let dotsAnimation = "";
         let animation = setInterval(() => {dotsAnimation = dotsAnimation == "..." ? "" : dotsAnimation == ".." ? "..." : dotsAnimation == "." ? ".." :dotsAnimation == "" ? "." : "..."; uploadStatus = "Uploading" + dotsAnimation}, 200);
         
-        let response = JSON.parse(await send_to_sheets(payload).then((r) => {return r.text()}));
+        let response = JSON.parse(await uploadPayload(payload).then((r) => {return r.text()}));
         
         clearInterval(animation)
         
@@ -200,3 +185,4 @@ async function HandleUpload(){
     }
 
 </style>
+
