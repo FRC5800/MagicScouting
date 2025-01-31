@@ -98,29 +98,24 @@
         return sum/array.length
     }
 
-    function setupChartsData(data){
+    function setupChartsDataScore(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
         if (!data){return []}
-        let chartLabels = ["L1 auto", "L2 auto", "L3 auto", "L4 auto"]
-        let chartReference = ["autoROne", "autoRTwo", "autoRThree", "autoRFour"]
         
         let chartData = []
 
         chartReference.forEach((e) => {
-            let scoreBar = {
-                "key": chartLabels[chartReference.indexOf(e)],
-                "group": "Score",
-                "value": avgArray(getEntryArray(data, e+"Score"))
-            }
-            let missBar = {
-                "key": chartLabels[chartReference.indexOf(e)],
-                "group": "Miss",
-                "value": avgArray(getEntryArray(data, e+"Miss"))
-            }
-
-            chartData.push(scoreBar)
-            chartData.push(missBar)
+            namePatterns.forEach((pattern) => {
+                let bar = {
+                    "key": chartLabels[chartReference.indexOf(e)],
+                    "group": pattern,
+                    "value": avgArray(getEntryArray(data, e+pattern))
+                }
+                chartData.push(bar)
+            })
             
         })
+        
+        
 
         let teleopRFourScore = getEntryArray(data, "teleopRFourScore")
         
@@ -154,17 +149,6 @@
         autoCompleteTeams.set([]);
     }
 
-    let CoralPerformanceChart;
-    const options = {
-        theme: 'g90',
-        title: 'Coral performance',
-        height: '400px',
-        axes: {
-            left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'key', scaleType: 'labels' }
-        }    
-    };    
-
 
 </script>
 
@@ -181,6 +165,57 @@
 
 <svelte:component
     this={BarChartGrouped}
-    data={setupChartsData($rawData)}
-    options={options}
+    data={setupChartsDataScore(
+        $rawData,
+        ["L1", "L2", "L3", "L4"],
+        ["autoROne", "autoRTwo", "autoRThree", "autoRFour"],
+    )}
+    options={{
+        theme: 'g90',
+        title: 'AUTO CORAL',
+        height: '200px',
+        axes: {
+            left: { mapsTo: 'value' },
+            bottom: { mapsTo: 'key', scaleType: 'labels' }
+            }
+        }
+    }
+/> 
+<svelte:component
+    this={BarChartGrouped}
+    data={setupChartsDataScore(
+        $rawData,
+        ["L1", "L2", "L3", "L4"],
+        ["teleopROne", "teleopRTwo", "teleopRThree", "teleopRFour"]
+    )}
+    options={{
+        theme: 'g90',
+        title: 'TELEOP CORAL',
+        height: '200px',
+        axes: {
+            left: { mapsTo: 'value' },
+            bottom: { mapsTo: 'key', scaleType: 'labels' }
+            }
+        }
+    }
+/> 
+
+<svelte:component
+    this={BarChartGrouped}
+    data={setupChartsDataScore(
+        $rawData,
+        ["Auto Processor", "Auto Net", "Teleop Processor", "Teleop Net"],
+        ["autoProcessor", "autoNet", "teleopProcessor", "teleopNet"],
+    )
+    }
+    options={{
+        theme: 'g90',
+        title: 'ALGAE',
+        height: '200px',
+        axes: {
+            left: { mapsTo: 'value' },
+            bottom: { mapsTo: 'key', scaleType: 'labels' }
+            }
+        }
+    }
 /> 
