@@ -111,7 +111,7 @@ export default {
 			}
 		},
 		fontFamily: {
-			defaultText: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
+			defaultText: ['"Outfit"', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
 		}
 	},
 

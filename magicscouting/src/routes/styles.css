@@ -1,6 +1,6 @@
 :root {
-	--font-body: 'Inter', sans-serif;
-	--font-mono: 'Roboto Mono', monospace;
+	--font-body: 'Outfit', sans-serif;
+	--font-mono: 'Outfit', monospace;
 	--color-bg-0: #1c1b1d;
 	--color-bg-1: #262223;
 	--color-theme-1: #f2efed;
@@ -34,7 +34,7 @@ button {
 	margin-top: 3vh;
 
 	font-size: 18px;
-	font-family: 'Roboto Mono', monospace;
+	font-family: 'Outfit', monospace;
 	font-weight: 500;
 
 	transition: all 0.2s;

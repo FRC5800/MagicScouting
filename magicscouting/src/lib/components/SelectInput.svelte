@@ -3,28 +3,27 @@
 	import { createEventDispatcher } from 'svelte';
 	import { _ } from 'svelte-i18n'
 
-	export let options = [
-		{ id: '1', content: 'undefined', value: 'not specified' },
-		{ id: '2', content: 'undefined', value: 'not specified' }
-	];
+	export let options = [];
+	export let name = "";
 
-	export let inicialOption = '';
-
-	export let SelectedOption = options[0];
-	console.log(SelectedOption)
-	
-	$: if(inicialOption != '') {
-		console.log(inicialOption)
-		options.forEach((option) => {if (option['value'] == inicialOption) SelectedOption = option })
-	}
-
-	export let showMore = 'hidden';
-
-	export let componentId = 'undefined';
+	export let value = '';
 
 	export const dispatch = createEventDispatcher();
+	export let handler = function(){console.log("Without handler")}
 </script>
 
+<select name={name} bind:value={value} on:change={handler} class="select select-bordered w-full">
+	<option disabled selected value="">Select your option</option>
+	{#if options==[]}
+		<slot/>
+	{/if}
+	{#if options!=[]}
+		{#each options as opt}
+			<option value={opt.value}>{opt.content}</option>
+		{/each}
+	{/if}
+</select>
+<!-- 
 <div class="w-full text-[#474747] dark:text-white">
 	<div class="max-w-md mx-auto">
 		<div class="relative overflow-visible">
@@ -94,10 +93,8 @@
 					</div>
 				{/each}
 			</div>
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div id="overlay" 
 			on:click={() => {showMore = showMore == 'hidden' ? 'flex' : 'hidden'}} class="{showMore} w-[100vw] h-[100vh] fixed bg-transparent z-10 top-0 left-0"></div>
 		</div>
 	</div>
-</div>
+</div> -->

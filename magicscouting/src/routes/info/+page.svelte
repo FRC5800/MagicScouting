@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<button on:click={onSubmit} class="mt-16 btn">{$_('info.continue_button')}</button>
+<button on:click={onSubmit} class="mt-10 btn btn-block">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
     h2{

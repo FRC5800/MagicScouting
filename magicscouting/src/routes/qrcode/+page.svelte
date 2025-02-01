@@ -9,7 +9,7 @@
     import QRCode from 'qrcode';
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
-    import entriesSync from "$lib/shared/stores/toSyncData";
+    import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
     import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
     let payload = {};
@@ -79,6 +79,8 @@
     onMount(() => {
         keys.forEach((key)=>{payload[key] = getData(key)});
         
+        payload["uploaded"] = false
+
         appData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
     
         QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
@@ -110,6 +112,9 @@ async function HandleUpload(){
         console.log(response)
         
         if (response.result == "success"){
+            payload.uploaded = true
+            $syncedEntries.push(payload)
+            console.log($syncedEntries)
             uploadStatus = 'Uploaded'
             buttonColor = "dark:bg-green-600 bg-green-600 dark:hover:bg-green-600";
         }else{
@@ -133,7 +138,7 @@ async function HandleUpload(){
         if (!CheckRepeatedGame(payload, $entriesSync)) {
             $entriesSync = $entriesSync.concat(payload); 
         } else{
-            console.log('h=what fuc');
+            console.log('repeated entry');
         }
         payload = {};
     }
@@ -152,7 +157,7 @@ async function HandleUpload(){
 <div on:input={updateQr} class="box-border h-auto break-words p-4 rounded-lg w-[70vw] text-[#EAEAEC] bg-grey-heavy mt-4">{appData}</div>
 
 <span class="mt-4">(Offline)</span>
-<button on:click={() => {showQrCode = !showQrCode}} disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] rounded-3xl border-0 m-0 w-fit btn {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'disabled' : ''}">
+<button on:click={() => {showQrCode = !showQrCode}} disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] border-0 m-0 btn btn-block {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'disabled' : ''}">
     {$_('qrcode.qrcode_button')}
 </button>
 
@@ -169,13 +174,13 @@ async function HandleUpload(){
 <span class="m-2">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit {buttonColor} btn {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
+<button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="min-w-[50vw] rounded-3xl m-0 w-fit btn mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-6"></div>
 
-<button class="min-w-[50vw] rounded-3xl m-0 w-fit btn" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
+<button class="min-w-[50vw] m-0 btn btn-block" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
 
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 

@@ -113,24 +113,6 @@
     </div>
 </main>
 
-<div class="btm-nav">
-    <button on:click={()=>{goto('/')}}>
-      <i class="fi fi-rr-home"></i>
-    </button>
-    <button class="active">
-      <i class="fi fi-rr-database"></i>
-    </button>
-    <button>
-      <i class="fi fi-rr-camera"></i>
-    </button>
-    <button>
-      <i class="fi fi-rr-chart-histogram"></i>
-    </button>
-    <button>
-      <i class="fi fi-rr-settings-sliders"></i>
-    </button>
-  </div>
-
 <style>
     i::before{
     display: block;
