@@ -5,14 +5,14 @@
 	import { onMount } from "svelte";
 
     import '@carbon/charts-svelte/styles.css'
-	import { BarChartGrouped } from '@carbon/charts-svelte'
+	import { DonutChart, RadarChart } from '@carbon/charts-svelte'
 
     import { writable } from 'svelte/store';
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
 
 	import { goto } from '$app/navigation';
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
-    import { setupChartsDataScore, getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
+    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
 
 
     $: data = $TeamsDB
@@ -66,6 +66,7 @@
     }
 
 
+
 </script>
 
 
@@ -85,61 +86,75 @@
 {/each}
 
 <svelte:component
-    this={BarChartGrouped}
-    data={setupChartsDataScore(
+    this={DonutChart}
+    data={setupSimpleChartsData(
         $rawData,
-        ["L1", "L2", "L3", "L4"],
-        ["autoROne", "autoRTwo", "autoRThree", "autoRFour"],
+        {
+            "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
+            "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
+            "Net": ["autoNetScore", "teleopNetScore"]
+        },
     )}
     options={{
         theme: 'g90',
-        title: 'AUTO CORAL',
+        title: "Game Piece Points",
         height: '200px',
-        width: '400px',
+        width: '200px',
         axes: {
             left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'key', scaleType: 'labels' }
-            }
-        }
-    }
-/> 
-<svelte:component
-    this={BarChartGrouped}
-    data={setupChartsDataScore(
-        $rawData,
-        ["L1", "L2", "L3", "L4"],
-        ["teleopROne", "teleopRTwo", "teleopRThree", "teleopRFour"]
-    )}
-    options={{
-        theme: 'g90',
-        title: 'TELEOP CORAL',
-        height: '200px',
-        axes: {
-            left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'key', scaleType: 'labels' }
+            bottom: { mapsTo: 'group', scaleType: 'labels' }
             }
         }
     }
 /> 
 
 <svelte:component
-    this={BarChartGrouped}
-    data={setupChartsDataScore(
+    this={DonutChart}
+    data={setupSimpleChartsData(
         $rawData,
-        ["Auto Processor", "Auto Net", "Teleop Processor", "Teleop Net"],
-        ["autoProcessor", "autoNet", "teleopProcessor", "teleopNet"],
-    )
-    }
+        {
+            "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
+            "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
+            "Endgame": ["bargeStatus"]
+        },
+    )}
     options={{
         theme: 'g90',
-        title: 'ALGAE',
+        title: 'Points By Game State',
         height: '200px',
+        width: '200px',
         axes: {
             left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'key', scaleType: 'labels' }
+            bottom: { mapsTo: 'group', scaleType: 'labels' }
             }
         }
     }
 /> 
+{#if teamSearch != ""}
+    <RadarChart
+        data={setupSimpleChartsData(
+            $rawData,
+            {
+                "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
+                "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
+                "Endgame": ["bargeStatus"]
+            },
+            "radar"
+        )}
+        options={{
+            title: 'Radar',
+            radar: {
+                axes: {
+                    angle: 'feature',
+                    value: 'score'
+                }
+            },
+            data: {
+            groupMapsTo: 'product'
+            },
+            height: '400px'
+        }}
+    />
+{/if}
 
 <button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>

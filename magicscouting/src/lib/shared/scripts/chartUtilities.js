@@ -2,6 +2,24 @@
 import { TeamsDB } from "../stores/teamsData"
 import { get } from "svelte/store"
 
+let gamePointsByAction = {
+	"autoROneScore": 3,
+	"autoRTwoScore": 4,
+	"autoRThreeScore": 6,
+	"autoRFourScore": 7,
+	"autoProcessorScore": 6, 
+	"autoNetScore": 4, 
+	"isLeave": 3,
+	"teleopROneScore": 2,
+	"teleopRTwoScore": 3,
+	"teleopRThreeScore": 4,
+	"teleopRFourScore": 5,
+	"teleopProcessorScore": 6,
+	"teleopNetScore": 4,
+	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
+}; 
+
+
 export function formatToChart(entry){
 	let chartData = []
 	
@@ -22,10 +40,17 @@ export function avgArray(array){
 	return sum/array.length
 }
 
-export function getEntryArray(data, param){
+export function getParameterArray(data, param, bargePoints=false){
+	// Pegar um campo de varias partidas
+	
 	let entryArray = []
 	data.forEach((e) => {
-		entryArray.push(e[param])
+		if (bargePoints){
+			entryArray.push(gamePointsByAction.bargeStatus[e[param]])
+		}else{
+			entryArray.push(e[param])
+			
+		}
 	})
 	return entryArray
 }
@@ -72,7 +97,7 @@ export async function getTBAData(team){
 	}
 }
 
-export function setupChartsDataScore(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
+export function setupBarChartsData(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
 	if (!data){return []}
 	
 	let chartData = []
@@ -82,17 +107,55 @@ export function setupChartsDataScore(data, chartLabels, chartReference, namePatt
 			let bar = {
 				"key": chartLabels[chartReference.indexOf(e)],
 				"group": pattern,
-				"value": avgArray(getEntryArray(data, e+pattern))
+				"value": avgArray(getParameterArray(data, e+pattern))
 			}
 			chartData.push(bar)
 		})
 		
 	})
 		
+	return chartData
+}
 
-	let teleopRFourScore = getEntryArray(data, "teleopRFourScore")
+
+
+export function setupSimpleChartsData(data, chartReference, chartType="donut"){
+	if (!data){return []}
 	
-	// console.log(chartData)
+	let chartData = []
+
+	Object.keys(chartReference).forEach((gpEnties) => {
+		let label = gpEnties
+
+		gpEnties = chartReference[gpEnties]
+		
+		let points = 0;
+		
+		gpEnties.forEach((e) => {
+			if (e == "bargeStatus"){
+				points += avgArray(getParameterArray(data, e, true))
+			}else{
+				points += avgArray(getParameterArray(data, e)) * gamePointsByAction[e]  
+			}
+		})
+
+		let bar;
+		if (chartType == "donut"){
+			bar = {
+				"group": label,
+				"value": points
+			}
+		}else if(chartType == "radar"){
+			bar = {
+				"product": "Stats",
+				"feature": label,
+				"score": points
+			}
+		}
+		chartData.push(bar)	
+	})
+		
+	console.log(chartData)
 	return chartData
 }
 

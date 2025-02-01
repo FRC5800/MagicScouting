@@ -38,12 +38,12 @@
 <!-- 
 ['timeStamp', 'team', 'match', 'arenaPos', 'red/blue', 
 'autoROneScore', 'autoRTwoScore', 'autoRThreeScore', 'autoRFourScore', 
-'autoROneMiss', 'autoRTwoMiss', 'autoRThreeMiss', 'autoRFourMiss', 
-'isLeave', 
+'autoROneMiss', 'autoRTwoMiss', 'autoRThreeMiss', 'autoRFourMiss', 'isLeave', 
 ’autoProcessorScore’, 'autoProcessorMiss’, 
 ‘autoRemoveAlgaeLow’, ‘autoRemoveAlgaeHigh’,  
 'teleopROneScore', 'teleopRTwoScore', 'teleopRThreeScore', 'teleopRFourScore', 
 'teleopROneMiss', 'teleopRTwoMiss', 'teleopRThreeMiss', 'teleopRFourMiss', 
 ’teleopProcessorScore’, ‘teleopProcessorMiss’, 
 ‘teleopRemoveAlgaeLow’, ‘teleopRemoveAlgaeHigh’, 
-'bargeStatus', 'bargeTime', 'stationCycleTime', 'floorCycleTime', ‘netScore’, 'humanNetScore', ‘netMiss’, 'humanNetMiss', 'matchFunction', 'stationAverage', 'floorAverage'] -->
+'bargeStatus', 'bargeTime', 'stationCycleTime', 'floorCycleTime', ‘netScore’, 'humanNetScore'
+‘netMiss’, 'humanNetMiss', 'matchFunction', 'stationAverage', 'floorAverage'] -->
