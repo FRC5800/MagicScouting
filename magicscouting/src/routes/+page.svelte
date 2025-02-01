@@ -42,7 +42,7 @@
 			validationError = true;
 		}else {
 			validationError = false;
-			const teamData = { "red/blue": alliance.toLocaleLowerCase() == "azul" || alliance.toLocaleLowerCase() == "blue" ? "BLUE" : "RED", team:team_number, match:match_number, arenaPos:team_position.value};
+			const teamData = { "red/blue": alliance.toLocaleLowerCase() == "azul" || alliance.toLocaleLowerCase() == "blue" ? "BLUE" : "RED", team:team_number, match:match_number, arenaPos:team_position};
 			storeData(teamData);
 			goto('/autonomous');
 		}

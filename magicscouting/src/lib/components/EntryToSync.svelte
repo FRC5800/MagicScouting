@@ -3,12 +3,13 @@
     import { _ } from "svelte-i18n";
     
     import Modal from '$lib/components/Modal.svelte';
-    import teamImage from'$lib/assets/frc1156.png';
     import QRCode from "qrcode";
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import TrashCan from '$lib/components/TrashCan.svelte'
-	import entriesSync from "../shared/stores/toSyncData";
+	import { entriesSync, syncedEntries } from "../shared/stores/toSyncData";
     import uploadPayload from "../shared/scripts/sheetsUpload";
+    import { getTBAData } from "$lib/shared/scripts/chartUtilities";
+    import { onMount } from "svelte";
 
     export let payload = {"team":5800, "match":2};
     
@@ -29,27 +30,30 @@
     async function HandleUpload(){
         try{
             uploadDisabled = true;
-            let animation = setInterval(() => {buttonText = buttonText == "Uploading..." ? "Uploading" : buttonText == "Uploading.." ? "Uploading..." : buttonText == "Uploading." ? "Uploading.." :buttonText == "Uploading" ? "Uploading." : "Uploading...";}, 200);
+
             let response = JSON.parse(await uploadPayload(payload).then((r) => {return r.text()}));
-            clearInterval(animation);
+
             console.log(response)
             if (response.result == "success"){
-                buttonColor = "dark:bg-green-600 bg-green-600 ";
-                HandleDelete();
-                buttonText = "Uploaded";
+                payload.uploaded = true
+                HandleStore();
                 uploadSuccess = true;
             }else{
-                buttonColor = "dark:bg-red-600 bg-red-600 ";
-                buttonText = "Failed";
                 uploadSuccess = false;
             }
         }catch(e){
             alert(e);
         }
     } 
-    function HandleDelete(){                
-        $entriesSync.splice($entriesSync.indexOf(payload), 1); 
-        console.log($entriesSync);
+    function HandleStore(){                
+        $entriesSync.splice($entriesSync.indexOf(payload), 1);
+        $entriesSync = $entriesSync
+        $syncedEntries.push(payload)
+        $syncedEntries = $syncedEntries
+        console.log(`Synced entries: `)
+        console.log($syncedEntries)
+        console.log(`Entries to sync:`);
+        console.log($entriesSync)
     }
 
     function createQr() {
@@ -57,12 +61,19 @@
         src = url;
     })
     }
+    let teamData = {name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="};
+    onMount(() => {
+        getTBAData(payload.team).then((r) => {
+            teamData = r
+        })
+    })
+
     createQr()
 </script>
 
 <div class="bg-[#282828] w-full rounded-md relative p-4 my-2">
         <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
-          <img width="45px" height="45px" src={teamImage} alt="">
+          <img width="45px" height="45px" src={teamData.logo ?? ""} alt="">
         </div>
         <details class="dropdown absolute right-4 top-0 dropdown-end">
           <summary class="btn m-1 p-0 bg-[#282828] border-[#282828]"><i class="fi fi-br-menu-dots-vertical text-lg"></i></summary>
@@ -71,7 +82,7 @@
             <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}>Delete</li>
           </ul>
         </details>
-        <h3 class="ml-10 text-lg">Team 1156 - Under Control</h3>
+        <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
             <span>Match: {$_('storage.match')}: {payload.match}</span>

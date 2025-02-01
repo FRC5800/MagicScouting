@@ -9,7 +9,7 @@
     import QRCode from 'qrcode';
     import dataBase from '$lib/shared/stores/dataBase';
     import ResetModal from '$lib/components/ResetModal.svelte';
-    import entriesSync from "$lib/shared/stores/toSyncData";
+    import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
     import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
     let payload = {};
@@ -79,6 +79,8 @@
     onMount(() => {
         keys.forEach((key)=>{payload[key] = getData(key)});
         
+        payload["uploaded"] = false
+
         appData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
     
         QRCode.toDataURL(appData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
@@ -110,6 +112,9 @@ async function HandleUpload(){
         console.log(response)
         
         if (response.result == "success"){
+            payload.uploaded = true
+            $syncedEntries.push(payload)
+            console.log($syncedEntries)
             uploadStatus = 'Uploaded'
             buttonColor = "dark:bg-green-600 bg-green-600 dark:hover:bg-green-600";
         }else{
@@ -133,7 +138,7 @@ async function HandleUpload(){
         if (!CheckRepeatedGame(payload, $entriesSync)) {
             $entriesSync = $entriesSync.concat(payload); 
         } else{
-            console.log('h=what fuc');
+            console.log('repeated entry');
         }
         payload = {};
     }
