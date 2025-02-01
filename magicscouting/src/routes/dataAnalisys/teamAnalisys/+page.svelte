@@ -22,7 +22,7 @@
     
     $: autoCompleteTeams = writable([]);
 
-    const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":"", "winrate":"", "EPA":""});
+    const teamData = sessionStore("selectedTeamData", {"team": "", "logo": new Image(), "name":"", "winrate":"", "EPA":""});
 
     let debounceTimeout;
 
@@ -44,12 +44,16 @@
             console.log(getTeamScoutingData(teamSearch))
             rawData.set(getTeamScoutingData(teamSearch));
 
+            $teamData.team = teamSearch
+
             getStatBoticsData(teamSearch).then((r) => {
                 if (r.team == teamSearch){
                     $teamData.winrate = r.winrate
                     $teamData.EPA = r.epa
+
                 }
             })
+
             getTBAData(teamSearch).then((r) => {
                 if (r.team == teamSearch){
 		            $teamData.logo.src = r.logo
