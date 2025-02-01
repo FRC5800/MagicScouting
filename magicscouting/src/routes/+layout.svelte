@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
 	import './styles.css';
 	import '../app.css';
 	// import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -7,10 +9,17 @@
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
 	import { waitLocale } from 'svelte-i18n'
 	import { fade } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	export async function preload() {
 	// awaits for the loading of the 'en-US' and 'en' dictionaries
 	return waitLocale()
+	}
+
+	let menuSelectedPage = ""
+
+	function setPage(page) {
+		menuSelectedPage = page
 	}
 	
 	beforeUpdate(() => {
@@ -20,7 +29,7 @@
 	});
 </script>
 
-<div class="bg-[#EAEAEC] dark:bg-primary-heavy app">
+<div class="bg-[#EAEAEC] dark:bg-primary-heavy app mb-16">
 	{#await preload()	}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
 	{:then resolved} 
@@ -28,6 +37,26 @@
 		<slot />
 	</main>
 	{/await}
+</div>
+
+<div class="btm-nav">
+  <button on:click={()=>{goto('/');setPage("home")}} class="{menuSelectedPage=="home" ? "active" : ""}">
+    <i class="fi fi-rr-home"></i>
+  </button>
+  <button on:click={()=>{goto('/qrcodeStorage');setPage("qrcodeStorage")}} class="{menuSelectedPage=="qrcodeStorage" ? "active" : ""}">
+    <i class="fi fi-rr-database"></i>
+  </button>
+  <button on:click={()=>{goto('/qrCodeScanner');setPage("scanner")}} class="{menuSelectedPage=="scanner" ? "active" : ""}">
+		<div class="bg-primary-base p-4 rounded-lg">
+			<i class="fi fi-rr-camera flex"></i>
+		</div>
+  </button>
+  <button on:click={()=>{goto('/dataAnalisys');setPage("charts")}} class="{menuSelectedPage=="charts" ? "active" : ""}">
+    <i class="fi fi-rr-chart-histogram"></i>
+  </button>
+  <button on:click={()=>{goto('/settings');setPage("settings")}} class="{menuSelectedPage=="settings" ? "active" : ""}">
+    <i class="fi fi-rr-settings-sliders"></i>
+  </button>
 </div>
 
 <style lang="postcss">

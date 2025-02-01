@@ -62,10 +62,11 @@
     const stopScan = async () => {
         document.querySelector("body")?.classList.remove("barcode-scanning-active");
         scanning = false;
-        
+        goto('/');
         await BarcodeScanner.removeAllListeners();
         
         await BarcodeScanner.stopScan();
+        
     };
     
 
@@ -89,13 +90,8 @@
         data = {};
     }
 
+    startScan();
 </script>
-
-<h1 class="text-red-600">{$_('scanner.title')}</h1>
-<p class="text-lg text-justify text-gray-500">{$_('scanner.message')}</p>
-<p class="text-lg text-justify text-gray-500">{$_('scanner.note')}</p>
-
-<button on:click={startScan} class="btn w-[60%]">{$_('scanner.scan_button')}</button>
 
 {#if scanning}
     <svg xmlns="http://www.w3.org/2000/svg" class="fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] visible" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" zoomAndPan="magnify" viewBox="0 0 112.5 112.499997" height="200" preserveAspectRatio="xMidYMid meet" version="1.0">

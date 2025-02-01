@@ -1,0 +1,12 @@
+<script>
+
+</script>
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+    <div class="w-full flex grow gap-4 px-6 pt-6 pb-3 mb-6 flex-col items-center bg-[#282828] rounded-b-xl">
+      <h1 class="text-2xl font-medium tracking-wide">Settings</h1>       
+    </div>
+
+    <div class="px-6 w-full">
+        <slot/>
+    </div>
+</main>
