@@ -107,10 +107,10 @@
         </div>
       </div>
     </div>
-<!-- 
-    <div class="bolas w-full h-screen rounded-badge pt-3 px-3">
+
+    <div class="w-full h-screen rounded-badge pt-3 px-3">
         <slot />
-    </div> -->
+    </div>
 </main>
 
 <div class="btm-nav">
