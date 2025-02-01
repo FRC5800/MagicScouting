@@ -245,7 +245,7 @@
 	</div>
 	<div class="w-full flex flex-col items-center">
 		<h4 class="text-normal" >Barge Points</h4>
-		<div class="flex justify-between w-full border-2 rounded-md mt-2" >
+		<div class="input input-bordered p-0 flex justify-between w-full overflow-hidden" >
 			<div on:click={()=>{barge = "none"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="none" ? 'bg-primary-base':''}">None</div>
 			<div on:click={()=>{barge = "park"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="park" ? 'bg-primary-base':''}">Park</div>
 			<div on:click={()=>{barge = "shallow"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="shallow" ? 'bg-primary-base':''}">Shallow</div>
@@ -257,8 +257,8 @@
 	<div class="w-full flex flex-col items-center justify-center CycleOnstage">
 		<h4 class="time-onstage-title">{$_('teleop.onstage_cycle.title')}</h4>
 
-		<div class="w-full flex flex-row items-center justify-between overflow-auto border-2 rounded-md">
-			<div class="w-1/2 text-center border-r border-black">
+		<div class="input input-bordered p-0 w-full flex flex-row items-center justify-between">
+			<div class="w-1/2 text-center">
 				<p class="p-3"><b> {onstageCycle.toFixed(1)} </b></p>
 			</div>
 			{#if !onstageCycleCounting}
@@ -272,27 +272,27 @@
 					role="button" tabindex="0"
 					on:keydown={(e) => {if(e.key == "Enter") pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
 					on:click={() => {pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
-					class="w-3/12 text-center text-[1.7rem] {pauseOnstageCycle == 'paused' ? 'fa-solid fa-play text-[1.6rem]' : 'fa-solid fa-pause text-[1.7rem]'}">
+					class="w-3/12 text-center flex text-[1.7rem] {pauseOnstageCycle == 'paused' ? 'fi fi-sr-play text-[1.6rem]' : 'fi fi-sr-pause text-[1.7rem]'}">
 					</i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCycle()}} on:click={stopOnstageCycle} class="w-3/12 text-green-700 text-center text-[1.8rem] fa-solid fa-check"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCycle()}} on:click={stopOnstageCycle} class="w-3/12 flex text-center text-[1.8rem] fi fi-sr-check"></i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardOnstageCycle()}} on:click={discardOnstageCycle} class="fa-solid text-red-600 fa-x w-3/12 text-center text-[1.6rem]"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardOnstageCycle()}} on:click={discardOnstageCycle} class="fi fi-br-cross flex w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}
 		</div>
 
-		<button on:click={onSubmit} class="w-2/3 p-2 mt-8 btn">{$_('teleop.continue_button')}</button>
+		<button on:click={onSubmit} class="p-2 mt-8 btn btn-block">{$_('teleop.continue_button')}</button>
 	</div>
 
 	<br />
 	<br />
 </section>
 
-<div class="fixed right-8 bottom-8 p-1 backdrop-blur-md rounded-full">
+<div class="fixed right-8 bottom-24 p-1 backdrop-blur-md rounded-full">
 	<div on:click={()=>{showModal=true; startGamePieceCycle();console.log(showModal)}} class="bg-primary-base w-8 h-8 p-2 rounded-full flex items-center justify-center box-content">
-		<i class="fa-solid fa-clock"></i>
+		<i class="fi fi-sr-pending flex text-[#121212]"></i>
 	</div>
 </div>
 

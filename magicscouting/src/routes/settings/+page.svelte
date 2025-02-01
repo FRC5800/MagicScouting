@@ -48,8 +48,8 @@
     $: $colorTheme = selected_color;
   
     function handle_theme_selection() {
-      $theme = selected_theme['value'];
-  
+      $theme = selected_theme;
+      console.log("bolos")
       let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       let htmlTagClasses = document.querySelector('html').classList;
       if ($theme == 'dark') {
@@ -66,7 +66,7 @@
     }
   
     function handle_language_selection() {
-      $locale = selected_language['value'];
+      $locale = selected_language;
       window.localStorage.setItem('language', $locale);
     }
   

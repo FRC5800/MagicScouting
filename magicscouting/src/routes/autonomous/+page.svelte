@@ -157,12 +157,12 @@
 	<button
 		on:click={() => {leave = !leave;}}
 		id="leave"
-		class="leave p-2 rounded-xl box-border border-2 dark:border-0 {leave
+		class="btn btn-block p-2 rounded-xl box-border border-2 dark:border-0 {leave
 			? ' text-white bg-primary-base border-primary-base'
 			: 'text-neutral-600 bg-transparent dark:bg-slate-100 border-gray-700'}">{$_('autonomous.leave_button')}</button
 	>
 
-	<button class="max-w-[50%] w-[50vw] btn mt-8" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
+	<button class="btn btn-block mt-8" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">
