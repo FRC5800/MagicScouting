@@ -4,15 +4,15 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
 	import { onMount } from "svelte";
 
-    import '@carbon/charts-svelte/styles.css'
-	import { DonutChart, RadarChart } from '@carbon/charts-svelte'
+    import "@carbon/charts-svelte/styles.css"
+	import { DonutChart, RadarChart, LineChart, ComboChart } from "@carbon/charts-svelte"
 
-    import { writable } from 'svelte/store';
+    import { writable } from "svelte/store";
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
 
-	import { goto } from '$app/navigation';
+	import { goto } from "$app/navigation";
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
-    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
+    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
 
     $: data = $TeamsDB
@@ -65,7 +65,39 @@
         autoCompleteTeams.set([]);
     }
 
+    let allPoints = [
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoProcessorScore",
+        "autoNetScore",
+        "isLeave",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+        "teleopProcessorScore",
+        "teleopNetScore",
+        "bargeStatus"
+    ];
 
+    let coralPoints = [
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+    ];
+    let algaePoints = [
+        "autoProcessorScore",
+        "autoNetScore",
+        "teleopProcessorScore",
+        "teleopNetScore",
+    ];
 
 </script>
 
@@ -75,63 +107,50 @@
 
 {#if $teamData}
     <div class="border-color-5800-1 border-4 rounded-md">Team EPA: {$teamData.EPA}</div>
-    <div class="border-color-5800-1 border-4 rounded-md">Winrate: {$teamData.winrate}</div>
+    <div class="border-color-5800-1 border-4 rounded-md">Winrate: {Math.round($teamData.winrate*100*10)/10}%</div>
     <img src={$teamData.logo.src} alt="Team Logo" />
     <div>{$teamData.name}</div>
+    
 {/if}
+    
 {#each $autoCompleteTeams as team}
     <div>
         <button on:click={() => {teamSearch=team.team}}>{team.team}</button>
     </div>
 {/each}
-
-<svelte:component
-    this={DonutChart}
-    data={setupSimpleChartsData(
+    
+{#if $rawData.length > 0}
+    <div class="border-color-5800-1 border-4 rounded-md">Avg points: {getAverageDBvalues(
         $rawData,
-        {
-            "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
-            "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
-            "Net": ["autoNetScore", "teleopNetScore"]
-        },
-    )}
-    options={{
-        theme: 'g90',
-        title: "Game Piece Points",
-        height: '200px',
-        width: '200px',
-        axes: {
-            left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'group', scaleType: 'labels' }
+        allPoints,
+        true
+    )}</div>
+
+    <svelte:component
+        this={DonutChart}
+        data={setupSimpleChartsData(
+            $rawData,
+            {
+                "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
+                "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
+                "Net": ["autoNetScore", "teleopNetScore"]
+            },
+        )}
+        options={{
+            theme: "g90",
+            title: "Game Piece Points",
+            height: "200px",
+            width: "200px",
+            axes: {
+                left: { mapsTo: "value" },
+                bottom: { mapsTo: "group", scaleType: "labels" }
+                }
             }
         }
-    }
-/> 
+    /> 
 
-<svelte:component
-    this={DonutChart}
-    data={setupSimpleChartsData(
-        $rawData,
-        {
-            "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
-            "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
-            "Endgame": ["bargeStatus"]
-        },
-    )}
-    options={{
-        theme: 'g90',
-        title: 'Points By Game State',
-        height: '200px',
-        width: '200px',
-        axes: {
-            left: { mapsTo: 'value' },
-            bottom: { mapsTo: 'group', scaleType: 'labels' }
-            }
-        }
-    }
-/> 
-{#if teamSearch != ""}
-    <RadarChart
+    <svelte:component
+        this={DonutChart}
         data={setupSimpleChartsData(
             $rawData,
             {
@@ -139,22 +158,164 @@
                 "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
                 "Endgame": ["bargeStatus"]
             },
-            "radar"
         )}
         options={{
-            title: 'Radar',
-            radar: {
-                axes: {
-                    angle: 'feature',
-                    value: 'score'
+            theme: "g90",
+            title: "Points By Game State",
+            height: "200px",
+            width: "200px",
+            axes: {
+                left: { mapsTo: "value" },
+                bottom: { mapsTo: "group", scaleType: "labels" }
                 }
+            }
+        }
+    />
+    <svelte:component
+        this={DonutChart}
+        data={setupModeChartsData(
+            $rawData,
+            "robotFunction",
+            {
+                "atk": "Attack",
+                "def": "Defense",
+                "sup": "Support" 
             },
-            data: {
-            groupMapsTo: 'product'
+        )}
+        options={{
+            theme: "g90",
+            title: "Robot Function",
+            height: "200px",
+            width: "200px",
+            axes: {
+                left: { mapsTo: "value" },
+                bottom: { mapsTo: "group", scaleType: "labels" }
+                }
+            }
+        }
+    /> 
+    <svelte:component
+        this={DonutChart}
+        data={setupModeChartsData(
+            $rawData,
+            "bargeStatus",
+            {
+                "none": "None",
+                "park": "Park",
+                "deep": "Deep",
+                "shallow": "Shallow" 
             },
-            height: '400px'
-        }}
+        )}
+        options={{
+            theme: "g90",
+            title: "Barge profile",
+            height: "200px",
+            width: "200px",
+            axes: {
+                left: { mapsTo: "value" },
+                bottom: { mapsTo: "group", scaleType: "labels" }
+                }
+            }
+        }
+    /> 
+    {#key $rawData}
+        <RadarChart
+            data={setupSimpleChartsData(
+            $rawData,
+                {
+                    "L1" : ["autoROneScore", "teleopROneScore"], 
+                    "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
+                    "L3" : ["autoRThreeScore", "teleopRThreeScore"], 
+                    "L4" : ["autoRFourScore", "teleopRFourScore"],
+                    "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
+                    "Net": ["teleopNetScore", "autoNetScore"] 
+                },
+                "radar"
+            ).concat(setupSimpleChartsData(
+                $rawData,
+                {
+                    "L1" : ["autoROneScore", "teleopROneScore"], 
+                    "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
+                    "L3" : ["autoRThreeScore", "teleopRThreeScore"], 
+                    "L4" : ["autoRFourScore", "teleopRFourScore"],
+                    "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
+                    "Net": ["teleopNetScore", "autoNetScore"] 
+                },
+                "radar",
+                true
+            ))}
+            options={{
+                title: "Scoring profile",
+                radar: {
+                    axes: {
+                        angle: "group",
+                        value: "value"
+                    }
+                },
+                data: {
+                    groupMapsTo: "product"
+                },
+                height: "400px"
+            }}
+        />
+    {/key}
+    <svelte:component
+        this={ComboChart}
+        data={setupBarChartDataByMatch(
+            $rawData,
+            {
+                Score: {fields: allPoints, valueName: "Points"},
+                Coral: {fields: coralPoints, valueName: "GPs"},
+                Algae: {fields: algaePoints, valueName: "GPs"}
+            },
+            true
+        )}
+        options={{
+            theme: "g90",
+            title: "Avg score by match",
+            height: "200px",
+            width: "400px",
+            comboChartTypes:[
+                {
+                    type: "grouped-bar",
+                    correspondingDatasets: [
+                        "Coral",
+                        "Algae"
+                    ]
+                },
+                {
+                    type: "line",
+                    correspondingDatasets:[
+                        "Score"
+                    ]
+                }
+            ],
+            axes: {
+                    left: {
+                        title: "Score",
+                        mapsTo: "Points",
+                        scaleType: "linear",
+                        correspondingDatasets: [
+                            "Score"
+                        ]
+                    },
+                    bottom: {
+                        title: "Match",
+                        mapsTo: "match",
+                        scaleType: "labels"
+                    },
+                    right: {
+                        title: "Game Pieces",
+                        scaleType: "linear",
+                        mapsTo: "GPs",
+                        correspondingDatasets: [
+                            "Coral",
+                            "Algae"
+                        ]
+                    }
+                }
+            }
+        }
     />
 {/if}
-
 <button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>

@@ -17,7 +17,7 @@ let gamePointsByAction = {
 	"teleopProcessorScore": 6,
 	"teleopNetScore": 4,
 	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
-}; 
+};
 
 
 export function formatToChart(entry){
@@ -53,6 +53,26 @@ export function getParameterArray(data, param, bargePoints=false){
 		}
 	})
 	return entryArray
+}
+
+function handleGetActionAttributes(data, field, points = true, avg = true){
+	let total = 0;
+
+	if (avg){
+		if (field == "bargeStatus"){
+			total += avgArray(getParameterArray(data, field, true))
+		}else{
+			total += avgArray(getParameterArray(data, field)) * (points ? gamePointsByAction[field] : 1)
+		}
+	}else{
+		if (field == "bargeStatus"){
+			total += gamePointsByAction.bargeStatus[data[field]]
+		}else{
+			total += data[field] * (points ? gamePointsByAction[field] : 1)
+		}
+	}
+	return total
+
 }
 
 export async function getStatBoticsData(team){
@@ -97,6 +117,34 @@ export async function getTBAData(team){
 	}
 }
 
+export function setupBarChartDataByMatch(data, groups, points=true){
+	let chartData = [];
+	data.forEach((match) => {
+	
+		Object.keys(groups).forEach((group) => {
+	
+			let points = 0;
+			groups[group].fields.forEach((field) => {
+				points += handleGetActionAttributes(match, field, points, false)
+			})
+		
+
+			let entry = {
+				group: group,
+				match: parseFloat(match.match),
+			}
+			
+			entry[groups[group].valueName] = points
+
+			chartData.push(entry)
+		})
+	})
+	console.log("ByMatch")
+	chartData.sort((a, b) => {return a.match-b.match})
+	console.log(chartData)
+	return chartData
+}
+
 export function setupBarChartsData(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
 	if (!data){return []}
 	
@@ -117,26 +165,30 @@ export function setupBarChartsData(data, chartLabels, chartReference, namePatter
 	return chartData
 }
 
+export function getAverageDBvalues(data, fields, points=true){
+	let total = 0;
 
+	fields.forEach((field) => {
+		total += handleGetActionAttributes(data, field, points, true)
+	})
 
-export function setupSimpleChartsData(data, chartReference, chartType="donut"){
+	return Math.round(total*10)/10
+}
+
+export function setupSimpleChartsData(data, chartReference, chartType="donut", GP=false){
 	if (!data){return []}
 	
 	let chartData = []
 
-	Object.keys(chartReference).forEach((gpEnties) => {
-		let label = gpEnties
+	Object.keys(chartReference).forEach((gpEntries) => {
+		let label = gpEntries
 
-		gpEnties = chartReference[gpEnties]
+		gpEntries = chartReference[gpEntries]
 		
 		let points = 0;
 		
-		gpEnties.forEach((e) => {
-			if (e == "bargeStatus"){
-				points += avgArray(getParameterArray(data, e, true))
-			}else{
-				points += avgArray(getParameterArray(data, e)) * gamePointsByAction[e]  
-			}
+		gpEntries.forEach((e) => {
+			points += handleGetActionAttributes(data, e, !GP, true)
 		})
 
 		let bar;
@@ -147,10 +199,36 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut"){
 			}
 		}else if(chartType == "radar"){
 			bar = {
-				"product": "Stats",
-				"feature": label,
-				"score": points
+				"product": GP ? "GPs" : "Points",
+				"group": label,
+				"value": points
 			}
+		}
+		chartData.push(bar)	
+	})
+		
+	return chartData
+}
+
+export function setupModeChartsData(data, field, chartReference){
+	if (!data){return []}
+	
+	let chartData = []
+
+	Object.keys(chartReference).forEach((mode) => {		
+
+		let qty = 0;
+		getParameterArray(data, field).forEach((e) => {
+			if (e == mode){
+				qty += 1;
+			}
+		})
+	
+		let bar;
+		
+		bar = {
+			"group": chartReference[mode],
+			"value": qty
 		}
 		chartData.push(bar)	
 	})
