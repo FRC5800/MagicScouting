@@ -69,7 +69,6 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
 			total += gamePointsByAction.bargeStatus[data[field]]
 		}else{
 			total += data[field] * (points ? gamePointsByAction[field] : 1)
-			console.log(`Match: ${data.match} field: ${field} number: ${total}`)
 		}
 	}
 	return total
@@ -141,28 +140,27 @@ export function setupBarChartDataByMatch(data, groups){
 		})
 	})
 	chartData.sort((a,b) => {return parseInt(a.key) - parseInt(b.key)})
-	console.log("ByMatch")
-	console.log(chartData)
 	return chartData
 }
 
-export function setupBarChartsData(data, chartLabels, chartReference, namePatterns=["Score", "Miss"]){
+export function setupBarChartsData(data, chartReference, showPoints=false, namePatterns=["Score", "Miss"]){
 	if (!data){return []}
 	
 	let chartData = []
 
-	chartReference.forEach((e) => {
+	Object.keys(chartReference).forEach((group) => {
+
 		namePatterns.forEach((pattern) => {
 			let bar = {
-				"key": chartLabels[chartReference.indexOf(e)],
-				"group": pattern,
-				"value": avgArray(getParameterArray(data, e+pattern))
+				"group": (pattern != "")? pattern : group,
+				"key": group,
+				"value": handleGetActionAttributes(data, chartReference[group]+pattern, false, true) 
 			}
 			chartData.push(bar)
 		})
 		
 	})
-		
+	console.log(chartData)
 	return chartData
 }
 
@@ -231,10 +229,8 @@ export function setupModeChartsData(data, field, chartReference){
 			"group": chartReference[mode],
 			"value": qty
 		}
-		chartData.push(bar)	
 	})
 		
-	console.log(chartData)
 	return chartData
 }
 
