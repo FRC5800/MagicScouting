@@ -3,7 +3,7 @@
 
 	import './styles.css';
 	import '../app.css';
-	// import '@fortawesome/fontawesome-free/css/all.min.css';
+	import { page } from '$app/stores';
 	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
@@ -16,11 +16,7 @@
 	return waitLocale()
 	}
 
-	let menuSelectedPage = ""
-
-	function setPage(page) {
-		menuSelectedPage = page
-	}
+	$: isActive = (path) => $page.url.pathname === path;
 	
 	beforeUpdate(() => {
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -40,21 +36,21 @@
 </div>
 
 <div class="btm-nav">
-  <button on:click={()=>{goto('/');setPage("home")}} class="{menuSelectedPage=="home" ? "active" : ""}">
+  <button on:click={()=>{goto('/')}} class="{isActive('/') ? "active" : ""}">
     <i class="fi fi-rr-home"></i>
   </button>
-  <button on:click={()=>{goto('/qrcodeStorage');setPage("qrcodeStorage")}} class="{menuSelectedPage=="qrcodeStorage" ? "active" : ""}">
+  <button on:click={()=>{goto('/qrcodeStorage')}} class="{isActive('/qrcodeStorage') ? "active" : ""}">
     <i class="fi fi-rr-database"></i>
   </button>
-  <button on:click={()=>{goto('/qrCodeScanner');setPage("scanner")}} class="{menuSelectedPage=="scanner" ? "active" : ""}">
+  <button on:click={()=>{goto('/qrCodeScanner')}} class="{isActive('/qrCodeScanner') ? "active" : ""}">
 		<div class="bg-primary-base p-4 rounded-lg">
 			<i class="fi fi-rr-camera flex"></i>
 		</div>
   </button>
-  <button on:click={()=>{goto('/dataAnalisys');setPage("charts")}} class="{menuSelectedPage=="charts" ? "active" : ""}">
+  <button on:click={()=>{goto('/dataAnalisys')}} class="{isActive('/dataAnalisys') ? "active" : ""}">
     <i class="fi fi-rr-chart-histogram"></i>
   </button>
-  <button on:click={()=>{goto('/settings');setPage("settings")}} class="{menuSelectedPage=="settings" ? "active" : ""}">
+  <button on:click={()=>{goto('/settings')}} class="{isActive('/settings') ? "active" : ""}">
     <i class="fi fi-rr-settings-sliders"></i>
   </button>
 </div>
