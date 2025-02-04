@@ -83,7 +83,7 @@ export async function getStatBoticsData(team){
 
 	return {
 		team: team,
-		winrate: requestData.record.season.winrate,
+		winrate: requestData.record.winrate,
 		epa: requestData.norm_epa.current
 	}
 
