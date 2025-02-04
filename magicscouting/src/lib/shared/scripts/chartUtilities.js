@@ -69,6 +69,7 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
 			total += gamePointsByAction.bargeStatus[data[field]]
 		}else{
 			total += data[field] * (points ? gamePointsByAction[field] : 1)
+			console.log(`Match: ${data.match} field: ${field} number: ${total}`)
 		}
 	}
 	return total
@@ -117,7 +118,7 @@ export async function getTBAData(team){
 	}
 }
 
-export function setupBarChartDataByMatch(data, groups, points=true){
+export function setupBarChartDataByMatch(data, groups){
 	let chartData = [];
 	data.forEach((match) => {
 	
@@ -125,13 +126,13 @@ export function setupBarChartDataByMatch(data, groups, points=true){
 	
 			let points = 0;
 			groups[group].fields.forEach((field) => {
-				points += handleGetActionAttributes(match, field, points, false)
+				points += handleGetActionAttributes(match, field, groups[group].showPoints, false)
 			})
 		
 
 			let entry = {
 				group: group,
-				match: parseFloat(match.match),
+				key: String(match.match),
 			}
 			
 			entry[groups[group].valueName] = points
@@ -139,8 +140,8 @@ export function setupBarChartDataByMatch(data, groups, points=true){
 			chartData.push(entry)
 		})
 	})
+	chartData.sort((a,b) => {return parseInt(a.key) - parseInt(b.key)})
 	console.log("ByMatch")
-	chartData.sort((a, b) => {return a.match-b.match})
 	console.log(chartData)
 	return chartData
 }

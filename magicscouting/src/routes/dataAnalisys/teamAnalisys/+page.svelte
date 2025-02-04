@@ -264,9 +264,9 @@
         data={setupBarChartDataByMatch(
             $rawData,
             {
-                Score: {fields: allPoints, valueName: "Points"},
-                Coral: {fields: coralPoints, valueName: "GPs"},
-                Algae: {fields: algaePoints, valueName: "GPs"}
+                Score: {fields: allPoints, valueName: "Points", showPoints: true},
+                Coral: {fields: coralPoints, valueName: "GPs", showPoints: false},
+                Algae: {fields: algaePoints, valueName: "GPs", showPoints: false}
             },
             true
         )}
@@ -293,16 +293,12 @@
             axes: {
                     left: {
                         title: "Score",
-                        mapsTo: "Points",
-                        scaleType: "linear",
-                        correspondingDatasets: [
-                            "Score"
-                        ]
+                        mapsTo: "Points"                        
                     },
                     bottom: {
+                        scaleType: "labels",
                         title: "Match",
-                        mapsTo: "match",
-                        scaleType: "labels"
+                        mapsTo: "key",
                     },
                     right: {
                         title: "Game Pieces",
