@@ -316,4 +316,4 @@
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}}>Teleop Analisys</button>
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Auto Analisys</button>
-<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Endgame Analisys</button>
+<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/EndGame")}}>Endgame Analisys</button>
