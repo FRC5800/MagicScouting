@@ -5,14 +5,14 @@
     import { onMount } from "svelte";
 
     import '@carbon/charts-svelte/styles.css'
-    import { BarChartGrouped, DonutChart, RadarChart, ComboChart } from '@carbon/charts-svelte'
+    import { BarChartGrouped, DonutChart, RadarChart, ComboChart, LineChart } from '@carbon/charts-svelte'
 
     import { writable } from 'svelte/store';
     import { TeamsDB } from "$lib/shared/stores/teamsData";
 
     import { goto } from '$app/navigation';
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
-    import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
+    import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, getAverageCycleData, setupBarChartDataByMatch, parseCycleString } from "$lib/shared/scripts/chartUtilities";
 
 
     const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
@@ -22,24 +22,23 @@
 
     console.log($rawData)
     
-    let autoPoints = [
-        "autoROneScore",
-        "autoRTwoScore", 
-        "autoRThreeScore", 
-        "autoRFourScore", 
-        "autoProcessorScore", 
-        "autoNetScore", 
-        "isLeave"
+    let teleopPoints = [
+        "teleopROneScore",
+        "teleopRTwoScore", 
+        "teleopRThreeScore", 
+        "teleopRFourScore", 
+        "teleopProcessorScore", 
+        "teleopNetScore", 
     ]
-    let coralAutoPoints = [
-        "autoROneScore",
-        "autoRTwoScore", 
-        "autoRThreeScore", 
-        "autoRFourScore", 
+    let coralTeleopPoints = [
+        "teleopROneScore",
+        "teleopRTwoScore", 
+        "teleopRThreeScore", 
+        "teleopRFourScore", 
     ]
-    let algaeAutoPoints = [
-        "autoProcessorScore", 
-        "autoNetScore", 
+    let algaeTeleopPoints = [
+        "teleopProcessorScore", 
+        "teleopNetScore", 
     ]
 
 </script>
@@ -57,10 +56,10 @@
     data={setupBarChartsData(
         $rawData,
         {
-            "L1": "autoROne",
-            "L2": "autoRTwo",
-            "L3": "autoRThree",
-            "L4": "autoRFour",
+            "L1": "teleopROne",
+            "L2": "teleopRTwo",
+            "L3": "teleopRThree",
+            "L4": "teleopRFour",
         }
     )}
     options={{
@@ -82,16 +81,16 @@
     data={setupBarChartsData(
         $rawData,
         {
-            "HIGH": "autoRemoveAlgaeLow",
-            "LOW": "autoRemoveAlgaeHigh",
+            "HIGH": "teleopRemoveAlgaeLow",
+            "LOW": "teleopRemoveAlgaeHigh",
         },
         false,
         [""]
     ).concat(setupBarChartsData(
         $rawData,
         {
-        "PROC": ["autoProcessor"],
-        "NET": ["autoNet"],
+        "PROC": ["teleopProcessor"],
+        "NET": ["teleopNet"],
         },
         false
     ))}
@@ -110,39 +109,42 @@
 
     
 {#if $rawData.length > 0}
-    <div class="border-color-5800-1 border-4 rounded-md">Avg auto points: {getAverageDBvalues(
+    <div class="border-color-5800-1 border-4 rounded-md">Avg teleop points: {getAverageDBvalues(
         $rawData,
-        autoPoints,
+        teleopPoints,
         true
     )}</div>
-    <div class="border-color-5800-1 border-4 rounded-md">Avg leave: {getAverageDBvalues(
+    <div class="border-color-5800-1 border-4 rounded-md">Avg cycle time: {getAverageCycleData(
         $rawData,
-        ["isLeave"],
-        true
-    )}</div>
- 
+        [
+            "coralStationCycleTime",
+            "coralFloorCycleTime",
+            "algaeCycleTime"
+        ],
+    )} s</div>
+
     {#key $rawData}
         <RadarChart
             data={setupSimpleChartsData(
             $rawData,
                 {
-                    "L1" : ["autoROneScore"], 
-                    "L2" : ["autoRTwoScore"], 
-                    "L3" : ["autoRThreeScore"], 
-                    "L4" : ["autoRFourScore"],
-                    "Proc" : ["autoProcessorScore"],
-                    "Net": ["autoNetScore"] 
+                    "L1" : ["teleopROneScore"], 
+                    "L2" : ["teleopRTwoScore"], 
+                    "L3" : ["teleopRThreeScore"], 
+                    "L4" : ["teleopRFourScore"],
+                    "Proc" : ["teleopProcessorScore"],
+                    "Net": ["teleopNetScore"] 
                 },
                 "radar"
             ).concat(setupSimpleChartsData(
                 $rawData,
                 {
-                    "L1" : ["autoROneScore"], 
-                    "L2" : ["autoRTwoScore"], 
-                    "L3" : ["autoRThreeScore"], 
-                    "L4" : ["autoRFourScore"],
-                    "Proc" : ["autoProcessorScore"],
-                    "Net": ["autoNetScore"] 
+                    "L1" : ["teleopROneScore"], 
+                    "L2" : ["teleopRTwoScore"], 
+                    "L3" : ["teleopRThreeScore"], 
+                    "L4" : ["teleopRFourScore"],
+                    "Proc" : ["teleopProcessorScore"],
+                    "Net": ["teleopNetScore"] 
                 },
                 "radar",
                 true
@@ -162,16 +164,48 @@
             }}
         />
     {/key}
+        
+    <svelte:component
+        this={LineChart}
+        data={setupBarChartDataByMatch(
+            $rawData,
+            {
+                CoralStation: {fields: ["coralStationCycleTime"], valueName: "Seconds", showPoints: false},
+                CoralFloor: {fields: ["coralFloorCycleTime"], valueName: "Seconds", showPoints: false},
+                Algae: {fields: ["algaeCycleTime"], valueName: "Seconds", showPoints: false}
+            },
+            parseCycleString
+        )}
+        options={{
+            theme: "g90",
+            title: "Avg Cycle time by match",
+            height: "200px",
+            width: "400px",
+            axes: {
+                    left: {
+                        title: "Seconds",
+                        mapsTo: "Seconds"                        
+                    },
+                    bottom: {
+                        scaleType: "labels",
+                        title: "Match",
+                        mapsTo: "key",
+                    },
+                }
+            }
+        }
+    />
+    
     <svelte:component
         this={ComboChart}
         data={setupBarChartDataByMatch(
             $rawData,
             {
-                Score: {fields: autoPoints, valueName: "Points", showPoints: true},
-                Coral: {fields: coralAutoPoints, valueName: "GPs", showPoints: false},
-                Algae: {fields: algaeAutoPoints, valueName: "GPs", showPoints: false}
+                Score: {fields: teleopPoints, valueName: "Points", showPoints: true},
+                Coral: {fields: coralTeleopPoints, valueName: "GPs", showPoints: false},
+                Algae: {fields: algaeTeleopPoints, valueName: "GPs", showPoints: false}
             },
-            true
+            
         )}
         options={{
             theme: "g90",
@@ -219,4 +253,4 @@
 {/if}
 
 
-<button on:click={() => {goto("/dataAnalisys/teamAnalisys")}}>Pit Data</button>
+<button on:click={() => {goto("/dataAnalisys/teamAnalisys")}}>Team Analisys</button>

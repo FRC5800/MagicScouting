@@ -267,8 +267,7 @@
                 Score: {fields: allPoints, valueName: "Points", showPoints: true},
                 Coral: {fields: coralPoints, valueName: "GPs", showPoints: false},
                 Algae: {fields: algaePoints, valueName: "GPs", showPoints: false}
-            },
-            true
+            }
         )}
         options={{
             theme: "g90",
@@ -314,4 +313,7 @@
         }
     />
 {/if}
-<button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>
+<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>
+<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}}>Teleop Analisys</button>
+<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Auto Analisys</button>
+<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Endgame Analisys</button>

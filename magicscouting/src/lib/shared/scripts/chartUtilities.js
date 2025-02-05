@@ -56,19 +56,19 @@ export function getParameterArray(data, param, bargePoints=false){
 }
 
 function handleGetActionAttributes(data, field, points = true, avg = true){
-	let total = 0;
+	let total;
 
 	if (avg){
 		if (field == "bargeStatus"){
-			total += avgArray(getParameterArray(data, field, true))
+			total = avgArray(getParameterArray(data, field, true))
 		}else{
-			total += avgArray(getParameterArray(data, field)) * (points ? gamePointsByAction[field] : 1)
+			total = avgArray(getParameterArray(data, field)) * (points ? gamePointsByAction[field] : 1)
 		}
 	}else{
 		if (field == "bargeStatus"){
-			total += gamePointsByAction.bargeStatus[data[field]]
+			total = gamePointsByAction.bargeStatus[data[field]]
 		}else{
-			total += data[field] * (points ? gamePointsByAction[field] : 1)
+			total = points? (data[field] * gamePointsByAction[field]) : data[field]
 		}
 	}
 	return total
@@ -117,7 +117,7 @@ export async function getTBAData(team){
 	}
 }
 
-export function setupBarChartDataByMatch(data, groups){
+export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{return a}){
 	let chartData = [];
 	data.forEach((match) => {
 	
@@ -125,7 +125,7 @@ export function setupBarChartDataByMatch(data, groups){
 	
 			let points = 0;
 			groups[group].fields.forEach((field) => {
-				points += handleGetActionAttributes(match, field, groups[group].showPoints, false)
+				points += customHandler(handleGetActionAttributes(match, field, groups[group].showPoints, false))
 			})
 		
 
@@ -140,8 +140,11 @@ export function setupBarChartDataByMatch(data, groups){
 		})
 	})
 	chartData.sort((a,b) => {return parseInt(a.key) - parseInt(b.key)})
+	console.log(chartData)
 	return chartData
 }
+
+
 
 export function setupBarChartsData(data, chartReference, showPoints=false, namePatterns=["Score", "Miss"]){
 	if (!data){return []}
@@ -164,14 +167,23 @@ export function setupBarChartsData(data, chartReference, showPoints=false, nameP
 	return chartData
 }
 
-export function getAverageDBvalues(data, fields, points=true){
+export function getAverageDBvalues(data, fields, points=true, customHandler=(a)=>{return a}){
 	let total = 0;
 
 	fields.forEach((field) => {
-		total += handleGetActionAttributes(data, field, points, true)
+		total += customHandler(handleGetActionAttributes(data, field, points, true))
 	})
 
 	return Math.round(total*10)/10
+}
+export function getAverageCycleData(data, fields){
+	let total = 0;
+
+	fields.forEach((field) => {
+		total += avgArray(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}))
+	})
+
+	return Math.round((total/fields.length)*10)/10
 }
 
 export function setupSimpleChartsData(data, chartReference, chartType="donut", GP=false){
@@ -208,6 +220,10 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 		
 	return chartData
 }
+export function parseCycleString(data){
+	return avgArray(data.split("; ").map((v) => {return parseFloat(v)}))
+
+}
 
 export function setupModeChartsData(data, field, chartReference){
 	if (!data){return []}
@@ -229,6 +245,8 @@ export function setupModeChartsData(data, field, chartReference){
 			"group": chartReference[mode],
 			"value": qty
 		}
+
+		chartData.push(bar)
 	})
 		
 	return chartData
