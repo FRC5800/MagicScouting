@@ -25,9 +25,11 @@ export default {
 		extend: {
 			colors: {
 				'color-5800-1': '#6184FA',
+				surface: 'var(--color-surface1)',
 				primary: {
 					base: 'var(--color-primary)',
 					light: 'var(--color-primary-light)',
+					opac: 'var(--color-primary-light-opac)',
 					heavy: 'var(--color-primary-heavy)'
 				},
 				secondary: 'var(--color-secondary)',

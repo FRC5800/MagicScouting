@@ -23,7 +23,7 @@ body {
 	background-size: 100vw 100vh;
 }
 button {
-	width: 30vw;
+	/* width: 30vw; */
 	/* height: calc(5vh + 1rem);
 	border-radius: 0.5rem;
 	border: 2px var(--color-bg-1) solid; */
@@ -119,4 +119,8 @@ button:focus:not(:focus-visible) {
 	position: absolute;
 	width: 1px;
 	white-space: nowrap;
+}
+
+.akd{
+	@apply dark:bg-[#1d232a] bg-[#f0f0f0];
 }

@@ -162,7 +162,7 @@ async function HandleUpload(){
 </button>
 
 {#if (showQrCode)}
-    <div class="qrCode-container min-w-[50vw] flex flex-row justify-center bg-white w-fit rounded-b-3xl">
+    <div class="qrCode-container min-w-[50vw] w-full flex flex-row justify-center bg-white w-fit rounded-b-3xl">
         <img class="w-[70%] h-auto" {src} alt="A Qr Code">
     </div>
 {/if}
@@ -176,7 +176,7 @@ async function HandleUpload(){
 <span >(Online)</span>
 <button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'dark:bg-green-600 dark:text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'bg-green-600 text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-6"></div>
 

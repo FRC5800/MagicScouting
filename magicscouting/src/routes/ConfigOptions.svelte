@@ -38,7 +38,7 @@
 	let selected_color = $colorTheme;
 	$: if(selected_color != $colorTheme) {
 		$colorTheme = selected_color;
-		document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
+		document.querySelector("html")?.setAttribute("theme", $colorTheme);
 	}
 	$: $colorTheme = selected_color;
 
@@ -50,13 +50,16 @@
 		if ($theme == 'dark') {
 			htmlTagClasses.remove('light');
 			htmlTagClasses.add('dark');
+			document.querySelector('html')?.setAttribute('data-theme', 'dark');
 		} else if ($theme == 'light') {
 			htmlTagClasses.remove('dark');
 			htmlTagClasses.add('light');
+			document.querySelector('html')?.setAttribute('data-theme', 'light');
 		} else {
 			htmlTagClasses.remove('dark');
 			htmlTagClasses.remove('light');
 			htmlTagClasses.add(systemTheme);
+			document.querySelector('html')?.setAttribute('data-theme', systemTheme);
 		}
 	}
 

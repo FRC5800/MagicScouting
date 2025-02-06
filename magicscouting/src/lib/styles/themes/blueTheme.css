@@ -1,9 +1,11 @@
-html[data-theme='blue'] {
+html[theme='blue'] {
 	--color-primary: #356ee8;
-	--color-primary-light: #68cce3;
+	--color-primary-light: #3da5ff;
+	--color-primary-light-opac: #3da5ff4d;
 	--color-primary-heavy: #121212;
 	--color-secondary: #eb3a31;
-	--color-buttons: #35b8e8;
-	--color-gradient-light: #35b8e8;
+	--color-buttons: #3da5ff;
+	--color-gradient-light: #3da5ff;
 	--color-gradient-heavy: #1e3edf;
+	/* #3da5ff */
 }

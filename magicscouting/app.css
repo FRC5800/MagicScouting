@@ -17,7 +17,7 @@
 }
 
 @layer base {
-	html[data-theme=''] {
+	html[theme=''] {
 		--color-primary: #356ee8;
 		--color-primary-light: #68cce3;
 		--color-primary-heavy: #060024;

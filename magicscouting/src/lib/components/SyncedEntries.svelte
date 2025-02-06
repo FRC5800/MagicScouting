@@ -58,8 +58,8 @@
     }
 
     function HandleDelete(){                
-        $entriesSync.splice($entriesSync.indexOf(payload), 1); 
-        console.log($entriesSync);
+        $syncedEntries.splice($syncedEntries.indexOf(payload), 1); 
+        console.log($syncedEntries);
     }
 
     function createQr() {
@@ -81,54 +81,58 @@
         <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
           <img width="45px" height="45px" src={teamData.logo ?? ""} alt="">
         </div>
-        <details class="dropdown absolute right-4 top-0 dropdown-end">
-          <summary class="btn m-1 p-0 bg-[#f0f0f0] dark:bg-surface border-[#f0f0f0] dark:border-"><i class="fi fi-br-menu-dots-vertical text-lg"></i></summary>
-          <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 shadow">
-            <li><a>Edit</a></li>
-            <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}><a>Delete</a></li>
+        <div class="dropdown absolute right-0 top-0 dropdown-end">
+            <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
+            <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
+                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $syncedEntries = $syncedEntries}}><a href="">Delete</a></li>
+            </ul>
+          </div>
+        <!-- <div class="dropdown absolute right-4 top-0 dropdown-end">
+          <div role="button" tabinex="0" class="btn m-1 p-0 bg-[#f0f0f0] dark:bg-surface border-[#f0f0f0] dark:border-surface"><i class="fi fi-br-menu-dots-vertical text-lg"></i></div>
+          <ul tabinex="0" class="menu dropdown-content bg-base-100 rounded-md z-[1] w-52 shadow">
+            <li class="py-2" on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}>Delete</li>
+            <li><a>Item 2</a></li>
           </ul>
-        </details>
+        </div> -->
         <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
-            <span>Match: {payload.match}</span>
-            <span>Position: {payload.arenaPos}</span>
+            <span>{$_('storage.match')}: {payload.match}</span>
+            <span>{$_('storage.match')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button on:click={() => {showQrCode = true}} class="btn grow">Visualize</button>
-            <button on:click={HandleUpload} class="btn btn-circle bg-[#aaffc4] dark:bg-primary-light {uploadDisabled || !$useDB ? "btn-disabled" : ""}">
-              <i class="fi fi-rr-progress-upload text-2xl"></i>
+            <button onclick="my_modal_2.showModal()" class="btn grow bg-primary-opac">Visualize</button>
+            <button class="btn btn-circle pointer-events-none bg-[#aaffc4] dark:bg-primary-light {uploadDisabled || !$useDB ? "btn-disabled" : ""} text-2xl">
+                <i class="fi fi-br-check-circle flex text-[#282828]"></i>
             </button>
           </div>
         </div>
       </div>
 
-<!-- <section class="flex flex-row w-full p-1 mb-4 bg-gray-300 border-b-2 rounded-md shadow-sm shadow-primary-light dark:bg-gray-700">
-    <div class="flex items-center justify-center pr-3 border-r border-grey-heavy w-fit">
-        <i {src} alt="A Qr Code"  class="fa-solid fa-qrcode {uploadSuccess === true ? 'text-green-600' : uploadSuccess === false ? 'text-red-600' : ''} text-[100px]"></i>
-    </div>
-
-    <div class="flex flex-col items-start justify-between w-full ml-3 overflow-auto">
+<!-- You can open the modal using ID.showModal() method -->
+<dialog id="my_modal_2" class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
         
-        <div class="flex flex-row justify-around w-full text-lg">
-            <h1 class="text-2xl">{$_('storage.team')}: {payload.team}</h1>
-            <h1 class="text-2xl">{$_('storage.match')}: {payload.match}</h1>
+        <div class="flex flex-col justify-center items-center">
+            <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
+            <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
+                <img class="h-auto" {src} alt="">
+            </div>
+            <h1 class="text-[1.4rem] font-semibold">{$_('storage.modal.scan_me')}</h1>
         </div>
-        
-        <div class="w-full p-2 overflow-hidden overflow-x-auto text-gray-300 rounded-lg bg-grey-heavy">{JSON.stringify(payload)}</div>
 
-        <div class="flex flex-row items-center justify-around w-full">
-            <button class="p-3 btn w-fit h-fit text-xs {!$useDB ? 'disabled-btn' : ''} {buttonColor}" disabled={uploadDisabled || !$useDB}  on:click={HandleUpload}>{buttonText}</button>
-            <button class="p-3 text-xs btn w-fit h-fit" on:click={() => {showQrCode = true}}>{$_('storage.scan_button')}</button>
-            <TrashCan scale={0.7} on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}/>
-        </div>
     </div>
-</section> -->
-
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+  </dialog>
 <Modal bind:showModal={showQrCode}> 
     <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
-    <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base">
-        <img class="w-[40vw] h-auto" {src} alt="">
+    <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
+        <img class="h-auto" {src} alt="">
     </div>
     <h1 class="text-[1.4rem] font-semibold">{$_('storage.modal.scan_me')}</h1>
 </Modal>

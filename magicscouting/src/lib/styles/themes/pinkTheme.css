@@ -1,9 +1,12 @@
-html[data-theme='pink'] {
+html[theme='pink'] {
 	--color-primary: #a1166a;
-	--color-primary-light: #e051a8;
-	--color-primary-heavy: #12000b;
+	--color-primary-light: #;
+	--color-primary-light-opac: #e051a84d;
+	--color-primary-heavy: #121212;
 	--color-secondary: #20a36a;
 	--color-buttons: #d92793;
 	--color-gradient-light: #d92793;
 	--color-gradient-heavy: #4f0933;
+
+	/* FF3DA5 */
 }

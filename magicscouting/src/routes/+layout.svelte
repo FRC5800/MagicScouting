@@ -20,8 +20,9 @@
 	
 	beforeUpdate(() => {
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+		document.querySelector('html')?.setAttribute('data-theme', $theme == 'system' ? systemTheme : $theme);
 		document.querySelector('html')?.classList.add($theme == 'system' ? systemTheme : $theme);
-		document.querySelector('html')?.setAttribute('data-theme', $colorTheme);
+		document.querySelector('html')?.setAttribute('theme', $colorTheme);
 	});
 </script>
 

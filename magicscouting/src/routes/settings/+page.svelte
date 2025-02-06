@@ -43,7 +43,7 @@
     let selected_color = $colorTheme;
     $: if(selected_color != $colorTheme) {
       $colorTheme = selected_color;
-      document.querySelector("html")?.setAttribute("data-theme", $colorTheme);
+      document.querySelector("html")?.setAttribute("theme", $colorTheme);
     }
     $: $colorTheme = selected_color;
   
@@ -53,16 +53,19 @@
       let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       let htmlTagClasses = document.querySelector('html').classList;
       if ($theme == 'dark') {
-        htmlTagClasses.remove('light');
-        htmlTagClasses.add('dark');
-      } else if ($theme == 'light') {
-        htmlTagClasses.remove('dark');
-        htmlTagClasses.add('light');
-      } else {
-        htmlTagClasses.remove('dark');
-        htmlTagClasses.remove('light');
-        htmlTagClasses.add(systemTheme);
-      }
+			htmlTagClasses.remove('light');
+			htmlTagClasses.add('dark');
+			document.querySelector('html')?.setAttribute('data-theme', 'dark');
+		} else if ($theme == 'light') {
+			htmlTagClasses.remove('dark');
+			htmlTagClasses.add('light');
+			document.querySelector('html')?.setAttribute('data-theme', 'light');
+		} else {
+			htmlTagClasses.remove('dark');
+			htmlTagClasses.remove('light');
+			htmlTagClasses.add(systemTheme);
+			document.querySelector('html')?.setAttribute('data-theme', systemTheme);
+		}
     }
   
     function handle_language_selection() {

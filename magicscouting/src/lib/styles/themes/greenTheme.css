@@ -1,9 +1,12 @@
-html[data-theme='green'] {
+html[theme='green'] {
 	--color-primary: #20a36a;
-	--color-primary-light: #8ff8ca;
-	--color-primary-heavy: #000d07;
+	--color-primary-light: #10bd55;
+	--color-primary-light-opac: #10bd554d;
+	--color-primary-heavy: #121212;
 	--color-secondary: #a1166a;
-	--color-buttons: #35e89a;
-	--color-gradient-light: #35e89a;
+	--color-buttons: #10bd55;
+	--color-gradient-light: #10bd55;
 	--color-gradient-heavy: #0c5636;
+
+	/* #3DFF95 */
 }

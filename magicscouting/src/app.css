@@ -17,14 +17,18 @@
 }
 
 @layer base {
-	html[data-theme=''] {
+	html[theme=''] {
 		--color-primary: #356ee8;
-		--color-primary-light: #68cce3;
-		--color-primary-heavy: #060024;
+		--color-primary-light: #3da5ff;
+		--color-primary-light-opac: #3da5ff4d;
+		--color-primary-heavy: #121212;
 		--color-secondary: #eb3a31;
-		--color-buttons: #35b8e8;
-		--color-gradient-light: #35b8e8;
+		--color-buttons: #3da5ff;
+		--color-gradient-light: #3da5ff;
 		--color-gradient-heavy: #1e3edf;
+	}
+	html{
+		--color-surface1: #282828;
 	}
 }
 
@@ -33,7 +37,7 @@
 		color: white;
 		/* font-family: 'Outfit', Tahoma, Geneva, Verdana, sans-serif; */
 		font-weight: bold;
-		@apply box-border text-[#474747] dark:text-white bg-transparent border-2 dark:border-0 border-[#474747] dark:bg-grey-heavy rounded-xl py-2 px-4 w-full
+		@apply box-border text-[#474747] dark:text-[#E0E0E0] bg-transparent border-2 dark:border-0 border-[#474747] dark:bg-grey-heavy rounded-xl py-2 px-4 w-full
         focus:outline-none focus:outline-grey-heavy 
         active:outline-none hover:border-[3px] dark:hover:border-0 dark:hover:bg-grey-light flex align-middle 
         justify-center placeholder:text-[#666666];
