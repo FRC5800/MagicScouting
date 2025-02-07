@@ -12,7 +12,7 @@
 
     import { goto } from '$app/navigation';
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
-    import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
+    import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getParameterArray } from "$lib/shared/scripts/chartUtilities";
 
 
     const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
@@ -59,43 +59,29 @@
 <div class="border-color-5800-1 border-4 rounded-md">Avg endgame climb time: {getAverageDBvalues(
     $rawData,
     ["bargeTime"],
-    true
+    false
 )}s</div>
 
-<div class="border-color-5800-1 border-4 rounded-md">Avg endgame climb time: {getAverageDBvalues(
+<div class="border-color-5800-1 border-4 rounded-md">Avg endgame climb Points: {getAverageDBvalues(
     $rawData,
     ["bargeStatus"],
     true
-)}s</div>
+)} points</div>
 
     
+<section>----------</section>
+
 {#if $rawData.length > 0}
  
     {#key $rawData}
-        <svelte:component
-            this={BarChartSimple}
-            data={setupBarChartDataByMatch(
-            $rawData,
-                {
-                    Score: {fields: ["bargeStatus"], valueName: "Points", showPoints: true}
-                },
-            )}
-            options={{
-                title: "Scoring profile",
-                height: "400px",
-                axes: {
-                    left: {
-                        title: "Score",
-                        mapsTo: "Points"                        
-                    },
-                    bottom: {
-                        scaleType: "labels",
-                        title: "Match",
-                        mapsTo: "key",
-                    },
-                },
-            }}
-        />
+        <div class="flex flex-wrap">
+            {#each $rawData.slice().sort((a,b) => a.match - b.match) as status}
+                <div>
+                    <div class="border-color-5800-1 border-4 rounded-md">{status.bargeStatus}</div>
+                    <div class="border-color-5800-1 border-4 rounded-md">Match: {status.match}</div>
+                </div>
+            {/each}
+        </div>
     {/key}
 {/if}
 

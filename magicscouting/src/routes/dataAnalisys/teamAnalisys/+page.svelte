@@ -43,7 +43,7 @@
         debounceTimeout = setTimeout(async () => {
             console.log(getTeamScoutingData(teamSearch))
             rawData.set(getTeamScoutingData(teamSearch));
-
+            
             $teamData.team = teamSearch
 
             getStatBoticsData(teamSearch).then((r) => {

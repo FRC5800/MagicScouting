@@ -62,7 +62,7 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
 		if (field == "bargeStatus"){
 			total = avgArray(getParameterArray(data, field, true))
 		}else{
-			total = avgArray(getParameterArray(data, field)) * (points ? gamePointsByAction[field] : 1)
+			total = avgArray(getParameterArray(data, field).slice().map((a) => parseFloat(a))) * (points ? gamePointsByAction[field] : 1)
 		}
 	}else{
 		if (field == "bargeStatus"){
