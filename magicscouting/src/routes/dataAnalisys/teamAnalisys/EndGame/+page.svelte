@@ -14,7 +14,6 @@
     import sessionStore from "$lib/shared/stores/sessionStorageStore";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getParameterArray } from "$lib/shared/scripts/chartUtilities";
 
-
     const teamData = sessionStore("selectedTeamData", {"logo": new Image(), "name":""});
 
     let rawData = writable(getTeamScoutingData($teamData.team));

@@ -19,18 +19,72 @@ let gamePointsByAction = {
 	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
 };
 
-
-export function formatToChart(entry){
-	let chartData = []
+export function getSortedTeams(allData){
+	let teams = {}
 	
-	for (let i = 0; i < Object.keys(entry).length; i++){
-		let key = Object.keys(entry)[i]
-		let value = Object.values(entry)[i]
-		chartData.push({group: key, value: value})
-	}
+	allData.forEach((match) => {
+		teams[match.team] = 1
+	})
 
-	return chartData
+	teams = Object.keys(teams)
+
+	teams.sort((a,b) => {
+		let aPoints = getAverageDBvalues(getTeamScoutingData(a),Object.keys(gamePointsByAction), true); 
+		let bPoints = getAverageDBvalues(getTeamScoutingData(b),Object.keys(gamePointsByAction), true);
+
+		return aPoints - bPoints
+	})
+
+	console.log(teams)
+	return teams
 }
+
+
+export function avgTeamPerformance(teams){
+	let chartData = []
+
+	teams.forEach((team) => {
+
+		let matches = getTeamScoutingData(team)
+		let fields = {
+			avgAutoPoints: [
+				"autoROneScore",
+				"autoRTwoScore", 
+				"autoRThreeScore", 
+				"autoRFourScore", 
+				"autoProcessorScore", 
+				"autoNetScore", 
+				"isLeave"
+			],
+			avgTeleopCoralPoints: [
+				"teleopROneScore",
+				"teleopRTwoScore", 
+				"teleopRThreeScore", 
+				"teleopRFourScore", 
+			],
+			avgTeleopAlgaePoints: [
+				"teleopProcessorScore", 
+				"teleopNetScore"
+			],
+			avgEndGame: [
+				"bargeStatus",
+			]
+		}
+	
+		Object.keys(fields).forEach((field) => {
+			let points = getAverageDBvalues(matches, fields[field], true)
+			console.log(`points: ${points}, ${field}`)
+			chartData.push({
+				group: field,
+				key: team,
+				value: points
+			})
+		})
+	})
+	return chartData
+
+}
+
 
 export function avgArray(array){
 	let sum = 0

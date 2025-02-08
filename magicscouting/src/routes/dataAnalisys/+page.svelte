@@ -4,46 +4,48 @@
 	import { onMount } from "svelte";
 
     import '@carbon/charts-svelte/styles.css'
-	import { BarChartSimple } from '@carbon/charts-svelte'
+	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
 
     import { goto } from "$app/navigation";
 
     import SyncData from "$lib/components/SyncDataButton.svelte";
     import SyncDataButton from "$lib/components/SyncDataButton.svelte";
 
-    function formatToChart(entry){
-        let chartData = []
-        
-        for (let i = 0; i < Object.keys(entry).length; i++){
-            let key = Object.keys(entry)[i]
-            let value = Object.values(entry)[i]
-            chartData.push({group: key, value: value})
-        }
+	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 
-        return chartData
-    }
+    import { avgTeamPerformance, getSortedTeams } from "$lib/shared/scripts/chartUtilities";
+	import { writable } from "svelte/store";
 
+    let leaderboardData = writable([]);
     onMount(async () => {
         if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
             SyncData();
         }
+        leaderboardData.set(avgTeamPerformance(getSortedTeams($TeamsDB)))
+        console.log($leaderboardData)
     })
-    
+
     
 </script>
 
 <SyncDataButton />
+
+{#if $leaderboardData.length > 0}
+    <svelte:component
+        this={BarChartStacked}
+        data={$leaderboardData}
+        options={{
+            theme: 'g90',
+            title: 'Leaderboard',
+            height: '500px',
+            width: '70%',
+            axes: {
+                bottom: { mapsTo: 'value', scaleType: "linear"},
+                left: { mapsTo: 'key', scaleType: 'labels' }
+                }
+            }
+        }
+    /> 
+{/if}
 <button on:click={() => {goto('/dataAnalisys/teamAnalisys')}}>Team Analisys</button>
 
-<!-- 
-['timeStamp', 'team', 'match', 'arenaPos', 'red/blue', 
-'autoROneScore', 'autoRTwoScore', 'autoRThreeScore', 'autoRFourScore', 
-'autoROneMiss', 'autoRTwoMiss', 'autoRThreeMiss', 'autoRFourMiss', 'isLeave', 
-’autoProcessorScore’, 'autoProcessorMiss’, 
-‘autoRemoveAlgaeLow’, ‘autoRemoveAlgaeHigh’,  
-'teleopROneScore', 'teleopRTwoScore', 'teleopRThreeScore', 'teleopRFourScore', 
-'teleopROneMiss', 'teleopRTwoMiss', 'teleopRThreeMiss', 'teleopRFourMiss', 
-’teleopProcessorScore’, ‘teleopProcessorMiss’, 
-‘teleopRemoveAlgaeLow’, ‘teleopRemoveAlgaeHigh’, 
-'bargeStatus', 'bargeTime', 'stationCycleTime', 'floorCycleTime', ‘netScore’, 'humanNetScore'
-‘netMiss’, 'humanNetMiss', 'matchFunction', 'stationAverage', 'floorAverage'] -->
