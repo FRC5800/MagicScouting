@@ -32,6 +32,9 @@
 
 		"settings": {
 			"title": "Ajustes",
+			"themes_title": "Tema",
+			"colors_title": "Paleta de Colores",
+			"language_title": "Idioma",
 			"option_language": "Seleccione Idioma",
 			"option_theme": {
 				"title": "Tema",
@@ -65,9 +68,15 @@
 	},
 	"storage": {
 		"title": "Almacienamento",
+		"filters": {
+			"all": "Todos",
+			"sent": "Enviados",
+			"not_sent": "No Enviados"
+		},
 		"empty_message": "¡No hay partidos almacenados!",
 		"team": "Equipo",
 		"match": "Partido",
+		"team_position": "Posición",
 		"upload_button": "Subir",
 		"scan_button": "Escanear",
 		"modal": {
@@ -122,8 +131,8 @@
 			"option2": "Erró",
 			"option3": "Golpeó"
 		},
-		"onstage": {
-			"title": "OnStage",
+		"barge": {
+			"title": "Barge",
 			"option1": "Lo intentó y falló",
 			"option2": "No lo intentó",
 			"option3": "Escaló solo",
@@ -131,27 +140,34 @@
 			"option5": "Escaló con +2 robots"
 		},
 		"note_cycle": {
-			"title": "Ciclo de Notes",
-			"start_cycle": "Comenzar",
+			"title": " Control de Ciclo",
+			"source": "Fuente Ubicación",
+			"start_cycle": "Iniciar",
+			"pause": "Pausa",
 			"option_floor": "Piso",
-			"option_source": "Source"
+			"timer": "Duración del Ciclo",
+			"cancel_confirmation": "Pulse de nuevo para cancelar"
 		},
-		"onstage_cycle": {
-			"title": "Ciclo OnStage",
+		"barge_cycle": {
+			"title": "Ciclo Barge",
 			"start_cycle": "Comenzar"
 		},
 		"continue_button": "Continuar"
 	},
 	"info": {
 		"title": "Información Adicional",
-		"attack_title": "Jugó de Atacante",
-		"defense_title": "Jugó de Defensa",
-		"support_title": "Jugó como Apoyo",
+		"team_role": "Estilo de Juego",
+		"robot_status": "Estado del Robo",
+		"coopertition": "Coopertition Bonus",
+		"attack": "Atacante",
+		"defense": "Defensa",
+		"support": "Apoyo",
 		"yes": "Sí",
 		"no": "No",
 		"continue_button": "Continuar",
-		"broke_title": "Robot roto",
-		"communication_fault_title": "Comunicación perdida"
+		"safe": "Normal",
+		"broke": "Roto",
+		"communication_fault": "Comm"
 	
 	},
 	"qrcode": {
@@ -166,5 +182,13 @@
 			"yes_button": "Sí",
 			"no_button": "No"
 		}
+	},
+	"misc": {
+		"close_button": "Cerrar",
+		"visualize_button": "Visualizar",
+		"delete_button": "Excluir",
+		"cancel_button": "Cancelar",
+		"save_button": "Guardar",
+		"none": "Ninguno"
 	}
 }

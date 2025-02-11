@@ -32,6 +32,9 @@
 
 		"settings": {
 			"title": "Settings",
+			"themes_title": "Theme",
+			"colors_title": "Color Palette",
+			"language_title": "Language",
 			"option_language": "Select Language",
 			"option_theme": {
 				"title": "Theme",
@@ -64,10 +67,16 @@
 		}
 	},
 	"storage": {
-		"title": "Storage",
+		"title": "My Storage",
+		"filters": {
+			"all": "All",
+			"sent": "Sent",
+			"not_sent": "Not Sent"
+		},
 		"empty_message": "There're no stored matches!",
 		"team": "Team",
 		"match": "Match",
+		"team_position": "Position",
 		"upload_button": "Upload",
 		"scan_button": "Scan",
 		"modal": {
@@ -122,8 +131,8 @@
 			"option2": "Missed",
 			"option3": "Scored"
 		},
-		"onstage": {
-			"title": "OnStage",
+		"barge": {
+			"title": "Barge",
 			"option1": "Tried and Missed",
 			"option2": "Didn't try",
 			"option3": "Climbed alone",
@@ -131,27 +140,34 @@
 			"option5": "Climbed with 2+ Robots"
 		},
 		"note_cycle": {
-			"title": "Note Cycle",
+			"title": "Cycle Control",
+			"source": "Source Location",
 			"start_cycle": "Start",
 			"option_floor": "Floor",
-			"option_source": "Source"
+			"timer": "Cycle Time",
+			"pause": "Pause",
+			"cancel_confirmation": "Click again to cancel"
 		},
-		"onstage_cycle": {
-			"title": "OnStage Cycle",
+		"barge_cycle": {
+			"title": "Barge Cycle",
 			"start_cycle": "Start"
 		},
 		"continue_button": "Continue"
 	},
 	"info": {
 		"title": "Additional information",
-		"attack_title": "Played as Attacker",
-		"defense_title": "Played as Defender",
-		"support_title": "Played as Supporter",
+		"team_role": "Team Role",
+		"robot_status": "Robot Status",
+		"coopertition": "Coopertition Bonus",
+		"attack": "Attacker",
+		"defense": "Defender",
+		"support": "Supporter",
 		"yes": "Yes",
 		"no": "No",
 		"continue_button": "Continue",
-		"broke_title": "Robot broke",
-		"communication_fault_title": "Lost communication"
+		"safe": "Safe",
+		"broke": "Broke",
+		"communication_fault": "Comm"
 	},
 	"qrcode": {
 		"title": "Scouting Data",
@@ -165,5 +181,13 @@
 			"yes_button": "Yes",
 			"no_button": "No"
 		}
+	},
+	"misc": {
+		"close_button": "Close",
+		"visualize_button": "Visualize",
+		"delete_button": "Delete",
+		"cancel_button": "Cancel",
+		"save_button": "Save",
+		"none": "None"
 	}
 }

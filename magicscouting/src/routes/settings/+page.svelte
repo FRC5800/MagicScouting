@@ -104,7 +104,7 @@
   </script>
 
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
-  <h2 class="text-xl font-medium tracking-wide">Language</h2>
+  <h2 class="text-xl font-medium tracking-wide">{$_('home_page.settings.language_title')}</h2>
   <SelectInput
       options={linguagens}
       bind:value={selected_language}
@@ -114,7 +114,7 @@
 </div>
 
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
-  <h2 class="text-xl font-medium tracking-wide">Theme</h2>
+  <h2 class="text-xl font-medium tracking-wide">{$_('home_page.settings.themes_title')}</h2>
   <SelectInput
       options={themes}
       bind:value={selected_theme}
@@ -124,7 +124,7 @@
 </div>
 
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
-  <h2 class="text-xl font-medium tracking-wide">Color Palette</h2>
+  <h2 class="text-xl font-medium tracking-wide">{$_('home_page.settings.colors_title')}</h2>
   <div
     class="input input-bordered flex flex-row justify-around flex-wrap w-full h-fit p-1"
     id="colorContainer"

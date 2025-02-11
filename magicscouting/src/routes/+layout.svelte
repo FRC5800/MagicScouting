@@ -45,7 +45,7 @@
   </button>
   <button on:click={()=>{goto('/qrCodeScanner')}} class="{isActive('/qrCodeScanner') ? "active" : ""}">
 		<div class="bg-primary-base p-4 rounded-lg">
-			<i class="fi fi-rr-camera flex"></i>
+			<i class="fi fi-rr-camera flex dark:text-primary-heavy text-[#E0E0E0]"></i>
 		</div>
   </button>
   <button on:click={()=>{goto('/dataAnalisys')}} class="{isActive('/dataAnalisys') ? "active" : ""}">
@@ -61,9 +61,11 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		width: 100%;
 	}
 	main {
 		min-height: 100vh;
+		width: 100%;
 		display: flex;
 		/* justify-content: center; */
 		align-items: center;

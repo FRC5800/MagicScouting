@@ -162,7 +162,7 @@
 			: 'text-neutral-600 bg-transparent dark:bg-slate-100 border-gray-700'}">{$_('autonomous.leave_button')}</button
 	>
 
-	<button class="btn btn-block mt-8" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
+	<button class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">

@@ -15,23 +15,23 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
   <div class="w-full flex grow gap-4 px-6 mt-6 mb-6 flex-col items-start">
-    <h1 class="text-2xl font-medium tracking-wide">My Storage</h1>
+    <h1 class="text-2xl font-medium tracking-wide">{$_('storage.title')}</h1>
     <div class="w-full flex flex-row gap-2">
       <button on:click={()=>{displayFilter="all"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="all" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
-        All
+        {$_('storage.filters.all')}
       </button>
       <button on:click={()=>{displayFilter="not-sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="not-sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
-        Not Sent
+        {$_('storage.filters.not_sent')}
       </button>
       <button on:click={()=>{displayFilter="sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
-        Sent
+        {$_('storage.filters.sent')}
       </button>
     </div>        
   </div>
 
   {#if displayFilter=="all" || displayFilter=="not-sent"}
     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
-      <h2 class="text-xl font-medium tracking-wide">Not Sent</h2>
+      <h2 class="text-xl font-medium tracking-wide">{$_('storage.filters.not_sent')}</h2>
       <!-- <div class="bg-[#282828] w-full rounded-md relative p-4 my-2">
         <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
           <img width="45px" height="45px" src={teamImage} alt="">
@@ -71,7 +71,7 @@
 
   {#if displayFilter=="all" || displayFilter=="sent"}
     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
-      <h2 class="text-xl font-medium tracking-wide">Sent</h2>
+      <h2 class="text-xl font-medium tracking-wide">{$_('storage.filters.sent')}</h2>
       {#each $syncedEntries as entry}
         <SyncedEntries payload={entry}/>
       {/each}

@@ -93,12 +93,12 @@
 
 		<div class="flex flex-col justify-center items-center">
 			<label for="team_number" class="home-label mb-2 in">{$_('home_page.team_number')}</label>
-			<input bind:value={team_number} name="team_number" type="number" class="input input-bordered w-full {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="5800" />
+			<input bind:value={team_number} name="team_number" type="number" class="input input-bordered w-full {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.team_number')}" />
 			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="flex flex-col justify-center items-center">
 			<label for="match_number" class="home-label mb-2">{$_('home_page.match_number')}</label>
-			<input bind:value={match_number} name="match_number" type="number" class="input input-bordered w-full {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="32" />
+			<input bind:value={match_number} name="match_number" type="number" class="input input-bordered w-full {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.match_number')}" />
 			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">
