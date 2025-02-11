@@ -32,6 +32,9 @@
 
 		"settings": {
 			"title": "Configurações",
+			"themes_title": "Tema",
+			"colors_title": "Paleta de Cores",
+			"language_title": "Idioma",
 			"option_language": "Selecione Idioma",
 			"option_theme": {
 				"title": "Tema",
@@ -65,9 +68,15 @@
 	},
 	"storage": {
 		"title": "Armazenamento",
+		"filters": {
+			"all": "Todas",
+			"sent": "Enviadas",
+			"not_sent": "Não Enviadas"
+		},
 		"empty_message": "Nenhuma partida armazenada!",
 		"team": "Equipe",
 		"match": "Partida",
+		"team_position": "Posição",
 		"upload_button": "Upload",
 		"scan_button": "Escanear",
 		"modal": {
@@ -93,8 +102,10 @@
 	},
 	"autonomous": {
 		"title": "Autonomous",
-		"speaker": "Speaker",
-		"amp": "Amp",
+		"net": "Net",
+		"processor": "Processor",
+		"reef_coral": "Reef - Coral",
+		"reef_algae": "Reef - Algae",
 		"scores": "Acertos",
 		"misses": "Erros",
 		"leave_button": "Leave",
@@ -103,9 +114,6 @@
 	"teleop": {
 		"title": "TeleOp",
 		"endgame_title": "End Game",
-		"speaker": "Speaker",
-		"speaker_amplified": "Speaker Amplificado",
-		"amp": "Amp",
 		"scores": "Acertos",
 		"misses": "Erros",
 		"high_notes": {
@@ -122,8 +130,8 @@
 			"option2": "Errou",
 			"option3": "Acertou"
 		},
-		"onstage": {
-			"title": "OnStage",
+		"barge": {
+			"title": "Barge",
 			"option1": "Tentou e Errou",
 			"option2": "Não tentou",
 			"option3": "Climbou sozinho",
@@ -131,27 +139,34 @@
 			"option5": "Climbou com +2 Robôs"
 		},
 		"note_cycle": {
-			"title": "Ciclo de Notes",
+			"title": "Controle de Ciclo",
+			"source": "Local de Abastecimento",
 			"start_cycle": "Iniciar",
+			"pause": "Pausar",
 			"option_floor": "Chão",
-			"option_source": "Source"
+			"timer": "Tempo de Ciclo",
+			"cancel_confirmation": "Clique novamente para Cancelar"
 		},
-		"onstage_cycle": {
-			"title": "Ciclo OnStage",
+		"barge_cycle": {
+			"title": "Ciclo Barge",
 			"start_cycle": "Iniciar"
 		},
 		"continue_button": "Continuar"
 	},
 	"info": {
 		"title": "Informação adicional",
-		"attack_title": "Jogou no Ataque",
-		"defense_title": "Jogou na Defesa",
-		"support_title": "Jogou como Suporte",
+		"team_role": "Estilo de Jogo",
+		"robot_status": "Status do Robô",
+		"coopertition": "Coopertition Bônus",
+		"attack": "Ataque",
+		"defense": "Defesa",
+		"support": "Suporte",
 		"yes": "Sim",
 		"no": "Não",
 		"continue_button": "Continuar",
-		"broke_title": "Robô quebrou",
-		"communication_fault_title": "Perdeu a comunicação"
+		"safe": "Normal",
+		"broke": "Quebrou",
+		"communication_fault": "Comm"
 	
 	},
 	"qrcode": {
@@ -166,5 +181,13 @@
 			"yes_button": "Sim",
 			"no_button": "Não"
 		}
+	},
+	"misc": {
+		"close_button": "Fechar",
+		"visualize_button": "Visualizar",
+		"delete_button": "Deletar",
+		"cancel_button": "Cancelar",
+		"save_button": "Salvar",
+		"none": "Nenhum"
 	}
 }

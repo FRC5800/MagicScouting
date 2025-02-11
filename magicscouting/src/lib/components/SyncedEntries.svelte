@@ -84,24 +84,18 @@
         <div class="dropdown absolute right-0 top-0 dropdown-end">
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
-                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $syncedEntries = $syncedEntries}}><a href="">Delete</a></li>
+                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $syncedEntries = $syncedEntries}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
-          </div>
-        <!-- <div class="dropdown absolute right-4 top-0 dropdown-end">
-          <div role="button" tabinex="0" class="btn m-1 p-0 bg-[#f0f0f0] dark:bg-surface border-[#f0f0f0] dark:border-surface"><i class="fi fi-br-menu-dots-vertical text-lg"></i></div>
-          <ul tabinex="0" class="menu dropdown-content bg-base-100 rounded-md z-[1] w-52 shadow">
-            <li class="py-2" on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}>Delete</li>
-            <li><a>Item 2</a></li>
-          </ul>
-        </div> -->
+        </div>
+
         <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
             <span>{$_('storage.match')}: {payload.match}</span>
-            <span>{$_('storage.match')}: {payload.arenaPos}</span>
+            <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button onclick="my_modal_2.showModal()" class="btn grow bg-primary-opac">Visualize</button>
+            <button onclick="document.getElementById('my_modal_2').showModal()" class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
             <button class="btn btn-circle pointer-events-none bg-[#aaffc4] dark:bg-primary-light {uploadDisabled || !$useDB ? "btn-disabled" : ""} text-2xl">
                 <i class="fi fi-br-check-circle flex text-[#282828]"></i>
             </button>
@@ -126,13 +120,13 @@
 
     </div>
     <form method="dialog" class="modal-backdrop">
-        <button>close</button>
+        <button>{$_('misc.close_button')}</button>
     </form>
   </dialog>
-<Modal bind:showModal={showQrCode}> 
+<!-- <Modal bind:showModal={showQrCode}> 
     <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
     <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
         <img class="h-auto" {src} alt="">
     </div>
     <h1 class="text-[1.4rem] font-semibold">{$_('storage.modal.scan_me')}</h1>
-</Modal>
+</Modal> -->

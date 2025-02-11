@@ -176,17 +176,20 @@ async function HandleUpload(){
 <span >(Online)</span>
 <button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'bg-green-600 text-white' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'stored' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-6"></div>
 
-<button class="min-w-[50vw] m-0 btn btn-block" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
+<button class="w-full m-0 btn btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
 
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
 <style lang="postcss">
     .disabled{
         @apply bg-neutral-600 hover:bg-neutral-600 dark:bg-neutral-600 dark:hover:bg-neutral-600 hover:text-[#060024] dark:hover:text-[#060024];
+    }
+    .stored{
+        @apply bg-green-600 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-600 text-[#E0E0E0] hover:text-[#E0E0E0] dark:hover:text-[#E0E0E0];
     }
 
 </style>

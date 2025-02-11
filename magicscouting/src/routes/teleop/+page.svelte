@@ -59,11 +59,11 @@
 
 	App.addListener("backButton", () => {resetConfirmation = true;});
 
-	//onstage timer
-	let onstageCycle = 0;
-	let onstageTimer;
-	let onstageCycleCounting = false;
-	let pauseOnstageCycle = '';
+	//barge timer
+	let bargeCycle = 0;
+	let bargeTimer;
+	let bargeCycleCounting = false;
+	let pauseBargeCycle = '';
 
 	//GamePiece timer
 	let gamePieceCycle = 0;
@@ -83,25 +83,25 @@
 		{ id: '2', content: "Algae", value: 'algae', handler: () => {handleGamePieceCycle(algaeCycle)}}
 	];
 
-	function startOnstageCycle() {
-		onstageCycleCounting = true;
-		onstageCycle = 0;
-		onstageTimer = setInterval(() => {
-			if(pauseOnstageCycle != 'paused') onstageCycle = Math.round((onstageCycle+0.1)*10)/10;
+	function startBargeCycle() {
+		bargeCycleCounting = true;
+		bargeCycle = 0;
+		bargeTimer = setInterval(() => {
+			if(pauseBargeCycle != 'paused') bargeCycle = Math.round((bargeCycle+0.1)*10)/10;
 		}, 100);
 	}
 
-	function stopOnstageCycle() {
-		onstageCycleCounting = false;
-		pauseOnstageCycle = '';
-		clearInterval(onstageTimer);
-		console.log(onstageCycle);
+	function stopBargeCycle() {
+		bargeCycleCounting = false;
+		pauseBargeCycle = '';
+		clearInterval(bargeTimer);
+		console.log(bargeCycle);
 	}
-	function discardOnstageCycle() {
-		onstageCycleCounting = false;
-		pauseOnstageCycle = '';
-		clearInterval(onstageTimer);
-		onstageCycle = 0;
+	function discardBargeCycle() {
+		bargeCycleCounting = false;
+		pauseBargeCycle = '';
+		clearInterval(bargeTimer);
+		bargeCycle = 0;
 	}
 
 	function startGamePieceCycle() {
@@ -153,7 +153,7 @@
 				"teleopNetScore": netPoints,
 				"teleopNetMiss": netMisses,
 				"bargeStatus": barge,
-				"bargeTime": onstageCycle,
+				"bargeTime": bargeCycle,
 				"coralStationCycleTime": JSON.stringify(coralStationCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"coralFloorCycleTime": JSON.stringify(coralFloorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"algaeCycleTime":JSON.stringify(algaeCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
@@ -163,7 +163,7 @@
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
-<section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
+<section class="w-4/5 gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<div class="flex flex-col w-full">
 		<h1 class="text-4xl header">{$_('teleop.title')}</h1>
 		<div class="separator w-full"></div>
@@ -185,10 +185,10 @@
 			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747]">+</div>
 		</div>
 		<div class="w-full flex items-center">
-			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
-			<div on:click={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
-			<div on:click={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
-			<div on:click={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base':''}">LVL4</div>
+			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base text-[#E0E0E0]':''}">LVL1</div>
+			<div on:click={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base text-[#E0E0E0]':''}">LVL2</div>
+			<div on:click={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base text-[#E0E0E0]':''}">LVL3</div>
+			<div on:click={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base text-[#E0E0E0]':''}">LVL4</div>
 		</div>
 	</div>
 
@@ -202,8 +202,8 @@
 			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747]">+</div>
 		</div>
 		<div class="w-full flex items-center justify-around">
-			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">Low</div>
-			<div on:click={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">High</div>
+			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base text-[#E0E0E0]':''}">Low</div>
+			<div on:click={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base text-[#E0E0E0]':''}">High</div>
 		</div>
 	</div>
 
@@ -246,58 +246,56 @@
 	<div class="w-full flex flex-col items-center">
 		<h4 class="text-normal" >Barge Points</h4>
 		<div class="input input-bordered p-0 flex justify-between w-full overflow-hidden" >
-			<div on:click={()=>{barge = "none"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="none" ? 'bg-primary-base':''}">None</div>
-			<div on:click={()=>{barge = "park"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="park" ? 'bg-primary-base':''}">Park</div>
-			<div on:click={()=>{barge = "shallow"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="shallow" ? 'bg-primary-base':''}">Shallow</div>
-			<div on:click={()=>{barge = "deep"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="deep" ? 'bg-primary-base':''}">Deep</div>
+			<div on:click={()=>{barge = "none"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="none" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('misc.none')}</div>
+			<div on:click={()=>{barge = "park"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="park" ? 'bg-primary-base text-[#E0E0E0]':''}">Park</div>
+			<div on:click={()=>{barge = "shallow"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="shallow" ? 'bg-primary-base text-[#E0E0E0]':''}">Shallow</div>
+			<div on:click={()=>{barge = "deep"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="deep" ? 'bg-primary-base text-[#E0E0E0]':''}">Deep</div>
 		</div>
 		
 	</div>
 
-	<div class="w-full flex flex-col items-center justify-center CycleOnstage">
-		<h4 class="time-onstage-title">{$_('teleop.onstage_cycle.title')}</h4>
+	<div class="w-full flex flex-col items-center justify-center CycleBarge">
+		<h4 class="time-barge-title">{$_('teleop.barge_cycle.title')}</h4>
 
-		<div class="input input-bordered p-0 w-full flex flex-row items-center justify-between">
+		<div class="input input-bordered overflow-hidden p-0 w-full flex flex-row items-center justify-between">
 			<div class="w-1/2 text-center">
-				<p class="p-3"><b> {onstageCycle.toFixed(1)} </b></p>
+				<p class="p-3"><b> {bargeCycle.toFixed(1)} </b></p>
 			</div>
-			{#if !onstageCycleCounting}
-				<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startOnstageCycle()}} on:click={startOnstageCycle} class="startCycle">
-					<p class="">{onstageCycle==0 ? $_('teleop.onstage_cycle.start_cycle') : "Restart"}</p>
+			{#if !bargeCycleCounting}
+				<div role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") startBargeCycle()}} on:click={startBargeCycle} class="startCycle">
+					<p class="">{bargeCycle==0 ? $_('teleop.barge_cycle.start_cycle') : "Restart"}</p>
 				</div>
 			{:else}
 				<div class="flex flex-row items-center justify-around w-1/2 h-full p-3 border-l cursor-pointer">
 					
 					<i 
 					role="button" tabindex="0"
-					on:keydown={(e) => {if(e.key == "Enter") pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
-					on:click={() => {pauseOnstageCycle = pauseOnstageCycle == 'paused' ? '' : 'paused'}}
-					class="w-3/12 text-center flex text-[1.7rem] {pauseOnstageCycle == 'paused' ? 'fi fi-sr-play text-[1.6rem]' : 'fi fi-sr-pause text-[1.7rem]'}">
+					on:keydown={(e) => {if(e.key == "Enter") pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
+					on:click={() => {pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
+					class="w-3/12 text-center flex text-[1.7rem] {pauseBargeCycle == 'paused' ? 'fi fi-sr-play text-[1.6rem]' : 'fi fi-sr-pause text-[1.7rem]'}">
 					</i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopOnstageCycle()}} on:click={stopOnstageCycle} class="w-3/12 flex text-center text-[1.8rem] fi fi-sr-check"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") stopBargeCycle()}} on:click={stopBargeCycle} class="w-3/12 flex text-center text-[1.8rem] fi fi-sr-check"></i>
 					
-					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardOnstageCycle()}} on:click={discardOnstageCycle} class="fi fi-br-cross flex w-3/12 text-center text-[1.6rem]"></i>
+					<i role="button" tabindex="0" on:keydown={(e) => {if (e.key == "Enter") discardBargeCycle()}} on:click={discardBargeCycle} class="fi fi-br-cross flex w-3/12 text-center text-[1.6rem]"></i>
 				
 				</div>
 			{/if}
 		</div>
-
-		<button on:click={onSubmit} class="p-2 mt-8 btn btn-block">{$_('teleop.continue_button')}</button>
 	</div>
-
+	<button on:click={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('teleop.continue_button')}</button>
 	<br />
 	<br />
 </section>
 
 <div class="fixed right-8 bottom-24 p-1 backdrop-blur-md rounded-full">
 	<div on:click={()=>{showModal=true; startGamePieceCycle();console.log(showModal)}} class="bg-primary-base w-8 h-8 p-2 rounded-full flex items-center justify-center box-content">
-		<i class="fi fi-sr-pending flex text-[#121212]"></i>
+		<i class="fi fi-sr-pending flex dark:text-[#121212] text-[#E0E0E0]"></i>
 	</div>
 </div>
 
 <Modal bind:showModal showX={false} changeNameLater={false}>
-	<h2 class="text-2xl">Controle de Ciclo</h2>
+	<h2 class="text-2xl">{$_('teleop.note_cycle.title')}</h2>
 	<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
     <div class="w-full flex items-center justify-center bg-primary-base p-1">
         <h2 class="text-white text-normal font-medium">Game Piece</h2>
@@ -311,11 +309,11 @@
 	{#if gpType=="coral"}
 		<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
 			<div class="w-full flex items-center justify-center bg-primary-base p-1">
-					<h2 class="text-white text-normal font-medium">Source Location</h2>
+					<h2 class="text-white text-normal font-medium">{$_('teleop.note_cycle.source')}</h2>
 			</div>
 			<div class="w-full flex items-center justify-between">
 					<div on:click={()=>{sourceType="station"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="station" ? 'bg-primary-base':''}">Station</div>
-					<div on:click={()=>{sourceType="floor"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="floor" ? 'bg-primary-base':''}">Floor</div>
+					<div on:click={()=>{sourceType="floor"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="floor" ? 'bg-primary-base':''}">{$_('teleop.note_cycle.option_floor')}</div>
 			</div>
 		</div>		
 	{/if}
@@ -323,7 +321,7 @@
 
 	<div class="container items-center justify-center rounded overflow-hidden ">
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
-			<h2 class="text-white text-normal font-medium">Cycle Timer</h2>
+			<h2 class="text-white text-normal font-medium">{$_('teleop.note_cycle.timer')}</h2>
 		</div>
 		<div class="w-full px-8 flex items-center justify-between bg-[#F4F4F4] py-1">
 			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747]">-</div>
@@ -331,15 +329,15 @@
 			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747]">+</div>
 		</div>
 		<div class="w-full flex items-center">
-			<div on:click={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">Cancel</div>
-			<div on:click={()=>{if(pauseGamePieceCycle!="paused"){pauseGamePieceCycle="paused"}else{pauseGamePieceCycle=""}}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D6EAF8] text-black">{pauseGamePieceCycle!="paused" ? "Pause" : "Play"}</div>
+			<div on:click={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">{$_('misc.cancel_button')}</div>
+			<div on:click={()=>{if(pauseGamePieceCycle!="paused"){pauseGamePieceCycle="paused"}else{pauseGamePieceCycle=""}}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D6EAF8] text-black">{pauseGamePieceCycle!="paused" ? $_('teleop.note_cycle.pause') : $_('teleop.note_cycle.start_cycle')}</div>
 			{#if selectedTimerOption!=-1}				
-			<div on:click={()=>{stopGamePieceCycle(); TimerOptions[selectedTimerOption].handler()}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">Save</div>
+			<div on:click={()=>{stopGamePieceCycle(); TimerOptions[selectedTimerOption].handler()}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">{$_('misc.save_button')}</div>
 			{/if}
 		</div>
 	</div>
 	{#if cancelCycle}
-		<div on:click={()=>{discardGamePieceCycle();console.log(showModal)}} class="text-red-500 underline">Clique para confirmar o cancelamento</div>
+		<div on:click={()=>{discardGamePieceCycle();console.log(showModal)}} class="text-red-500 underline">{$_('teleop.note_cycle.cancel_confirmation')}</div>
 	{/if}
 </Modal>
 
@@ -377,7 +375,7 @@
 	}
 
 	.container {
-		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
+		@apply shadow rounded-md mb-3 flex flex-col justify-around w-full;
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
 	.containerBox {
@@ -400,7 +398,7 @@
 		@apply w-1/2 min-h-[150px];
 	}
 	.startCycle{
-		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base;
+		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base hover:text-[#E0E0E0];
 	}
 
 	.separator {
