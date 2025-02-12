@@ -78,8 +78,10 @@
 </script>
 
 <div class="bg-[#f0f0f0] dark:bg-surface w-full rounded-md relative p-4 my-2">
-        <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
-          <img width="45px" height="45px" src={teamData.logo ?? ""} alt="">
+        <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-2 bg-[#121212] border-[#121212]">
+            <div class="rounded-full w-fit h-fit overflow-hidden">
+                <img width="45px" height="45px" src={teamData.logo ?? ""} alt="">
+            </div>
         </div>
         <div class="dropdown absolute right-0 top-0 dropdown-end">
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
