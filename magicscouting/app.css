@@ -6,9 +6,10 @@
 @import '$lib/styles/themes/purpleTheme.css';
 @import '$lib/styles/themes/redTheme.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Ensure Tailwind CSS is properly imported */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
 	--blue-main: #060024;
