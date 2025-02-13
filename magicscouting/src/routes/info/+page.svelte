@@ -5,7 +5,7 @@
     
     import { _ } from 'svelte-i18n';
 	import { App } from '@capacitor/app';
-    import { goto } from '$app/navigation';
+    import { goto, beforeNavigate } from '$app/navigation';
     
     import storeData from "$lib/shared/scripts/controlData.js";
     import InfoSelect from "./infoSelect.svelte";
@@ -32,6 +32,13 @@
 
     let resetConfirmation = false;
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
+    beforeNavigate(({ to, cancel }) => {
+		if (to?.route.id !== "/qrcode") {
+			if (!confirm("Do you really want to reset the app?")) {
+      	cancel();
+    	}
+    }
+  });
 
 </script>
 

@@ -15,7 +15,7 @@
     $: team_database = $useDB ? $dataBase : '';
   
     let linguagens = [
-      { id: '1', content: 'English', value: 'en' },
+      { id: '1', content: 'English', value: 'en-US' },
       { id: '2', content: 'Português (Brasil)', value: 'pt-BR' },
       { id: '3', content: 'Español', value: 'es' }
     ];
@@ -84,17 +84,19 @@
     let showDatabaseConfirm = false;
 
     function triggerToast() {
-      showDatabaseConfirm = true;
-      
-      setTimeout(() => {
-        showDatabaseConfirm = false;
-      }, 3000); // Disappears after 3 seconds
+      if (team_database.includes("script.google")){
+        showDatabaseConfirm = true;
+        
+        setTimeout(() => {
+          showDatabaseConfirm = false;
+        }, 3000); // Disappears after 3 seconds
+      }
     }
 
     let showDatabaseAlert = false;
 
       function handleToggleChange() {
-        if (JSON.parse($useDB)) {
+        if (JSON.parse($useDB) == "") {
           showDatabaseAlert = true;
           setTimeout(() => {
             showDatabaseAlert = false;
@@ -171,8 +173,8 @@
     </div>
   {/if}
   {#if showDatabaseAlert}
-    <div class="alert alert-warning shadow-lg">
-      <span>Warning!</span>
+    <div class="alert alert-warning shadow-lg max-w-xs">
+      <span class="text-wrap">Warning! You can't make uploads without a database</span>
     </div>
   {/if}
 </div>

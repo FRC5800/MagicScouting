@@ -4,6 +4,15 @@
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 	import dataBase from "$lib/shared/stores/dataBase";
 	import entriesSync from "$lib/shared/stores/toSyncData";
+	import { useDB }  from '$lib/shared/stores/dataBase';
+
+	let isSyncing = false;
+	let isDataBaseSet;
+	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
+		isDataBaseSet = true;
+	} else {
+		isDataBaseSet = false;
+	}
 
 	function formatEntry(schema, data){
 		let entry = {}
@@ -24,7 +33,7 @@
 		}).then((r) => {
 			return r.json()
 		})
-
+		
 		sheetData = sheetData.data
 
 		let schema = sheetData[0];
@@ -47,18 +56,32 @@
 
 	}
 
-	export function SyncData(){
+	export async function SyncData(){
 		if ($entriesSync.length != 0){
 			alert("There are entries to sync, please sync them first or delete them.")
 			return            
 		}
 
+		isSyncing = true;
 		StoreSheetData("MagicScouting", MatchSchema, TeamsDB);
 		StoreSheetData("PitScouting", PitSchema, PitTeamsDB);
+		isSyncing = false;
 		alert("Data Synced")
 	}
 	
 	$: console.log($TeamsDB)
 </script>
 
-<button on:click={() => {SyncData()}}>Sync Data</button>
+<button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block" on:click={() => {SyncData()}}>
+	{#if isSyncing}
+	<span class="loading loading-spinner"></span>
+	{:else}
+		Sync Data
+	{/if}
+</button>
+
+{#if $dataBase == ""}
+<div class="flex flex-row justify-center">
+	<span class="text-warning">Set your database to use Analytics</span>
+</div>
+{/if}

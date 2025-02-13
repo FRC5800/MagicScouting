@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
 
-    import sessionStore from "$lib/shared/stores/sessionStorageStore";
+    import sessionStore from "$lib/shared/stores/teamAnalysisData";
     import { PitTeamsDB } from "$lib/shared/stores/teamsData";
     import { goto } from "$app/navigation";
 

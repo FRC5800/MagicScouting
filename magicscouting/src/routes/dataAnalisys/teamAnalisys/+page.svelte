@@ -11,7 +11,7 @@
 	import { TeamsDB } from "$lib/shared/stores/teamsData";
 
 	import { goto } from "$app/navigation";
-    import sessionStore from "$lib/shared/stores/sessionStorageStore";
+    import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
 
@@ -19,10 +19,18 @@
     console.log(data)
 
     $: teamSearch = "";
+    $: selectedTeam = "";
+    let activeTab = 0
+
+    function search(){
+        selectedTeam = teamSearch
+        teamSearch = ""
+        createTeam()
+    }
     
     $: autoCompleteTeams = writable([]);
 
-    const teamData = sessionStore("selectedTeamData", {"team": "", "logo": new Image(), "name":"", "winrate":"", "EPA":""});
+    $: console.log($teamAnalysisData)
 
     let debounceTimeout;
 
@@ -39,30 +47,37 @@
 
         autoCompleteTeams.set(filterSugestions);
         
-        clearTimeout(debounceTimeout);
-        debounceTimeout = setTimeout(async () => {
-            console.log(getTeamScoutingData(teamSearch))
-            rawData.set(getTeamScoutingData(teamSearch));
-            
-            $teamData.team = teamSearch
-
-            getStatBoticsData(teamSearch).then((r) => {
-                if (r.team == teamSearch){
-                    $teamData.winrate = r.winrate
-                    $teamData.EPA = r.epa
-
-                }
-            })
-
-            getTBAData(teamSearch).then((r) => {
-                if (r.team == teamSearch){
-		            $teamData.logo.src = r.logo
-		            $teamData.name = r.name
-            	}
-            });
-        }, 300); // Adjust the debounce delay as needed
     } else {
         autoCompleteTeams.set([]);
+    }
+    async function createTeam(){
+        console.log(getTeamScoutingData(selectedTeam))
+        rawData.set(getTeamScoutingData(selectedTeam));
+        let logo = new Image()
+        let team = ""
+        let epa = ""
+        let winrate = ""
+        let name = ""
+        
+        await getStatBoticsData(selectedTeam).then((r) => {
+            if (r.team == selectedTeam){
+                console.log(r)
+                winrate = r.winrate
+                epa = r.epa
+
+            }
+        })
+
+        await getTBAData(selectedTeam).then((r) => {
+            if (r.team == selectedTeam){
+                logo = r.logo
+                name = r.name
+            }
+        });
+
+        $teamAnalysisData = [...$teamAnalysisData, {
+            "team": selectedTeam, "logo": logo, "name": name, "winrate": winrate, "EPA": epa, "rawData": getTeamScoutingData(selectedTeam)
+        }]
     }
 
     let allPoints = [
@@ -101,35 +116,82 @@
 
 </script>
 
-
-
-<input type="text" bind:value={teamSearch} placeholder="Team Number" class="bg-red-600" />
-
-{#if $teamData}
-    <div class="border-color-5800-1 border-4 rounded-md">Team EPA: {$teamData.EPA}</div>
-    <div class="border-color-5800-1 border-4 rounded-md">Winrate: {Math.round($teamData.winrate*100*10)/10}%</div>
-    <img src={$teamData.logo.src} alt="Team Logo" />
-    <div>{$teamData.name}</div>
-    
-{/if}
-    
-{#each $autoCompleteTeams as team}
-    <div>
-        <button on:click={() => {teamSearch=team.team}}>{team.team}</button>
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+    <div class="w-full flex gap-4 mt-6 mb-6 flex-col items-center">
+        <h1 class="text-2xl font-medium tracking-wide">Dashboard</h1>
     </div>
-{/each}
-    
-{#if $rawData.length > 0}
-    <div class="border-color-5800-1 border-4 rounded-md">Avg points: {getAverageDBvalues(
-        $rawData,
-        allPoints,
-        true
-    )}</div>
+
+    <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
+        <h2 class="text-xl font-medium tracking-wide">Search for a team</h2>
+        <div class="w-full flex justify-start items-center input input-bordered gap-4 text-base">
+            <i class="fi fi-rs-search flex"></i>
+            <input class="grow" type="search" name="search" on:keydown={(e)=>{if(e.key == "Enter") search()}} bind:value={teamSearch} placeholder="Team Number" />
+        </div>
+    </div>
+    <div class="w-full flex ">
+        <div role="tablist" class="tabs tabs-lifted">
+            {#key $teamAnalysisData}
+                {#each $teamAnalysisData as team, index}
+                    <a on:click={()=>{activeTab=index}} role="tab" class="tab {activeTab==index ? "tab-active" : ""}">{team.team}</a>            
+                {/each}
+            {/key}
+        </div>
+    </div>
+
+    {#if $autoCompleteTeams.length > 0}    
+        <div class="w-full flex justify-start items-start">
+            <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5">
+                {#each $autoCompleteTeams as team}
+                <li>
+                    <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
+                </li>
+                {/each}
+            </div>
+        </div>  
+    {/if}
+
+    {#if $teamAnalysisData.length != 0 && $teamAnalysisData[activeTab].team != ""}
+        <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6">
+            <div class="flex flex-row gap-4 items-center justify-center mt-6">
+                <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
+                <div class="flex flex-row gap-2">
+                    <div>{$teamAnalysisData[activeTab].team}</div>
+                    <div>{$teamAnalysisData[activeTab].name}</div>
+                </div>
+            </div>
+            <div class="w-full flex">
+                <div class=" w-full relative my-2 mx-6 grow">
+                    <div class="flex flex-row justify-around items-center gap-4">
+                        <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
+                            <h3>Team EPA</h3>
+                            <span class="text-primary-base text-xl">{$teamAnalysisData[activeTab].EPA}</span>
+                        </div>
+                        <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
+                            <h3>Winrate</h3>
+                            <span class="text-primary-base text-xl">{Math.round($teamAnalysisData[activeTab].winrate*100*10)/10}%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#if $teamAnalysisData[activeTab].rawData.length > 0}
+                <div class="w-full flex mb-3">
+                    <div class=" w-full relative my-2 mx-6 grow">
+                        <div class="grow basis-0 rounded-md flex flex-col items-center justify-center gap-2">
+                            <h3>Average points</h3>
+                            <span class="text-primary-base text-xl">{getAverageDBvalues(
+                                $teamAnalysisData[activeTab].rawData,
+                                allPoints,
+                                true
+                            )}</span>
+                        </div>
+                    </div>
+                </div>
 
     <svelte:component
         this={DonutChart}
         data={setupSimpleChartsData(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
             {
                 "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
                 "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
@@ -139,8 +201,8 @@
         options={{
             theme: "g90",
             title: "Game Piece Points",
-            height: "200px",
-            width: "200px",
+            height: "300px",
+            width: "300px",
             axes: {
                 left: { mapsTo: "value" },
                 bottom: { mapsTo: "group", scaleType: "labels" }
@@ -149,10 +211,12 @@
         }
     /> 
 
+    <div class="divider"></div>
+
     <svelte:component
         this={DonutChart}
         data={setupSimpleChartsData(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
             {
                 "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
                 "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
@@ -162,8 +226,8 @@
         options={{
             theme: "g90",
             title: "Points By Game State",
-            height: "200px",
-            width: "200px",
+            height: "300px",
+            width: "300px",
             axes: {
                 left: { mapsTo: "value" },
                 bottom: { mapsTo: "group", scaleType: "labels" }
@@ -171,10 +235,11 @@
             }
         }
     />
+    <div class="divider"></div>
     <svelte:component
         this={DonutChart}
         data={setupModeChartsData(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
             "robotFunction",
             {
                 "atk": "Attack",
@@ -185,8 +250,8 @@
         options={{
             theme: "g90",
             title: "Robot Function",
-            height: "200px",
-            width: "200px",
+            height: "300px",
+            width: "300px",
             axes: {
                 left: { mapsTo: "value" },
                 bottom: { mapsTo: "group", scaleType: "labels" }
@@ -194,10 +259,11 @@
             }
         }
     /> 
+    <div class="divider"></div>
     <svelte:component
         this={DonutChart}
         data={setupModeChartsData(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
             "bargeStatus",
             {
                 "none": "None",
@@ -209,8 +275,8 @@
         options={{
             theme: "g90",
             title: "Barge profile",
-            height: "200px",
-            width: "200px",
+            height: "300px",
+            width: "300px",
             axes: {
                 left: { mapsTo: "value" },
                 bottom: { mapsTo: "group", scaleType: "labels" }
@@ -218,10 +284,11 @@
             }
         }
     /> 
-    {#key $rawData}
+    <div class="divider"></div>
+    {#key $teamAnalysisData[activeTab].rawData}
         <RadarChart
             data={setupSimpleChartsData(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
                 {
                     "L1" : ["autoROneScore", "teleopROneScore"], 
                     "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
@@ -232,7 +299,7 @@
                 },
                 "radar"
             ).concat(setupSimpleChartsData(
-                $rawData,
+                $teamAnalysisData[activeTab].rawData,
                 {
                     "L1" : ["autoROneScore", "teleopROneScore"], 
                     "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
@@ -255,14 +322,16 @@
                 data: {
                     groupMapsTo: "product"
                 },
-                height: "400px"
+                height: "400px",
+                width: "300px"
             }}
         />
     {/key}
+    <div class="divider"></div>
     <svelte:component
         this={ComboChart}
         data={setupBarChartDataByMatch(
-            $rawData,
+            $teamAnalysisData[activeTab].rawData,
             {
                 Score: {fields: allPoints, valueName: "Points", showPoints: true},
                 Coral: {fields: coralPoints, valueName: "GPs", showPoints: false},
@@ -273,7 +342,7 @@
             theme: "g90",
             title: "Avg score by match",
             height: "200px",
-            width: "400px",
+            width: "350px",
             comboChartTypes:[
                 {
                     type: "grouped-bar",
@@ -317,3 +386,8 @@
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}}>Teleop Analisys</button>
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Auto Analisys</button>
 <button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/EndGame")}}>Endgame Analisys</button>
+
+        </section>
+    {/if}
+    
+</main>

@@ -11,7 +11,7 @@
     import { TeamsDB } from "$lib/shared/stores/teamsData";
 
     import { goto } from '$app/navigation';
-    import sessionStore from "$lib/shared/stores/sessionStorageStore";
+    import sessionStore from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
 

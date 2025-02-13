@@ -4,11 +4,13 @@
 	import '../.././app.css';
 	import { _ } from 'svelte-i18n'
 	import { App } from '@capacitor/app';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate } from '$app/navigation';
 	import storeData from "$lib/shared/scripts/controlData.js";
   import ResetModal from '$lib/components/ResetModal.svelte';
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import { page } from '$app/stores';
+  import { get } from 'svelte/store';
 
 	let showModal = false;
 	let cancelCycle = false;
@@ -39,6 +41,7 @@
 	let barge = "none"
 
 	let resetConfirmation = false;
+	let redirectUrl = ""
 
 	function setCoralPoint(point){
 		if (coralSelectedLevel == "lvl1" && !(point<0 && lvl1CoralPoints == 0)) {lvl1CoralPoints+=point}
@@ -58,6 +61,13 @@
 	}
 
 	App.addListener("backButton", () => {resetConfirmation = true;});
+	beforeNavigate(({ to, cancel }) => {
+		if (to?.route.id !== "/info") {
+			if (!confirm("Do you really want to reset the app?")) {
+      	cancel();
+    	}
+    }
+  });
 
 	//barge timer
 	let bargeCycle = 0;

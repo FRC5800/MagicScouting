@@ -5,7 +5,7 @@
 
 	import { _ } from 'svelte-i18n';
 	import { App } from '@capacitor/app';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate } from '$app/navigation';
 	
 	import storeData from "$lib/shared/scripts/controlData.js";
   import ResetModal from '$lib/components/ResetModal.svelte';
@@ -38,22 +38,29 @@
 	
 	let resetConfirmation = false;
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
+	beforeNavigate(({ to, cancel }) => {
+		if (to?.route.id !== "/teleop") {
+			if (!confirm("Do you really want to reset the app?" + to?.route.id)) {
+      	cancel();
+    	}
+    }
+  });
 	
 	function setCoralPoint(point){
-		if (coralSelectedLevel == "lvl1") {lvl1CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl2") {lvl2CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl3") {lvl3CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl4") {lvl4CoralPoints+=point}
+		if (coralSelectedLevel == "lvl1" && !(point<0 && lvl1CoralPoints == 0)) {lvl1CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl2" && !(point<0 && lvl2CoralPoints == 0)) {lvl2CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl3" && !(point<0 && lvl3CoralPoints == 0)) {lvl3CoralPoints+=point}
+		else if (coralSelectedLevel == "lvl4" && !(point<0 && lvl4CoralPoints == 0)) {lvl4CoralPoints+=point}
 	}
 	function setCoralMiss(miss){
-		if (coralSelectedLevel == "lvl1") {lvl1CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl2") {lvl2CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl3") {lvl3CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl4") {lvl4CoralMisses+=miss}
+		if (coralSelectedLevel == "lvl1" && !(miss<0 && lvl1CoralMisses == 0)) {lvl1CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl2" && !(miss<0 && lvl2CoralMisses == 0)) {lvl2CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl3" && !(miss<0 && lvl3CoralMisses == 0)) {lvl3CoralMisses+=miss}
+		else if (coralSelectedLevel == "lvl4" && !(miss<0 && lvl4CoralMisses == 0)) {lvl4CoralMisses+=miss}
 	}
 	function setAlgaePoint(point){
-		if (algaeSelectedLevel == "low") {lowAlgae+=point}
-		else if (algaeSelectedLevel == "high") {highAlgae+=point}
+		if (algaeSelectedLevel == "low" && !(point<0 && lowAlgae == 0)) {lowAlgae+=point}
+		else if (algaeSelectedLevel == "high" && !(point<0 && highAlgae == 0)) {highAlgae+=point}
 	}
 	
 	function onSubmit() {
@@ -127,12 +134,12 @@
 			<h2 class="text-white text-normal font-medium">Processor</h2>
 		</div>
 		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
-			<div on:click={()=>{processorPoints-=1}} class="text-2xl text-[#474747]">-</div>
+			<div on:click={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747]">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
 			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747]">+</div>
 		</div>
 		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
-			<div on:click={()=>{processorMisses-=1}} class="text-2xl text-[#474747]">-</div>
+			<div on:click={()=>{if(processorPoints!=0)processorMisses-=1}} class="text-2xl text-[#474747]">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
 			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747]">+</div>
 		</div>
@@ -143,12 +150,12 @@
 			<h2 class="text-white text-normal font-medium">Net</h2>
 		</div>
 		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
-			<div on:click={()=>{netPoints-=1}} class="text-2xl text-[#474747]">-</div>
+			<div on:click={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747]">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
 			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747]">+</div>
 		</div>
 		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
-			<div on:click={()=>{netMisses-=1}} class="text-2xl text-[#474747]">-</div>
+			<div on:click={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747]">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
 			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747]">+</div>
 		</div>
