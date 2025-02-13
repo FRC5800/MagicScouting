@@ -188,6 +188,41 @@
                     </div>
                 </div>
 
+                <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
+                    <h2 class="text-xl font-medium tracking-wide">Specific Analytics</h2>
+                    
+                    <div class="w-full flex flex-col gap-2 ">
+                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <i class="fi fi-rr-bank"></i>
+                            <span>Pit Data</span>
+                            <div class="flex items-center justify-end grow">
+                                <i class="fi fi-rr-angle-right flex"></i>
+                            </div>
+                        </button>
+                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <i class="fi fi-rr-users-alt flex"></i>
+                            <span>Teleop Analitics</span>
+                            <div class="flex items-center justify-end grow">
+                                <i class="fi fi-rr-angle-right flex"></i>
+                            </div>
+                        </button>
+                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <i class="fi fi-rr-overview flex"></i>
+                            <span>Auto Analytics</span>
+                            <div class="flex items-center justify-end grow">
+                                <i class="fi fi-rr-angle-right flex"></i>
+                            </div>
+                        </button>
+                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/EndGame")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <i class="fi fi-rr-hourglass-end"></i>
+                            <span>Endgame Analytics</span>
+                            <div class="flex items-center justify-end grow">
+                                <i class="fi fi-rr-angle-right flex"></i>
+                            </div>
+                        </button>
+                    </div>   
+                </div>         
+
     <svelte:component
         this={DonutChart}
         data={setupSimpleChartsData(
@@ -382,10 +417,6 @@
         }
     />
 {/if}
-<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}}>Pit Data</button>
-<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}}>Teleop Analisys</button>
-<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}}>Auto Analisys</button>
-<button class="border-color-5800-1 border-4 rounded-md" on:click={() => {goto("/dataAnalisys/teamAnalisys/EndGame")}}>Endgame Analisys</button>
 
         </section>
     {/if}
