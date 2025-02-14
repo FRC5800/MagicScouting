@@ -179,7 +179,9 @@ export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{retur
 	
 			let points = 0;
 			groups[group].fields.forEach((field) => {
-				points += customHandler(handleGetActionAttributes(match, field, groups[group].showPoints, false))
+				console.log("this is match: " + match[field])
+				points += customHandler(match[field])
+				console.log("this is points: " + points)
 			})
 		
 
@@ -275,8 +277,9 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 	return chartData
 }
 export function parseCycleString(data){
-	return avgArray(data.split("; ").map((v) => {return parseFloat(v)}))
-
+	console.log("this is data: " + data)
+	if (data == "") {return [0]}
+	return avgArray(data.toString().split("; ").map(parseFloat))
 }
 
 export function setupModeChartsData(data, field, chartReference){

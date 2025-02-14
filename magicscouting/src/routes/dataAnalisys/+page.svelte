@@ -3,8 +3,8 @@
 
 	import { onMount } from "svelte";
     import { fade } from "svelte/transition";
+    import { carbonTheme } from '$lib/shared/stores/darkMode.js';
 
-    import '@carbon/charts-svelte/styles.css'
 	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
 
     import { goto } from "$app/navigation";
@@ -109,7 +109,7 @@
             this={BarChartStacked}
                 data={$leaderboardData}
                 options={{
-                    theme: 'g90',
+                    theme: $carbonTheme,
                     title: '',
                     height: '500px',
                     width: '70%',

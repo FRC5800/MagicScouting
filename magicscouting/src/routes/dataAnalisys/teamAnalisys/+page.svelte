@@ -4,7 +4,8 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
 	import { onMount } from "svelte";
 
-    import "@carbon/charts-svelte/styles.css"
+    import { carbonTheme } from '$lib/shared/stores/darkMode.js';
+
 	import { DonutChart, RadarChart, LineChart, ComboChart } from "@carbon/charts-svelte"
 
     import { writable } from "svelte/store";
@@ -13,6 +14,7 @@
 	import { goto } from "$app/navigation";
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
+	import { Keyboard } from "@capacitor/keyboard";
 
 
     $: data = $TeamsDB
@@ -22,10 +24,13 @@
     $: selectedTeam = "";
     let activeTab = 0
 
-    function search(){
-        selectedTeam = teamSearch
-        teamSearch = ""
-        createTeam()
+    async function search(){
+        if(teamSearch != ""){
+            selectedTeam = teamSearch
+            teamSearch = ""
+            await Keyboard.hide()
+            createTeam()
+        }
     }
     
     $: autoCompleteTeams = writable([]);
@@ -114,6 +119,17 @@
         "teleopNetScore",
     ];
 
+    function deleteArrayItem(array, itemIndex){
+        let newArray = array.reduce(
+            (acc, value, index) => {
+                if(index != itemIndex){
+                    acc.push(value);
+                }
+                return acc;
+            }, [])
+        return newArray;
+    }
+
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
@@ -132,7 +148,12 @@
         <div role="tablist" class="tabs tabs-lifted">
             {#key $teamAnalysisData}
                 {#each $teamAnalysisData as team, index}
-                    <a on:click={()=>{activeTab=index}} role="tab" class="tab {activeTab==index ? "tab-active" : ""}">{team.team}</a>            
+                    <span role="tab" class="tab {activeTab==index ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center">
+                        <span on:click={()=>{activeTab=index}}>{team.team}</span>
+                        {#if activeTab==index}                            
+                            <i on:click={()=>{$teamAnalysisData = deleteArrayItem($teamAnalysisData, index); console.log($teamAnalysisData)}} class="fi fi-rr-cross-small flex"></i> 
+                        {/if}
+                    </span>           
                 {/each}
             {/key}
         </div>
@@ -151,7 +172,7 @@
     {/if}
 
     {#if $teamAnalysisData.length != 0 && $teamAnalysisData[activeTab].team != ""}
-        <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6">
+        <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
             <div class="flex flex-row gap-4 items-center justify-center mt-6">
                 <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
                 <div class="flex flex-row gap-2">
@@ -192,28 +213,28 @@
                     <h2 class="text-xl font-medium tracking-wide">Specific Analytics</h2>
                     
                     <div class="w-full flex flex-col gap-2 ">
-                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/pitData")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                        <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                             <i class="fi fi-rr-bank"></i>
                             <span>Pit Data</span>
                             <div class="flex items-center justify-end grow">
                                 <i class="fi fi-rr-angle-right flex"></i>
                             </div>
                         </button>
-                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/Teleop")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                        <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Teleop/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                             <i class="fi fi-rr-users-alt flex"></i>
-                            <span>Teleop Analitics</span>
+                            <span>Teleop Analytics</span>
                             <div class="flex items-center justify-end grow">
                                 <i class="fi fi-rr-angle-right flex"></i>
                             </div>
                         </button>
-                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/Autonomous")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                        <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Autonomous/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                             <i class="fi fi-rr-overview flex"></i>
                             <span>Auto Analytics</span>
                             <div class="flex items-center justify-end grow">
                                 <i class="fi fi-rr-angle-right flex"></i>
                             </div>
                         </button>
-                        <button on:click={() => {goto("/dataAnalisys/teamAnalisys/EndGame")}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                        <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/EndGame/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                             <i class="fi fi-rr-hourglass-end"></i>
                             <span>Endgame Analytics</span>
                             <div class="flex items-center justify-end grow">
@@ -234,7 +255,7 @@
             },
         )}
         options={{
-            theme: "g90",
+            theme: $carbonTheme,
             title: "Game Piece Points",
             height: "300px",
             width: "300px",
@@ -259,7 +280,7 @@
             },
         )}
         options={{
-            theme: "g90",
+            theme: $carbonTheme,
             title: "Points By Game State",
             height: "300px",
             width: "300px",
@@ -283,7 +304,7 @@
             },
         )}
         options={{
-            theme: "g90",
+            theme: $carbonTheme,
             title: "Robot Function",
             height: "300px",
             width: "300px",
@@ -308,7 +329,7 @@
             },
         )}
         options={{
-            theme: "g90",
+            theme: $carbonTheme,
             title: "Barge profile",
             height: "300px",
             width: "300px",
@@ -347,6 +368,7 @@
                 true
             ))}
             options={{
+                theme: $carbonTheme,
                 title: "Scoring profile",
                 radar: {
                     axes: {
@@ -374,7 +396,7 @@
             }
         )}
         options={{
-            theme: "g90",
+            theme: $carbonTheme,
             title: "Avg score by match",
             height: "200px",
             width: "350px",

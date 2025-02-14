@@ -34,22 +34,30 @@
 
 </script>
 {#if mounted}
-    <div class="flex flex-row gap-4 items-center justify-center mt-6 mb-6">
-        <img width="50px" src={teamData.logo} alt="Team Logo" />
-        <div class="flex flex-row gap-2">
-            <div>{teamData.team}</div>
-            <div>{teamData.name}</div>
+    <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
+        <i on:click={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <div class="grow flex flex-row gap-4 items-center">
+
+            <img width="50px" src={teamData.logo} alt="Team Logo" />
+            <div class="flex flex-row gap-2">
+                <div>{teamData.team}</div>
+                <div>{teamData.name}</div>
+            </div>
         </div>
     </div>
 
     <div class="overflow-x-auto">
         <table class="table">
+            <thead>
+                <th>Camp</th>
+                <th>Value</th>
+            </thead>
             <tbody>
     {#each Object.keys(pitScoutingSelectedData) as key}
         {#if key == "robotPicture"}
             <img src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
         {:else}
-            <tr class="flex flex-row gap-2 join">
+            <tr>
                 <th>{key}</th>
                 <td>{pitScoutingSelectedData[key]}</td>
             </tr>

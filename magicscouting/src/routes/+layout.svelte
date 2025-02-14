@@ -6,10 +6,13 @@
 	import { page } from '$app/stores';
 	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
+	import { carbonTheme } from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
 	import { waitLocale } from 'svelte-i18n'
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
+
+	import '@carbon/charts-svelte/styles.css'
 
 	export async function preload() {
 	// awaits for the loading of the 'en-US' and 'en' dictionaries
