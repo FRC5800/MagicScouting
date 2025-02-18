@@ -16,21 +16,65 @@
 
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 
-    import { avgTeamPerformance, getSortedTeams } from "$lib/shared/scripts/chartUtilities";
+    import { avgTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
 
     let showDatabaseAlert = false;
     let leaderboardData = writable([]);
+    $: avgCompetitionScore = 0;
+    $: avgCompetitionCycle = 0;
     let isDataBaseSet;
 	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
 		isDataBaseSet = true;
 	} else {
 		isDataBaseSet = false;
 	}
+
+    let allPoints = [
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoProcessorScore",
+        "autoNetScore",
+        "isLeave",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+        "teleopProcessorScore",
+        "teleopNetScore",
+        "bargeStatus"
+    ];
+
     onMount(async () => {
         if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
             SyncData();
         }
+        let totalCycleAvg = 0;
+        let totalScore = 0;
+        let allTeams = getSortedTeams($TeamsDB); 
+        allTeams.forEach(team => {
+            let teamData = getTeamScoutingData(team)
+            totalScore += getAverageDBvalues(
+                                            teamData,
+                                            allPoints,
+                                            true
+                                            )
+
+            totalCycleAvg += getAverageCycleData(
+                            teamData,
+                            [
+                                "coralStationCycleTime",
+                                "coralFloorCycleTime",
+                                "algaeCycleTime"
+                            ],
+                        )
+        });
+
+        avgCompetitionScore = Math.round(totalScore/allTeams.length)
+        avgCompetitionCycle = Math.round((totalCycleAvg/allTeams.length)*100)/100
+
         leaderboardData.set(avgTeamPerformance(getSortedTeams($TeamsDB)))
         console.log($leaderboardData)
     })
@@ -56,11 +100,11 @@
             <div class="flex flex-row justify-around items-center">
                 <div class="flex flex-col items-center justify-center gap-2">
                     <h3>Average Points</h3>
-                    <span class="text-primary-base text-xl">234</span>
+                    <span class="text-primary-base text-xl">{avgCompetitionScore}</span>
                 </div>
                 <div class="flex flex-col items-center justify-center gap-2">
                     <h3>Average Cycle</h3>
-                    <span class="text-primary-base text-xl">8.7s</span>
+                    <span class="text-primary-base text-xl">{avgCompetitionCycle}s</span>
                 </div>
             </div>
         </div>

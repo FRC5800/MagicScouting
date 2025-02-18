@@ -73,7 +73,6 @@ export function avgTeamPerformance(teams){
 	
 		Object.keys(fields).forEach((field) => {
 			let points = getAverageDBvalues(matches, fields[field], true)
-			console.log(`points: ${points}, ${field}`)
 			chartData.push({
 				group: field,
 				key: team,
