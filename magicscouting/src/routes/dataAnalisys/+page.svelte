@@ -157,6 +157,9 @@
                     title: '',
                     height: '500px',
                     width: '70%',
+                    bars: {    
+                        width: 10,
+                    },
                     axes: {
                         bottom: { mapsTo: 'value', scaleType: "linear"},
                         left: { mapsTo: 'key', scaleType: 'labels' }
