@@ -276,7 +276,6 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 	return chartData
 }
 export function parseCycleString(data){
-	console.log("this is data: " + data)
 	if (data == "") {return [0]}
 	return avgArray(data.toString().split("; ").map(parseFloat))
 }
