@@ -1,0 +1,12 @@
+html[theme='red'] {
+	--color-primary: #cb2020;
+	--color-primary-light: #e97474;
+	--color-primary-light-opac: #e8281e4d;
+	--color-primary-heavy: #121212;
+	--color-secondary: #356ee8;
+	--color-buttons: #e8281e;
+	--color-gradient-light: #ea4335;
+	--color-gradient-heavy: #7c1111;
+
+	/* #FF5E3D */
+}

@@ -1,0 +1,194 @@
+{
+	"home_page": {
+		"alliance": {
+			"title": "Alianza",
+			"option_red": "Rojo",
+			"option_blue": "Azul"
+		},
+
+		"team_number": "Número de equipo",
+		"match_number": "Número de Partido",
+		"team_position": "Posición del Equipo",
+		"empty_position": "Seleccione una opción",
+		"validation_error_message": "¡Rellena el campo!",
+		"storage_button": "Almacenamiento",
+		"continue_button": "Comenzar",
+
+		"menu": {
+			"title": "Menu",
+			"option_config": "Ajustes",
+			"option_guide": "Guía de uso",
+			"option_about": "Sobre",
+			"option_database": "Banco de datos"
+		},
+
+		"database": {
+			"title": "Banco de datos",
+			"message": "Seleccione la base de datos que se utilizará para almacenar los análisis. Si tienes alguna pregunta sobre cómo crear uno, accede al README en nuestro repositorio:",
+			"repository": "Repositorio Github",
+			"useDB": "¿Usar base de datos?",
+			"confirm_button": "Confirmar"
+		},
+
+		"settings": {
+			"title": "Ajustes",
+			"themes_title": "Tema",
+			"colors_title": "Paleta de Colores",
+			"language_title": "Idioma",
+			"option_language": "Seleccione Idioma",
+			"option_theme": {
+				"title": "Tema",
+				"option_light": "Claro",
+				"option_dark": "Oscuro",
+				"option_system": "Sistema por defecto"
+			},
+			"option_color": "Color primario"
+		},
+
+		"database_alert": {
+			"title": "Advertencia",
+			"message": "Antes de utilizar la aplicación, le recomendamos que agregue la base de datos que se utilizará para almacenar coincidencias en la pestaña Menú. Si tienes alguna duda sobre cómo crear una BD accede a nuestra WIKI en el repositorio del proyecto:",
+			"repository": "Repositorio",
+			"menu_button": "Ir a \"Base de datos\""
+		}
+	},
+	"scanner": {
+		"title": "Lector QR",
+		"message": "Lector utilizado para escanear códigos QR de partidos. Haga clic en escanear para encender la cámara.",
+		"note": "Nota: Evite colocar varios códigos QR al mismo tiempo durante el escaneado.",
+		"scan_button": "Escanear",
+		"stop_button": "Stop",
+		"confirmation_modal": {
+			"title": "¿Almacenar los datos?",
+			"option_yes": "Sí",
+			"option_no": "No",
+			"success_alert": "almacenado",
+			"failure_alert": "!Dados Repetidos!"
+		}
+	},
+	"storage": {
+		"title": "Almacienamento",
+		"filters": {
+			"all": "Todos",
+			"sent": "Enviados",
+			"not_sent": "No Enviados"
+		},
+		"empty_message": "¡No hay partidos almacenados!",
+		"team": "Equipo",
+		"match": "Partido",
+		"team_position": "Posición",
+		"upload_button": "Subir",
+		"scan_button": "Escanear",
+		"modal": {
+			"title": "Código QR",
+			"scan_me": "¡Escanear!"
+		}
+	},
+	"about": {
+		"title": "Sobre el Proyecto",
+		"paragraph_1": "El proyecto de una aplicación de ojeadores surgió a principios de 2023, cuando un miembro del equipo de programación encontró un repositorio para una aplicación de ojeadores sencilla pero eficaz. Como la aplicación estaba reservada para el partido de 2022, tuvimos que hacer algunos cambios para la nueva temporada. Tras un año utilizando este proyecto inicial, decidimos ir un paso más allá y crear nuestra propia app para el equipo.",
+		"purpose_title": "Intención del Proyecto",
+		"paragraph_2": "El proyecto de la aplicación MagicScouting surgió de la necesidad de una aplicación más capaz que su predecesora. El equipo que trabajó en el proyecto anterior quería hacer algo que fuera 100% de su autoría, y así lo hicimos. Además, vimos este proyecto como una oportunidad para ayudar a otros equipos durante la competición, y esta visión se convirtió en nuestro objetivo.",
+		"creators": {
+			"title": "Creadores",
+			"creator_1": "Franco Valois De Luca",
+			"creator_2": "Gabrielli Fertig de Oliveira",
+			"creator_3": "Davi Feitosa Silva Santana",
+			"creator_4": "Helena Scussel Rosa"
+		},
+		"contribution_title": "Contribuición",
+		"paragraph_3": "Si quieres ayudar al proyecto, tenemos una Vakinha abierta para que cualquier simpatizante pueda ayudarnos. Actualmente, el dinero ganado se utilizará para pagar la suscripción de la aplicación a la Apple Store. Enlace Vakinha abajo:",
+		"fundraise_link": "Vakinha FRC5800 Magic Scouting"
+	},
+	"autonomous": {
+		"title": "Autónomo",
+		"speaker": "Speaker",
+		"amp": "Amp",
+		"scores": "Golpes",
+		"misses": "Errores",
+		"leave_button": "Leave",
+		"continue_button": "Continuar"
+	},
+	"teleop": {
+		"title": "TeleOp",
+		"endgame_title": "End Game",
+		"speaker": "Speaker",
+		"speaker_amplified": "Speaker Amplificado",
+		"amp": "Amp",
+		"scores": "Golpes",
+		"misses": "Errores",
+		"high_notes": {
+			"title": "High Notes",
+			"option1": "Jugador humano de otro equipo",
+			"option2": "0",
+			"option3": "1",
+			"option4": "2",
+			"option5": "3"
+		},
+		"trap": {
+			"title": "Trap",
+			"option1": "No intentó",
+			"option2": "Erró",
+			"option3": "Golpeó"
+		},
+		"barge": {
+			"title": "Barge",
+			"option1": "Lo intentó y falló",
+			"option2": "No lo intentó",
+			"option3": "Escaló solo",
+			"option4": "Escaló con +1 robots",
+			"option5": "Escaló con +2 robots"
+		},
+		"note_cycle": {
+			"title": " Control de Ciclo",
+			"source": "Fuente Ubicación",
+			"start_cycle": "Iniciar",
+			"pause": "Pausa",
+			"option_floor": "Piso",
+			"timer": "Duración del Ciclo",
+			"cancel_confirmation": "Pulse de nuevo para cancelar"
+		},
+		"barge_cycle": {
+			"title": "Ciclo Barge",
+			"start_cycle": "Comenzar"
+		},
+		"continue_button": "Continuar"
+	},
+	"info": {
+		"title": "Información Adicional",
+		"team_role": "Estilo de Juego",
+		"robot_status": "Estado del Robo",
+		"coopertition": "Coopertition Bonus",
+		"attack": "Atacante",
+		"defense": "Defensa",
+		"support": "Apoyo",
+		"yes": "Sí",
+		"no": "No",
+		"continue_button": "Continuar",
+		"safe": "Normal",
+		"broke": "Roto",
+		"communication_fault": "Comm"
+	
+	},
+	"qrcode": {
+		"title": "Datos de Scouting",
+		"or": "O",
+		"qrcode_button": "Código QR",
+		"upload_button": "Subir",
+		"store_button": "Almacenar",
+		"finish_button": "Concluir",
+		"confirmation_modal": {
+			"title": "¿Reiniciar App?",
+			"yes_button": "Sí",
+			"no_button": "No"
+		}
+	},
+	"misc": {
+		"close_button": "Cerrar",
+		"visualize_button": "Visualizar",
+		"delete_button": "Excluir",
+		"cancel_button": "Cancelar",
+		"save_button": "Guardar",
+		"none": "Ninguno"
+	}
+}

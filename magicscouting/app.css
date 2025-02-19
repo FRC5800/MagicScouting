@@ -1,0 +1,77 @@
+@import "@flaticon/flaticon-uicons/css/all/all.css";
+
+@import '$lib/styles/themes/blueTheme.css';
+@import '$lib/styles/themes/greenTheme.css';
+@import '$lib/styles/themes/pinkTheme.css';
+@import '$lib/styles/themes/purpleTheme.css';
+@import '$lib/styles/themes/redTheme.css';
+
+/* Ensure Tailwind CSS is properly imported */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+	--blue-main: #060024;
+	--grey-heavy: #004aad;
+	--grey-light: #5de0e6;
+}
+
+@layer base {
+	html[theme=''] {
+		--color-primary: #356ee8;
+		--color-primary-light: #68cce3;
+		--color-primary-heavy: #060024;
+		--color-secondary: #eb3a31;
+		--color-buttons: #35b8e8;
+		--color-gradient-light: #35b8e8;
+		--color-gradient-heavy: #1e3edf;
+	}
+}
+
+@layer components {
+	.home-inp {
+		color: white;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-weight: bold;
+		@apply box-border text-[#474747] dark:text-white bg-transparent border-2 dark:border-0 border-[#474747] dark:bg-grey-heavy rounded-xl py-2 px-4 w-full
+        focus:outline-none focus:outline-grey-heavy 
+        active:outline-none hover:border-[3px] dark:hover:border-0 dark:hover:bg-grey-light flex align-middle 
+        justify-center placeholder:text-[#666666];
+	}
+	.home-inp:autofill {
+		background-color: #004aad;
+	}
+	.home-label {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 500;
+		font-size: 20px;
+		@apply text-[#474747] dark:text-[white] font-bold;
+	}
+
+	.btn {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-weight: 900;
+		font-size: 20px;
+		width: 100%;
+		@apply my-4 dark:border-2 p-2 hover:bg-buttons border-[#474747] dark:border-[#0F152B] dark:hover:text-white dark:hover:bg-buttons dark:text-[#060024] dark:bg-white rounded-3xl bg-buttons border-0 text-white uppercase transition-all duration-[0.2s] ease-in-out active:scale-95;
+	}
+
+	.disabled-btn {
+		@apply bg-gray-500 dark:bg-gray-500 hover:bg-gray-500 dark:hover:bg-gray-500 dark:hover:text-primary-heavy;
+	}
+
+	.separator {
+		@apply bg-gradient-to-r from-gradient-light to-gradient-heavy;
+		height: 2px;
+		margin: 15px 0;
+		width: 80%;
+	}
+
+	.barcode-scanning-active {
+		visibility: hidden;
+	}
+}

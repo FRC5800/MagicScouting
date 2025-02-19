@@ -1,0 +1,12 @@
+html[theme='purple'] {
+	--color-primary: #6c1fb2;
+	--color-primary-light: #be89f0;
+	--color-primary-light-opac: #be89f04d;
+	--color-primary-heavy: #121212;
+	--color-secondary: #20a36a;
+	--color-buttons: #9235e8;
+	--color-gradient-light: #9235e8;
+	--color-gradient-heavy: #330c57;
+
+	/* #A53DFF */
+}
