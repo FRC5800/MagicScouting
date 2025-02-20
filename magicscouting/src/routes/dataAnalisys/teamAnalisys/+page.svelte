@@ -22,7 +22,7 @@
 
     $: teamSearch = "";
     $: selectedTeam = "";
-    let activeTab = 0
+    let activeTab = ""
 
     async function search(){
         if(teamSearch != ""){
@@ -146,11 +146,15 @@
     <div class="w-full flex ">
         <div role="tablist" class="tabs tabs-lifted">
             {#key $teamAnalysisData}
-                {#each $teamAnalysisData as team, index}
-                    <span role="tab" class="tab {activeTab==index ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center">
-                        <span on:click={()=>{activeTab=index}}>{team.team}</span>
-                        {#if activeTab==index}                            
-                            <i on:click={()=>{$teamAnalysisData = deleteArrayItem($teamAnalysisData, index); console.log($teamAnalysisData)}} class="fi fi-rr-cross-small flex"></i> 
+                {#each Object.keys($teamAnalysisData) as teamNumber}
+                    <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center">
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-no-static-element-interactions -->
+                        <span on:click={()=>{activeTab=teamNumber}}>{teamNumber}</span>
+                        {#if activeTab==teamNumber}                            
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <!-- svelte-ignore a11y-no-static-element-interactions -->
+                            <i on:click={()=>{delete $teamAnalysisData[teamNumber]; console.log($teamAnalysisData)}} class="fi fi-rr-cross-small flex"></i> 
                         {/if}
                     </span>           
                 {/each}
@@ -170,7 +174,7 @@
         </div>  
     {/if}
 
-    {#if $teamAnalysisData.length != 0 && $teamAnalysisData[activeTab].team != ""}
+    {#if Object.keys($teamAnalysisData).length != 0 && $teamAnalysisData[activeTab].team != ""}
         <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
             <div class="flex flex-row gap-4 items-center justify-center mt-6">
                 <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />

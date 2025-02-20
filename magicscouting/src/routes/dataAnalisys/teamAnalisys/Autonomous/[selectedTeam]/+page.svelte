@@ -14,6 +14,9 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
+    import { page } from "$app/state";
+
+    console.log("PARAMETROS DA PAGINA: " + $page.params.selectedTeam)
 
     export let data;
     let teamData = $teamAnalysisData[data.selectedTeam];
