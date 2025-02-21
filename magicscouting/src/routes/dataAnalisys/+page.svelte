@@ -47,10 +47,7 @@
         "bargeStatus"
     ];
 
-    onMount(async () => {
-        if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
-            SyncData();
-        }
+    function updateEventValues(){
         let totalCycleAvg = 0;
         let totalScore = 0;
         let allTeams = getSortedTeams($TeamsDB); 
@@ -61,7 +58,7 @@
                                             allPoints,
                                             true
                                             )
-
+    
             totalCycleAvg += getAverageCycleData(
                             teamData,
                             [
@@ -71,13 +68,24 @@
                             ],
                         )
         });
-
+    
         avgCompetitionScore = Math.round(totalScore/allTeams.length)
         avgCompetitionCycle = Math.round((totalCycleAvg/allTeams.length)*100)/100
-
+    
         leaderboardData.set(avgTeamPerformance(getSortedTeams($TeamsDB)))
         console.log($leaderboardData)
+
+    }
+
+    onMount(async () => {
+        if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
+            SyncData();
+        }
+
+        updateEventValues()
     })
+
+    $: $TeamsDB, updateEventValues();
 
     function triggerToast() {
       showDatabaseAlert = true;
