@@ -174,10 +174,10 @@
             {/key}
         </div>
     </div>
-
+    
     {#if $autoCompleteTeams.length > 0}    
-        <div class="w-full flex justify-start items-start">
-            <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5">
+        <div class="w-full flex justify-center items-center">
+            <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center">
                 {#each $autoCompleteTeams as team}
                 <li>
                     <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
