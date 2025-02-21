@@ -70,7 +70,7 @@
         teamData.team = selectedTeam
 
         $teamAnalysisData[String(teamData.team)] = teamData
-
+        activeTab = teamData.team
 
         getStatBoticsData(selectedTeam).then((r) => {
             console.log(r)
@@ -132,6 +132,16 @@
         return newArray;
     }
 
+    function handleTabClose(teamNumber){
+        delete $teamAnalysisData[teamNumber];
+        $teamAnalysisData = $teamAnalysisData;
+        activeTab = ""
+        if (Object.keys($teamAnalysisData).length > 0){
+            activeTab = Object.keys($teamAnalysisData)[0];
+        }
+        console.log($teamAnalysisData);
+    }
+
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
@@ -149,7 +159,7 @@
     <div class="w-full flex ">
         <div role="tablist" class="tabs tabs-lifted">
             {#key $teamAnalysisData}
-                {#each Object.keys($teamAnalysisData) as teamNumber}
+                {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
                     <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center">
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -157,7 +167,7 @@
                         {#if activeTab==teamNumber}                            
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <!-- svelte-ignore a11y-no-static-element-interactions -->
-                            <i on:click={()=>{delete $teamAnalysisData[teamNumber]; console.log($teamAnalysisData)}} class="fi fi-rr-cross-small flex"></i> 
+                            <i on:click={()=>{handleTabClose(teamNumber)}} class="fi fi-rr-cross-small flex"></i> 
                         {/if}
                     </span>           
                 {/each}
