@@ -184,7 +184,9 @@ export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{retur
 	
 			let points = 0;
 			groups[group].fields.forEach((field) => {
-				points += customHandler(match[field])
+				console.log("this is match: " + match.match)
+				points += handleGetActionAttributes(match, field, groups[group].showPoints, false)
+				console.log("this is points: " + points)
 			})
 		
 

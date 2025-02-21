@@ -22,8 +22,8 @@
     console.log(data)
 
     $: teamSearch = "";
-    $: selectedTeam = Object.keys($teamAnalysisData)[0];
-    let activeTab = ""
+    $: selectedTeam = "";
+    let activeTab = Object.keys($teamAnalysisData)[0] ?? "";
 
     async function search(){
         if(teamSearch != ""){
@@ -56,6 +56,8 @@
         autoCompleteTeams.set([]);
     }
     async function createTeam(){
+        console.log("creating team " + selectedTeam)
+        
         let teamData = {
             logo: new Image(),
             team: "",
