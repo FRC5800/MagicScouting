@@ -47,10 +47,12 @@
         "bargeStatus"
     ];
 
+    let biggestScore = 50;
     function updateEventValues(){
         let totalCycleAvg = 0;
         let totalScore = 0;
         let allTeams = getSortedTeams($TeamsDB); 
+        biggestScore = getAverageDBvalues(getTeamScoutingData(allTeams[allTeams.length-1]), allPoints, true)
         allTeams.forEach(team => {
             let teamData = getTeamScoutingData(team)
             totalScore += getAverageDBvalues(
@@ -169,7 +171,7 @@
                         width: 10,
                     },
                     axes: {
-                        bottom: { mapsTo: 'value', scaleType: "linear"},
+                        bottom: { mapsTo: 'value', scaleType: "linear", domain: [0, biggestScore]},
                         left: { mapsTo: 'key', scaleType: 'labels' }
                         }
                     }
