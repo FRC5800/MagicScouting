@@ -42,7 +42,7 @@
 	}
 
 	async function StoreSheetData(sheet, SchemaStore, DataStore){
-		getSheetData(sheet).then((r) => {
+		await getSheetData(sheet).then((r) => {
 			let schema = r.schema;
 			let data = r.data;
 			
@@ -55,6 +55,8 @@
 		})
 
 	}
+	
+	$: buttonText = "Sync Data"
 
 	export async function SyncData(){
 		if ($entriesSync.length != 0){
@@ -63,20 +65,29 @@
 		}
 
 		isSyncing = true;
-		StoreSheetData("MagicScouting", MatchSchema, TeamsDB);
-		StoreSheetData("PitScouting", PitSchema, PitTeamsDB);
+		try {
+			await Promise.allSettled([
+				StoreSheetData("MagicScouting", MatchSchema, TeamsDB),
+				StoreSheetData("PitScouting", PitSchema, PitTeamsDB)
+			]);
+			buttonText = "Data Synced"
+			setTimeout(() => {buttonText = "Sync Data"}, 3500);
+		}catch (error){
+			alert("Sync error")
+			console.log("Error Syncing data: "+ error)
+		}
 		isSyncing = false;
-		alert("Data Synced")
+
 	}
 	
 	$: console.log($TeamsDB)
 </script>
 
-<button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block" on:click={() => {SyncData()}}>
+<button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block {buttonText=="Data Synced" ? "bg-green-700" : ""}" on:click={() => {SyncData()}}>
 	{#if isSyncing}
 	<span class="loading loading-spinner"></span>
 	{:else}
-		Sync Data
+		{buttonText}
 	{/if}
 </button>
 
