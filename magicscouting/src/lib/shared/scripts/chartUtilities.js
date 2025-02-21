@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { TeamsDB } from "../stores/teamsData"
 import { get } from "svelte/store"
+import defaultLogo from "./defautLogo";
 
 let gamePointsByAction = {
 	"autoROneScore": 3,
@@ -18,6 +19,11 @@ let gamePointsByAction = {
 	"teleopNetScore": 4,
 	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
 };
+
+
+export function getDefaultLogo(){
+	return defaultLogo
+}
 
 export function getSortedTeams(allData){
 	let teams = {}
@@ -164,7 +170,7 @@ export async function getTBAData(team){
 		return r.json()
 	})
 	return {
-		logo: "data:image/png;base64," + image[0].details.base64Image,
+		logo: image.length > 0 ? ("data:image/png;base64," + image[0].details.base64Image) : getDefaultLogo(),
 		name: requestData.nickname,
 		team: team
 	}
@@ -178,9 +184,7 @@ export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{retur
 	
 			let points = 0;
 			groups[group].fields.forEach((field) => {
-				console.log("this is match: " + match[field])
 				points += customHandler(match[field])
-				console.log("this is points: " + points)
 			})
 		
 

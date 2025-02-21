@@ -13,22 +13,23 @@
 
 	import { goto } from "$app/navigation";
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
-    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
-	import { Keyboard } from "@capacitor/keyboard";
+    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
+	// import { Keyboard } from "@capacitor/keyboard";
 
+    
 
     $: data = $TeamsDB
     console.log(data)
 
     $: teamSearch = "";
-    $: selectedTeam = "";
+    $: selectedTeam = Object.keys($teamAnalysisData)[0];
     let activeTab = ""
 
     async function search(){
         if(teamSearch != ""){
             selectedTeam = teamSearch
             teamSearch = ""
-            await Keyboard.hide()
+            // await Keyboard.hide()
             createTeam()
         }
     }
@@ -64,24 +65,24 @@
             rawData: getTeamScoutingData(selectedTeam)
         }
         console.log(teamData.rawData)
-        
-        await getStatBoticsData(selectedTeam).then((r) => {
-            if (r.team == selectedTeam){
-                console.log(r)
-                teamData.winrate = r.winrate
-                teamData.epa = r.epa
+        teamData.team = selectedTeam
 
-            }
+        $teamAnalysisData[String(teamData.team)] = teamData
+
+
+        getStatBoticsData(selectedTeam).then((r) => {
+            console.log(r)
+            teamData.winrate = r.winrate
+            teamData.EPA = r.epa
+            $teamAnalysisData[String(teamData.team)] = teamData
         })
 
-        await getTBAData(selectedTeam).then((r) => {
-            if (r.team == selectedTeam){
-                teamData.logo = r.logo
-                teamData.name = r.name
-            }
+        getTBAData(selectedTeam).then((r) => {
+            teamData.logo = r.logo
+            teamData.name = r.name
+            $teamAnalysisData[String(teamData.team)] = teamData
         });
 
-        $teamAnalysisData[teamData.team] = teamData
     }
 
     let allPoints = [
@@ -174,7 +175,7 @@
         </div>  
     {/if}
 
-    {#if Object.keys($teamAnalysisData).length != 0 && $teamAnalysisData[activeTab].team != ""}
+    {#if Object.keys($teamAnalysisData).length != 0 && activeTab != ""}
         <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
             <div class="flex flex-row gap-4 items-center justify-center mt-6">
                 <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
