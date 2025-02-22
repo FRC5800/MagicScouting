@@ -283,6 +283,10 @@ export function parseCycleString(data){
 	return avgArray(data.toString().split("; ").map(parseFloat))
 }
 
+export function getAvgTeamData(team){
+	return getAverageDBvalues(getTeamScoutingData(team), Object.keys(gamePointsByAction), true)
+}
+
 export function setupModeChartsData(data, field, chartReference){
 	if (!data){return []}
 	
