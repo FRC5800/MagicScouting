@@ -2,7 +2,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-const defaultValue = "Not assigned";
+const defaultValue = [];
 
 export function parseLocalStorage(item) {
     return JSON.parse(localStorage.getItem(item));

@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-
+	import { onMount } from "svelte";
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 	import dataBase from "$lib/shared/stores/dataBase";
 	import entriesSync from "$lib/shared/stores/toSyncData";
@@ -58,7 +58,7 @@
 	
 	$: buttonText = "Sync Data"
 
-	export async function SyncData(){
+	async function SyncData(){
 		if ($entriesSync.length != 0){
 			alert("There are entries to sync, please sync them first or delete them.")
 			return            
@@ -80,6 +80,11 @@
 
 	}
 	
+	onMount(async () => {
+        if (localStorage.getItem("MatchSchema") == "[]" || localStorage.getItem("PitSchema") == "[]"){
+            SyncData();
+        }
+	})
 	$: console.log($TeamsDB)
 </script>
 

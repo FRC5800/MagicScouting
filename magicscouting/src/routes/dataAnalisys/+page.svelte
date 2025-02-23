@@ -9,7 +9,6 @@
 
     import { goto } from "$app/navigation";
 
-    import SyncData from "$lib/components/SyncDataButton.svelte";
     import SyncDataButton from "$lib/components/SyncDataButton.svelte";
     import { useDB } from "$lib/shared/stores/dataBase";
     import dataBase from "$lib/shared/stores/dataBase";
@@ -48,10 +47,10 @@
     ];
 
     let biggestScore = 50;
-    function updateEventValues(){
+    function updateEventValues(TeamsData){
         let totalCycleAvg = 0;
         let totalScore = 0;
-        let allTeams = getSortedTeams($TeamsDB); 
+        let allTeams = getSortedTeams(TeamsData); 
         biggestScore = getAverageDBvalues(getTeamScoutingData(allTeams[allTeams.length-1]), allPoints, true)
         allTeams.forEach(team => {
             let teamData = getTeamScoutingData(team)
@@ -80,14 +79,12 @@
     }
 
     onMount(async () => {
-        if (localStorage.getItem("MatchSchema") == "Not assigned" || localStorage.getItem("PitSchema") == "Not assigned"){
-            SyncData();
+        if ($TeamsDB.length > 0){
+            updateEventValues($TeamsDB)
         }
-
-        updateEventValues()
     })
 
-    $: $TeamsDB, updateEventValues();
+    $: updateEventValues($TeamsDB);
 
     function triggerToast() {
       showDatabaseAlert = true;
@@ -121,64 +118,64 @@
     </div>
 
     <div class="w-full px-6 mb-6">
-        
-        <SyncDataButton />
+        <SyncDataButton/>
     </div>
-
-    <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
-        <h2 class="text-xl font-medium tracking-wide">Analytics</h2>
-        
-        <div class="w-full flex flex-col gap-2 ">
-            <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
-                <i class="fi fi-rr-users-alt flex"></i>
-                <span>Team Analisys</span>
-                <div class="flex items-center justify-end grow">
-                    <i class="fi fi-rr-angle-right flex"></i>
+    {#if $TeamsDB.length > 0}
+        <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
+            <h2 class="text-xl font-medium tracking-wide">Analytics</h2>
+            
+            <div class="w-full flex flex-col gap-2 ">
+                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                    <i class="fi fi-rr-users-alt flex"></i>
+                    <span>Team Analisys</span>
+                    <div class="flex items-center justify-end grow">
+                        <i class="fi fi-rr-angle-right flex"></i>
+                    </div>
+                </button>
+                <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
+                    <i class="fi fi-rr-columns-3 flex"></i>
+                    <span>Match Analisys</span>
                 </div>
-            </button>
-            <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
-                <i class="fi fi-rr-columns-3 flex"></i>
-                <span>Match Analisys</span>
+                <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
+                    <i class="fi fi-rr-overview flex"></i>
+                    <span>Teams Picklist</span>
+                </div>
+                <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
+                    <i class="fi fi-rr-dashboard-monitor flex"></i>
+                    <span>Match Simulation</span>
+                </div>
             </div>
-            <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
-                <i class="fi fi-rr-overview flex"></i>
-                <span>Teams Picklist</span>
-            </div>
-            <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
-                <i class="fi fi-rr-dashboard-monitor flex"></i>
-                <span>Match Simulation</span>
-            </div>
+
         </div>
 
-      </div>
+        
+        {#if $leaderboardData.length > 0}
+            <div class="w-full flex grow gap-4 px-6 flex-col items-start">
+                <h2 class="text-xl font-medium tracking-wide">Leaderboard</h2>
+            </div>
 
-      
-      {#if $leaderboardData.length > 0}
-        <div class="w-full flex grow gap-4 px-6 flex-col items-start">
-            <h2 class="text-xl font-medium tracking-wide">Leaderboard</h2>
-        </div>
-
-        <div class="w-full flex flex-col items-center mb-6">
-            <svelte:component
-            this={BarChartStacked}
-                data={$leaderboardData}
-                options={{
-                    theme: $carbonTheme,
-                    title: '',
-                    height: '500px',
-                    width: '70%',
-                    bars: {    
-                        width: 10,
-                    },
-                    axes: {
-                        bottom: { mapsTo: 'value', scaleType: "linear", domain: [0, biggestScore]},
-                        left: { mapsTo: 'key', scaleType: 'labels' }
+            <div class="w-full flex flex-col items-center mb-6">
+                <svelte:component
+                this={BarChartStacked}
+                    data={$leaderboardData}
+                    options={{
+                        theme: $carbonTheme,
+                        title: '',
+                        height: '500px',
+                        width: '70%',
+                        bars: {    
+                            width: 10,
+                        },
+                        axes: {
+                            bottom: { mapsTo: 'value', scaleType: "linear", domain: [0, biggestScore]},
+                            left: { mapsTo: 'key', scaleType: 'labels' }
+                            }
                         }
                     }
-                }
-            /> 
-        </div>
+                /> 
+            </div>
         {/if}
+    {/if}
 </main>
 
 <div transition:fade class="toast toast-top toast-end">
