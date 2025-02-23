@@ -14,6 +14,7 @@
 	import { goto } from "$app/navigation";
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
+	import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
 	// import { Keyboard } from "@capacitor/keyboard";
 
     
@@ -151,16 +152,13 @@
 
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
         <h2 class="text-xl font-medium tracking-wide">Search for a team</h2>
-        <div class="w-full flex justify-start items-center input input-bordered gap-4 text-base">
-            <i class="fi fi-rs-search flex"></i>
-            <input class="grow" type="search" name="search" on:keydown={(e)=>{if(e.key == "Enter") search()}} bind:value={teamSearch} placeholder="Team Number" />
-        </div>
+        <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam}/>
     </div>
-    <div class="w-full flex ">
-        <div role="tablist" class="tabs tabs-lifted">
+    <div class="w-full flex">
+        <div role="tablist" class="tabs tabs-lifted  overflow-x-scroll">
             {#key $teamAnalysisData}
                 {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
-                    <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center">
+                    <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center min-w-max">
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-no-static-element-interactions -->
                         <span on:click={()=>{activeTab=teamNumber}}>{teamNumber}</span>
@@ -175,17 +173,17 @@
         </div>
     </div>
     
-    {#if $autoCompleteTeams.length > 0}    
+    <!-- {#if $autoCompleteTeams.length > 0}    
         <div class="w-full flex justify-center items-center">
             <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center">
                 {#each $autoCompleteTeams as team}
-                <li>
-                    <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
-                </li>
+                    <li>
+                        <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
+                    </li>
                 {/each}
             </div>
         </div>  
-    {/if}
+    {/if} -->
 
     {#if Object.keys($teamAnalysisData).length != 0 && activeTab != ""}
         <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">

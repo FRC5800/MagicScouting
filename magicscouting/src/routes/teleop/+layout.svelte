@@ -3,4 +3,4 @@
 
 </script>
 
-	<slot />
+<slot />

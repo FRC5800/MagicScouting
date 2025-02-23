@@ -2,9 +2,6 @@
 
 </script>
 
-<div class="app">
-	<main>
+	<main class="mb-20">
 		<slot />
 	</main>
-
-</div>

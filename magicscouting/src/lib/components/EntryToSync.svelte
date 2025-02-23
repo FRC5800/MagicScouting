@@ -12,6 +12,7 @@
     import { onMount } from "svelte";
 
     export let payload = {"team":5800, "match":2};
+    export let index;
     
     let src = ''
 
@@ -97,15 +98,15 @@
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button onclick="document.getElementById('my_modal_2').showModal()" class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
-            <button on:click={HandleUpload} class="btn btn-circle bg-primary-light dark:bg-primary-light {uploadDisabled || !$useDB ? "btn-disabled" : ""}">
+            <button on:click={()=>{document.getElementById('entry_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
+            <button on:click={HandleUpload} class="btn btn-circle btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons {uploadDisabled || !$useDB ? "btn-disabled" : ""}">
               <i class="fi fi-rr-progress-upload text-2xl flex"></i>
             </button>
           </div>
         </div>
       </div>
 
-<dialog id="my_modal_2" class="modal">
+<dialog id={"entry_"+index} class="modal">
     <div class="modal-box">
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -123,4 +124,4 @@
     <form method="dialog" class="modal-backdrop">
         <button>{$_('misc.close_button')}</button>
     </form>
-  </dialog>
+</dialog>

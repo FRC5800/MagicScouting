@@ -12,8 +12,8 @@
 	export let handler = function(){console.log("Without handler")}
 </script>
 
-<select name={name} bind:value={value} on:change={handler} class="select select-bordered w-full text-base">
-	<option disabled selected value="">{$_('home_page.settings.option_language')}</option>
+<select name={name} bind:value={value} on:change={handler} class="select select-bordered w-full text-base text-inherit">
+	<option disabled selected hidden value="">{$_('home_page.settings.option_language')}</option>
 	{#if options==[]}
 		<slot/>
 	{/if}

@@ -173,7 +173,7 @@
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
-<section class="w-4/5 gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
+<section class="w-4/5 gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center mb-20">
 	<div class="flex flex-col w-full">
 		<h1 class="text-4xl header">{$_('teleop.title')}</h1>
 		<div class="separator w-full"></div>
@@ -294,8 +294,6 @@
 		</div>
 	</div>
 	<button on:click={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('teleop.continue_button')}</button>
-	<br />
-	<br />
 </section>
 
 <div class="fixed right-8 bottom-24 p-1 backdrop-blur-md rounded-full">

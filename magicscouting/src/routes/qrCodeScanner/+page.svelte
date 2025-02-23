@@ -19,7 +19,49 @@
     $: showModal = false;
     $: console.log(showModal)
 
-    let keys = ["team","match","arenaPos","red/blue","autoAmpScore","autoAmpMiss","autoSpeakerScore","autoSpeakerMiss","isLeave","teleopAmpScore","teleopAmpMiss","teleopSpeakerScore","teleopSpeakerMiss","speakerAmplifiedScore","trapStatus","onStageStatus","onStageTime","sourceCycleTime","floorCycleTime","highNoteStatus","matchFunction", "robotBroke", "commFault"]; 
+    let keys = [
+        "team",
+        "match",
+        "arenaPos",
+        "red/blue",
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoROneMiss",
+        "autoRTwoMiss",
+        "autoRThreeMiss",
+        "autoRFourMiss",
+        "autoRemoveAlgaeLow",
+        "autoRemoveAlgaeHigh",
+        "autoProcessorScore", 
+        "autoProcessorMiss", 
+        "autoNetScore", 
+        "autoNetMiss",
+        "isLeave",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+        "teleopROneMiss",
+        "teleopRTwoMiss",
+        "teleopRThreeMiss",
+        "teleopRFourMiss",
+        "teleopRemoveAlgaeHigh",
+        "teleopRemoveAlgaeLow",
+        "teleopProcessorScore",
+        "teleopProcessorMiss",
+        "teleopNetScore",
+        "teleopNetMiss",
+        "bargeStatus",
+        "bargeTime",
+        "coralStationCycleTime",
+        "coralFloorCycleTime",
+        "algaeCycleTime",
+        "robotFunction",
+        "robotStatus",
+        "coopBonus",
+    ]; 
     let showModal = false;
     
     const requestPermissions = async () => {
@@ -42,6 +84,7 @@
 
     const startScan = async () => {
         document.querySelector("body")?.classList.add("barcode-scanning-active");
+        document.querySelector("html")?.classList.add("barcode-scanning-active");
         scanning = true;
         
         await BarcodeScanner.addListener(
@@ -61,6 +104,7 @@
     
     const stopScan = async () => {
         document.querySelector("body")?.classList.remove("barcode-scanning-active");
+        document.querySelector("html")?.classList.remove("barcode-scanning-active");
         scanning = false;
         goto('/');
         await BarcodeScanner.removeAllListeners();

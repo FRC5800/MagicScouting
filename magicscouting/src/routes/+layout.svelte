@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div class="bg-[#EAEAEC] dark:bg-primary-heavy app mb-16">
+<div class="bg-[#EAEAEC] dark:bg-primary-heavy app">
 	{#await preload()	}
 	<div out:fade={{ delay: 0, duration: 500 }} class="loader"></div>
 	{:then resolved} 

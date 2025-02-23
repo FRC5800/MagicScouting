@@ -12,6 +12,7 @@
     import { onMount } from "svelte";
 
     export let payload = {"team":5800, "match":2};
+    export let index;
     
     let src = ''
 
@@ -97,16 +98,16 @@
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button onclick="document.getElementById('my_modal_2').showModal()" class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
-            <button class="btn btn-circle pointer-events-none bg-[#aaffc4] dark:bg-primary-light {uploadDisabled || !$useDB ? "btn-disabled" : ""} text-2xl">
-                <i class="fi fi-br-check-circle flex text-[#282828]"></i>
+            <button on:click={()=>{document.getElementById('sync_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
+            <button class="btn btn-circle btn-primary hover:bg-primary-base bg-buttons border-buttons pointer-events-none bg-[#aaffc4] dark:bg-buttons {uploadDisabled || !$useDB ? "btn-disabled" : ""} text-2xl">
+                <i class="fi fi-br-check-circle flex"></i>
             </button>
           </div>
         </div>
       </div>
 
 <!-- You can open the modal using ID.showModal() method -->
-<dialog id="my_modal_2" class="modal">
+<dialog id={"sync_"+index} class="modal">
     <div class="modal-box">
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>

@@ -53,16 +53,16 @@
                 <th>Value</th>
             </thead>
             <tbody>
-    {#each Object.keys(pitScoutingSelectedData) as key}
-        {#if key == "robotPicture"}
-            <img src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
-        {:else}
-            <tr>
-                <th>{key}</th>
-                <td>{pitScoutingSelectedData[key]}</td>
-            </tr>
-        {/if}
-    {/each}
+                {#each Object.keys(pitScoutingSelectedData) as key}
+                    {#if key == "robotPicture"}
+                        <img src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
+                    {:else}
+                        <tr>
+                            <th>{key}</th>
+                            <td>{pitScoutingSelectedData[key]}</td>
+                        </tr>
+                    {/if}
+                {/each}
             </tbody>
         </table>
     </div>

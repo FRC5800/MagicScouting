@@ -100,7 +100,7 @@
     
 </script>
 
-<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
     <div class="w-full flex gap-4 px-6 mt-6 mb-6 flex-col items-center">
         <h1 class="text-2xl font-medium tracking-wide">Dashboard</h1>
     </div>

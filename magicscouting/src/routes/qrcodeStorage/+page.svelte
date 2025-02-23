@@ -13,7 +13,7 @@
   
 </script>
 
-<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
   <div class="w-full flex grow gap-4 px-6 mt-6 mb-6 flex-col items-start">
     <h1 class="text-2xl font-medium tracking-wide">{$_('storage.title')}</h1>
     <div class="w-full flex flex-row gap-2">
@@ -56,8 +56,8 @@
           </div>
         </div>
       </div> -->
-      {#each $entriesSync as entry}
-        <EntryToSync payload={entry}/>
+      {#each $entriesSync as entry, index}
+        <EntryToSync {index} payload={entry}/>
       {/each}
       <div class="w-full rounded-badge pt-3">
         {#if $entriesSync.length == 0}
@@ -72,8 +72,8 @@
   {#if displayFilter=="all" || displayFilter=="sent"}
     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
       <h2 class="text-xl font-medium tracking-wide">{$_('storage.filters.sent')}</h2>
-      {#each $syncedEntries as entry}
-        <SyncedEntries payload={entry}/>
+      {#each $syncedEntries as entry, index}
+        <SyncedEntries {index} payload={entry}/>
       {/each}
       <div class="w-full rounded-badge pt-3">
         {#if $syncedEntries.length == 0}
