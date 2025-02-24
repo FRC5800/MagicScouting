@@ -254,7 +254,7 @@ export function getAverageCycleData(data, fields){
 	let total = 0;
 
 	fields.forEach((field) => {
-		total += avgArray(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}))
+		total += avgArray(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}).filter(time => time > 0))
 	})
 
 	return Math.round((total/fields.length)*10)/10
@@ -295,7 +295,7 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 	return chartData
 }
 export function parseCycleString(data){
-	if (data == "") {return [0]}
+	if (data == "") {return 0}
 	return avgArray(data.toString().split("; ").map(parseFloat))
 }
 
