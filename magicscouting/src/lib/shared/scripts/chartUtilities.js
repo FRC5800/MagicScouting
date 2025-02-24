@@ -20,6 +20,22 @@ let gamePointsByAction = {
 	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
 };
 
+function isJson(data){
+	try{
+		JSON.parse(data)
+		return true
+	}catch{
+		return false
+	}
+}
+
+export function validateLocalData(localData){
+	if (!localData || !isJson( localData ) || ( isJson(localData) && ( !Array.isArray( JSON.parse(localData) ) || JSON.parse(localData).length == 0 ))){
+		return false
+	}
+	return true
+
+}
 
 export function getDefaultLogo(){
 	return defaultLogo

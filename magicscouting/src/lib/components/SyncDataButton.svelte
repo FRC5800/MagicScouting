@@ -5,6 +5,8 @@
 	import dataBase from "$lib/shared/stores/dataBase";
 	import entriesSync from "$lib/shared/stores/toSyncData";
 	import { useDB }  from '$lib/shared/stores/dataBase';
+	import { validateLocalData } from "$lib/shared/scripts/chartUtilities";
+
 
 	let isSyncing = false;
 	let isDataBaseSet;
@@ -80,8 +82,12 @@
 
 	}
 	
+
+
+
 	onMount(async () => {
-        if (localStorage.getItem("MatchSchema") == "[]" || localStorage.getItem("PitSchema") == "[]"){
+		let testDB = localStorage.getItem("TeamsDB")
+        if (!validateLocalData(testDB) && isDataBaseSet){
             SyncData();
         }
 	})

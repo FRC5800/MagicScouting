@@ -15,7 +15,7 @@
 
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 
-    import { avgTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData } from "$lib/shared/scripts/chartUtilities";
+    import { avgTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
 
     let showDatabaseAlert = false;
@@ -79,7 +79,7 @@
     }
 
     onMount(async () => {
-        if ($TeamsDB.length > 0){
+        if (validateLocalData(localStorage.getItem("TeamsDB"))){
             updateEventValues($TeamsDB)
         }
     })
@@ -101,22 +101,24 @@
     <div class="w-full flex gap-4 px-6 mt-6 mb-6 flex-col items-center">
         <h1 class="text-2xl font-medium tracking-wide">Dashboard</h1>
     </div>
+    {#if $TeamsDB.length > 0}
 
-    <div class="w-full flex mb-3">
-        <div class="bg-[#f0f0f0] dark:bg-surface w-full rounded-md relative p-4 my-2 mx-6 grow">
-            <div class="flex flex-row justify-around items-center">
-                <div class="flex flex-col items-center justify-center gap-2">
-                    <h3>Average Points</h3>
-                    <span class="text-primary-base text-xl">{avgCompetitionScore}</span>
-                </div>
-                <div class="flex flex-col items-center justify-center gap-2">
-                    <h3>Average Cycle</h3>
-                    <span class="text-primary-base text-xl">{avgCompetitionCycle}s</span>
+        <div class="w-full flex mb-3">
+            <div class="bg-[#f0f0f0] dark:bg-surface w-full rounded-md relative p-4 my-2 mx-6 grow">
+                <div class="flex flex-row justify-around items-center">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <h3>Average Points</h3>
+                        <span class="text-primary-base text-xl">{avgCompetitionScore}</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <h3>Average Cycle</h3>
+                        <span class="text-primary-base text-xl">{avgCompetitionCycle}s</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    
+    {/if}
     <div class="w-full px-6 mb-6">
         <SyncDataButton/>
     </div>

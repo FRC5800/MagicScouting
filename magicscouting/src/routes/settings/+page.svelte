@@ -103,7 +103,15 @@
           }, 3000);
         }
       }
-  </script>
+
+    function handleClearData(){
+      Object.keys(localStorage).forEach(field => localStorage.removeItem(field))
+      alert("FAZER UM POPUP PRA CONFIRMAR ISSO AQUI")
+      console.log(localStorage)
+      goto("/")
+    }
+
+</script>
 
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
   <h2 class="text-xl font-medium tracking-wide">{$_('home_page.settings.language_title')}</h2>
@@ -136,6 +144,15 @@
     {/each}
   </div>
 </div>
+
+
+
+<button class="m-0 font-bold btn btn-block " on:click={() => {handleClearData()}}>
+  Erase all data 
+</button> 
+<!-- DAVI EMBONITAR ISSO AQUI -->
+
+
 
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
   <div class="flex flex-row w-full gap-4 items-center">
