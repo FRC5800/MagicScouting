@@ -3,6 +3,29 @@ import { TeamsDB } from "../stores/teamsData"
 import { get } from "svelte/store"
 import defaultLogo from "./defautLogo";
 
+/**
+ * An object representing the points awarded for various actions in the game.
+ * 
+ * Properties:
+ * @property {number} autoROneScore - Points for auto Reef L1 Score.
+ * @property {number} autoRTwoScore - Points for auto Reef L2 Score.
+ * @property {number} autoRThreeScore - Points for auto Reef L3 Score.
+ * @property {number} autoRFourScore - Points for auto Reef L4 Score.
+ * @property {number} autoProcessorScore - Points for auto Processor Score.
+ * @property {number} autoNetScore - Points for auto Net Score.
+ * @property {number} isLeave - Points for leaving.
+ * @property {number} teleopROneScore - Points for teleop Reef L1 Score.
+ * @property {number} teleopRTwoScore - Points for teleop Reef L2 Score.
+ * @property {number} teleopRThreeScore - Points for teleop Reef L3 Score.
+ * @property {number} teleopRFourScore - Points for teleop Reef L4 Score.
+ * @property {number} teleopProcessorScore - Points for teleop Processor Score.
+ * @property {number} teleopNetScore - Points for teleop Net Score.
+ * @property {Object} bargeStatus - An object representing the points for different barge statuses.
+ * @property {number} bargeStatus.none - Points for no barge status.
+ * @property {number} bargeStatus.park - Points for park barge status.
+ * @property {number} bargeStatus.shallow - Points for shallow barge status.
+ * @property {number} bargeStatus.deep - Points for deep barge status.
+ */
 let gamePointsByAction = {
 	"autoROneScore": 3,
 	"autoRTwoScore": 4,
