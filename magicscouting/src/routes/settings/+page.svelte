@@ -176,7 +176,7 @@
       </div>
   </div>
   <div class="flex flex-row gap-2 w-full">
-  <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="input input-bordered p-2 text-base rounded-md grow ">
+  <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="input input-bordered p-2 text-base rounded-md grow w-full">
   <button disabled={!JSON.parse($useDB)} on:click={()=>{handleDataBase();triggerToast()}} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} btn-primary hover:bg-primary-base bg-buttons border-buttons p-2 px-4 w-fit rounded-lg btn  mt-0 min-w-8">
     <i class="fi fi-br-angle-right text-xl flex"></i>
   </button>
