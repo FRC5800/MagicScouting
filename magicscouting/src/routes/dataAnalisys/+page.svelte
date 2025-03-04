@@ -17,6 +17,7 @@
 
     import { avgTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
+	import Toast from "$lib/components/Toast.svelte";
 
     let showDatabaseAlert = false;
     let leaderboardData = writable([]);
@@ -134,10 +135,13 @@
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
+                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/matchAnalisys')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-columns-3 flex"></i>
                     <span>Match Analisys</span>
-                </div>
+                    <div class="flex items-center justify-end grow">
+                        <i class="fi fi-rr-angle-right flex"></i>
+                    </div>
+                </button>
                 <div class="btn btn-block flex flex-row justify-start btn-disabled gap-4">
                     <i class="fi fi-rr-overview flex"></i>
                     <span>Teams Picklist</span>
@@ -180,10 +184,4 @@
     {/if}
 </main>
 
-<div transition:fade class="toast toast-top toast-end">
-    {#if showDatabaseAlert}
-      <div class="alert alert-warning shadow-lg">
-        <span class="select-none">Warning! Set your database first</span>
-      </div>
-    {/if}
-</div>
+<Toast showToast={showDatabaseAlert} message={"Warning! Set your database first"}/>

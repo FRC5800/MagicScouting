@@ -4,7 +4,6 @@
   import { writable } from "svelte/store";
   import { TeamsDB } from "$lib/shared/stores/teamsData";
 
-  import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
   import { getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
   // import { Keyboard } from "@capacitor/keyboard";
   
@@ -14,6 +13,7 @@
 
   export let teamSearch = "";
   export let selectedTeam = "";
+  export let analysisData;
 
   async function search(){
       focus = true;
@@ -56,19 +56,19 @@
     }
     teamData.team = selectedTeam
 
-    $teamAnalysisData[String(teamData.team)] = teamData
+    analysisData[String(teamData.team)] = teamData
 
     getStatBoticsData(selectedTeam).then((r) => {
         console.log(r)
         teamData.winrate = r.winrate
         teamData.EPA = r.epa
-        $teamAnalysisData[String(teamData.team)] = teamData
+        analysisData[String(teamData.team)] = teamData
     })
 
     getTBAData(selectedTeam).then((r) => {
         teamData.logo = r.logo
         teamData.name = r.name
-        $teamAnalysisData[String(teamData.team)] = teamData
+        analysisData[String(teamData.team)] = teamData
     });
   }
 
