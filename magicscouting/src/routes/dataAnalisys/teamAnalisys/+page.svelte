@@ -24,7 +24,7 @@
 
     $: teamSearch = "";
     $: selectedTeam = "";
-    let activeTab = Object.keys($teamAnalysisData)[0] ?? "";
+    $: activeTab = Object.keys($teamAnalysisData)[0] ?? "";
 
     async function search(){
         if(teamSearch != ""){

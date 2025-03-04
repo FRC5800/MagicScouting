@@ -15,7 +15,7 @@
 
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 
-    import { avgTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData } from "$lib/shared/scripts/chartUtilities";
+    import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
 
     let showDatabaseAlert = false;
@@ -73,7 +73,7 @@
         avgCompetitionScore = Math.round(totalScore/allTeams.length)
         avgCompetitionCycle = Math.round((totalCycleAvg/allTeams.length)*100)/100
     
-        leaderboardData.set(avgTeamPerformance(getSortedTeams($TeamsDB)))
+        leaderboardData.set(averageTeamPerformance(getSortedTeams($TeamsDB)))
         console.log($leaderboardData)
 
     }
