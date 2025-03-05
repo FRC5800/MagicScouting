@@ -8,7 +8,7 @@
     import TrashCan from '$lib/components/TrashCan.svelte'
 	import { entriesSync, syncedEntries } from "../shared/stores/toSyncData";
     import uploadPayload from "../shared/scripts/sheetsUpload";
-    import { getTBAData } from "$lib/shared/scripts/chartUtilities";
+    import { getDefaultLogo, getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
 
     export let payload = {"team":5800, "match":2};
@@ -68,7 +68,7 @@
         src = url;
     })
     }
-    let teamData = {name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="};
+    let teamData = {name:"Team", logo: getDefaultLogo()};
     onMount(() => {
         getTBAData(payload.team).then((r) => {
             teamData = r

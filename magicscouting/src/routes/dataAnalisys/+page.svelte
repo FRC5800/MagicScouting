@@ -149,14 +149,14 @@
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/picklist')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/picklist')}}} disabled=true class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-overview flex"></i>
                     <span>{$_("dataAnalysis.teams_picklist")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} disabled=true class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-dashboard-monitor flex"></i>
                     <span>{$_("dataAnalysis.match_simulation")}</span>
                     <div class="flex items-center justify-end grow">
@@ -181,7 +181,7 @@
                         toolbar: {enabled:false},
                         theme: $carbonTheme,
                         title: '',
-                        height: String(Math.max($leaderboardData.length * 5.5, 100))+"px",
+                        height: String(50 + Math.max($leaderboardData.length * 5.5, 100))+"px",
                         width: '85%',
                         bars: {    
                             width: 10,
