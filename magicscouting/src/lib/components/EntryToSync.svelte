@@ -100,7 +100,11 @@
           <div class="flex flex-row w-full gap-6">
             <button on:click={()=>{document.getElementById('entry_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
             <button on:click={HandleUpload} class="btn btn-circle btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons {uploadDisabled || !$useDB ? "btn-disabled" : ""}">
-              <i class="fi fi-rr-progress-upload text-2xl flex"></i>
+                {#if (uploadDisabled && uploadSuccess == "undefined")}
+                    <span class="loading loading-spinner"></span>
+                {:else}
+                    <i class="fi fi-rr-progress-upload text-2xl flex"></i>
+                {/if}
             </button>
           </div>
         </div>
