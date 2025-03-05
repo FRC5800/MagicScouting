@@ -4,7 +4,7 @@
 
 </script>
 
-<div class="flex flex-row items-start justify-center p-3 dark:text-white app">
+<div class="flex flex-row items-start justify-center p-3 dark:text-white app mb-16">
 	<main class="flex flex-col items-center justify-center">
 		<h1 class="text-4xl text-neutral-900 dark:text-white">{$_('qrcode.title')}</h1>
 

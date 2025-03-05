@@ -141,7 +141,6 @@ function HandleStore(){
     } else{
         console.log('repeated entry');
     }
-    payload = {};
     showQrCode = false;
 }
 
@@ -193,7 +192,7 @@ function HandleReset(){
 <span >(Online)</span>
 <button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'stored' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled text-primary-heavy' : stored ? 'stored' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-6"></div>
 
