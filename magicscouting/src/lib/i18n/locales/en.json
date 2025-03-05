@@ -42,7 +42,12 @@
 				"option_dark": "Dark",
 				"option_system": "System"
 			},
-			"option_color": "Primary Color"
+			"option_color": "Primary Color",
+			"reset_data_button": "Erase All Data",
+			"reset_data_title": "Warning",
+			"reset_data_message": "By confirming, all data present in the app will be deleted. Do you wish to confirm?",
+			"toast_confirmation": "Database saved",
+			"toast_warning": "Warning! You can't make uploads without a database"
 		},
 
 		"database_alert": {
@@ -185,9 +190,44 @@
 	"misc": {
 		"close_button": "Close",
 		"visualize_button": "Visualize",
+		"confirm_button": "Confirm",
 		"delete_button": "Delete",
 		"cancel_button": "Cancel",
 		"save_button": "Save",
 		"none": "None"
+	},
+	"dataAnalysis": {
+		"title": "Dashboard",
+		"average_points": "Average Points",
+		"average_cycle": "Average Cycle",
+		"sync_button": "Sync Data",
+		"database_alert": "Warning! Set your database first",
+		"analytics_subtitle": "Analytics",
+		"leaderboard_subtitle": "Leaderboard",
+		"teams_analytics": "Team Analisys",
+		"match_analytics": "Match Analisys",
+		"teams_picklist": "Teams Picklist",
+		"match_simulation": "Match Simulation",
+
+		"teamAnalysis": {
+			"title": "Team Analysis",
+			"searchBar_text": "Search for a team",
+			"searchBar_placeholder": "Team Number",
+			"team_epa": "Team Number",
+			"team_winrate": "Team Number",
+			"average_points": "Average Points",
+			"analytics_subtitle": "Specific Analytics",
+			"pit_data": "Pit Data",
+			"teleop_analytics": "Teleop Analytics",
+			"auto_analytics": "Auto Analytics",
+			"endgame_analytics": "Endgame Analytics",
+
+			"gp_points": "Game Piece Points",
+			"points_by_period": "Points By Game Period",
+			"team_function": "Team Function",
+			"barge_profile": "Barge profile",
+			"scoring_profile": "Scoring profile",
+			"score_by_match": "Score by match"
+		}
 	}
 }

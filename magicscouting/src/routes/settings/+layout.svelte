@@ -6,7 +6,7 @@
       <h1 class="text-2xl font-medium tracking-wide">{$_('home_page.settings.title')}</h1>       
     </div>
 
-    <div class="px-6 w-full mb-16">
+    <div class="px-6 w-full mb-20">
         <slot/>
     </div>
 </main>

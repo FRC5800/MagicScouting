@@ -6,6 +6,7 @@
 	import entriesSync from "$lib/shared/stores/toSyncData";
 	import { useDB }  from '$lib/shared/stores/dataBase';
 	import { validateLocalData } from "$lib/shared/scripts/chartUtilities";
+	import { _ } from 'svelte-i18n';
 
 
 	let isSyncing = false;
@@ -58,7 +59,7 @@
 
 	}
 	
-	$: buttonText = "Sync Data"
+	$: buttonText = $_("dataAnalysis.sync_button")
 
 	async function SyncData(){
 		if ($entriesSync.length != 0){
@@ -104,6 +105,6 @@
 
 {#if $dataBase == ""}
 <div class="flex flex-row justify-center">
-	<span class="text-warning">Set your database to use Analytics</span>
+	<span class="text-warning">{$_("dataAnalysis.database_alert")}</span>
 </div>
 {/if}

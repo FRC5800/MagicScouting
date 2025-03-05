@@ -42,7 +42,13 @@
 				"option_dark": "Oscuro",
 				"option_system": "Sistema por defecto"
 			},
-			"option_color": "Color primario"
+			"option_color": "Color primario",
+			"reset_data_button": "Borrar Todos los Datos",
+			"reset_data_title": "Advertencia",
+			"reset_data_message": "Al confirmar, todos los datos presentes en la aplicación serán eliminados. ¿Desea confirmar?",
+			"toast_confirmation": "Base de datos guardada",
+			"toast_warning": "¡Advertencia! No puedes hacer cargas"
+
 		},
 
 		"database_alert": {
@@ -186,9 +192,46 @@
 	"misc": {
 		"close_button": "Cerrar",
 		"visualize_button": "Visualizar",
+		"confirm_button": "Confirmar",
 		"delete_button": "Excluir",
 		"cancel_button": "Cancelar",
 		"save_button": "Guardar",
 		"none": "Ninguno"
+	},
+	"dataAnalysis": {
+		"title": "Tablero",
+		"average_points": "Puntos Promedio",
+		"average_cycle": "Ciclo Promedio",
+		"sync_button": "Sincronizar Datos",
+		"database_alert": "¡Advertencia! Configura tu base de datos primero",
+		"analytics_subtitle": "Análisis",
+		"leaderboard_subtitle": "Clasificación",
+		"teams_analytics": "Análisis de Equipos",
+		"match_analytics": "Análisis de Partidos",
+		"teams_picklist": "Picklist de Equipos",
+		"match_simulation": "Simulación de Partidos",
+
+		"teamAnalysis": {
+			"title": "Análisis de Equipos",
+			"searchBar_text": "Buscar por equipo",
+			"searchBar_placeholder": "Número de Equipo",
+			"team_epa": "EPA del Equipo",
+			"team_winrate": "Winrate",
+			"average_points": "Puntos Promedio",
+			"analytics_subtitle": "Análisis Profundo",
+			"pit_data": "Datos de Pit",
+			"teleop_analytics": "Análisis de TeleOp",
+			"auto_analytics": "Análisis de Auto",
+			"endgame_analytics": "Análisis de Endgame",
+		
+			"gp_points": "Puntos de Game Piece",
+			"points_by_period": "Puntos por Período",
+			"team_function": "Función del Equipo",
+			"barge_profile": "Desempeño Barge",
+			"scoring_profile": "Desempeño de Puntuación",
+			"score_by_match": "Puntos por Partido"
+		}
+		
 	}
+	
 }

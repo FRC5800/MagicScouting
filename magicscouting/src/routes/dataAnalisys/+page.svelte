@@ -4,6 +4,7 @@
 	import { onMount } from "svelte";
     import { fade } from "svelte/transition";
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
+    import { _ } from 'svelte-i18n';
 
 	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
 
@@ -106,7 +107,7 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
     <div class="w-full flex gap-4 px-6 mt-6 mb-6 flex-col items-center">
-        <h1 class="text-2xl font-medium tracking-wide">Dashboard</h1>
+        <h1 class="text-2xl font-medium tracking-wide">{$_("dataAnalysis.title")}</h1>
     </div>
     {#if $TeamsDB.length > 0}
 
@@ -114,11 +115,11 @@
             <div class="bg-[#f0f0f0] dark:bg-surface w-full rounded-md relative p-4 my-2 mx-6 grow">
                 <div class="flex flex-row justify-around items-center">
                     <div class="flex flex-col items-center justify-center gap-2">
-                        <h3>Average Points</h3>
+                        <h3>{$_("dataAnalysis.average_points")}</h3>
                         <span class="text-primary-base text-xl">{avgCompetitionScore}</span>
                     </div>
                     <div class="flex flex-col items-center justify-center gap-2">
-                        <h3>Average Cycle</h3>
+                        <h3>{$_("dataAnalysis.average_cycle")}</h3>
                         <span class="text-primary-base text-xl">{avgCompetitionCycle}s</span>
                     </div>
                 </div>
@@ -131,33 +132,33 @@
     </div>
     {#if $TeamsDB.length > 0}
         <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
-            <h2 class="text-xl font-medium tracking-wide">Analytics</h2>
+            <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.analytics_subtitle")}</h2>
             
             <div class="w-full flex flex-col gap-2 ">
                 <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                     <i class="fi fi-rr-users-alt flex"></i>
-                    <span>Team Analisys</span>
+                    <span>{$_("dataAnalysis.teams_analytics")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
                 <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/matchAnalisys')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-columns-3 flex"></i>
-                    <span>Match Analisys</span>
+                    <span>{$_("dataAnalysis.match_analytics")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
                 <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/picklist')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-overview flex"></i>
-                    <span>Teams Picklist</span>
+                    <span>{$_("dataAnalysis.teams_picklist")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
                 <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-dashboard-monitor flex"></i>
-                    <span>Match Simulation</span>
+                    <span>{$_("dataAnalysis.match_simulation")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
@@ -169,7 +170,7 @@
         
         {#if $leaderboardData.length > 0}
             <div class="w-full flex grow gap-4 px-6 flex-col items-start">
-                <h2 class="text-xl font-medium tracking-wide">Leaderboard</h2>
+                <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.leaderboard_subtitle")}</h2>
             </div>
 
             <div class="w-full flex flex-col items-center mb-6">
@@ -197,4 +198,4 @@
     {/if}
 </main>
 
-<Toast showToast={showDatabaseAlert} message={"Warning! Set your database first"}/>
+<Toast showToast={showDatabaseAlert} message={$_("dataAnalysis.database_alert")}/>

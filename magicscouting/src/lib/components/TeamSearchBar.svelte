@@ -3,6 +3,7 @@
 
     import { writable } from "svelte/store";
     import { TeamsDB } from "$lib/shared/stores/teamsData";
+    import { _ } from 'svelte-i18n';
 
     import { getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
     // import { Keyboard } from "@capacitor/keyboard";
@@ -97,7 +98,7 @@
 
     <i class="fi fi-rs-search flex"></i>
 
-    <input class="grow" type="search" name="search" on:focusout={()=>{handleFocus(false)}} on:focusin={()=>{handleFocus(true)}} on:keydown={(e)=>{if(e.key == "Enter") search()}} bind:value={teamSearch} placeholder="Team Number" />
+    <input class="grow" type="search" name="search" on:focusout={()=>{handleFocus(false)}} on:focusin={()=>{handleFocus(true)}} on:keydown={(e)=>{if(e.key == "Enter") search()}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
 
         {#if $autoCompleteTeams.length > 0 && focus}    
             <div class="flex justify-center items-center absolute top-[calc(100%+1rem)] z-10 left-0 border-primary-heavy border-2 rounded-md max-h-80 overflow-y-scroll">

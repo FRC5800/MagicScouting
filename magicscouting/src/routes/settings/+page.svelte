@@ -146,14 +146,6 @@
 </div>
 
 
-
-<button class="m-0 font-bold btn btn-block " on:click={() => {handleClearData()}}>
-  Erase all data 
-</button> 
-<!-- DAVI EMBONITAR ISSO AQUI -->
-
-
-
 <div class="w-full flex grow gap-4 mb-6 flex-col items-start">
   <div class="flex flex-row w-full gap-4 items-center">
     <h2 class="text-xl font-medium tracking-wide">{$_('home_page.database.title')}</h2>
@@ -168,33 +160,60 @@
     </div>
   </div>
   <div class="flex flex-col items-center">
-      <p class="text-base text-justify text-gray-600 dark:text-gray-400">{$_('home_page.database.message')} <a href="https://github.com/FRC5800/MagicScouting" class="m-4 underline text-primary-base">{$_('home_page.database.repository')}</a></p>
+    <p class="text-base text-justify text-gray-600 dark:text-gray-400">{$_('home_page.database.message')} <a href="https://github.com/FRC5800/MagicScouting" class="m-4 underline text-primary-base">{$_('home_page.database.repository')}</a></p>
   </div>
   <div class="flex flex-col items-center rounded-md min-w-fit useDatabase">
-      <div class="center-container">
-        
-      </div>
+    <div class="center-container">
+      
+    </div>
   </div>
   <div class="flex flex-row gap-2 w-full">
-  <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="input input-bordered p-2 text-base rounded-md grow w-full">
-  <button disabled={!JSON.parse($useDB)} on:click={()=>{handleDataBase();triggerToast()}} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} btn-primary hover:bg-primary-base bg-buttons border-buttons p-2 px-4 w-fit rounded-lg btn  mt-0 min-w-8">
-    <i class="fi fi-br-angle-right text-xl flex"></i>
-  </button>
+    <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="input input-bordered p-2 text-base rounded-md grow w-full">
+    <button disabled={!JSON.parse($useDB)} on:click={()=>{handleDataBase();triggerToast()}} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} btn-primary hover:bg-primary-base bg-buttons border-buttons p-2 px-4 w-fit rounded-lg btn  mt-0 min-w-8">
+      <i class="fi fi-br-angle-right text-xl flex"></i>
+    </button>
   </div>
 </div>
 
+<div class="divider"></div>
+
+<button class="m-0 font-bold btn btn-block btn-error" on:click={()=>{document.getElementById('resetDataConfirmation').showModal()}} >
+  {$_('home_page.settings.reset_data_button')}
+</button> 
+<!-- DAVI EMBONITAR ISSO AQUI -->
+
 <div transition:fade class="toast toast-top toast-end">
   {#if showDatabaseConfirm}
-    <div class="alert alert-success shadow-lg">
-      <span>Database saved</span>
+  <div class="alert alert-success shadow-lg">
+    <span>{$_('home_page.settings.toast_confirmation')}</span>
     </div>
   {/if}
   {#if showDatabaseAlert}
     <div class="alert alert-warning shadow-lg max-w-xs">
-      <span class="text-wrap">Warning! You can't make uploads without a database</span>
+      <span class="text-wrap">{$_('home_page.settings.toast_warning')}</span>
     </div>
   {/if}
 </div>
+
+<dialog id={"resetDataConfirmation"} class="modal">
+  <div class="modal-box">
+      <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      </form>
+      
+      <div class="flex flex-col justify-center items-center">
+          <h1 class="text-[1.8rem] font-semibold">{$_('home_page.settings.reset_data_title')}</h1>
+          <h1 class="text-[1.0rem] mt-2 font-semibold">{$_('home_page.settings.reset_data_message')}</h1>
+      </div>
+      <button class="m-0 mt-4 font-bold btn btn-block btn-error" on:click={()=>{handleClearData()}} >
+        {$_('misc.confirm_button')}
+      </button> 
+
+  </div>
+  <form method="dialog" class="modal-backdrop">
+      <button>{$_('misc.close_button')}</button>
+  </form>
+</dialog>
 
 <style lang="postcss">
 

@@ -1,157 +1,158 @@
 <script>
     // @ts-nocheck
     
-        import dataBase, { useDB } from "$lib/shared/stores/dataBase";
-        import { onMount } from "svelte";
+    import dataBase, { useDB } from "$lib/shared/stores/dataBase";
+    import { onMount } from "svelte";
+    import { _ } from 'svelte-i18n';
+
+    import { carbonTheme } from '$lib/shared/stores/darkMode.js';
+
+    import { DonutChart, RadarChart, LineChart, ComboChart } from "@carbon/charts-svelte"
+
+    import { writable } from "svelte/store";
+    import { TeamsDB } from "$lib/shared/stores/teamsData";
+
+    import { goto } from "$app/navigation";
+    import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
+    import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
+    import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
+    // import { Keyboard } from "@capacitor/keyboard";
+
     
-        import { carbonTheme } from '$lib/shared/stores/darkMode.js';
-    
-        import { DonutChart, RadarChart, LineChart, ComboChart } from "@carbon/charts-svelte"
-    
-        import { writable } from "svelte/store";
-        import { TeamsDB } from "$lib/shared/stores/teamsData";
-    
-        import { goto } from "$app/navigation";
-        import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
-        import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
-        import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
-        // import { Keyboard } from "@capacitor/keyboard";
-    
-        
-    
-        $: data = $TeamsDB
-        console.log(data)
-    
-        $: teamSearch = "";
-        $: selectedTeam = "";
-        $: activeTab = Object.keys($teamAnalysisData)[0] ?? "";
-    
-        async function search(){
-            if(teamSearch != ""){
-                selectedTeam = teamSearch
-                teamSearch = ""
-                // await Keyboard.hide()
-                createTeam()
-            }
+
+    $: data = $TeamsDB
+    console.log(data)
+
+    $: teamSearch = "";
+    $: selectedTeam = "";
+    $: activeTab = Object.keys($teamAnalysisData)[0] ?? "";
+
+    async function search(){
+        if(teamSearch != ""){
+            selectedTeam = teamSearch
+            teamSearch = ""
+            // await Keyboard.hide()
+            createTeam()
         }
+    }
+    
+    $: autoCompleteTeams = writable([]);
+
+    $: console.log($teamAnalysisData)
+
+    let debounceTimeout;
+
+
+    $: if (teamSearch != "") {
+        console.log(teamSearch);
+        let alreadyIn = [];
+        let filterSugestions = data.filter((entry) => {
+            let condition = entry["team"].toString().includes(teamSearch) && entry["team"].toString() != teamSearch && !alreadyIn.includes(entry["team"].toString());
+            alreadyIn.push(entry["team"].toString());
+            return condition;
+        });
+
+        autoCompleteTeams.set(filterSugestions);
         
-        $: autoCompleteTeams = writable([]);
-    
-        $: console.log($teamAnalysisData)
-    
-        let debounceTimeout;
-    
-    
-        $: if (teamSearch != "") {
-            console.log(teamSearch);
-            let alreadyIn = [];
-            let filterSugestions = data.filter((entry) => {
-                let condition = entry["team"].toString().includes(teamSearch) && entry["team"].toString() != teamSearch && !alreadyIn.includes(entry["team"].toString());
-                alreadyIn.push(entry["team"].toString());
-                return condition;
-            });
-    
-            autoCompleteTeams.set(filterSugestions);
-            
-        } else {
-            autoCompleteTeams.set([]);
+    } else {
+        autoCompleteTeams.set([]);
+    }
+    async function createTeam(){
+        console.log("creating team " + selectedTeam)
+        
+        let teamData = {
+            logo: new Image(),
+            team: "",
+            EPA: "",
+            winrate: "",
+            name: "",
+            rawData: getTeamScoutingData(selectedTeam)
         }
-        async function createTeam(){
-            console.log("creating team " + selectedTeam)
-            
-            let teamData = {
-                logo: new Image(),
-                team: "",
-                EPA: "",
-                winrate: "",
-                name: "",
-                rawData: getTeamScoutingData(selectedTeam)
-            }
-            console.log(teamData.rawData)
-            teamData.team = selectedTeam
-    
+        console.log(teamData.rawData)
+        teamData.team = selectedTeam
+
+        $teamAnalysisData[String(teamData.team)] = teamData
+        activeTab = teamData.team
+
+        getStatBoticsData(selectedTeam).then((r) => {
+            console.log(r)
+            teamData.winrate = r.winrate
+            teamData.EPA = r.epa
             $teamAnalysisData[String(teamData.team)] = teamData
-            activeTab = teamData.team
-    
-            getStatBoticsData(selectedTeam).then((r) => {
-                console.log(r)
-                teamData.winrate = r.winrate
-                teamData.EPA = r.epa
-                $teamAnalysisData[String(teamData.team)] = teamData
-            })
-    
-            getTBAData(selectedTeam).then((r) => {
-                teamData.logo = r.logo
-                teamData.name = r.name
-                $teamAnalysisData[String(teamData.team)] = teamData
-            });
-    
+        })
+
+        getTBAData(selectedTeam).then((r) => {
+            teamData.logo = r.logo
+            teamData.name = r.name
+            $teamAnalysisData[String(teamData.team)] = teamData
+        });
+
+    }
+
+    let allPoints = [
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoProcessorScore",
+        "autoNetScore",
+        "isLeave",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+        "teleopProcessorScore",
+        "teleopNetScore",
+        "bargeStatus"
+    ];
+
+    let coralPoints = [
+        "autoROneScore",
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "teleopROneScore",
+        "teleopRTwoScore",
+        "teleopRThreeScore",
+        "teleopRFourScore",
+    ];
+    let algaePoints = [
+        "autoProcessorScore",
+        "autoNetScore",
+        "teleopProcessorScore",
+        "teleopNetScore",
+    ];
+
+    function deleteArrayItem(array, itemIndex){
+        let newArray = array.reduce(
+            (acc, value, index) => {
+                if(index != itemIndex){
+                    acc.push(value);
+                }
+                return acc;
+            }, [])
+        return newArray;
+    }
+
+    function handleTabClose(teamNumber){
+        delete $teamAnalysisData[teamNumber];
+        $teamAnalysisData = $teamAnalysisData;
+        activeTab = ""
+        if (Object.keys($teamAnalysisData).length > 0){
+            activeTab = Object.keys($teamAnalysisData)[0];
         }
-    
-        let allPoints = [
-            "autoROneScore",
-            "autoRTwoScore",
-            "autoRThreeScore",
-            "autoRFourScore",
-            "autoProcessorScore",
-            "autoNetScore",
-            "isLeave",
-            "teleopROneScore",
-            "teleopRTwoScore",
-            "teleopRThreeScore",
-            "teleopRFourScore",
-            "teleopProcessorScore",
-            "teleopNetScore",
-            "bargeStatus"
-        ];
-    
-        let coralPoints = [
-            "autoROneScore",
-            "autoRTwoScore",
-            "autoRThreeScore",
-            "autoRFourScore",
-            "teleopROneScore",
-            "teleopRTwoScore",
-            "teleopRThreeScore",
-            "teleopRFourScore",
-        ];
-        let algaePoints = [
-            "autoProcessorScore",
-            "autoNetScore",
-            "teleopProcessorScore",
-            "teleopNetScore",
-        ];
-    
-        function deleteArrayItem(array, itemIndex){
-            let newArray = array.reduce(
-                (acc, value, index) => {
-                    if(index != itemIndex){
-                        acc.push(value);
-                    }
-                    return acc;
-                }, [])
-            return newArray;
-        }
-    
-        function handleTabClose(teamNumber){
-            delete $teamAnalysisData[teamNumber];
-            $teamAnalysisData = $teamAnalysisData;
-            activeTab = ""
-            if (Object.keys($teamAnalysisData).length > 0){
-                activeTab = Object.keys($teamAnalysisData)[0];
-            }
-            console.log($teamAnalysisData);
-        }
+        console.log($teamAnalysisData);
+    }
     
     </script>
     
-    <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+    <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
         <div class="w-full flex gap-4 mt-6 mb-6 flex-col items-center">
-            <h1 class="text-2xl font-medium tracking-wide">Dashboard</h1>
+            <h1 class="text-2xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.title")}</h1>
         </div>
     
         <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
-            <h2 class="text-xl font-medium tracking-wide">Search for a team</h2>
+            <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.searchBar_text")}</h2>
             <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$teamAnalysisData}/>
         </div>
         <div class="w-full flex">
@@ -198,11 +199,11 @@
                     <div class=" w-full relative my-2 mx-6 grow">
                         <div class="flex flex-row justify-around items-center gap-4">
                             <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                                <h3>Team EPA</h3>
+                                <h3>{$_("dataAnalysis.teamAnalysis.team_epa")}</h3>
                                 <span class="text-primary-base text-xl">{$teamAnalysisData[activeTab].EPA}</span>
                             </div>
                             <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                                <h3>Winrate</h3>
+                                <h3>{$_("dataAnalysis.teamAnalysis.team_winrate")}</h3>
                                 <span class="text-primary-base text-xl">{Math.round($teamAnalysisData[activeTab].winrate*100*10)/10}%</span>
                             </div>
                         </div>
@@ -213,7 +214,7 @@
                     <div class="w-full flex mb-3">
                         <div class=" w-full relative my-2 mx-6 grow">
                             <div class="grow basis-0 rounded-md flex flex-col items-center justify-center gap-2">
-                                <h3>Average points</h3>
+                                <h3>{$_("dataAnalysis.teamAnalysis.average_points")}</h3>
                                 <span class="text-primary-base text-xl">{getAverageDBvalues(
                                     $teamAnalysisData[activeTab].rawData,
                                     allPoints,
@@ -224,33 +225,33 @@
                     </div>
     
                     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
-                        <h2 class="text-xl font-medium tracking-wide">Specific Analytics</h2>
+                        <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
                         
                         <div class="w-full flex flex-col gap-2 ">
                             <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-bank"></i>
-                                <span>Pit Data</span>
+                                <span>{$_("dataAnalysis.teamAnalysis.pit_data")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
                             <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Teleop/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-users-alt flex"></i>
-                                <span>Teleop Analytics</span>
+                                <span>{$_("dataAnalysis.teamAnalysis.teleop_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
                             <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Autonomous/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-overview flex"></i>
-                                <span>Auto Analytics</span>
+                                <span>{$_("dataAnalysis.teamAnalysis.auto_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
                             <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/EndGame/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-hourglass-end"></i>
-                                <span>Endgame Analytics</span>
+                                <span>{$_("dataAnalysis.teamAnalysis.endgame_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
@@ -270,7 +271,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Game Piece Points",
+                title: $_("dataAnalysis.teamAnalysis.gp_points"),
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -295,7 +296,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Points By Game State",
+                title: $_("dataAnalysis.teamAnalysis.points_by_period"),
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -319,7 +320,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Robot Function",
+                title: $_("dataAnalysis.teamAnalysis.team_function"),
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -344,7 +345,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Barge profile",
+                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -383,7 +384,7 @@
                 ))}
                 options={{
                     theme: $carbonTheme,
-                    title: "Scoring profile",
+                    title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
                     radar: {
                         axes: {
                             angle: "group",
@@ -411,7 +412,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Avg score by match",
+                title: $_("dataAnalysis.teamAnalysis.score_by_match"),
                 height: "200px",
                 width: "350px",
                 comboChartTypes:[

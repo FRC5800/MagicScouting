@@ -42,7 +42,12 @@
 				"option_dark": "Escuro",
 				"option_system": "Padrão do Sistema"
 			},
-			"option_color": "Cor primária"
+			"option_color": "Cor primária",
+			"reset_data_button": "Apagar Dados",
+			"reset_data_title": "Cuidado",
+			"reset_data_message": "Ao confirmar, todos os dados presentes no aplicativo serão excluídos. Deseja confirmar?",
+			"toast_confirmation": "Banco de Dados Salvo",
+			"toast_warning": "Cuidado! Não é possível realizar uploads"
 		},
 
 		"database_alert": {
@@ -185,9 +190,44 @@
 	"misc": {
 		"close_button": "Fechar",
 		"visualize_button": "Visualizar",
+		"confirm_button": "Confirmar",
 		"delete_button": "Deletar",
 		"cancel_button": "Cancelar",
 		"save_button": "Salvar",
 		"none": "Nenhum"
+	},
+	"dataAnalysis": {
+		"title": "Dashboard",
+		"average_points": "Pontuação Média",
+		"average_cycle": "Ciclo Médio",
+		"sync_button": "Sincronizar Dados",
+		"database_alert": "Aviso! Defina o seu banco de dados",
+		"analytics_subtitle": "Análises",
+		"leaderboard_subtitle": "Leaderboard",
+		"teams_analytics": "Análise de Times",
+		"match_analytics": "Análise de Partida",
+		"teams_picklist": "Picklist de Equipes",
+		"match_simulation": "Simulação de Partida",
+
+		"teamAnalysis": {
+			"title": "Análise de Times",
+			"searchBar_text": "Buscar por equipe",
+			"searchBar_placeholder": "Número de Equipe",
+			"team_epa": "EPA do Time",
+			"team_winrate": "Winrate",
+			"average_points": "Pontuação Média",
+			"analytics_subtitle": "Análise Aprofundada",
+			"pit_data": "Dados de Pit",
+			"teleop_analytics": "Análise de TeleOp",
+			"auto_analytics": "Análise de Auto",
+			"endgame_analytics": "Análise de Endgame",
+
+			"gp_points": "Pontos de Game Piece",
+			"points_by_period": "Points por Período",
+			"team_function": "Função do Time",
+			"barge_profile": "Desempenho Barge",
+			"scoring_profile": "Desempenho Pontuação",
+			"score_by_match": "Pontos por Partida"
+		}
 	}
 }
