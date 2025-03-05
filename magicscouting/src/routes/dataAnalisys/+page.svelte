@@ -171,10 +171,11 @@
                 this={BarChartStacked}
                     data={$leaderboardData}
                     options={{
+                        toolbar: {enabled:false},
                         theme: $carbonTheme,
                         title: '',
                         height: String($leaderboardData.length * 5.5)+"px",
-                        width: '70%',
+                        width: '85%',
                         bars: {    
                             width: 10,
                         },
