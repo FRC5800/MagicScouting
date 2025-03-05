@@ -54,9 +54,7 @@
             </thead>
             <tbody>
                 {#each Object.keys(pitScoutingSelectedData) as key}
-                    {#if key == "robotPicture"}
-                        <img src={getGoogleDriveImageUrl(pitScoutingSelectedData[key])} alt="Robot Picture" />
-                    {:else}
+                    {#if key != "robotPicture" && key != "timeStamp" && key != "robot64"}
                         <tr>
                             <th>{key}</th>
                             <td>{pitScoutingSelectedData[key]}</td>

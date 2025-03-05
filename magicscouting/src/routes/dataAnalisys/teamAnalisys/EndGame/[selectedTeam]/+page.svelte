@@ -4,6 +4,7 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import { onMount } from "svelte";
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
+    import { _ } from 'svelte-i18n';
 
     import { BarChartSimple, BarChartGrouped, DonutChart, RadarChart, ComboChart } from '@carbon/charts-svelte'
 
@@ -45,7 +46,7 @@
             <div class=" w-full relative mb-2 mx-6 grow">
                 <div class="flex flex-row justify-around items-center gap-2">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>Barge Points</h3>
+                        <h3>{$_("dataAnalysis.teamAnalysis.barge_points")}</h3>
                         <span class="text-primary-base text-xl">{getAverageDBvalues(
                             $rawData,
                             ["bargeStatus"],
@@ -53,7 +54,7 @@
                         )}</span>
                     </div>
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>Barge Time</h3>
+                        <h3>{$_("dataAnalysis.teamAnalysis.barge_time")}</h3>
                         <span class="text-primary-base text-xl">{getAverageDBvalues(
                             $rawData,
                             ["bargeTime"],
@@ -78,7 +79,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Barge profile",
+                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
                 height: "300px",
                 width: "300px",
                 axes: {

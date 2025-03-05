@@ -198,8 +198,9 @@
 	},
 	"dataAnalysis": {
 		"title": "Dashboard",
-		"average_points": "Average Points",
-		"average_cycle": "Average Cycle",
+		"average_points": "Avg Points",
+		"average_cycle": "Avg Cycle",
+		"average_leave": "Avg Leave",
 		"sync_button": "Sync Data",
 		"database_alert": "Warning! Set your database first",
 		"analytics_subtitle": "Analytics",
@@ -227,7 +228,10 @@
 			"team_function": "Team Function",
 			"barge_profile": "Barge profile",
 			"scoring_profile": "Scoring profile",
-			"score_by_match": "Score by match"
+			"score_by_match": "Score by match",
+			"cycle_by_match": "Cycle by match",
+			"barge_time": "Barge Time",
+			"barge_points": "Barge Points"
 		},
 
 		"matchAnalysis": {

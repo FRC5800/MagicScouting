@@ -202,6 +202,7 @@
 		"title": "Tablero",
 		"average_points": "Puntos Promedio",
 		"average_cycle": "Ciclo Promedio",
+		"average_leave": "Leave Promedio",
 		"sync_button": "Sincronizar Datos",
 		"database_alert": "¡Advertencia! Configura tu base de datos primero",
 		"analytics_subtitle": "Análisis",
@@ -229,7 +230,10 @@
 			"team_function": "Función del Equipo",
 			"barge_profile": "Desempeño Barge",
 			"scoring_profile": "Desempeño de Puntuación",
-			"score_by_match": "Puntos por Partido"
+			"score_by_match": "Puntos por Partido",
+			"cycle_by_match": "Ciclo por Partido",
+			"barge_time": "Duración Barge",
+			"barge_points": "Puntos Barge"
 		},
 
 		"matchAnalysis": {

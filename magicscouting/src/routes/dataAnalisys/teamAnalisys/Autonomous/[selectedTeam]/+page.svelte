@@ -4,6 +4,7 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import { onMount } from "svelte";
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
+    import { _ } from 'svelte-i18n';
 
     import { BarChartGrouped, DonutChart, RadarChart, ComboChart } from '@carbon/charts-svelte'
 
@@ -66,7 +67,7 @@
             <div class=" w-full relative mb-2 mx-6 grow">
                 <div class="flex flex-row justify-around items-center gap-4">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>Avg Points</h3>
+                        <h3>{$_("dataAnalysis.average_points")}</h3>
                         <span class="text-primary-base text-xl">{getAverageDBvalues(
                             $rawData,
                             autoPoints,
@@ -74,7 +75,7 @@
                         )}</span>
                     </div>
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>Avg Leave</h3>
+                        <h3>{$_("dataAnalysis.average_leave")}</h3>
                         <span class="text-primary-base text-xl">{getAverageDBvalues(
                             $rawData,
                             ["isLeave"],
@@ -172,7 +173,7 @@
                 ))}
                 options={{
                     theme: $carbonTheme,
-                    title: "Scoring profile",
+                    title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
                     radar: {
                         axes: {
                             angle: "group",
@@ -203,7 +204,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Avg score by match",
+                title: $_("dataAnalysis.teamAnalysis.score_by_match"),
                 height: "200px",
                 width: "320px",
                 comboChartTypes:[
