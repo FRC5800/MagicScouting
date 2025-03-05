@@ -58,7 +58,7 @@
     </div>  
 {/if}
 
-<div class="w-full px-6 mb-6 flex flex-col items-center">
+<div class="w-full px-6 mb-20 flex flex-col items-center">
     
     {#if $rawData.length > 0}
         <div class="w-full flex">
@@ -173,6 +173,7 @@
                     true
                 ))}
                 options={{
+                    theme: $carbonTheme,
                     title: "Scoring profile",
                     radar: {
                         axes: {
@@ -205,7 +206,7 @@
             options={{
                 theme: $carbonTheme,
                 title: "Avg Cycle time by match",
-                height: "300px",
+                height: "250px",
                 width: "320px",
                 axes: {
                         left: {
@@ -279,8 +280,4 @@
             }
         />
     {/if}
-
-    <div class="divider"></div>
-
-    <button on:click={() => {goto("/dataAnalisys/teamAnalisys")}} class="btn btn-block">Back</button>
 </div>

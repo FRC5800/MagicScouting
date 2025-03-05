@@ -55,7 +55,7 @@
             <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$teamAnalysisData}/>
         </div>
         <div class="w-full flex">
-            <div role="tablist" class="tabs tabs-lifted  overflow-x-scroll">
+            <div role="tablist" class="tabs tabs-lifted min-w-80:overflow-x-scroll">
                 {#key $teamAnalysisData}
                     {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
                         <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center min-w-max">
@@ -74,7 +74,7 @@
         </div>
 
         {#if Object.keys($teamAnalysisData).length != 0 && activeTab != ""}
-            <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
+            <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6 flex-wrap overflow-x-hidden">
                 <div class="flex flex-row gap-4 items-center justify-center mt-6">
                     <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
                     <div class="flex flex-row gap-2">
@@ -144,105 +144,116 @@
                                 </div>
                             </button>
                         </div>   
-                    </div>         
-    
-        <svelte:component
-            this={DonutChart}
-            data={setupSimpleChartsData(
-                $teamAnalysisData[activeTab].rawData,
-                {
-                    "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
-                    "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
-                    "Net": ["autoNetScore", "teleopNetScore"]
-                },
-            )}
-            options={{
-                theme: $carbonTheme,
-                title: $_("dataAnalysis.teamAnalysis.gp_points"),
-                height: "300px",
-                width: "300px",
-                axes: {
-                    left: { mapsTo: "value" },
-                    bottom: { mapsTo: "group", scaleType: "labels" }
-                    }
-                }
-            }
-        /> 
-    
-        <div class="divider"></div>
-    
-        <svelte:component
-            this={DonutChart}
-            data={setupSimpleChartsData(
-                $teamAnalysisData[activeTab].rawData,
-                {
-                    "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
-                    "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
-                    "Endgame": ["bargeStatus"]
-                },
-            )}
-            options={{
-                theme: $carbonTheme,
-                title: $_("dataAnalysis.teamAnalysis.points_by_period"),
-                height: "300px",
-                width: "300px",
-                axes: {
-                    left: { mapsTo: "value" },
-                    bottom: { mapsTo: "group", scaleType: "labels" }
-                    }
-                }
-            }
-        />
-        <div class="divider"></div>
-        <svelte:component
-            this={DonutChart}
-            data={setupModeChartsData(
-                $teamAnalysisData[activeTab].rawData,
-                "robotFunction",
-                {
-                    "atk": "Attack",
-                    "def": "Defense",
-                    "sup": "Support" 
-                },
-            )}
-            options={{
-                theme: $carbonTheme,
-                title: $_("dataAnalysis.teamAnalysis.team_function"),
-                height: "300px",
-                width: "300px",
-                axes: {
-                    left: { mapsTo: "value" },
-                    bottom: { mapsTo: "group", scaleType: "labels" }
-                    }
-                }
-            }
-        /> 
-        <div class="divider"></div>
-        <svelte:component
-            this={DonutChart}
-            data={setupModeChartsData(
-                $teamAnalysisData[activeTab].rawData,
-                "bargeStatus",
-                {
-                    "none": "None",
-                    "park": "Park",
-                    "deep": "Deep",
-                    "shallow": "Shallow" 
-                },
-            )}
-            options={{
-                theme: $carbonTheme,
-                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
-                height: "300px",
-                width: "300px",
-                axes: {
-                    left: { mapsTo: "value" },
-                    bottom: { mapsTo: "group", scaleType: "labels" }
-                    }
-                }
-            }
-        /> 
-        <div class="divider"></div>
+                    </div>     
+                    
+                    <div class="carousel carousel-center w-full">
+                        <div class="carousel-item">
+                            <svelte:component
+                            this={DonutChart}
+                            data={setupSimpleChartsData(
+                                $teamAnalysisData[activeTab].rawData,
+                                {
+                                    "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
+                                    "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
+                                    "Net": ["autoNetScore", "teleopNetScore"]
+                                },
+                            )}
+                            options={{
+                                theme: $carbonTheme,
+                                title: $_("dataAnalysis.teamAnalysis.gp_points"),
+                                // height: "300px",
+                                width: "100%",
+                                axes: {
+                                    left: { mapsTo: "value" },
+                                    bottom: { mapsTo: "group", scaleType: "labels" }
+                                    }
+                                }
+                            }
+                        /> 
+                        </div>
+                        <div class="carousel-item">
+                            <svelte:component
+                            this={DonutChart}
+                            data={setupSimpleChartsData(
+                                $teamAnalysisData[activeTab].rawData,
+                                {
+                                    "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
+                                    "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
+                                    "Endgame": ["bargeStatus"]
+                                },
+                            )}
+                            options={{
+                                theme: $carbonTheme,
+                                title: $_("dataAnalysis.teamAnalysis.points_by_period"),
+                                height: "300px",
+                                width: "300px",
+                                axes: {
+                                    left: { mapsTo: "value" },
+                                    bottom: { mapsTo: "group", scaleType: "labels" }
+                                    }
+                                }
+                            }
+                        />
+                        </div>
+                    </div>
+
+                    <div class="divider w-full"></div>
+                    <div class="carousel carousel-center w-full">
+                        <div class="carousel-item">
+                            <svelte:component
+                        this={DonutChart}
+                        data={setupModeChartsData(
+                            $teamAnalysisData[activeTab].rawData,
+                            "robotFunction",
+                            {
+                                "atk": "Attack",
+                                "def": "Defense",
+                                "sup": "Support" 
+                            },
+                        )}
+                        options={{
+                            theme: $carbonTheme,
+                            title: $_("dataAnalysis.teamAnalysis.team_function"),
+                            height: "300px",
+                            width: "300px",
+                            axes: {
+                                left: { mapsTo: "value" },
+                                bottom: { mapsTo: "group", scaleType: "labels" }
+                                }
+                            }
+                        }
+                            /> 
+                        </div>
+                        <div class="carousel-item">
+                            <svelte:component
+                            this={DonutChart}
+                            data={setupModeChartsData(
+                                $teamAnalysisData[activeTab].rawData,
+                                "bargeStatus",
+                                {
+                                    "none": "None",
+                                    "park": "Park",
+                                    "deep": "Deep",
+                                    "shallow": "Shallow" 
+                                },
+                            )}
+                            options={{
+                                theme: $carbonTheme,
+                                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
+                                height: "300px",
+                                width: "300px",
+                                axes: {
+                                    left: { mapsTo: "value" },
+                                    bottom: { mapsTo: "group", scaleType: "labels" }
+                                    }
+                                }
+                            }
+                            /> 
+                        </div>
+                    </div>
+        
+        <div class="divider w-full"></div>
+        
         {#key $teamAnalysisData[activeTab].rawData}
             <RadarChart
                 data={setupSimpleChartsData(
@@ -286,7 +297,7 @@
                 }}
             />
         {/key}
-        <div class="divider"></div>
+        <div class="divider w-full"></div>
         <svelte:component
             this={ComboChart}
             data={setupBarChartDataByMatch(
@@ -301,7 +312,7 @@
                 theme: $carbonTheme,
                 title: $_("dataAnalysis.teamAnalysis.score_by_match"),
                 height: "200px",
-                width: "350px",
+                width: "330px",
                 comboChartTypes:[
                     {
                         type: "grouped-bar",

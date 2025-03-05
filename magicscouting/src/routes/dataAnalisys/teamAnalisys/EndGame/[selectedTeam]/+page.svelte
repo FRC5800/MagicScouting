@@ -39,7 +39,7 @@
     </div>   
 {/if}
 
-<div class="w-full px-6 mb-6 flex flex-col items-center">
+<div class="w-full px-6 mb-16 flex flex-col items-center">
     {#if $rawData.length > 0}
         <div class="w-full flex">
             <div class=" w-full relative mb-2 mx-6 grow">
@@ -114,6 +114,4 @@
 
 
     <div class="divider"></div>
-
-    <button on:click={() => {goto("/dataAnalisys/teamAnalisys")}} class="btn btn-block">Back</button>
 </div>

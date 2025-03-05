@@ -14,9 +14,6 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
-    import { page } from "$app/state";
-
-    console.log("PARAMETROS DA PAGINA: " + $page.params.selectedTeam)
 
     export let data;
     let teamData = $teamAnalysisData[data.selectedTeam];
@@ -62,7 +59,7 @@
     </div>    
 {/if}
 
-<div class="w-full px-6 mb-6 flex flex-col items-center">
+<div class="w-full px-6 mb-20 flex flex-col items-center">
     
     {#if $rawData.length > 0}
         <div class="w-full flex">
@@ -174,6 +171,7 @@
                     true
                 ))}
                 options={{
+                    theme: $carbonTheme,
                     title: "Scoring profile",
                     radar: {
                         axes: {
@@ -248,7 +246,4 @@
         />
     {/if}
 
-    <div class="divider"></div>
-
-    <button on:click={() => {goto("/dataAnalisys/teamAnalisys")}} class="btn btn-block">Back</button>
 </div>
