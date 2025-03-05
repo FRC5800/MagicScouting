@@ -10,6 +10,7 @@
     import uploadPayload from "../shared/scripts/sheetsUpload";
     import { getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
+	import Toast from "./Toast.svelte";
 
     export let payload = {"team":5800, "match":2};
     export let index;
@@ -28,6 +29,7 @@
     let uploadDisabled = false;
     let uploadSuccess = 'undefined';
     let buttonText = "Upload";
+    let showRepeatedDataToast = false;
 
     async function HandleUpload(){
         try{
@@ -37,9 +39,14 @@
 
             console.log(response)
             if (response.result == "success"){
-                payload.uploaded = true
-                HandleStore();
-                uploadSuccess = true;
+                if(response.repeated){
+                    uploadSuccess = false;
+                    handleRepeatedData();
+                }else{
+                    payload.uploaded = true
+                    HandleStore();
+                    uploadSuccess = true;
+                }
             }else{
                 uploadSuccess = false;
             }
@@ -61,6 +68,7 @@
     function HandleDelete(){                
         $entriesSync.splice($entriesSync.indexOf(payload), 1); 
         console.log($entriesSync);
+        $entriesSync = $entriesSync
     }
 
     function createQr() {
@@ -75,6 +83,13 @@
         })
     })
 
+    function handleRepeatedData(){
+        showRepeatedDataToast = true;
+        setTimeout(() => {
+            HandleDelete()
+        }, 3000); 
+    }
+
     createQr()
 </script>
 
@@ -88,7 +103,7 @@
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
                 <!-- <li><a>Edit</a></li> -->
-                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $entriesSync = $entriesSync}}><a href="">{$_('misc.delete_button')}</a></li>
+                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete()}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
         </div>
         <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
@@ -99,7 +114,7 @@
           </div>
           <div class="flex flex-row w-full gap-6">
             <button on:click={()=>{document.getElementById('entry_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
-            <button on:click={HandleUpload} class="btn btn-circle btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons {uploadDisabled || !$useDB ? "btn-disabled" : ""}">
+            <button on:click={()=>{if(uploadSuccess != false) HandleUpload()}} class="btn btn-circle {(uploadDisabled || !$useDB) && uploadSuccess != false ? "btn-disabled" : ""} {!uploadSuccess ? 'btn-warning' : 'btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons'}">
                 {#if (uploadDisabled && uploadSuccess == "undefined")}
                     <span class="loading loading-spinner"></span>
                 {:else}
@@ -129,3 +144,5 @@
         <button>{$_('misc.close_button')}</button>
     </form>
 </dialog>
+
+<Toast showToast={showRepeatedDataToast} message={"Repeated Data! Data wil be deleted"}/>
