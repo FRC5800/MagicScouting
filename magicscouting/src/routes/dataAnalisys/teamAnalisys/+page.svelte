@@ -152,7 +152,7 @@
 
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
         <h2 class="text-xl font-medium tracking-wide">Search for a team</h2>
-        <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$teamAnalysisData}/>
+        <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam}/>
     </div>
     <div class="w-full flex">
         <div role="tablist" class="tabs tabs-lifted  overflow-x-scroll">

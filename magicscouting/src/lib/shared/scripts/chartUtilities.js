@@ -495,3 +495,41 @@ export function setupModeChartsData(data, field, chartReference){
 		
 	return chartData
 }
+
+//ALLIANCE CHARTS
+
+// {
+// 	"Auto": {"fields": autoPoints, "teams": ["5800", "1156", "1772"]},
+// 	"Teleop": {"fields": TeleopPoints, "teams": ["5800", "1156", "1772"]}
+// }
+
+// {
+// 	"1156": {"fields": allPoints, "teams": ["1156"]},
+// 	"5800": {"fields": allPoints, "teams": ["5800"]}
+// }
+
+
+export function setupAllianceChartData(chartReference){
+	let chartData = []
+
+	console.log(chartReference)
+
+	Object.keys(chartReference).forEach((group) => {
+		let points = 0;
+	
+		chartReference[group].teams.forEach((team) => {
+			points += getAverageDBvalues(getTeamScoutingData(team), chartReference[group].fields, true)
+		})
+		
+		let bar = {
+			"group": group,
+			"key": chartReference[group].teams.length == 1 ? chartReference[group].teams[0] : group,
+			"value": points
+		}
+		chartData.push(bar)
+	})
+
+	return chartData
+
+
+}
