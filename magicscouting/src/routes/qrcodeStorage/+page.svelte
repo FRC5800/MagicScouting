@@ -32,7 +32,7 @@
   {#if displayFilter=="all" || displayFilter=="not-sent"}
     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
       <h2 class="text-xl font-medium tracking-wide">{$_('storage.filters.not_sent')}</h2>
-      {#key $entriesSync}  
+      {#key $entriesSync}
         {#each $entriesSync as entry, index}
           <EntryToSync {index} payload={entry}/>
         {/each}
