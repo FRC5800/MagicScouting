@@ -15,7 +15,7 @@
 
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
 
-    import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData } from "$lib/shared/scripts/chartUtilities";
+    import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
 	import Toast from "$lib/components/Toast.svelte";
 
@@ -49,19 +49,19 @@
 
     let biggestScore = 50;
     function updateEventValues(TeamsData){
-        let totalCycleAvg = 0;
-        let totalScore = 0;
+        let totalCycleAvg = [];
+        let totalScore = [];
         let allTeams = getSortedTeams(TeamsData); 
         biggestScore = getAverageDBvalues(getTeamScoutingData(allTeams[allTeams.length-1]), allPoints, true)
         allTeams.forEach(team => {
             let teamData = getTeamScoutingData(team)
-            totalScore += getAverageDBvalues(
+            let teamScore = getAverageDBvalues(
                                             teamData,
                                             allPoints,
                                             true
                                             )
     
-            totalCycleAvg += getAverageCycleData(
+            let teamCycle = getAverageCycleData(
                             teamData,
                             [
                                 "coralStationCycleTime",
@@ -69,12 +69,18 @@
                                 "algaeCycleTime"
                             ],
                         )
+            if (teamCycle != 0){
+                totalCycleAvg.push(teamCycle)
+            }
+            if(teamScore != 0){
+                totalScore.push(teamScore)
+            }
         });
     
-        avgCompetitionScore = Math.round(totalScore/allTeams.length)
-        avgCompetitionCycle = Math.round((totalCycleAvg/allTeams.length)*100)/100
+        avgCompetitionScore = Math.round(avgArray(totalScore))
+        avgCompetitionCycle = Math.round(avgArray(totalCycleAvg)*100)/100
     
-        leaderboardData.set(averageTeamPerformance(getSortedTeams($TeamsDB)))
+        leaderboardData.set(averageTeamPerformance(allTeams))
         console.log($leaderboardData)
 
     }
@@ -167,7 +173,7 @@
                     options={{
                         theme: $carbonTheme,
                         title: '',
-                        height: '500px',
+                        height: String($leaderboardData.length * 5.5)+"px",
                         width: '70%',
                         bars: {    
                             width: 10,

@@ -272,6 +272,7 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
  */
 export function parseCycleString(data){
 	if (data == "") {return 0}
+	console.log(`In: ${data}, Out: ${avgArray(data.toString().split("; ").map(parseFloat))}`)
 	return avgArray(data.toString().split("; ").map(parseFloat))
 }
 
@@ -286,9 +287,12 @@ export function getAverageCycleData(data, fields){
 	let total = 0;
 
 	fields.forEach((field) => {
-		total += avgArray(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}).filter(time => time > 0))
+		let cycleAverage = parseFloat(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}).filter(time => time > 0))
+		if (! isNaN(cycleAverage)){
+			total += cycleAverage
+		}
 	})
-
+	console.log("Total: " + total)
 	return Math.round((total/fields.length)*10)/10
 }
 

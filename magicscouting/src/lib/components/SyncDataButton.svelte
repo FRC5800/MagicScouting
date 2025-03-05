@@ -91,7 +91,7 @@
             SyncData();
         }
 	})
-	$: console.log($TeamsDB)
+	// $: console.log($TeamsDB)
 </script>
 
 <button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block {buttonText=="Data Synced" ? "bg-green-700" : ""}" on:click={() => {SyncData()}}>
