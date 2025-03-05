@@ -251,7 +251,7 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
 		if (field == "bargeStatus"){
 			total = avgArray(getParameterArray(data, field, true))
 		}else{
-			total = avgArray(getParameterArray(data, field).slice().map((a) => parseFloat(a))) * (points ? gamePointsByAction[field] : 1)
+			total = avgArray(getParameterArray(data, field).slice().map(parseFloat)) * (points ? gamePointsByAction[field] : 1)
 		}
 	}else{
 		if (field == "bargeStatus"){
@@ -272,7 +272,11 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
  */
 export function parseCycleString(data){
 	if (data == "") {return 0}
-	return avgArray(data.toString().split("; ").map(parseFloat))
+	data = data.toString().replaceAll(",", ".").split(";").filter((e) => {
+		return !isNaN(parseFloat(e))
+	})
+	console.log(data.map(parseFloat))
+	return avgArray(data.map(parseFloat))
 }
 
 /**
@@ -283,15 +287,23 @@ export function parseCycleString(data){
  * @returns {number} The average cycle time, rounded to one decimal place.
  */
 export function getAverageCycleData(data, fields){
-	let total = 0;
-
+	let CycleTimes = ""
 	fields.forEach((field) => {
-		let cycleAverage = parseFloat(getParameterArray(data, field, false).map((CycleString) => {return parseCycleString(CycleString)}).filter(time => time > 0))
-		if (! isNaN(cycleAverage)){
-			total += cycleAverage
-		}
+		getParameterArray(data, field, false).forEach((el) => {
+			CycleTimes += el + ";"
+		})
+		console.log(`CycleTimes`)
+		console.log(CycleTimes)
 	})
-	return Math.round((total/fields.length)*10)/10
+
+	CycleTimes = parseCycleString(CycleTimes)
+	console.log(`CycleTimesParse: ${CycleTimes}`)
+
+	let cycleAverage = CycleTimes
+	
+	console.log(`CycleAverage: ${cycleAverage}`)
+
+	return Math.round(cycleAverage*10)/10
 }
 
 /**

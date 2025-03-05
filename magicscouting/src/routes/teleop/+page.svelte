@@ -163,7 +163,7 @@
 				"teleopNetScore": netPoints,
 				"teleopNetMiss": netMisses,
 				"bargeStatus": barge,
-				"bargeTime": bargeCycle,
+				"bargeTime": String(bargeCycle).replace(".", ","),
 				"coralStationCycleTime": JSON.stringify(coralStationCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"coralFloorCycleTime": JSON.stringify(coralFloorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
 				"algaeCycleTime":JSON.stringify(algaeCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
