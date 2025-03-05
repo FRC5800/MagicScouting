@@ -4,6 +4,7 @@
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import { onMount } from "svelte";
 
+    import { _ } from 'svelte-i18n';
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
 
     import { DonutChart, RadarChart, LineChart, ComboChart, BarChartSimple, BarChartGrouped } from "@carbon/charts-svelte"
@@ -112,40 +113,50 @@
         <TeamSearchBar bind:teamSearch={teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$matchAnalysisData}/>
     </div>
 
-    <div class="w-full flex mb-4 px-6 flex-row items-start">
-        <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow basis-1 btn btn-outline rounded-r-none">
+    <div class="w-full flex mb-4 px-6 flex-row items-start h-fit">
+        <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
             {#if showDeleteTeamButton == 1}
                 <span on:click={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[0] ? $teams[0] : "No team"}</div>
             <br>
-            <div class="text-blue-500">{$teams[0] ? getAvgTeamPoints($teams[0]) + " pts" : ""}</div>
+            <div class="text-primary-base">{$teams[0] ? getAvgTeamPoints($teams[0]) + " pts" : ""}</div>
         </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow basis-1 btn btn-outline rounded-none">
+        <button on:click={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
             {#if showDeleteTeamButton == 2}
                 <span on:click={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[1] ? $teams[1] : "No team"}</div>
             <br>
-            <div class="text-blue-500">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
+            <div class="text-primary-base">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
         </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow basis-1 btn btn-outline rounded-l-none">
+        <button on:click={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
             {#if showDeleteTeamButton == 3}
                 <span on:click={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[2] ? $teams[2] : "No team"}</div>
             <br>
-            <div class="text-blue-500">{$teams[2] ? getAvgTeamPoints($teams[2]) + " pts" : ""}</div>
+            <div class="text-primary-base">{$teams[2] ? getAvgTeamPoints($teams[2]) + " pts" : ""}</div>
         </button>
     </div>
-
-    {#each Object.keys(lookupFields) as field}
-        <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
-            <h2 class="text-xl font-medium tracking-wide">{field} : {getAvgAlliancePoints($teams, lookupFields[field])}</h2>
+    
+    <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
+        <div class="w-full flex items-center justify-center mt-4">
+            <div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
+                <h2 class="text-xl font-medium tracking-wide mb-2">Points Analiysis</h2>
+                <div class="flex flex-row justify-around items-center flex-wrap">
+                    {#each Object.keys(lookupFields) as field}
+                        <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+                            <h3>{field}</h3>
+                            <span class="text-primary-base text-xl">{getAvgAlliancePoints($teams, lookupFields[field])}</span>
+                        </div>
+                    {/each}
+                </div>
+            </div>
         </div>
-    {/each}
 
-    <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
+        <div class="divider"></div>
+
         <svelte:component
         this={DonutChart}
         data={setupAllianceChartData(
@@ -164,6 +175,7 @@
         }
          />
 
+        <div class="divider"></div>
 
          <svelte:component
          this={BarChartSimple}
@@ -193,16 +205,25 @@
          }
           />
 
-        <h2>BARGE TIME</h2>
-        {#each $teams as team}
-            <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
-                <h2 class="text-xl font-medium tracking-wide">{team} // {getAverageDBvalues(
-                    $matchAnalysisData[team].rawData,
-                    ["bargeTime"],
-                    false
-                )}s</h2>
+        <div class="divider"></div>
+
+        <div class="w-full flex items-center justify-center">
+            <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
+                <h2 class="text-xl font-medium tracking-wide mb-2">Barge Analiysis</h2>
+                <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
+                    {#each $teams as team}
+                        <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+                            <h3>{team}</h3>
+                            <span class="text-primary-base text-xl">{getAverageDBvalues(
+                                $matchAnalysisData[team].rawData,
+                                ["bargeTime"],
+                                false
+                            )}s</span>
+                        </div>
+                    {/each}
+                </div>
             </div>
-        {/each}
+        </div>
     </section>
 </main>
 
