@@ -6,7 +6,8 @@
     import { _ } from 'svelte-i18n';
 
     import { getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
-    // import { Keyboard } from "@capacitor/keyboard";
+    import { Keyboard } from "@capacitor/keyboard";
+    import { Capacitor } from "@capacitor/core";
 
     $: data = $TeamsDB
 
@@ -23,7 +24,9 @@
         if(teamSearch != ""){
             selectedTeam = teamSearch
             teamSearch = ""
-            // await Keyboard.hide()
+            if (Capacitor.getPlatform()=="android"){
+                await Keyboard.hide()
+            }
             await createTeam()
         }
         focus = false;
