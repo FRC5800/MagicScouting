@@ -6,7 +6,7 @@
 
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
 
-    import { DonutChart, RadarChart, LineChart, ComboChart } from "@carbon/charts-svelte"
+    import { DonutChart, RadarChart, LineChart, ComboChart, BarChartSimple, BarChartGrouped } from "@carbon/charts-svelte"
 
     import { writable } from "svelte/store";
     import { TeamsDB } from "$lib/shared/stores/teamsData";
@@ -164,6 +164,45 @@
         }
          />
 
+
+         <svelte:component
+         this={BarChartSimple}
+         data={setupAllianceChartData(
+             {
+                "L1" : {fields:["autoROneScore", "teleopROneScore"], teams: $teams}, 
+                "L2" : {fields:["autoRTwoScore", "teleopRTwoScore"], teams: $teams}, 
+                "L3" : {fields:["autoRThreeScore", "teleopRThreeScore"], teams: $teams}, 
+                "L4" : {fields:["autoRFourScore", "teleopRFourScore"], teams: $teams},
+                "Proc" : {fields:["teleopProcessorScore", "autoProcessorScore"], teams: $teams},
+                "Net": {fields:["teleopNetScore", "autoNetScore"], teams: $teams} 
+             },
+         )}
+         options={{
+             theme: $carbonTheme,
+             title: "Game Piece Points",
+             height: "200px",
+             width: "85%",
+             bars: {    
+                    width: 10,
+                },
+             axes: {
+                 bottom: { mapsTo: "value", scaleType: "linear"},
+                 left: { mapsTo: "key", scaleType: "labels" },
+                 }
+             }
+         }
+          />
+
+        <h2>BARGE TIME</h2>
+        {#each $teams as team}
+            <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
+                <h2 class="text-xl font-medium tracking-wide">{team} // {getAverageDBvalues(
+                    $matchAnalysisData[team].rawData,
+                    ["bargeTime"],
+                    false
+                )}s</h2>
+            </div>
+        {/each}
     </section>
 </main>
 
