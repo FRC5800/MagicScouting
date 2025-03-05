@@ -181,7 +181,7 @@
                         toolbar: {enabled:false},
                         theme: $carbonTheme,
                         title: '',
-                        height: String($leaderboardData.length * 5.5)+"px",
+                        height: String(Math.max($leaderboardData.length * 5.5, 100))+"px",
                         width: '85%',
                         bars: {    
                             width: 10,
