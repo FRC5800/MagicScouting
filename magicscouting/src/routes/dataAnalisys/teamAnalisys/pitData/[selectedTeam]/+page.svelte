@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto mb-24">
         <table class="table">
             <thead>
                 <th>Camp</th>
@@ -67,7 +67,3 @@
         </table>
     </div>
 {/if}
-
-<div class="px-6 my-6">
-    <button on:click={() => {goto("/dataAnalisys/teamAnalisys")}} class="btn btn-block">Back</button>
-</div>

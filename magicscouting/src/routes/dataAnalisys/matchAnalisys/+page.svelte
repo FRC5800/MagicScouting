@@ -104,8 +104,9 @@
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
-    <div class="w-full flex gap-4 mt-6 mb-6 flex-col items-center">
-        <h1 class="text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
+    <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
+        <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
     </div>
 
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
