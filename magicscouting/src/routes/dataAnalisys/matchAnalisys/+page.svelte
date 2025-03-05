@@ -105,11 +105,11 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="w-full flex gap-4 mt-6 mb-6 flex-col items-center">
-        <h1 class="text-2xl font-medium tracking-wide">Match Analiysis</h1>
+        <h1 class="text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
     </div>
 
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
-        <h2 class="text-xl font-medium tracking-wide">Search for a team</h2>
+        <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.searchBar_text")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$matchAnalysisData}/>
     </div>
 
@@ -143,7 +143,7 @@
     <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
         <div class="w-full flex items-center justify-center mt-4">
             <div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
-                <h2 class="text-xl font-medium tracking-wide mb-2">Points Analiysis</h2>
+                <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
                 <div class="flex flex-row justify-around items-center flex-wrap">
                     {#each Object.keys(lookupFields) as field}
                         <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
@@ -164,7 +164,7 @@
         )}
         options={{
             theme: $carbonTheme,
-            title: "Game Piece Points",
+            title: $_("dataAnalysis.matchAnalysis.gp_points_teams"),
             height: "300px",
             width: "300px",
             axes: {
@@ -191,7 +191,7 @@
          )}
          options={{
              theme: $carbonTheme,
-             title: "Game Piece Points",
+             title: $_("dataAnalysis.matchAnalysis.gp_points_spots"),
              height: "200px",
              width: "85%",
              bars: {    
@@ -209,7 +209,7 @@
 
         <div class="w-full flex items-center justify-center">
             <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
-                <h2 class="text-xl font-medium tracking-wide mb-2">Barge Analiysis</h2>
+                <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.barge_subtitle")}</h2>
                 <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
                     {#each $teams as team}
                         <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">

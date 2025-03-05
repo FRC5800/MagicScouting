@@ -230,7 +230,18 @@
 			"barge_profile": "Desempeño Barge",
 			"scoring_profile": "Desempeño de Puntuación",
 			"score_by_match": "Puntos por Partido"
-		}
+		},
+
+		"matchAnalysis": {
+			"title": "Análisis de Partidos",
+			"searchBar_text": "Buscar un equipo",
+			"searchBar_placeholder": "Número de Equipo",
+			"points_subtitle": "Análisis de Puntos",
+			"barge_subtitle": "Análisis de Barge",
+		
+			"gp_points_teams": "Puntos GP Equipos",
+			"gp_points_spots": "Puntos GP Lugares"
+		}		
 		
 	}
 	

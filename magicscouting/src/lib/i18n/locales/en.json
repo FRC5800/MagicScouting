@@ -213,8 +213,8 @@
 			"title": "Team Analysis",
 			"searchBar_text": "Search for a team",
 			"searchBar_placeholder": "Team Number",
-			"team_epa": "Team Number",
-			"team_winrate": "Team Number",
+			"team_epa": "Team EPA",
+			"team_winrate": "Team Winrate",
 			"average_points": "Average Points",
 			"analytics_subtitle": "Specific Analytics",
 			"pit_data": "Pit Data",
@@ -228,6 +228,17 @@
 			"barge_profile": "Barge profile",
 			"scoring_profile": "Scoring profile",
 			"score_by_match": "Score by match"
+		},
+
+		"matchAnalysis": {
+			"title": "Match Analysis",
+			"searchBar_text": "Search for a team",
+			"searchBar_placeholder": "Team Number",
+			"points_subtitle": "Points Analytics",
+			"barge_subtitle": "Barge Analytics",
+
+			"gp_points_teams": "GP Points Teams",
+			"gp_points_spots": "GP Points Spots"
 		}
 	}
 }

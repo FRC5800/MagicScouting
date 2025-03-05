@@ -223,11 +223,22 @@
 			"endgame_analytics": "Análise de Endgame",
 
 			"gp_points": "Pontos de Game Piece",
-			"points_by_period": "Points por Período",
+			"points_by_period": "Pontos por Período",
 			"team_function": "Função do Time",
 			"barge_profile": "Desempenho Barge",
 			"scoring_profile": "Desempenho Pontuação",
 			"score_by_match": "Pontos por Partida"
+		},
+
+		"matchAnalysis": {
+			"title": "Análise de Partida",
+			"searchBar_text": "Buscar por equipe",
+			"searchBar_placeholder": "Número de Equipe",
+			"points_subtitle": "Análise de Pontos",
+			"barge_subtitle": "Análise Barge",
+
+			"gp_points_teams": "Pontos de GP Teams",
+			"gp_points_spots": "Pontos de GP"
 		}
 	}
 }
