@@ -14,7 +14,7 @@
     import { useDB } from "$lib/shared/stores/dataBase";
     import dataBase from "$lib/shared/stores/dataBase";
 
-	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
+	import { TeamsDB, PitTeamsDB } from "$lib/shared/stores/teamsData";
 
     import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";

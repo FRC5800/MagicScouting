@@ -7,6 +7,8 @@
 	import { useDB }  from '$lib/shared/stores/dataBase';
 	import { validateLocalData } from "$lib/shared/scripts/chartUtilities";
 	import { _ } from 'svelte-i18n';
+	import matchAnalysisData from "$lib/shared/stores/matchAnalysisData";
+	import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
 
 
 	let isSyncing = false;
@@ -75,6 +77,8 @@
 			]);
 			buttonText = "Data Synced"
 			setTimeout(() => {buttonText = "Sync Data"}, 3500);
+			matchAnalysisData.set({})
+      		teamAnalysisData.set({})
 		}catch (error){
 			alert("Sync error")
 			console.log("Error Syncing data: "+ error)
@@ -83,8 +87,6 @@
 
 	}
 	
-
-
 
 	onMount(async () => {
 		let testDB = localStorage.getItem("TeamsDB")

@@ -1,15 +1,19 @@
 <script>
   // @ts-nocheck
   
-    import SelectInput from '$lib/components/SelectInput.svelte';
-    import theme from '$lib/shared/stores/darkMode.js';
-    import colorTheme from '$lib/shared/stores/colorTheme.js';
-    import { locale, _ } from 'svelte-i18n';
-    import dataBase from '$lib/shared/stores/dataBase';
-    import { useDB }  from '$lib/shared/stores/dataBase';
-    import { goto } from '$app/navigation';
-    import { onMount } from "svelte";
-    import { fade } from "svelte/transition";
+  import SelectInput from '$lib/components/SelectInput.svelte';
+  import theme from '$lib/shared/stores/darkMode.js';
+  import colorTheme from '$lib/shared/stores/colorTheme.js';
+  import { locale, _ } from 'svelte-i18n';
+  import dataBase from '$lib/shared/stores/dataBase';
+  import { useDB }  from '$lib/shared/stores/dataBase';
+  import { goto } from '$app/navigation';
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
+  import matchAnalysisData from '$lib/shared/stores/matchAnalysisData';
+  import { MatchSchema, PitSchema, PitTeamsDB, TeamsDB } from '$lib/shared/stores/teamsData';
+	import teamAnalysisData from '$lib/shared/stores/teamAnalysisData';
+	import entriesSync, { syncedEntries } from '$lib/shared/stores/toSyncData';
 
     export let showDataBase = false;
     $: team_database = $useDB ? $dataBase : '';
@@ -105,8 +109,23 @@
       }
 
     function handleClearData(){
-      Object.keys(localStorage).forEach(field => localStorage.removeItem(field))
       alert("FAZER UM POPUP PRA CONFIRMAR ISSO AQUI")
+      
+      Object.keys(localStorage).forEach(field => localStorage.removeItem(field))
+      matchAnalysisData.set({})
+      teamAnalysisData.set({})
+      colorTheme.set('blue')
+      theme.set('system')
+      locale.set('en')
+      dataBase.set('')
+      useDB.set(true)
+      PitSchema.set([])
+      PitTeamsDB.set([])
+      TeamsDB.set([])
+      MatchSchema.set([])
+      entriesSync.set([])
+      syncedEntries.set([])
+      
       console.log(localStorage)
       goto("/")
     }
