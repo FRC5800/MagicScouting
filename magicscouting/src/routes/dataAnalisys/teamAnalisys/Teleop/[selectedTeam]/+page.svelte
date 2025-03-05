@@ -14,7 +14,7 @@
     import { goto } from '$app/navigation';
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, getAverageCycleData, setupBarChartDataByMatch, parseCycleString } from "$lib/shared/scripts/chartUtilities";
-
+    import { algaeTeleopPoints, coralTeleopPoints, teleopPoints } from "$lib/shared/scripts/points.js";
 
     export let data;
     let teamData = $teamAnalysisData[data.selectedTeam];
@@ -24,24 +24,7 @@
 
     console.log($rawData)
     
-    let teleopPoints = [
-        "teleopROneScore",
-        "teleopRTwoScore", 
-        "teleopRThreeScore", 
-        "teleopRFourScore", 
-        "teleopProcessorScore", 
-        "teleopNetScore", 
-    ]
-    let coralTeleopPoints = [
-        "teleopROneScore",
-        "teleopRTwoScore", 
-        "teleopRThreeScore", 
-        "teleopRFourScore", 
-    ]
-    let algaeTeleopPoints = [
-        "teleopProcessorScore", 
-        "teleopNetScore", 
-    ]
+    
 
 </script>
 
