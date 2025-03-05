@@ -6,7 +6,7 @@
     import { _ } from 'svelte-i18n';
 
     import { getTeamScoutingData, getTBAData, getStatBoticsData } from "$lib/shared/scripts/chartUtilities";
-    // import { Keyboard } from "@capacitor/keyboard";
+    import { Keyboard } from "@capacitor/keyboard";
 
     $: data = $TeamsDB
 
@@ -23,7 +23,7 @@
         if(teamSearch != ""){
             selectedTeam = teamSearch
             teamSearch = ""
-            // await Keyboard.hide()
+            await Keyboard.hide()
             await createTeam()
         }
         focus = false;

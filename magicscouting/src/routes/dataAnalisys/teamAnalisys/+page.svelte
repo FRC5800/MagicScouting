@@ -16,9 +16,8 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
     import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
-    // import { Keyboard } from "@capacitor/keyboard";
+    import { allPoints, coralPoints, algaePoints } from "$lib/shared/scripts/points";
 
-    
 
     $: data = $TeamsDB
     console.log(data)
@@ -26,114 +25,13 @@
     $: teamSearch = "";
     $: selectedTeam = "";
     $: activeTab = Object.keys($teamAnalysisData)[0] ?? "";
-
-    async function search(){
-        if(teamSearch != ""){
-            selectedTeam = teamSearch
-            teamSearch = ""
-            // await Keyboard.hide()
-            createTeam()
-        }
-    }
     
     $: autoCompleteTeams = writable([]);
 
     $: console.log($teamAnalysisData)
 
     let debounceTimeout;
-
-
-    $: if (teamSearch != "") {
-        console.log(teamSearch);
-        let alreadyIn = [];
-        let filterSugestions = data.filter((entry) => {
-            let condition = entry["team"].toString().includes(teamSearch) && entry["team"].toString() != teamSearch && !alreadyIn.includes(entry["team"].toString());
-            alreadyIn.push(entry["team"].toString());
-            return condition;
-        });
-
-        autoCompleteTeams.set(filterSugestions);
-        
-    } else {
-        autoCompleteTeams.set([]);
-    }
-    async function createTeam(){
-        console.log("creating team " + selectedTeam)
-        
-        let teamData = {
-            logo: new Image(),
-            team: "",
-            EPA: "",
-            winrate: "",
-            name: "",
-            rawData: getTeamScoutingData(selectedTeam)
-        }
-        console.log(teamData.rawData)
-        teamData.team = selectedTeam
-
-        $teamAnalysisData[String(teamData.team)] = teamData
-        activeTab = teamData.team
-
-        getStatBoticsData(selectedTeam).then((r) => {
-            console.log(r)
-            teamData.winrate = r.winrate
-            teamData.EPA = r.epa
-            $teamAnalysisData[String(teamData.team)] = teamData
-        })
-
-        getTBAData(selectedTeam).then((r) => {
-            teamData.logo = r.logo
-            teamData.name = r.name
-            $teamAnalysisData[String(teamData.team)] = teamData
-        });
-
-    }
-
-    let allPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoProcessorScore",
-        "autoNetScore",
-        "isLeave",
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-        "teleopProcessorScore",
-        "teleopNetScore",
-        "bargeStatus"
-    ];
-
-    let coralPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-    ];
-    let algaePoints = [
-        "autoProcessorScore",
-        "autoNetScore",
-        "teleopProcessorScore",
-        "teleopNetScore",
-    ];
-
-    function deleteArrayItem(array, itemIndex){
-        let newArray = array.reduce(
-            (acc, value, index) => {
-                if(index != itemIndex){
-                    acc.push(value);
-                }
-                return acc;
-            }, [])
-        return newArray;
-    }
-
+    
     function handleTabClose(teamNumber){
         delete $teamAnalysisData[teamNumber];
         $teamAnalysisData = $teamAnalysisData;
@@ -173,19 +71,7 @@
                 {/key}
             </div>
         </div>
-        
-        <!-- {#if $autoCompleteTeams.length > 0}    
-            <div class="w-full flex justify-center items-center">
-                <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center">
-                    {#each $autoCompleteTeams as team}
-                        <li>
-                            <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
-                        </li>
-                    {/each}
-                </div>
-            </div>  
-        {/if} -->
-    
+
         {#if Object.keys($teamAnalysisData).length != 0 && activeTab != ""}
             <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6">
                 <div class="flex flex-row gap-4 items-center justify-center mt-6">
