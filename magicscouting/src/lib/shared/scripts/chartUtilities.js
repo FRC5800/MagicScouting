@@ -111,7 +111,7 @@ export function getAverageDBvalues(data, fields, points=true, customHandler=(a)=
 	let total = 0;
 
 	fields.forEach((field) => {
-		total += customHandler(handleGetActionAttributes(data, field, points, true))
+		total += parseFloat(customHandler(handleGetActionAttributes(data, field, points, true)))
 	})
 
 	return Math.round(total*10)/10
@@ -272,7 +272,6 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
  */
 export function parseCycleString(data){
 	if (data == "") {return 0}
-	console.log(`In: ${data}, Out: ${avgArray(data.toString().split("; ").map(parseFloat))}`)
 	return avgArray(data.toString().split("; ").map(parseFloat))
 }
 
@@ -292,7 +291,6 @@ export function getAverageCycleData(data, fields){
 			total += cycleAverage
 		}
 	})
-	console.log("Total: " + total)
 	return Math.round((total/fields.length)*10)/10
 }
 
