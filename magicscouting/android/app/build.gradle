@@ -18,8 +18,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         signingConfig signingConfigs.deployer
-        versionCode 5
-        versionName "2.00"
+        versionCode 6
+        versionName "3.00"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
