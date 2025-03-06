@@ -243,6 +243,35 @@
 
 			"gp_points_teams": "GP Points Teams",
 			"gp_points_spots": "GP Points Spots"
+		},
+
+		"picklist": {
+			"title": "Teams Picklist",
+			"teamNumber": "Team",
+			"score_by_match": "Score by match",
+			"total_coral_l1": "Total Coral L1",
+			"hit_rate_l1": "Hit Rate L1",
+			"total_coral_l2": "Total Coral L2",
+			"hit_rate_L2": "Hit Rate L2",
+			"total_coral_l3": "Total Coral L3",
+			"hit_rate_l3": "Hit Rate L3",
+			"total_coral_l4": "Total Coral L4",
+			"hit_rate_l4": "Hit Rate L4",
+			"processor_score": "Processor",
+			"hit_rate_processor": "Hit Rate Processor",
+			"net_score": "Net",
+			"hit_rate_net": "Hit Rate Net",
+			"avg_cycle_floor": "Avg Cycle Floor",
+			"avg_cycle_source": "Avg Cycle Source",
+			"attempts_shallow": "Shallow Attempts",
+			"score_shallow": "Shallow Hits",
+			"hit_rate_shallow": "Hit Rate Shallow",
+			"avg_cycle_shallow": "Avg Cycle Shallow",
+			"attempts_deep": "Deep Attempts",
+			"score_deep": "Deep Hits",
+			"hit_rate_deep": "Hit Rate Deep",
+			"avg_cycle_deep": "Avg Cycle Deep"
 		}
+		
 	}
 }

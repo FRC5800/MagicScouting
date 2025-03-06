@@ -245,6 +245,34 @@
 		
 			"gp_points_teams": "Puntos GP Equipos",
 			"gp_points_spots": "Puntos GP Lugares"
+		},
+		
+		"picklist": {
+			"title": "Lista de Equipos",
+			"teamNumber": "Equipo",
+			"score_by_match": "Puntuación por partido",
+			"total_coral_l1": "Total Coral L1",
+			"hit_rate_l1": "Tasa de Acierto L1",
+			"total_coral_l2": "Total Coral L2",
+			"hit_rate_L2": "Tasa de Acierto L2",
+			"total_coral_l3": "Total Coral L3",
+			"hit_rate_l3": "Tasa de Acierto L3",
+			"total_coral_l4": "Total Coral L4",
+			"hit_rate_l4": "Tasa de Acierto L4",
+			"processor_score": "Procesador",
+			"hit_rate_processor": "Tasa de Acierto Procesador",
+			"net_score": "Net",
+			"hit_rate_net": "Tasa de Acierto Net",
+			"avg_cycle_floor": "Ciclo Promedio Piso",
+			"avg_cycle_source": "Ciclo Promedio Source",
+			"attempts_shallow": "Intentos Shallow",
+			"score_shallow": "Aciertos Shallow",
+			"hit_rate_shallow": "Tasa de Acierto Shallow",
+			"avg_cycle_shallow": "Ciclo Promedio Shallow",
+			"attempts_deep": "Intentos Deep",
+			"score_deep": "Aciertos Deep",
+			"hit_rate_deep": "Tasa de Acierto Deep",
+			"avg_cycle_deep": "Ciclo Promedio Deep"
 		}		
 		
 	}
