@@ -292,17 +292,12 @@ export function getAverageCycleData(data, fields){
 		getParameterArray(data, field, false).forEach((el) => {
 			CycleTimes += el + ";"
 		})
-		console.log(`CycleTimes`)
-		console.log(CycleTimes)
 	})
 
 	CycleTimes = parseCycleString(CycleTimes)
-	console.log(`CycleTimesParse: ${CycleTimes}`)
 
-	let cycleAverage = CycleTimes
+	let cycleAverage = isNaN(CycleTimes) ? 0 : CycleTimes
 	
-	console.log(`CycleAverage: ${cycleAverage}`)
-
 	return Math.round(cycleAverage*10)/10
 }
 
