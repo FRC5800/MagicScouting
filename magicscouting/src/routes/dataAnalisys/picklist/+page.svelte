@@ -4,65 +4,13 @@
     import { _ } from 'svelte-i18n';
     import { goto } from "$app/navigation";
     import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
+    import { allPoints, autoPoints, teleopPoints, allMisses } from "$lib/shared/scripts/points";
 
     let allTeams = getSortedTeams($TeamsDB); 
     console.log($TeamsDB)
     let displayFilter = "all";
 
     let teamsData = [];
-
-    let allPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoProcessorScore",
-        "autoNetScore",
-        "isLeave",
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-        "teleopProcessorScore",
-        "teleopNetScore",
-        "bargeStatus"
-    ];
-
-    let allPointsAuto = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoProcessorScore",
-        "autoNetScore",
-        "isLeave",
-    ];
-
-    let allPointsTeleop = [
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-        "teleopProcessorScore",
-        "teleopNetScore",
-    ];
-
-    let allMisses = [
-        "autoROneMiss",
-        "autoRTwoMiss",
-        "autoRThreeMiss",
-        "autoRFourMiss",
-        "autoProcessorMiss",
-        "autoNetMiss",
-        "isLeave",
-        "teleopROneMiss",
-        "teleopRTwoMiss",
-        "teleopRThreeMiss",
-        "teleopRFourMiss",
-        "teleopProcessorMiss",
-        "teleopNetMiss",
-        "bargeStatus"
-    ];
 
     $: if(displayFilter == "all"){
         createAllTable();
@@ -117,7 +65,7 @@
             
             data.push({
                 teamNumber : team,
-                score_by_match : getAverageDBvalues(teamData, allPointsAuto, true),
+                score_by_match : getAverageDBvalues(teamData, autoPoints, true),
                 total_coral_l1 : getAverageDBvalues(teamData, ["autoROneScore"], true),
                 hit_rate_l1 : (getAverageDBvalues(teamData, ["autoROneScore"], true) / (getAverageDBvalues(teamData, ["autoROneScore"], true) + getAverageDBvalues(teamData, ["autoROneMiss"], true))) * 100,
                 total_coral_l2 : getAverageDBvalues(teamData, ["autoRTwoScore"], true),
@@ -145,7 +93,7 @@
             
             data.push({
                 teamNumber : team,
-                score_by_match : getAverageDBvalues(teamData, allPointsTeleop, true),
+                score_by_match : getAverageDBvalues(teamData, teleopPoints, true),
                 total_coral_l1 : getAverageDBvalues(teamData, ["teleopROneScore"], true),
                 hit_rate_l1 : (getAverageDBvalues(teamData, ["teleopROneScore"], true) / (getAverageDBvalues(teamData, ["teleopROneScore"], true) + getAverageDBvalues(teamData, ["teleopROneMiss"], true))) * 100,
                 total_coral_l2 : getAverageDBvalues(teamData, ["teleopRTwoScore"], true),
