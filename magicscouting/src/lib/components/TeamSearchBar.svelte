@@ -16,6 +16,7 @@
     export let teamSearch = "";
     export let selectedTeam = "";
     export let analysisData;
+    export let storeMode = null;
 
     $: console.log(analysisData)
 
@@ -30,6 +31,14 @@
             await createTeam()
         }
         focus = false;
+    }
+
+    function setAnalisysData(teamData){
+        if (storeMode != null) {
+            analysisData[storeMode][String(teamData.team)] = teamData
+        }else{
+            analysisData[String(teamData.team)] = teamData
+        }
     }
 
     $: autoCompleteTeams = writable([]);
@@ -62,19 +71,21 @@
         }
         teamData.team = selectedTeam
 
-        analysisData[String(teamData.team)] = teamData
+        setAnalisysData(teamData)
 
         getStatBoticsData(selectedTeam).then((r) => {
             console.log(r)
             teamData.winrate = r.winrate
             teamData.EPA = r.epa
-            analysisData[String(teamData.team)] = teamData
+
+            setAnalisysData(teamData)
         })
 
         getTBAData(selectedTeam).then((r) => {
             teamData.logo = r.logo
             teamData.name = r.name
-            analysisData[String(teamData.team)] = teamData
+
+            setAnalisysData(data)
         });
     }
 
