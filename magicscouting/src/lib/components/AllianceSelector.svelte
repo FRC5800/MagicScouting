@@ -11,9 +11,11 @@
 
     import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
 	import Toast from "$lib/components/Toast.svelte";
-	import storeData from "$lib/shared/scripts/controlData";
 	import { getAverageDBvalues } from "$lib/shared/scripts/chartUtilities";
     import { allPoints } from "$lib/shared/scripts/points";
+    import matchAnalysisData from "$lib/shared/stores/matchAnalysisData";
+	import { goto } from "$app/navigation";
+
 
 	export let dataStore = "alliance1";
 	export let simulationData; 
@@ -73,6 +75,10 @@
         console.log($teams)
     }
 
+    function analyseAlliance(){
+        matchAnalysisData.set(simulationData[dataStore])
+        goto("/dataAnalisys/matchAnalisys")
+    }
 
 </script>
 
@@ -82,6 +88,10 @@
         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.searchBar_text")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:analysisData={simulationData} storeMode={dataStore}/>
     </div>
+
+    <button class="m-0 mt-4 font-bold btn btn-block btn-error" on:click={()=>{analyseAlliance()}} >
+        Analyse alliance
+    </button> 
 
     <div class="w-full flex mb-4 px-6 flex-row items-start h-fit">
         <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
