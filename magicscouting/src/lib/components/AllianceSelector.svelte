@@ -13,9 +13,12 @@
 	import Toast from "$lib/components/Toast.svelte";
 	import storeData from "$lib/shared/scripts/controlData";
 	import { getAverageDBvalues } from "$lib/shared/scripts/chartUtilities";
+    import { allPoints } from "$lib/shared/scripts/points";
 
 	export let dataStore = "alliance1";
-	export let simulationData;
+	export let simulationData; 
+    export let title = "Alliance 1";
+
 
     $: teamSearch = "";
     $: showDeleteTeamButton = 0;
@@ -75,6 +78,7 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
+        <h2 class="text-xl font-medium tracking-wide">{title}</h2>
         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.searchBar_text")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:analysisData={simulationData} storeMode={dataStore}/>
     </div>

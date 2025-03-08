@@ -85,7 +85,7 @@
             teamData.logo = r.logo
             teamData.name = r.name
 
-            setAnalisysData(data)
+            setAnalisysData(teamData)
         });
     }
 

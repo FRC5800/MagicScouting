@@ -108,9 +108,7 @@
         }
       }
 
-    function handleClearData(){
-      alert("FAZER UM POPUP PRA CONFIRMAR ISSO AQUI")
-      
+    function handleClearData(){      
       Object.keys(localStorage).forEach(field => localStorage.removeItem(field))
       matchAnalysisData.set({})
       teamAnalysisData.set({})
