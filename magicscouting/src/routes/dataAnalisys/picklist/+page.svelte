@@ -128,7 +128,7 @@
             
             data.push({
                 teamNumber : team,
-                score_by_match : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                score_by_match : getAverageDBvalues(teamData, ["bargeStatus"], true),
                 attempts_shallow : getBargeByType(teamData, "shallow"),
                 attempts_deep : getBargeByType(teamData, "deep"),
                 avg_cycle_barge : getAverageDBvalues(teamData, ["bargeTime"], false),

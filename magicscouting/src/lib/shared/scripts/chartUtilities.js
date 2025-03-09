@@ -107,11 +107,11 @@ export function getDefaultLogo(){
  * @param {Function} [customHandler=(a) => a] - A custom handler function to process each field value.
  * @returns {number} - The average value of the specified fields, rounded to one decimal place.
  */
-export function getAverageDBvalues(data, fields, points=true, customHandler=(a)=>{return a}){
+export function getAverageDBvalues(data, fields, points=true, avg=true, customHandler=(a)=>{return a}){
 	let total = 0;
 
 	fields.forEach((field) => {
-		total += parseFloat(customHandler(handleGetActionAttributes(data, field, points, true)))
+		total += parseFloat(customHandler(handleGetActionAttributes(data, field, points, avg)))
 	})
 
 	return Math.round(total*10)/10

@@ -116,7 +116,7 @@
         </button>
     </div>
     <div class="w-full px-6 mb-4">
-        <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={()=>{analyseAlliance()}} >
+        <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" disabled={$teams.length==0} on:click={()=>{analyseAlliance()}} >
             {$_("dataAnalysis.simulation.analyze_alliance")}
         </button> 
     </div>

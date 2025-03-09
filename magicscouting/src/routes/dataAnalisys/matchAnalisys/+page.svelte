@@ -143,91 +143,93 @@
         </button>
     </div>
     
-    <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
-        <div class="w-full flex items-center justify-center mt-4">
-            <div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
-                <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
-                <div class="flex flex-row justify-around items-center flex-wrap">
-                    {#each Object.keys(lookupFields) as field}
-                        <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
-                            <h3>{field}</h3>
-                            <span class="text-primary-base text-xl">{getAvgAlliancePoints($teams, lookupFields[field])}</span>
-                        </div>
-                    {/each}
+    {#if $teams.length > 0}    
+        <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
+            <div class="w-full flex items-center justify-center mt-4">
+                <div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
+                    <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
+                    <div class="flex flex-row justify-around items-center flex-wrap">
+                        {#each Object.keys(lookupFields) as field}
+                            <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+                                <h3>{field}</h3>
+                                <span class="text-primary-base text-xl">{getAvgAlliancePoints($teams, lookupFields[field])}</span>
+                            </div>
+                        {/each}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="divider"></div>
+            <div class="divider"></div>
 
-        <svelte:component
-        this={DonutChart}
-        data={setupAllianceChartData(
-            formatChartReference($teams),
-        )}
-        options={{
-            theme: $carbonTheme,
-            title: $_("dataAnalysis.matchAnalysis.gp_points_teams"),
-            height: "300px",
-            width: "300px",
-            axes: {
-                left: { mapsTo: "value" },
-                bottom: { mapsTo: "group", scaleType: "labels" }
+            <svelte:component
+            this={DonutChart}
+            data={setupAllianceChartData(
+                formatChartReference($teams),
+            )}
+            options={{
+                theme: $carbonTheme,
+                title: $_("dataAnalysis.matchAnalysis.gp_points_teams"),
+                height: "300px",
+                width: "300px",
+                axes: {
+                    left: { mapsTo: "value" },
+                    bottom: { mapsTo: "group", scaleType: "labels" }
+                    }
                 }
             }
-        }
-         />
+            />
 
-        <div class="divider"></div>
+            <div class="divider"></div>
 
-         <svelte:component
-         this={BarChartSimple}
-         data={setupAllianceChartData(
-             {
-                "L1" : {fields:["autoROneScore", "teleopROneScore"], teams: $teams}, 
-                "L2" : {fields:["autoRTwoScore", "teleopRTwoScore"], teams: $teams}, 
-                "L3" : {fields:["autoRThreeScore", "teleopRThreeScore"], teams: $teams}, 
-                "L4" : {fields:["autoRFourScore", "teleopRFourScore"], teams: $teams},
-                "Proc" : {fields:["teleopProcessorScore", "autoProcessorScore"], teams: $teams},
-                "Net": {fields:["teleopNetScore", "autoNetScore"], teams: $teams} 
-             },
-         )}
-         options={{
-             theme: $carbonTheme,
-             title: $_("dataAnalysis.matchAnalysis.gp_points_spots"),
-             height: "200px",
-             width: "85%",
-             bars: {    
-                    width: 10,
+            <svelte:component
+            this={BarChartSimple}
+            data={setupAllianceChartData(
+                {
+                    "L1" : {fields:["autoROneScore", "teleopROneScore"], teams: $teams}, 
+                    "L2" : {fields:["autoRTwoScore", "teleopRTwoScore"], teams: $teams}, 
+                    "L3" : {fields:["autoRThreeScore", "teleopRThreeScore"], teams: $teams}, 
+                    "L4" : {fields:["autoRFourScore", "teleopRFourScore"], teams: $teams},
+                    "Proc" : {fields:["teleopProcessorScore", "autoProcessorScore"], teams: $teams},
+                    "Net": {fields:["teleopNetScore", "autoNetScore"], teams: $teams} 
                 },
-             axes: {
-                 bottom: { mapsTo: "value", scaleType: "linear"},
-                 left: { mapsTo: "key", scaleType: "labels" },
-                 }
-             }
-         }
-          />
+            )}
+            options={{
+                theme: $carbonTheme,
+                title: $_("dataAnalysis.matchAnalysis.gp_points_spots"),
+                height: "200px",
+                width: "85%",
+                bars: {    
+                        width: 10,
+                    },
+                axes: {
+                    bottom: { mapsTo: "value", scaleType: "linear"},
+                    left: { mapsTo: "key", scaleType: "labels" },
+                    }
+                }
+            }
+            />
 
-        <div class="divider"></div>
+            <div class="divider"></div>
 
-        <div class="w-full flex items-center justify-center">
-            <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
-                <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.barge_subtitle")}</h2>
-                <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
-                    {#each $teams as team}
-                        <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
-                            <h3>{team}</h3>
-                            <span class="text-primary-base text-xl">{getAverageDBvalues(
-                                $matchAnalysisData[team].rawData,
-                                ["bargeTime"],
-                                false
-                            )}s</span>
-                        </div>
-                    {/each}
+            <div class="w-full flex items-center justify-center">
+                <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
+                    <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.barge_subtitle")}</h2>
+                    <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
+                        {#each $teams as team}
+                            <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+                                <h3>{team}</h3>
+                                <span class="text-primary-base text-xl">{getAverageDBvalues(
+                                    $matchAnalysisData[team].rawData,
+                                    ["bargeTime"],
+                                    false
+                                )}s</span>
+                            </div>
+                        {/each}
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {/if}
 </main>
 
 <div>
