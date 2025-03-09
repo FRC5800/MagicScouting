@@ -40,11 +40,11 @@
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
 	beforeNavigate(({ to, cancel }) => {
 		if (to?.route.id !== "/teleop") {
-			if (!confirm("Do you really want to reset the app?" + to?.route.id)) {
-      	cancel();
+			if (!confirm("Do you really want to reset the app?")) {
+      			cancel();
+    		}
     	}
-    }
-  });
+  	});
 	
 	function setCoralPoint(point){
 		if (coralSelectedLevel == "lvl1" && !(point<0 && lvl1CoralPoints == 0)) {lvl1CoralPoints+=point}
@@ -96,15 +96,15 @@
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
 			<h2 class="text-white text-normal font-medium">Reef - Coral</h2>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
-			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
+			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralPoints : coralSelectedLevel=="lvl2" ? lvl2CoralPoints : coralSelectedLevel=="lvl3" ? lvl3CoralPoints : coralSelectedLevel=="lvl4" ? lvl4CoralPoints : ''}</div>
-			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
-			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
+			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 pl-4 pr-8">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
-			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
 		</div>
 		<div class="w-full flex items-center">
 			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
@@ -118,10 +118,10 @@
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
 			<h2 class="text-white text-normal font-medium">Reef - Algae</h2>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#F4F4F4] py-1">
-			<div on:click={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#F4F4F4]">
+			<div on:click={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{algaeSelectedLevel=="low" ? lowAlgae : algaeSelectedLevel=="high" ? highAlgae : ''}</div>
-			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-around">
 			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
@@ -133,15 +133,15 @@
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
 			<h2 class="text-white text-normal font-medium">Processor</h2>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
-			<div on:click={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
+			<div on:click={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
-			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
-			<div on:click={()=>{if(processorPoints!=0)processorMisses-=1}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
+			<div on:click={()=>{if(processorPoints!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
-			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 	</div>
 
@@ -149,15 +149,15 @@
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
 			<h2 class="text-white text-normal font-medium">Net</h2>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#D4EDDA] py-1">
-			<div on:click={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
+			<div on:click={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
-			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#F8D7DA] py-1">
-			<div on:click={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747]">-</div>
+		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
+			<div on:click={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
-			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 	</div>
 	
@@ -221,5 +221,9 @@
 		font-weight: 600;
 		justify-content: center;
 		text-align: center;
+	}
+
+	button, div{
+		@apply select-none;
 	}
 </style>

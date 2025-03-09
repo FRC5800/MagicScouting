@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { _ } from 'svelte-i18n';
 import { App } from '@capacitor/app';
-import { goto } from '$app/navigation';
+import { goto, beforeNavigate } from '$app/navigation';
 import { onMount } from 'svelte';
 import { useDB } from "$lib/shared/stores/dataBase";
 
@@ -71,7 +71,16 @@ let uploadDisabled = false;
 let resetConfirmation = false;
 
 
-App.addListener("backButton", ()=>{resetConfirmation = true;});
+App.addListener("backButton", ()=>{goto("/")});
+beforeNavigate(({ to, cancel }) => {
+		if (uploadDisabled == false && stored == false) {
+			if (!confirm("Do you really want to reset the app?")) {
+      			cancel();
+    		} else {
+                keys.forEach((key) => {localStorage.setItem(key, null)});
+            }
+    	}
+  	});
 
 function getData(key){
     return localStorage.getItem(key);
@@ -145,13 +154,7 @@ function HandleStore(){
 }
 
 function HandleReset(){
-    if (uploadDisabled == false && stored == false){
-        resetConfirmation = true;
-        console.log(resetConfirmation)
-    }else {
-        keys.forEach((key) => {localStorage.setItem(key, null)});
-        goto("/")
-    }
+    goto("/");
 }
 </script>
 
