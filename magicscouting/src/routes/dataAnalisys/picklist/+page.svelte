@@ -9,7 +9,6 @@
     App.addListener("backButton", () => {goto("/dataAnalisys")});
 
     let allTeams = getSortedTeams($TeamsDB);
-    $: dbFilter = "none";
     console.log($TeamsDB)
     let displayFilter = "all";
 
@@ -166,11 +165,11 @@
             <table class="table">
                 <thead>
                     {#each Object.keys(teamsData[0]) as heading}
-                    <th on:click={()=>{if (dbFilter.includes(heading) && dbFilter.includes("up")) {dbFilter = heading+"down"} else{dbFilter = heading+"up"}}} class="bg-primary-opac">
+                    <th on:click={()=>{if (activeFilter.includes(heading) && !reverseFilter) {activeFilter = heading; reverseFilter = true} else{activeFilter = heading; reverseFilter = false}}} class="bg-primary-opac">
                         {$_(`dataAnalysis.picklist.${heading}`)}
-                        {#if dbFilter.includes(heading) && dbFilter.includes("up")}
+                        {#if activeFilter.includes(heading) && !reverseFilter}
                             <i class="fi fi-rr-arrow-small-up"></i>
-                        {:else if dbFilter.includes(heading) && dbFilter.includes("down")}
+                        {:else if activeFilter.includes(heading) && reverseFilter}
                             <i class="fi fi-rr-arrow-small-down"></i>
                         {/if}
                     </th>
