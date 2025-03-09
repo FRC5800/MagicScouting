@@ -154,7 +154,14 @@
             <table class="table">
                 <thead>
                     {#each Object.keys(teamsData[0]) as heading}
-                    <th on:click={()=>{dbFilter = heading}} class="bg-primary-opac">{$_(`dataAnalysis.picklist.${heading}`)}</th>
+                    <th on:click={()=>{if (dbFilter.includes(heading) && dbFilter.includes("up")) {dbFilter = heading+"down"} else{dbFilter = heading+"up"}}} class="bg-primary-opac">
+                        {$_(`dataAnalysis.picklist.${heading}`)}
+                        {#if dbFilter.includes(heading) && dbFilter.includes("up")}
+                            <i class="fi fi-rr-arrow-small-up"></i>
+                        {:else if dbFilter.includes(heading) && dbFilter.includes("down")}
+                            <i class="fi fi-rr-arrow-small-down"></i>
+                        {/if}
+                    </th>
                     {/each}             
                 </thead>
                 <tbody>
