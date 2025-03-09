@@ -84,7 +84,7 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
-        <h2 class="text-xl font-medium tracking-wide">{title}</h2>
+        <h2 class="text-xl font-medium tracking-wide">{title == "Alliance 1" ? $_("dataAnalysis.simulation.alliance_one") : $_("dataAnalysis.simulation.alliance_two")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:analysisData={simulationData} storeMode={dataStore}/>
     </div>
 
@@ -117,7 +117,7 @@
     </div>
     <div class="w-full px-6 mb-4">
         <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={()=>{analyseAlliance()}} >
-            Analyse alliance
+            {$_("dataAnalysis.simulation.analyze_alliance")}
         </button> 
     </div>
 </main>

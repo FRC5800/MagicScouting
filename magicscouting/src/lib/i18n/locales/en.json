@@ -271,6 +271,17 @@
 			"score_deep": "Deep Hits",
 			"hit_rate_deep": "Hit Rate Deep",
 			"avg_cycle_deep": "Avg Cycle Deep"
+		},
+
+		"simulation": {
+			"title":"Match Simulation",
+			"analyze_alliance": "Analyze Alliance",
+			"win_chance": "Win Chance",
+			"points_analytics": "Points Analytics",
+			"winner": "Winner",
+			"tie": "tie",
+			"alliance_one": "Alliance 1",
+			"alliance_two": "Alliance 2"
 		}
 		
 	}

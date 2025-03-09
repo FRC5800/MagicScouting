@@ -273,7 +273,18 @@
 			"score_deep": "Aciertos Deep",
 			"hit_rate_deep": "Tasa de Acierto Deep",
 			"avg_cycle_deep": "Ciclo Promedio Deep"
-		}		
+		},
+
+		"simulation": {
+			"title": "Simulación de Partido",
+			"analyze_alliance": "Analizar Alianza",
+			"win_chance": "Probabilidad de Victoria",
+			"points_analytics": "Análisis de Puntos",
+			"winner": "Ganador",
+			"tie": "Empate",
+			"alliance_one": "Alianza 1",
+			"alliance_two": "Alianza 2"
+		}	
 		
 	}
 	

@@ -114,7 +114,7 @@
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
         <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
-        <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
+        <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.simulation.title")}</h1>
     </div>
 
    <AllianceSelector 
@@ -136,14 +136,14 @@
 		
 								
 								{#if winPredict > 0.5 && alliance == "alliance1" || winPredict < 0.5 && alliance == "alliance2"}
-									<h2 class="text-xl font-medium tracking-wide mb-2">Winner!</h2>
+									<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.simulation.winner")}!</h2>
 								{/if}
 		
 								{#if winPredict == 0.5}
-									<h2 class="text-xl font-medium tracking-wide mb-2">Tie!</h2>
+									<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.simulation.tie")}!</h2>
 								{/if}
 								
-								<h2 class="text-xl font-medium tracking-wide mb-2">Win chance: {winPredict == NaN ? "" : Math.abs((alliance == "alliance1"? 0 : 100) - winPredict)}%</h2>
+								<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.simulation.win_chance")}: {winPredict == NaN ? "" : Math.abs((alliance == "alliance1"? 0 : 100) - winPredict)}%</h2>
 								
 		
 								<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
