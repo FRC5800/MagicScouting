@@ -9,6 +9,7 @@
 	import { _ } from 'svelte-i18n';
 	import matchAnalysisData from "$lib/shared/stores/matchAnalysisData";
 	import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
+	import simulationData from "$lib/shared/stores/simulationData";
 
 
 	let isSyncing = false;
@@ -77,8 +78,12 @@
 			]);
 			buttonText = "Data Synced"
 			setTimeout(() => {buttonText = "Sync Data"}, 3500);
+
 			matchAnalysisData.set({})
       		teamAnalysisData.set({})
+			simulationData.set({})
+			
+
 		}catch (error){
 			alert("Sync error")
 			console.log("Error Syncing data: "+ error)
