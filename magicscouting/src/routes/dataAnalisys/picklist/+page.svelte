@@ -8,7 +8,8 @@
     import { App } from '@capacitor/app';
     App.addListener("backButton", () => {goto("/dataAnalisys")});
 
-    let allTeams = getSortedTeams($TeamsDB); 
+    let allTeams = getSortedTeams($TeamsDB);
+    $: dbFilter = "none";
     console.log($TeamsDB)
     let displayFilter = "all";
 
@@ -165,7 +166,7 @@
             <table class="table">
                 <thead>
                     {#each Object.keys(teamsData[0]) as heading}
-                    <th class="bg-primary-opac">{$_(`dataAnalysis.picklist.${heading}`)}</th>
+                    <th on:click={()=>{dbFilter = heading}} class="bg-primary-opac">{$_(`dataAnalysis.picklist.${heading}`)}</th>
                     {/each}             
                 </thead>
                 <tbody>
