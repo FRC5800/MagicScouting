@@ -85,15 +85,11 @@
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
         <h2 class="text-xl font-medium tracking-wide">{title}</h2>
-        <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.searchBar_text")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:analysisData={simulationData} storeMode={dataStore}/>
     </div>
 
-    <button class="m-0 mt-4 font-bold btn btn-block btn-error" on:click={()=>{analyseAlliance()}} >
-        Analyse alliance
-    </button> 
-
-    <div class="w-full flex mb-4 px-6 flex-row items-start h-fit">
+    
+    <div class="w-full flex mb-1 px-6 flex-row items-start h-fit">
         <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
             {#if showDeleteTeamButton == 1}
                 <span on:click={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
@@ -105,11 +101,11 @@
         <button on:click={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
             {#if showDeleteTeamButton == 2}
                 <span on:click={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
-            {/if}
-            <div>{$teams[1] ? $teams[1] : "No team"}</div>
-            <br>
-            <div class="text-primary-base">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
-        </button>
+                {/if}
+                <div>{$teams[1] ? $teams[1] : "No team"}</div>
+                <br>
+                <div class="text-primary-base">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
+            </button>
         <button on:click={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
             {#if showDeleteTeamButton == 3}
                 <span on:click={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
@@ -118,6 +114,11 @@
             <br>
             <div class="text-primary-base">{$teams[2] ? getAvgTeamPoints($teams[2]) + " pts" : ""}</div>
         </button>
+    </div>
+    <div class="w-full px-6 mb-4">
+        <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={()=>{analyseAlliance()}} >
+            Analyse alliance
+        </button> 
     </div>
 </main>
 

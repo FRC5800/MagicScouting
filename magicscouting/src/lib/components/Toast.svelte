@@ -13,7 +13,7 @@
 
 </script>
 
-<div transition:fade class="toast toast-top toast-end">
+<div transition:fade class="toast toast-top toast-end z-50">
     {#if showToast}
       <div class="alert alert-warning shadow-lg">
         <span class="select-none">{message}</span>

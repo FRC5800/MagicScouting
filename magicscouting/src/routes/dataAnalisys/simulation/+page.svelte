@@ -111,7 +111,7 @@
 
 </script>
 
-<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
         <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
@@ -126,40 +126,40 @@
         dataStore="alliance2" 
 		title = "Alliance 2"/>
 
-</main>
-
-		 
-    <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
-        
-		{#key $simulationData}
-			{#each ["alliance1", "alliance2"] as alliance }
-				<div class="w-full flex items-center justify-center mt-4">
-					<div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
-
-						
-						{#if winPredict > 0.5 && alliance == "alliance1" || winPredict < 0.5 && alliance == "alliance2"}
-							<h2 class="text-xl font-medium tracking-wide mb-2">Winner!</h2>
-						{/if}
-
-						{#if winPredict == 0.5}
-							<h2 class="text-xl font-medium tracking-wide mb-2">Tie!</h2>
-						{/if}
-						
-						<h2 class="text-xl font-medium tracking-wide mb-2">Win chance: {Math.abs((alliance == "alliance1"? 0 : 100) - winPredict)}%</h2>
-						
-
-						<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
-						<div class="flex flex-row justify-around items-center flex-wrap">
-							{#each Object.keys(lookupFields) as field}
-								<div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
-									<h3>{field}</h3>
-									<span class="text-primary-base text-xl">{getAvgAlliancePoints(alliance, lookupFields[field])}</span>
+		{#if Object.keys($simulationData["alliance1"]).length > 0 && Object.keys($simulationData["alliance2"]).length > 0}
+			<section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
+				
+				{#key $simulationData}
+					{#each ["alliance1", "alliance2"] as alliance }
+						<div class="w-full flex items-center justify-center mt-4">
+							<div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
+		
+								
+								{#if winPredict > 0.5 && alliance == "alliance1" || winPredict < 0.5 && alliance == "alliance2"}
+									<h2 class="text-xl font-medium tracking-wide mb-2">Winner!</h2>
+								{/if}
+		
+								{#if winPredict == 0.5}
+									<h2 class="text-xl font-medium tracking-wide mb-2">Tie!</h2>
+								{/if}
+								
+								<h2 class="text-xl font-medium tracking-wide mb-2">Win chance: {winPredict == NaN ? "" : Math.abs((alliance == "alliance1"? 0 : 100) - winPredict)}%</h2>
+								
+		
+								<h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
+								<div class="flex flex-row justify-around items-center flex-wrap">
+									{#each Object.keys(lookupFields) as field}
+										<div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+											<h3>{field}</h3>
+											<span class="text-primary-base text-xl">{getAvgAlliancePoints(alliance, lookupFields[field])}</span>
+										</div>
+									{/each}
 								</div>
-							{/each}
+							</div>
 						</div>
-					</div>
-				</div>
-			{/each}
-		{/key}
-
-    </section> 
+					{/each}
+				{/key}
+		
+			</section> 
+		{/if}
+</main>

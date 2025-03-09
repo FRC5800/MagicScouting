@@ -20,8 +20,11 @@
 
     $: console.log(analysisData)
 
-    async function search(){
+    async function search(autocomplete){
         focus = true;
+        if(!Object.values($autoCompleteTeams.length > 0 && $autoCompleteTeams[0]).team == teamSearch && !autocomplete){
+            return
+        }
         if(teamSearch != ""){
             selectedTeam = teamSearch
             teamSearch = ""
@@ -49,7 +52,7 @@
         console.log(teamSearch);
         let alreadyIn = [];
         let filterSugestions = data.filter((entry) => {
-            let condition = entry["team"].toString().includes(teamSearch) && entry["team"].toString() != teamSearch && !alreadyIn.includes(entry["team"].toString());
+            let condition = entry["team"].toString().includes(teamSearch) && !alreadyIn.includes(entry["team"].toString());
             alreadyIn.push(entry["team"].toString());
             return condition;
         });
@@ -112,14 +115,14 @@
 
     <i class="fi fi-rs-search flex"></i>
 
-    <input class="grow" type="search" name="search" on:focusout={()=>{handleFocus(false)}} on:focusin={()=>{handleFocus(true)}} on:keydown={(e)=>{if(e.key == "Enter") search()}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
+    <input class="grow" type="search" name="search" on:focusout={()=>{handleFocus(false)}} on:focusin={()=>{handleFocus(true)}} on:keydown={(e)=>{if(e.key == "Enter") search(false)}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
 
         {#if $autoCompleteTeams.length > 0 && focus}    
             <div class="flex justify-center items-center absolute top-[calc(100%+1rem)] z-10 left-0 border-primary-heavy border-2 rounded-md max-h-80 overflow-y-scroll">
                 <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center px-3">
                     {#each $autoCompleteTeams as team}
                     <li>
-                        <button on:click={() => {teamSearch=team.team; search()}}>{team.team}</button>
+                        <button on:click={() => {teamSearch=team.team; search(true)}}>{team.team}</button>
                     </li>
                     {/each}
                 </div>
