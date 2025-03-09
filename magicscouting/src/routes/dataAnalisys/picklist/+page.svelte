@@ -24,6 +24,18 @@
         createEndgameTable();
     }
 
+    $: activeFilter = "score_by_match"
+    let reverseFilter = false
+
+    $: teamsData = teamsData.sort((a, b) => {
+        if(reverseFilter){
+            return a[activeFilter] - b[activeFilter]
+        } else {
+            return b[activeFilter] - a[activeFilter]
+        }
+    })
+
+
     function createAllTable(){
         let data = []
         allTeams.forEach(team => {
