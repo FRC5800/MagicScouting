@@ -5,6 +5,8 @@
     import { goto } from "$app/navigation";
     import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
     import { allPoints, autoPoints, teleopPoints, allMisses } from "$lib/shared/scripts/points";
+    import { App } from '@capacitor/app';
+    App.addListener("backButton", () => {goto("/dataAnalisys")});
 
     let allTeams = getSortedTeams($TeamsDB); 
     console.log($TeamsDB)
@@ -31,27 +33,22 @@
                 teamNumber : team,
                 score_by_match : getAverageDBvalues(teamData, allPoints, true),
                 total_coral_l1 : getAverageDBvalues(teamData, ["autoROneScore", "teleopROneScore"], true),
-                hit_rate_l1 : (getAverageDBvalues(teamData, ["autoROneScore", "teleopROneScore"], true) / (getAverageDBvalues(teamData, ["autoROneScore", "teleopROneScore"], true) + getAverageDBvalues(teamData, ["autoROneMiss", "teleopROneMiss"], true))) * 100,
+                hit_rate_l1 : (getAverageDBvalues(teamData, ["autoROneScore", "teleopROneScore"], false) / (getAverageDBvalues(teamData, ["autoROneScore", "teleopROneScore"], true) + getAverageDBvalues(teamData, ["autoROneMiss", "teleopROneMiss"], false))) * 100,
                 total_coral_l2 : getAverageDBvalues(teamData, ["autoRTwoScore", "teleopRTwoScore"], true),
-                hit_rate_L2 : (getAverageDBvalues(teamData, ["autoRTwoScore", "teleopRTwoScore"], true) / (getAverageDBvalues(teamData, ["autoRTwoScore", "teleopRTwoScore"], true) + getAverageDBvalues(teamData, ["autoRTwoMiss", "teleopRTwoMiss"], true))) * 100,
+                hit_rate_L2 : (getAverageDBvalues(teamData, ["autoRTwoScore", "teleopRTwoScore"], false) / (getAverageDBvalues(teamData, ["autoRTwoScore", "teleopRTwoScore"], true) + getAverageDBvalues(teamData, ["autoRTwoMiss", "teleopRTwoMiss"], false))) * 100,
                 total_coral_l3 : getAverageDBvalues(teamData, ["autoRThreeScore", "teleopRThreeScore"], true),
-                hit_rate_l3 : (getAverageDBvalues(teamData, ["autoRThreeScore", "teleopRThreeScore"], true) / (getAverageDBvalues(teamData, ["autoRThreeScore", "teleopRThreeScore"], true) + getAverageDBvalues(teamData, ["autoRThreeMiss", "teleopRThreeMiss"], true))) * 100,
+                hit_rate_l3 : (getAverageDBvalues(teamData, ["autoRThreeScore", "teleopRThreeScore"], false) / (getAverageDBvalues(teamData, ["autoRThreeScore", "teleopRThreeScore"], true) + getAverageDBvalues(teamData, ["autoRThreeMiss", "teleopRThreeMiss"], false))) * 100,
                 total_coral_l4 : getAverageDBvalues(teamData, ["autoRFourScore", "teleopRFourScore"], true),
-                hit_rate_l4 : (getAverageDBvalues(teamData, ["autoRFourScore", "teleopRFourScore"], true) / (getAverageDBvalues(teamData, ["autoRFourScore", "teleopRFourScore"], true) + getAverageDBvalues(teamData, ["autoRFourMiss", "teleopRFourMiss"], true))) * 100,
+                hit_rate_l4 : (getAverageDBvalues(teamData, ["autoRFourScore", "teleopRFourScore"], false) / (getAverageDBvalues(teamData, ["autoRFourScore", "teleopRFourScore"], true) + getAverageDBvalues(teamData, ["autoRFourMiss", "teleopRFourMiss"], false))) * 100,
                 processor_score : getAverageDBvalues(teamData, ["autoProcessorScore", "teleopProcessorScore"], true),
-                hit_rate_processor : (getAverageDBvalues(teamData, ["autoProcessorScore", "teleopProcessorScore"], true) / (getAverageDBvalues(teamData, ["autoProcessorScore", "teleopProcessorScore"], true) + getAverageDBvalues(teamData, ["autoProcessorMiss", "teleopProcessorMiss"], true))) * 100,
+                hit_rate_processor : (getAverageDBvalues(teamData, ["autoProcessorScore", "teleopProcessorScore"], false) / (getAverageDBvalues(teamData, ["autoProcessorScore", "teleopProcessorScore"], true) + getAverageDBvalues(teamData, ["autoProcessorMiss", "teleopProcessorMiss"], false))) * 100,
                 net_score : getAverageDBvalues(teamData, ["autoNetScore", "teleopNetScore"], true),
-                hit_rate_net : (getAverageDBvalues(teamData, ["autoNetScore", "teleopNetScore"], true) / (getAverageDBvalues(teamData, ["autoNetScore", "teleopNetScore"], true) + getAverageDBvalues(teamData, ["autoNetMiss", "teleopNetMiss"], true))) * 100,
-                avg_cycle_floor : 0,
-                avg_cycle_source : 0,
-                attempts_shallow : getAverageDBvalues(teamData, ["bargeStatus"], true),
-                score_shallow : 0,
-                hit_rate_shallow : 0,
-                avg_cycle_shallow : 0,
-                attempts_deep : getAverageDBvalues(teamData, ["bargeStatus"], true),
-                score_deep : 0,
-                hit_rate_deep : 0,
-                avg_cycle_deep : 0
+                hit_rate_net : (getAverageDBvalues(teamData, ["autoNetScore", "teleopNetScore"], false) / (getAverageDBvalues(teamData, ["autoNetScore", "teleopNetScore"], true) + getAverageDBvalues(teamData, ["autoNetMiss", "teleopNetMiss"], false))) * 100,
+                avg_cycle_floor : getAverageCycleData(teamData, ["coralFloorCycleTime", "algaeCycleTime"], false),
+                avg_cycle_source : getAverageCycleData(teamData, ["coralStationCycleTime", "algaeCycleTime"], false),
+                attempts_shallow : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                attempts_deep : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                avg_cycle_barge : getAverageDBvalues(teamData, ["bargeTime"], false),
             })
             
         });
@@ -78,8 +75,6 @@
                 hit_rate_processor : (getAverageDBvalues(teamData, ["autoProcessorScore"], true) / (getAverageDBvalues(teamData, ["autoProcessorScore"], true) + getAverageDBvalues(teamData, ["autoProcessorMiss"], true))) * 100,
                 net_score : getAverageDBvalues(teamData, ["autoNetScore"], true),
                 hit_rate_net : (getAverageDBvalues(teamData, ["autoNetScore"], true) / (getAverageDBvalues(teamData, ["autoNetScore"], true) + getAverageDBvalues(teamData, ["autoNetMiss"], true))) * 100,
-                avg_cycle_floor : 0,
-                avg_cycle_source : 0,
             })
     
         });
@@ -106,8 +101,8 @@
                 hit_rate_processor : (getAverageDBvalues(teamData, ["teleopProcessorScore"], true) / (getAverageDBvalues(teamData, ["teleopProcessorScore"], true) + getAverageDBvalues(teamData, ["teleopProcessorMiss"], true))) * 100,
                 net_score : getAverageDBvalues(teamData, ["teleopNetScore"], true),
                 hit_rate_net : (getAverageDBvalues(teamData, ["teleopNetScore"], true) / (getAverageDBvalues(teamData, ["teleopNetScore"], true) + getAverageDBvalues(teamData, ["teleopNetMiss"], true))) * 100,
-                avg_cycle_floor : 0,
-                avg_cycle_source : 0,
+                avg_cycle_floor : getAverageCycleData(teamData, ["coralFloorCycleTime", "algaeCycleTime"], false),
+                avg_cycle_source : getAverageCycleData(teamData, ["coralStationCycleTime", "algaeCycleTime"], false),
             })
     
         });
@@ -121,15 +116,10 @@
             
             data.push({
                 teamNumber : team,
-                score_by_match : getAverageDBvalues(teamData, ["bargeStatus"], true),
-                attempts_shallow : getAverageDBvalues(teamData, ["bargeStatus"], true),
-                score_shallow : 0,
-                hit_rate_shallow : 0,
-                avg_cycle_shallow : 0,
-                attempts_deep : getAverageDBvalues(teamData, ["bargeStatus"], true),
-                score_deep : 0,
-                hit_rate_deep : 0,
-                avg_cycle_deep : 0
+                score_by_match : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                attempts_shallow : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                attempts_deep : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                avg_cycle_barge : getAverageDBvalues(teamData, ["bargeTime"], false),
             })
     
         });
@@ -138,7 +128,7 @@
 
 </script>
 
-<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
+<main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-20">
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
         <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.picklist.title")}</h1>
@@ -170,7 +160,13 @@
                     {#each teamsData as team}
                         <tr>
                             {#each Object.keys(team) as key}
-                                <th>{team[key]}</th>
+                                {#if key.includes("hit")}
+                                    <th>{!team[key] ? "-" : team[key].toFixed(1)+"%"}</th> 
+                                {:else if key.includes("cycle")}
+                                    <th>{!team[key] ? "-" : team[key].toFixed(1)+"s"}</th> 
+                                {:else} 
+                                    <th>{team[key]}</th>
+                                {/if}
                             {/each}
                         </tr>
                     {/each}

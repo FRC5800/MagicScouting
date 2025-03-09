@@ -5,6 +5,8 @@
     import { onMount } from "svelte";
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
     import { _ } from 'svelte-i18n';
+    import { App } from '@capacitor/app';
+    App.addListener("backButton", () => {goto("/dataAnalisys/teamAnalisys")});
 
     import { BarChartGrouped, DonutChart, RadarChart, ComboChart } from '@carbon/charts-svelte'
 

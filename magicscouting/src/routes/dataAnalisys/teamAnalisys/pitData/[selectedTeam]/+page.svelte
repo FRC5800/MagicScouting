@@ -4,6 +4,8 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { PitTeamsDB } from "$lib/shared/stores/teamsData";
     import { goto } from "$app/navigation";
+    import { App } from '@capacitor/app';
+    App.addListener("backButton", () => {goto("/dataAnalisys/teamAnalisys")});
 
     import { onMount } from "svelte";
     export let data;

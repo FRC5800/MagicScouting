@@ -154,6 +154,7 @@
 			"timer": "Duración del Ciclo",
 			"cancel_confirmation": "Pulse de nuevo para cancelar"
 		},
+		"barge_points": "Puntos Barge",
 		"barge_cycle": {
 			"title": "Ciclo Barge",
 			"start_cycle": "Comenzar"
@@ -268,11 +269,10 @@
 			"attempts_shallow": "Intentos Shallow",
 			"score_shallow": "Aciertos Shallow",
 			"hit_rate_shallow": "Tasa de Acierto Shallow",
-			"avg_cycle_shallow": "Ciclo Promedio Shallow",
 			"attempts_deep": "Intentos Deep",
 			"score_deep": "Aciertos Deep",
 			"hit_rate_deep": "Tasa de Acierto Deep",
-			"avg_cycle_deep": "Ciclo Promedio Deep"
+			"avg_cycle_barge": "Ciclo Promedio Barge"
 		},
 
 		"simulation": {

@@ -10,6 +10,8 @@
 
     import { writable } from 'svelte/store';
     import { TeamsDB } from "$lib/shared/stores/teamsData";
+    import { App } from '@capacitor/app';
+    App.addListener("backButton", () => {goto("/dataAnalisys/teamAnalisys")});
 
     import { goto } from '$app/navigation';
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";

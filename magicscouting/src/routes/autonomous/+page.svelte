@@ -102,7 +102,7 @@
 			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
-			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 pl-4 pr-8">-</div>
+			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
 			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
 		</div>
@@ -139,7 +139,7 @@
 			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
-			<div on:click={()=>{if(processorPoints!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div on:click={()=>{if(processorMisses!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
 			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>

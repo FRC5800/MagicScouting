@@ -9,6 +9,7 @@
 	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
 
     import { goto } from "$app/navigation";
+    import { App } from '@capacitor/app';
 
     import SyncDataButton from "$lib/components/SyncDataButton.svelte";
     import { useDB } from "$lib/shared/stores/dataBase";
@@ -19,6 +20,8 @@
     import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
 	import { writable } from "svelte/store";
 	import Toast from "$lib/components/Toast.svelte";
+
+    App.addListener("backButton", () => {goto("/")});
 
     let showDatabaseAlert = false;
     let leaderboardData = writable([]);

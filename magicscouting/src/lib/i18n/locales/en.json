@@ -153,6 +153,7 @@
 			"pause": "Pause",
 			"cancel_confirmation": "Click again to cancel"
 		},
+		"barge_points": "Barge Points",
 		"barge_cycle": {
 			"title": "Barge Cycle",
 			"start_cycle": "Start"
@@ -266,11 +267,10 @@
 			"attempts_shallow": "Shallow Attempts",
 			"score_shallow": "Shallow Hits",
 			"hit_rate_shallow": "Hit Rate Shallow",
-			"avg_cycle_shallow": "Avg Cycle Shallow",
 			"attempts_deep": "Deep Attempts",
 			"score_deep": "Deep Hits",
 			"hit_rate_deep": "Hit Rate Deep",
-			"avg_cycle_deep": "Avg Cycle Deep"
+			"avg_cycle_barge": "Avg Cycle Barge"
 		},
 
 		"simulation": {

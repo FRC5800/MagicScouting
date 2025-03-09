@@ -19,7 +19,7 @@
     $: team_database = $useDB ? $dataBase : '';
   
     let linguagens = [
-      { id: '1', content: 'English', value: 'en' },
+      { id: '1', content: 'English', value: 'en-US' },
       { id: '2', content: 'Português (Brasil)', value: 'pt-BR' },
       { id: '3', content: 'Español', value: 'es' }
     ];

@@ -254,7 +254,7 @@
 		<div class="separator w-full"></div>
 	</div>
 	<div class="w-full flex flex-col items-center">
-		<h4 class="text-normal" >Barge Points</h4>
+		<h4 class="text-normal" >{$_('teleop.barge_points')}</h4>
 		<div class="input input-bordered p-0 flex justify-between w-full overflow-hidden" >
 			<div on:click={()=>{barge = "none"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="none" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('misc.none')}</div>
 			<div on:click={()=>{barge = "park"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="park" ? 'bg-primary-base text-[#E0E0E0]':''}">Park</div>
@@ -331,10 +331,10 @@
 		<div class="w-full flex items-center justify-center bg-primary-base p-1">
 			<h2 class="text-white text-normal font-medium">{$_('teleop.note_cycle.timer')}</h2>
 		</div>
-		<div class="w-full px-8 flex items-center justify-between bg-[#F4F4F4] py-1">
+		<div class="w-full flex items-center justify-between bg-[#F4F4F4] py-1">
 			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{gamePieceCycle}</div>
-			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747]">+</div>
+			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center">
 			<div on:click={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">{$_('misc.cancel_button')}</div>
@@ -406,7 +406,7 @@
 		@apply w-1/2 min-h-[150px];
 	}
 	.startCycle{
-		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base hover:text-[#E0E0E0];
+		@apply  w-1/2 h-full p-2 cursor-pointer hover:bg-primary-base hover:text-[#E0E0E0] flex justify-center items-center;
 	}
 
 	.separator {
