@@ -469,6 +469,18 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 	return chartData
 }
 
+export function getBargeByType(data, type){
+	if (!data){return []}
+
+	let qty = 0;
+	getParameterArray(data, "bargeStatus").forEach((e) => {
+		if (e == type){
+			qty += 1;
+		}
+	})
+	return qty;
+}
+
 /**
  * Generates data for a chart that contains labels for different modes, such as barge status or robot function in a match.
  * Returns the information per match.

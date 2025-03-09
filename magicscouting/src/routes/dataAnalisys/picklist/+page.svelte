@@ -3,7 +3,7 @@
     import { TeamsDB } from "$lib/shared/stores/teamsData";
     import { _ } from 'svelte-i18n';
     import { goto } from "$app/navigation";
-    import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray } from "$lib/shared/scripts/chartUtilities";
+    import { averageTeamPerformance, getSortedTeams, getAverageDBvalues, getTeamScoutingData, getAverageCycleData, validateLocalData, avgArray, getBargeByType } from "$lib/shared/scripts/chartUtilities";
     import { allPoints, autoPoints, teleopPoints, allMisses } from "$lib/shared/scripts/points";
     import { App } from '@capacitor/app';
     App.addListener("backButton", () => {goto("/dataAnalisys")});
@@ -129,8 +129,8 @@
             data.push({
                 teamNumber : team,
                 score_by_match : getAverageDBvalues(teamData, ["bargeStatus"], false),
-                attempts_shallow : getAverageDBvalues(teamData, ["bargeStatus"], false),
-                attempts_deep : getAverageDBvalues(teamData, ["bargeStatus"], false),
+                attempts_shallow : getBargeByType(teamData, "shallow"),
+                attempts_deep : getBargeByType(teamData, "deep"),
                 avg_cycle_barge : getAverageDBvalues(teamData, ["bargeTime"], false),
             })
     
