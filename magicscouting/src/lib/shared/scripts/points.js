@@ -67,3 +67,20 @@ export const algaeAutoPoints = [
 	"autoProcessorScore", 
 	"autoNetScore", 
 ];
+
+export const allMisses = [
+	"autoROneMiss",
+	"autoRTwoMiss",
+	"autoRThreeMiss",
+	"autoRFourMiss",
+	"autoProcessorMiss",
+	"autoNetMiss",
+	"isLeave",
+	"teleopROneMiss",
+	"teleopRTwoMiss",
+	"teleopRThreeMiss",
+	"teleopRFourMiss",
+	"teleopProcessorMiss",
+	"teleopNetMiss",
+	"bargeStatus"
+];

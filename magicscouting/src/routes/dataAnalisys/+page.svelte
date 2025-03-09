@@ -156,7 +156,7 @@
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} disabled=true class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-dashboard-monitor flex"></i>
                     <span>{$_("dataAnalysis.match_simulation")}</span>
                     <div class="flex items-center justify-end grow">
