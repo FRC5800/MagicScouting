@@ -14,6 +14,7 @@
   import { MatchSchema, PitSchema, PitTeamsDB, TeamsDB } from '$lib/shared/stores/teamsData';
 	import teamAnalysisData from '$lib/shared/stores/teamAnalysisData';
 	import entriesSync, { syncedEntries } from '$lib/shared/stores/toSyncData';
+	import simulationData from '$lib/shared/stores/simulationData';
 
     export let showDataBase = false;
     $: team_database = $useDB ? $dataBase : '';
@@ -123,7 +124,11 @@
       MatchSchema.set([])
       entriesSync.set([])
       syncedEntries.set([])
-      
+      simulationData.set({
+				alliance1: {},
+				alliance2: {}
+			})
+
       console.log(localStorage)
       goto("/")
     }

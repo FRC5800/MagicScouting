@@ -81,7 +81,10 @@
 
 			matchAnalysisData.set({})
       		teamAnalysisData.set({})
-			simulationData.set({})
+			simulationData.set({
+				alliance1: {},
+				alliance2: {}
+			})
 			
 
 		}catch (error){
