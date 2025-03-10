@@ -18,7 +18,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         signingConfig signingConfigs.deployer
-        versionCode 6
+        versionCode 8
         versionName "3.00"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
