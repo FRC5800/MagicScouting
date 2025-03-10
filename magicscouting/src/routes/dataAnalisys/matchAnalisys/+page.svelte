@@ -106,17 +106,17 @@
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
-    <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
+    <div class="sm:w-[600px] w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
         <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
     </div>
 
-    <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
+    <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start sm:w-[600px]">
         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.searchBar_text")}</h2>
         <TeamSearchBar bind:teamSearch={teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$matchAnalysisData}/>
     </div>
 
-    <div class="w-full flex mb-4 px-6 flex-row items-start h-fit">
+    <div class="w-full flex mb-4 px-6 flex-row items-start h-fit sm:w-[600px]">
         <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
             {#if showDeleteTeamButton == 1}
                 <span on:click={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
@@ -144,8 +144,8 @@
     </div>
     
     {#if $teams.length > 0}    
-        <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
-            <div class="w-full flex items-center justify-center mt-4">
+        <section class="flex flex-col sm:flex-row sm:flex-wrap sm:gap-4 sm:pt-6 justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-10">
+            <div class="w-full max-w-[400px] flex items-center justify-center mt-4">
                 <div class="w-full relative my-2 mx-6 grow flex items-center flex-col">
                     <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.points_subtitle")}</h2>
                     <div class="flex flex-row justify-around items-center flex-wrap">
@@ -197,7 +197,7 @@
                 theme: $carbonTheme,
                 title: $_("dataAnalysis.matchAnalysis.gp_points_spots"),
                 height: "200px",
-                width: "85%",
+                width: "300px",
                 bars: {    
                         width: 10,
                     },

@@ -52,11 +52,11 @@
             <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.title")}</h1>
         </div>
     
-        <div class="w-full flex gap-4 mb-4 px-6 flex-col items-start">
+        <div class="w-full sm:w-[600px] flex gap-4 mb-4 px-6 flex-col items-start">
             <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.searchBar_text")}</h2>
             <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$teamAnalysisData}/>
         </div>
-        <div class="w-full flex">
+        <div class="w-full flex sm:w-[600px]">
             <div role="tablist" class="tabs tabs-lifted min-w-80:overflow-x-scroll">
                 {#key $teamAnalysisData}
                     {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
@@ -76,15 +76,15 @@
         </div>
 
         {#if Object.keys($teamAnalysisData).length != 0 && activeTab != ""}
-            <section class="flex flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6 flex-wrap overflow-x-hidden">
-                <div class="flex flex-row gap-4 items-center justify-center mt-6">
+            <section class="flex sm:flex-row sm:flex-wrap sm:gap-4 sm:pt-6 flex-col justify-center items-center w-full bg-[#f0f0f0] dark:bg-base-200 px-6 pb-6 flex-wrap overflow-x-hidden">
+                <div class="flex max-w-[400px] flex-row gap-4 items-center justify-center mt-6">
                     <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
                     <div class="flex flex-row gap-2">
                         <div>{$teamAnalysisData[activeTab].team}</div>
                         <div>{$teamAnalysisData[activeTab].name}</div>
                     </div>
                 </div>
-                <div class="w-full flex">
+                <div class="w-full flex max-w-[400px]">
                     <div class=" w-full relative my-2 mx-6 grow">
                         <div class="flex flex-row justify-around items-center gap-4">
                             <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
@@ -100,7 +100,7 @@
                 </div>
     
                 {#if $teamAnalysisData[activeTab].rawData.length > 0}
-                    <div class="w-full flex mb-3">
+                    <div class="w-full flex mb-3 max-w-[400px]">
                         <div class=" w-full relative my-2 mx-6 grow">
                             <div class="grow basis-0 rounded-md flex flex-col items-center justify-center gap-2">
                                 <h3>{$_("dataAnalysis.teamAnalysis.average_points")}</h3>
@@ -113,10 +113,10 @@
                         </div>
                     </div>
     
-                    <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
+                    <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start sm:items-center">
                         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
                         
-                        <div class="w-full flex flex-col gap-2 ">
+                        <div class="w-full flex flex-col gap-2 max-w-[400px]">
                             <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-bank"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.pit_data")}</span>
@@ -148,7 +148,7 @@
                         </div>   
                     </div>     
                     
-                    <div class="carousel carousel-center w-full">
+                    <div class="carousel carousel-center w-full max-w-fit">
                         <div class="carousel-item">
                             <svelte:component
                             this={DonutChart}
@@ -199,8 +199,8 @@
                         </div>
                     </div>
 
-                    <div class="divider w-full"></div>
-                    <div class="carousel carousel-center w-full">
+                    <div class="divider w-full sm:hidden"></div>
+                    <div class="carousel carousel-center w-full max-w-fit">
                         <div class="carousel-item">
                             <svelte:component
                         this={DonutChart}
@@ -299,7 +299,7 @@
                 }}
             />
         {/key}
-        <div class="divider w-full"></div>
+        <div class="divider w-full sm:hidden"></div>
         <svelte:component
             this={ComboChart}
             data={setupBarChartDataByMatch(

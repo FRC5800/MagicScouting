@@ -44,7 +44,7 @@
     </div>  
 {/if}
 
-<div class="w-full px-6 mb-20 flex flex-col items-center">
+<div class="w-full px-6 mb-20 flex flex-col items-center sm:flex-row sm:flex-wrap sm:gap-10 sm:items-center sm:justify-center sm:pt-6">
     
     {#if $rawData.length > 0}
         <div class="w-full flex">
