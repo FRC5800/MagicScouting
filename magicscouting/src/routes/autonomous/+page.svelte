@@ -8,7 +8,10 @@
 	import { goto, beforeNavigate } from '$app/navigation';
 	
 	import storeData from "$lib/shared/scripts/controlData.js";
-  import ResetModal from '$lib/components/ResetModal.svelte';
+  	import ResetModal from '$lib/components/ResetModal.svelte';
+	import ReefImage from "$lib/assets/reef_image.png";
+	import ProcessorImage from "$lib/assets/processor_image.png";
+	import NetImage from "$lib/assets/net_image.png";
 
 	//CORAL VALUES
 	let lvl1CoralPoints = 0;
@@ -92,9 +95,10 @@
 		<div class="separator w-full"></div>
 	</div>
 	
-	<div class="container items-center justify-center rounded overflow-hidden ">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+	<div class="container items-center justify-center rounded">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
 			<h2 class="text-white text-normal font-medium">Reef - Coral</h2>
+			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
 			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8 select-none">-</div>
@@ -106,7 +110,7 @@
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
 			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
 		</div>
-		<div class="w-full flex items-center">
+		<div class="w-full flex items-center rounded-b overflow-hidden">
 			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
 			<div on:click={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
 			<div on:click={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
@@ -114,47 +118,50 @@
 		</div>
 	</div>
 
-	<div class="container items-center justify-center rounded overflow-hidden ">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+	<div class="container items-center justify-center">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
 			<h2 class="text-white text-normal font-medium">Reef - Algae</h2>
+			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F4F4F4]">
 			<div on:click={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{algaeSelectedLevel=="low" ? lowAlgae : algaeSelectedLevel=="high" ? highAlgae : ''}</div>
 			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full flex items-center justify-around">
+		<div class="w-full flex items-center justify-around rounded-b overflow-hidden">
 			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
 			<div on:click={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">HIGH</div>
 		</div>
 	</div>
 
-	<div class="container items-center justify-center rounded overflow-hidden ">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+	<div class="container items-center justify-center">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
 			<h2 class="text-white text-normal font-medium">Processor</h2>
+			<img src={ProcessorImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
 			<div on:click={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
 			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
+		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
 			<div on:click={()=>{if(processorMisses!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
 			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 	</div>
 
-	<div class="container items-center justify-center rounded overflow-hidden ">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1">
+	<div class="container items-center justify-center">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
 			<h2 class="text-white text-normal font-medium">Net</h2>
+			<img src={NetImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
 			<div on:click={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
 			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
+		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
 			<div on:click={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
 			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
