@@ -117,7 +117,7 @@
                         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
                         
                         <div class="w-full flex flex-col gap-2 max-w-[400px]">
-                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} disabled=true class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-bank"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.pit_data")}</span>
                                 <div class="flex items-center justify-end grow">

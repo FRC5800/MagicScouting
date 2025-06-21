@@ -155,7 +155,7 @@
 			 	"teleopROneScore": lvl1CoralPoints,
 				"teleopRTwoScore": lvl2CoralPoints,
 				"teleopRThreeScore": lvl3CoralPoints,
-				"teleopRFourScore": lvl4CoralMisses,
+				"teleopRFourScore": lvl4CoralPoints,
 				"teleopROneMiss": lvl1CoralMisses,
 				"teleopRTwoMiss": lvl2CoralMisses,
 				"teleopRThreeMiss": lvl3CoralMisses,
