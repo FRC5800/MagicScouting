@@ -113,7 +113,7 @@
 		"reef_algae": "Reef - Algae",
 		"scores": "Acertos",
 		"misses": "Erros",
-		"leave_button": "Leave",
+		"leave_button": "Ponto de Leave",
 		"continue_button": "Continuar"
 	},
 	"teleop": {
@@ -162,7 +162,7 @@
 	"info": {
 		"title": "Informação adicional",
 		"team_role": "Estilo de Jogo",
-		"robot_status": "Status do Robô",
+		"robot_status": "Algum Problema?",
 		"coopertition": "Coopertition Bônus",
 		"attack": "Ataque",
 		"defense": "Defesa",
@@ -172,7 +172,7 @@
 		"continue_button": "Continuar",
 		"safe": "Normal",
 		"broke": "Quebrou",
-		"communication_fault": "Comm"
+		"communication_fault": "Comm. Perdida"
 	
 	},
 	"qrcode": {

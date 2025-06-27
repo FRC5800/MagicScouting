@@ -112,7 +112,7 @@
 		"amp": "Amp",
 		"scores": "Golpes",
 		"misses": "Errores",
-		"leave_button": "Leave",
+		"leave_button": "Punto de Leave",
 		"continue_button": "Continuar"
 	},
 	"teleop": {
@@ -164,7 +164,7 @@
 	"info": {
 		"title": "Información Adicional",
 		"team_role": "Estilo de Juego",
-		"robot_status": "Estado del Robo",
+		"robot_status": "¿Algún problema?",
 		"coopertition": "Coopertition Bonus",
 		"attack": "Atacante",
 		"defense": "Defensa",
@@ -174,7 +174,7 @@
 		"continue_button": "Continuar",
 		"safe": "Normal",
 		"broke": "Roto",
-		"communication_fault": "Comm"
+		"communication_fault": "Conex. Perdida"
 	
 	},
 	"qrcode": {

@@ -94,6 +94,13 @@
 		<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
 		<div class="separator w-full"></div>
 	</div>
+	<button
+		on:click={() => {leave = !leave;}}
+		id="leave"
+		class="btn btn-block p-2 rounded-xl box-border border-2 dark:border-0 {leave
+			? ' text-white bg-primary-base border-primary-base'
+			: 'text-neutral-600 bg-transparent dark:bg-slate-100 border-gray-700'}">{$_('autonomous.leave_button')}</button
+	>
 	
 	<div class="container items-center justify-center rounded">
 		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
@@ -168,13 +175,6 @@
 		</div>
 	</div>
 	
-	<button
-		on:click={() => {leave = !leave;}}
-		id="leave"
-		class="btn btn-block p-2 rounded-xl box-border border-2 dark:border-0 {leave
-			? ' text-white bg-primary-base border-primary-base'
-			: 'text-neutral-600 bg-transparent dark:bg-slate-100 border-gray-700'}">{$_('autonomous.leave_button')}</button
-	>
 
 	<button class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>

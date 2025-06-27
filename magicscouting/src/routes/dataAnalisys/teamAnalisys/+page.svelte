@@ -208,9 +208,10 @@
                             $teamAnalysisData[activeTab].rawData,
                             "robotFunction",
                             {
-                                "atk": "Attack",
-                                "def": "Defense",
-                                "sup": "Support" 
+                                "coral": "Coral",
+                                "algae": "Algae",
+                                "alg_cor": "Fullstack",
+                                "def": "Defense" 
                             },
                         )}
                         options={{

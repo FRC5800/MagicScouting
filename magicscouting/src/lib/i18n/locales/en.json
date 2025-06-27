@@ -111,7 +111,7 @@
 		"amp": "Amp",
 		"scores": "Scores",
 		"misses": "Misses",
-		"leave_button": "Leave",
+		"leave_button": "Leave Point",
 		"continue_button": "Continue"
 	},
 	"teleop": {
@@ -163,7 +163,7 @@
 	"info": {
 		"title": "Additional information",
 		"team_role": "Team Role",
-		"robot_status": "Robot Status",
+		"robot_status": "Any Problems?",
 		"coopertition": "Coopertition Bonus",
 		"attack": "Attacker",
 		"defense": "Defender",
@@ -173,7 +173,7 @@
 		"continue_button": "Continue",
 		"safe": "Safe",
 		"broke": "Broke",
-		"communication_fault": "Comm"
+		"communication_fault": "Comm. Loss"
 	},
 	"qrcode": {
 		"title": "Scouting Data",

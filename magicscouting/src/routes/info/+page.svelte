@@ -12,7 +12,7 @@
     import ResetModal from '$lib/components/ResetModal.svelte';
 
     let teamRole = "";
-    let robotStatus = "";
+    let robotStatus = "safe";
     let coopertition = "";
     let validationError = false;
 
@@ -50,9 +50,10 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div on:click={()=>{teamRole="atk"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="atk" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.attack')}</div>
-        <div on:click={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.defense')}</div>
-        <div on:click={()=>{teamRole="sup"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="sup" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.support')}</div>
+        <div on:click={()=>{teamRole="coral"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="coral" ? 'bg-primary-base text-[#E0E0E0]':''}">Coral</div>
+        <div on:click={()=>{teamRole="algae"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="algae" ? 'bg-primary-base text-[#E0E0E0]':''}">Algae</div>
+        <div on:click={()=>{teamRole="alg_cor"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="alg_cor" ? 'bg-primary-base text-[#E0E0E0]':''}">Both</div>
+         <div on:click={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base text-[#E0E0E0]':''}">Def</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (teamRole == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
@@ -63,9 +64,8 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div on:click={()=>{robotStatus="safe"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="safe" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.safe')}</div>
-        <div on:click={()=>{robotStatus="broke"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="broke" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.broke')}</div>
-        <div on:click={()=>{robotStatus="commLoss"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.communication_fault')}</div>
+        <div on:click={()=>{if(robotStatus=="broke"){robotStatus="safe"}else{robotStatus="broke"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="broke" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.broke')}</div>
+        <div on:click={()=>{if(robotStatus=="commLoss"){robotStatus="safe"}else{robotStatus="commLoss"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.communication_fault')}</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (robotStatus == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
