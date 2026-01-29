@@ -18,7 +18,7 @@ https://svelte.dev/e/node_invalid_placement -->
     onMount(() => {
         console.log("Pit Data Page")
         console.log($PitTeamsDB)
-    
+
         for (let i = 0; i < $PitTeamsDB.length; i++){
             if ($PitTeamsDB[i].teamNumber == teamData.teamNumber){
                 pitScoutingSelectedData = $PitTeamsDB[i]
@@ -30,7 +30,7 @@ https://svelte.dev/e/node_invalid_placement -->
         let fid = fileId.split("=")
         fid = fid[fid.length - 1]
         console.log(fid)
-        
+
         return `https://drive.google.com/uc?export=view&id=${fid}`;
 
         // return `https://drive.google.com/thumbnail?id=${fid}&sz=w1000`;
@@ -53,8 +53,10 @@ https://svelte.dev/e/node_invalid_placement -->
     <div class="overflow-x-auto mb-24">
         <table class="table">
             <thead>
-                <th>Camp</th>
-                <th>Value</th>
+                <tr>
+                    <th>Camp</th>
+                    <th>Value</th>
+                </tr>
             </thead>
             <tbody>
                 {#each Object.keys(pitScoutingSelectedData) as key}

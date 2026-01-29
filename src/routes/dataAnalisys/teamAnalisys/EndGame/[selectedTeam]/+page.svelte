@@ -26,7 +26,7 @@ https://svelte.dev/e/node_invalid_placement -->
     console.log(teamData.team)
 
     console.log($rawData)
-    
+
 
 </script>
 
@@ -41,7 +41,7 @@ https://svelte.dev/e/node_invalid_placement -->
                 <div>{teamData.name}</div>
             </div>
         </div>
-    </div>   
+    </div>
 {/if}
 
 <div class="w-full px-6 mb-16 flex flex-col items-center">
@@ -78,7 +78,7 @@ https://svelte.dev/e/node_invalid_placement -->
                     "none": "None",
                     "park": "Park",
                     "deep": "Deep",
-                    "shallow": "Shallow" 
+                    "shallow": "Shallow"
                 },
             )}
             options={{
@@ -92,15 +92,17 @@ https://svelte.dev/e/node_invalid_placement -->
                     }
                 }
             }
-        /> 
-    
+        />
+
         <div class="divider"></div>
 
         <div class="overflow-x-auto w-full">
             <table class="table">
                 <thead>
-                    <th>Match</th>
-                    <th>Climb</th>
+                    <tr>
+                        <th>Match</th>
+                        <th>Climb</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {#key $rawData}
@@ -114,7 +116,7 @@ https://svelte.dev/e/node_invalid_placement -->
                 </tbody>
             </table>
         </div>
-        
+
     {/if}
 
 
