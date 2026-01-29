@@ -34,9 +34,9 @@ let keys = [
     "autoRFourMiss",
     "autoRemoveAlgaeLow",
     "autoRemoveAlgaeHigh",
-    "autoProcessorScore", 
-    "autoProcessorMiss", 
-    "autoNetScore", 
+    "autoProcessorScore",
+    "autoProcessorMiss",
+    "autoNetScore",
     "autoNetMiss",
     "isLeave",
     "teleopROneScore",
@@ -61,7 +61,7 @@ let keys = [
     "robotFunction",
     "robotStatus",
     "coopBonus",
-]; 
+];
 
 var src = '';
 
@@ -90,7 +90,7 @@ function getData(key){
 
 onMount(() => {
     keys.forEach((key)=>{payload[key] = getData(key)});
-    
+
     payload["uploaded"] = false
 
     visualAppData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
@@ -108,7 +108,7 @@ function updateQr() {
     QRCode.toDataURL(visualAppData, { errorCorrectionLevel: 'L' }, function (err, url) {
     src = url;
 })
-} 
+}
 
 
 async function HandleUpload(){
@@ -116,13 +116,13 @@ async function HandleUpload(){
 
     let dotsAnimation = "";
     let animation = setInterval(() => {dotsAnimation = dotsAnimation == "..." ? "" : dotsAnimation == ".." ? "..." : dotsAnimation == "." ? ".." :dotsAnimation == "" ? "." : "..."; uploadStatus = "Uploading" + dotsAnimation}, 200);
-    
+
     let response = JSON.parse(await uploadPayload(payload).then((r) => {return r.text()}));
-    
+
     clearInterval(animation)
-    
+
     console.log(response)
-    
+
     if (response.result == "success"){
         payload.uploaded = true
         $syncedEntries.push(payload)
@@ -135,7 +135,7 @@ async function HandleUpload(){
         HandleStore();
     }
     showQrCode = false;
-} 
+}
 
 function CheckRepeatedGame(newGame, games){
     games.forEach((item) => {
@@ -148,7 +148,7 @@ function CheckRepeatedGame(newGame, games){
 
 function HandleStore(){
     if (!CheckRepeatedGame(payload, $entriesSync)) {
-        $entriesSync = $entriesSync.concat(payload); 
+        $entriesSync = $entriesSync.concat(payload);
     } else{
         console.log('repeated entry');
     }
@@ -163,8 +163,10 @@ function HandleReset(){
 <div class="box-border h-auto break-words p-2 w-fit max-h-52 overflow-y-scroll rounded-lg text-[#EAEAEC] bg-grey-heavy mt-4 overflow-x-auto">
     <table class="table">
         <thead>
-            <th>Camp</th>
-            <th>Value</th>
+            <tr>
+                <th>Camp</th>
+                <th>Value</th>
+            </tr>
         </thead>
         <tbody>
             {#each Object.keys(payload) as key}
@@ -189,7 +191,7 @@ function HandleReset(){
 {/if}
 
 {#if !(uploadStatus == 'Uploaded' || stored)}
-    <i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>    
+    <i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>
 {/if}
 
 <span class="m-2">{$_('qrcode.or')}</span>
@@ -214,4 +216,3 @@ function HandleReset(){
     }
 
 </style>
-
