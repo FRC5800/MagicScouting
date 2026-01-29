@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
 // @ts-nocheck
 
 	import { onMount } from "svelte";
@@ -23,16 +25,20 @@
 
     App.addListener("backButton", () => {goto("/")});
 
-    let showDatabaseAlert = false;
+    let showDatabaseAlert = $state(false);
     let leaderboardData = writable([]);
-    $: avgCompetitionScore = 0;
-    $: avgCompetitionCycle = 0;
-    let isDataBaseSet;
-	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
-		isDataBaseSet = true;
-	} else {
-		isDataBaseSet = false;
-	}
+    let avgCompetitionScore = $state(0);
+    
+    let avgCompetitionCycle = $state(0);
+    
+    let isDataBaseSet = $state();
+	run(() => {
+        if ($dataBase != '' && $dataBase != '?' || !$useDB) {
+    		isDataBaseSet = true;
+    	} else {
+    		isDataBaseSet = false;
+    	}
+    });
 
     let allPoints = [
         "autoROneScore",
@@ -51,7 +57,7 @@
         "bargeStatus"
     ];
 
-    let biggestScore = 50;
+    let biggestScore = $state(50);
     function updateEventValues(TeamsData){
         let totalCycleAvg = [];
         let totalScore = [];
@@ -95,7 +101,9 @@
         }
     })
 
-    $: updateEventValues($TeamsDB);
+    run(() => {
+        updateEventValues($TeamsDB);
+    });
 
     function triggerToast() {
       showDatabaseAlert = true;
@@ -138,28 +146,28 @@
             <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.analytics_subtitle")}</h2>
             
             <div class="w-full flex flex-col gap-2 ">
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                <button onclick={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                     <i class="fi fi-rr-users-alt flex"></i>
                     <span>{$_("dataAnalysis.teams_analytics")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/matchAnalisys')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button onclick={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/matchAnalisys')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-columns-3 flex"></i>
                     <span>{$_("dataAnalysis.match_analytics")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/picklist')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button onclick={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/picklist')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-overview flex"></i>
                     <span>{$_("dataAnalysis.teams_picklist")}</span>
                     <div class="flex items-center justify-end grow">
                         <i class="fi fi-rr-angle-right flex"></i>
                     </div>
                 </button>
-                <button on:click={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
+                <button onclick={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/simulation')}}} class="btn btn-block flex flex-row justify-start bg-primary-opac text-primary-light gap-4">
                     <i class="fi fi-rr-dashboard-monitor flex"></i>
                     <span>{$_("dataAnalysis.match_simulation")}</span>
                     <div class="flex items-center justify-end grow">
@@ -177,8 +185,7 @@
             </div>
 
             <div class="w-full flex flex-col items-center mb-6">
-                <svelte:component
-                this={BarChartStacked}
+                <BarChartStacked
                     data={$leaderboardData}
                     options={{
                         toolbar: {enabled:false},

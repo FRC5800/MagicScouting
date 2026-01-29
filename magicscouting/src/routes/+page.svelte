@@ -1,4 +1,6 @@
 <script>
+	import { run, preventDefault } from 'svelte/legacy';
+
 	// @ts-nocheck
 	import '../app.css';
 	import '$lib/assets/App_Title.svg';
@@ -17,23 +19,25 @@
 	import DataBaseAlert from './DataBaseAlert.svelte';
 	import SelectInput from '$lib/components/SelectInput.svelte';
 
-	$: alliance = $_('home_page.alliance.option_blue');
+	let alliance = $derived($_('home_page.alliance.option_blue'));
 
-	let showModal = false;
-	let showConfig = false;
-	let showDataBase = false;
+	let showModal = $state(false);
+	let showConfig = $state(false);
+	let showDataBase = $state(false);
 
-	let team_number = '';
-	let match_number = '';
-	let team_position = '';
-	let validationError = false;
-	let isDataBaseSet;
-	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
-		isDataBaseSet = true;
-	} else {
-		showModal = true;
-		isDataBaseSet = false;
-	}
+	let team_number = $state('');
+	let match_number = $state('');
+	let team_position = $state('');
+	let validationError = $state(false);
+	let isDataBaseSet = $state();
+	run(() => {
+		if ($dataBase != '' && $dataBase != '?' || !$useDB) {
+			isDataBaseSet = true;
+		} else {
+			showModal = true;
+			isDataBaseSet = false;
+		}
+	});
 	
 	App.addListener("backButton", ()=>{showModal = false, showConfig = false});
 	
@@ -56,7 +60,9 @@
 	let showMorePositions = 'hidden';
 	let inicialPosition = 0;
 
-	$: console.log(team_position);
+	run(() => {
+		console.log(team_position);
+	});
 
 </script>
 
@@ -70,14 +76,14 @@
 
 	<hr />
 
-	<form id="team-info" class="w-4/5 team_info" on:forminput={() => {console.log('erro')}} on:submit|preventDefault={onSubmit}>
+	<form id="team-info" class="w-4/5 team_info" onforminput={() => {console.log('erro')}} onsubmit={preventDefault(onSubmit)}>
 		<div class="flex flex-row items-center justify-center center-container">
 			<label class="relative flex flex-row items-center cursor-pointer alliance-check">
 				<input
 					type="checkbox"
 					class="align-middle sr-only peer"
 					name="alliance"
-					on:click={(a) => {
+					onclick={(a) => {
 						alliance = alliance == $_('home_page.alliance.option_blue') ? $_('home_page.alliance.option_red') : $_('home_page.alliance.option_blue');
 					}}
 				/>

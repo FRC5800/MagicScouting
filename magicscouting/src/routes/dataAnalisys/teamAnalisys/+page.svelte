@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     // @ts-nocheck
     
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
@@ -21,16 +23,19 @@
     import { allPoints, coralPoints, algaePoints } from "$lib/shared/scripts/points";
 
 
-    $: data = $TeamsDB
+    let data = $derived($TeamsDB)
     console.log(data)
 
-    $: teamSearch = "";
-    $: selectedTeam = "";
-    $: activeTab = Object.keys($teamAnalysisData)[0] ?? "";
     
-    $: autoCompleteTeams = writable([]);
+    let selectedTeam = $state("");
+    
+    let activeTab = $derived(Object.keys($teamAnalysisData)[0] ?? "");
+    
+    let autoCompleteTeams = $derived(writable([]));
 
-    $: console.log($teamAnalysisData)
+    run(() => {
+        console.log($teamAnalysisData)
+    });
 
     let debounceTimeout;
     
@@ -48,7 +53,7 @@
     
     <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
         <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-            <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+            <i onclick={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
             <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.title")}</h1>
         </div>
     
@@ -61,13 +66,13 @@
                 {#key $teamAnalysisData}
                     {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
                         <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center min-w-max">
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <!-- svelte-ignore a11y-no-static-element-interactions -->
-                            <span on:click={()=>{activeTab=teamNumber}}>{teamNumber}</span>
+                            <!-- svelte-ignore a11y_click_events_have_key_events -->
+                            <!-- svelte-ignore a11y_no_static_element_interactions -->
+                            <span onclick={()=>{activeTab=teamNumber}}>{teamNumber}</span>
                             {#if activeTab==teamNumber}                            
-                                <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                <!-- svelte-ignore a11y-no-static-element-interactions -->
-                                <i on:click={()=>{handleTabClose(teamNumber)}} class="fi fi-rr-cross-small flex"></i> 
+                                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                                <i onclick={()=>{handleTabClose(teamNumber)}} class="fi fi-rr-cross-small flex"></i> 
                             {/if}
                         </span>           
                     {/each}
@@ -117,28 +122,28 @@
                         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
                         
                         <div class="w-full flex flex-col gap-2 max-w-[400px]">
-                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} disabled=true class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} disabled=true class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-bank"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.pit_data")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
-                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Teleop/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/Teleop/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-users-alt flex"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.teleop_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
-                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/Autonomous/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/Autonomous/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-overview flex"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.auto_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
-                            <button on:click={() => {goto(`/dataAnalisys/teamAnalisys/EndGame/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
+                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/EndGame/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-hourglass-end"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.endgame_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
@@ -150,8 +155,7 @@
                     
                     <div class="carousel carousel-center w-full max-w-fit">
                         <div class="carousel-item">
-                            <svelte:component
-                            this={DonutChart}
+                            <DonutChart
                             data={setupSimpleChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 {
@@ -174,8 +178,7 @@
                         /> 
                         </div>
                         <div class="carousel-item">
-                            <svelte:component
-                            this={DonutChart}
+                            <DonutChart
                             data={setupSimpleChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 {
@@ -202,8 +205,7 @@
                     <div class="divider w-full sm:hidden"></div>
                     <div class="carousel carousel-center w-full max-w-fit">
                         <div class="carousel-item">
-                            <svelte:component
-                        this={DonutChart}
+                            <DonutChart
                         data={setupModeChartsData(
                             $teamAnalysisData[activeTab].rawData,
                             "robotFunction",
@@ -228,8 +230,7 @@
                             /> 
                         </div>
                         <div class="carousel-item">
-                            <svelte:component
-                            this={DonutChart}
+                            <DonutChart
                             data={setupModeChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 "bargeStatus",
@@ -301,8 +302,7 @@
             />
         {/key}
         <div class="divider w-full sm:hidden"></div>
-        <svelte:component
-            this={ComboChart}
+        <ComboChart
             data={setupBarChartDataByMatch(
                 $teamAnalysisData[activeTab].rawData,
                 {

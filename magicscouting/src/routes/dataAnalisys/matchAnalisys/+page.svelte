@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     // @ts-nocheck
     
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
@@ -22,23 +24,30 @@
     import { allPoints, autoPoints, teleopPoints, algaePoints, coralPoints } from "$lib/shared/scripts/points";
     // import { Keyboard } from "@capacitor/keyboard";
 
-    $: data = $TeamsDB
-    $: teamSearch = "";
-    $: selectedTeam = "";
-    $: showDeleteTeamButton = 0;
-    $: autoCompleteTeams = writable([]);
-    $: teams = $matchAnalysisData ? writable(Object.keys($matchAnalysisData)) : writable([]);
-    $: teamsData = $matchAnalysisData;
-    let preventMoreTeams = false;
-    let showMaxTeamToast = false;
+    let data = $derived($TeamsDB)
+    let teamSearch = $state("");
+    
+    let selectedTeam = $state("");
+    
+    let showDeleteTeamButton = $state(0);
+    
+    let autoCompleteTeams = $derived(writable([]));
+    let teams = $derived($matchAnalysisData ? writable(Object.keys($matchAnalysisData)) : writable([]));
+    let teamsData = $derived($matchAnalysisData);
+    let preventMoreTeams = $state(false);
+    let showMaxTeamToast = $state(false);
 
-    $: if($teams.length == 3){preventMoreTeams = true}
-    else{preventMoreTeams = false};
+    run(() => {
+        if($teams.length == 3){preventMoreTeams = true}
+        else{preventMoreTeams = false}
+    });;
 
-    $: if(teamSearch != "" && preventMoreTeams){
-        teamSearch = "";
-        showMaxTeamToast = true;
-    }
+    run(() => {
+        if(teamSearch != "" && preventMoreTeams){
+            teamSearch = "";
+            showMaxTeamToast = true;
+        }
+    });
 
     function handleTabClose(teamNumber){
         delete $matchAnalysisData[teamNumber];
@@ -62,9 +71,11 @@
     }
 
 
-    $: if($teams.length > 0){
-        console.log($teams)
-    }
+    run(() => {
+        if($teams.length > 0){
+            console.log($teams)
+        }
+    });
 
     function getAvgTeamPoints(team){
         return getAverageDBvalues(
@@ -107,7 +118,7 @@
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="sm:w-[600px] w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-        <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <i onclick={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.matchAnalysis.title")}</h1>
     </div>
 
@@ -117,25 +128,25 @@
     </div>
 
     <div class="w-full flex mb-4 px-6 flex-row items-start h-fit sm:w-[600px]">
-        <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
             {#if showDeleteTeamButton == 1}
-                <span on:click={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[0] ? $teams[0] : "No team"}</div>
             <br>
             <div class="text-primary-base">{$teams[0] ? getAvgTeamPoints($teams[0]) + " pts" : ""}</div>
         </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
             {#if showDeleteTeamButton == 2}
-                <span on:click={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[1] ? $teams[1] : "No team"}</div>
             <br>
             <div class="text-primary-base">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
         </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
             {#if showDeleteTeamButton == 3}
-                <span on:click={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[2] ? $teams[2] : "No team"}</div>
             <br>
@@ -161,8 +172,7 @@
 
             <div class="divider"></div>
 
-            <svelte:component
-            this={DonutChart}
+            <DonutChart
             data={setupAllianceChartData(
                 formatChartReference($teams),
             )}
@@ -181,8 +191,7 @@
 
             <div class="divider"></div>
 
-            <svelte:component
-            this={BarChartSimple}
+            <BarChartSimple
             data={setupAllianceChartData(
                 {
                     "L1" : {fields:["autoROneScore", "teleopROneScore"], teams: $teams}, 

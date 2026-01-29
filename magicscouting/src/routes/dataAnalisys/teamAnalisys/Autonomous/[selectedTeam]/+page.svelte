@@ -18,7 +18,7 @@
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
 
-    export let data;
+    let { data } = $props();
     let teamData = $teamAnalysisData[data.selectedTeam];
 
     let rawData = writable(getTeamScoutingData(teamData.team));
@@ -50,7 +50,7 @@
 
 {#if teamData}
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-        <i on:click={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <i onclick={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <div class="grow flex flex-row gap-4 items-center">
 
             <img width="50px" src={teamData.logo} alt="Team Logo" />
@@ -88,8 +88,7 @@
             </div>
         </div>
 
-        <svelte:component
-        this={BarChartGrouped}
+        <BarChartGrouped
         data={setupBarChartsData(
             $rawData,
             {
@@ -114,8 +113,7 @@
 
         <div class="divider"></div>
 
-        <svelte:component
-        this={BarChartGrouped}
+        <BarChartGrouped
         data={setupBarChartsData(
             $rawData,
             {
@@ -193,8 +191,7 @@
 
         <div class="divider"></div>
 
-        <svelte:component
-            this={ComboChart}
+        <ComboChart
             data={setupBarChartDataByMatch(
                 $rawData,
                 {

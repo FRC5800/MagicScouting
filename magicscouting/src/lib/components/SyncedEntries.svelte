@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
 // @ts-nocheck
     import { _ } from "svelte-i18n";
     
@@ -11,13 +13,14 @@
     import { getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
 
-    export let payload = {"team":5800, "match":2};
-    export let index;
+  let { payload = $bindable({"team":5800, "match":2}), index } = $props();
     
-    let src = ''
+    let src = $state('')
 
     let showQrCode = false
-    $: console.log(showQrCode)
+    run(() => {
+    console.log(showQrCode)
+  });
     
     function avgArray(arr){
         let sum = 0;
@@ -25,7 +28,7 @@
         return arr.length > 0 ? sum/arr.length : 0;
     }
     let buttonColor = ""
-    let uploadDisabled = false;
+    let uploadDisabled = $state(false);
     let uploadSuccess = 'undefined';
     let buttonText = "Upload";
 
@@ -68,7 +71,7 @@
         src = url;
     })
     }
-    let teamData = {name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="};
+    let teamData = $state({name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="});
     onMount(() => {
         getTBAData(payload.team).then((r) => {
             teamData = r
@@ -87,7 +90,7 @@
         <div class="dropdown absolute right-0 top-0 dropdown-end">
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
-                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete(); $syncedEntries = $syncedEntries}}><a href="">{$_('misc.delete_button')}</a></li>
+                <li onkeydown={(e) => {if(e.key == "Enter") HandleDelete()}} onclick={() => {HandleDelete(); $syncedEntries = $syncedEntries}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
         </div>
 
@@ -98,7 +101,7 @@
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button on:click={()=>{document.getElementById('sync_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
+            <button onclick={()=>{document.getElementById('sync_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
             <button class="btn btn-circle btn-primary hover:bg-primary-base bg-buttons border-buttons pointer-events-none bg-[#aaffc4] dark:bg-buttons {uploadDisabled || !$useDB ? "btn-disabled" : ""} text-2xl">
                 <i class="fi fi-br-check-circle flex"></i>
             </button>

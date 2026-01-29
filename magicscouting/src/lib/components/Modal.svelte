@@ -1,16 +1,38 @@
 <script>
-// @ts-nocheck
+	import { run, self } from 'svelte/legacy';
 
-	export let showModal;
-	export let showConfig = false;
-	export let showDataBase = false;
-	export let showX = true;
-	export let changeNameLater = true;
 
-	let dialog;
 
-	$: if (dialog && showModal) dialog.showModal();
-	$: if (dialog && !showModal && !showConfig) dialog.close();
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} showModal
+	 * @property {boolean} [showConfig]
+	 * @property {boolean} [showDataBase]
+	 * @property {boolean} [showX]
+	 * @property {boolean} [changeNameLater]
+	 * @property {import('svelte').Snippet} [header]
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let {
+		showModal = $bindable(),
+		showConfig = $bindable(false),
+		showDataBase = $bindable(false),
+		showX = true,
+		changeNameLater = true,
+		header,
+		children
+	} = $props();
+
+	let dialog = $state();
+
+	run(() => {
+		if (dialog && showModal) dialog.showModal();
+	});
+	run(() => {
+		if (dialog && !showModal && !showConfig) dialog.close();
+	});
 
 	function handleClose() {
 		showModal = false;
@@ -19,19 +41,19 @@
 	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
-	on:close={()=>{if(changeNameLater)handleClose}}
-	on:click|self={() => {if(changeNameLater)dialog.close();console.log(showModal)}}
+	onclose={()=>{if(changeNameLater)handleClose}}
+	onclick={self(() => {if(changeNameLater)dialog.close();console.log(showModal)})}
 	class="bg-[#EAEAEC] dark:bg-primary-heavy dark:border-4 text-[#393939] dark:text-white dark:border-[#2E2947]"
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div class="py-4 px-[5vw] sm:px-[15vw] min-h-fit w-[60vw] max-sm:w-fit min-w-[70vw]">
 		{#if showX}
 			<i
 			class="fi fi-rr-cross absolute top-[1em] right-[1em] hover:cursor-pointer"
-			on:click={() => {
+			onclick={() => {
 				dialog.close();
 			}}
 			></i>
@@ -40,14 +62,14 @@
 		{#if showConfig || showDataBase}
 			<i
 				class="fi fi-rr-angle-left absolute top-[1em] left-[1em] hover:cursor-pointer"
-				on:click={() => {
+				onclick={() => {
 					(showConfig = false), (showModal = true), (showDataBase = false);
 				}}
 			></i>
 		{/if}
-		<slot name="header" />
+		{@render header?.()}
 		<hr />
-		<slot />
+		{@render children?.()}
 		<hr />
 	</div>
 </dialog>

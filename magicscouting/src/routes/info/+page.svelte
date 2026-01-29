@@ -11,10 +11,10 @@
     import InfoSelect from "./infoSelect.svelte";
     import ResetModal from '$lib/components/ResetModal.svelte';
 
-    let teamRole = "";
-    let robotStatus = "safe";
-    let coopertition = "";
-    let validationError = false;
+    let teamRole = $state("");
+    let robotStatus = $state("safe");
+    let coopertition = $state("");
+    let validationError = $state(false);
 
     async function onSubmit() {
 		if(teamRole == '' || robotStatus == '' || coopertition == '') {
@@ -30,7 +30,7 @@
 		}
 	}
 
-    let resetConfirmation = false;
+    let resetConfirmation = $state(false);
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
     beforeNavigate(({ to, cancel }) => {
 		if (to?.route.id !== "/qrcode") {
@@ -50,10 +50,10 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div on:click={()=>{teamRole="coral"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="coral" ? 'bg-primary-base text-[#E0E0E0]':''}">Coral</div>
-        <div on:click={()=>{teamRole="algae"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="algae" ? 'bg-primary-base text-[#E0E0E0]':''}">Algae</div>
-        <div on:click={()=>{teamRole="alg_cor"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="alg_cor" ? 'bg-primary-base text-[#E0E0E0]':''}">Both</div>
-         <div on:click={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base text-[#E0E0E0]':''}">Def</div>
+        <div onclick={()=>{teamRole="coral"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="coral" ? 'bg-primary-base text-[#E0E0E0]':''}">Coral</div>
+        <div onclick={()=>{teamRole="algae"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="algae" ? 'bg-primary-base text-[#E0E0E0]':''}">Algae</div>
+        <div onclick={()=>{teamRole="alg_cor"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="alg_cor" ? 'bg-primary-base text-[#E0E0E0]':''}">Both</div>
+         <div onclick={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base text-[#E0E0E0]':''}">Def</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (teamRole == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
@@ -64,8 +64,8 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div on:click={()=>{if(robotStatus=="broke"){robotStatus="safe"}else{robotStatus="broke"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="broke" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.broke')}</div>
-        <div on:click={()=>{if(robotStatus=="commLoss"){robotStatus="safe"}else{robotStatus="commLoss"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.communication_fault')}</div>
+        <div onclick={()=>{if(robotStatus=="broke"){robotStatus="safe"}else{robotStatus="broke"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="broke" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.broke')}</div>
+        <div onclick={()=>{if(robotStatus=="commLoss"){robotStatus="safe"}else{robotStatus="commLoss"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.communication_fault')}</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (robotStatus == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
@@ -76,13 +76,13 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div on:click={()=>{coopertition="yes"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="yes" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.yes')}</div>
-        <div on:click={()=>{coopertition="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="no" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.no')}</div>
+        <div onclick={()=>{coopertition="yes"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="yes" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.yes')}</div>
+        <div onclick={()=>{coopertition="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="no" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.no')}</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (coopertition == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 
-<button on:click={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
+<button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
     h2{

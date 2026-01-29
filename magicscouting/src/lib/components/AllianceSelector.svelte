@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     // @ts-nocheck
     
     import { onMount } from "svelte";
@@ -17,30 +19,42 @@
 	import { goto } from "$app/navigation";
 
 
-	export let dataStore = "alliance1";
-	export let simulationData; 
-    export let title = "Alliance 1";
+    /**
+     * @typedef {Object} Props
+     * @property {string} [dataStore]
+     * @property {any} simulationData
+     * @property {string} [title]
+     */
+
+    /** @type {Props} */
+    let { dataStore = "alliance1", simulationData = $bindable(), title = "Alliance 1" } = $props();
 
 
-    $: teamSearch = "";
-    $: showDeleteTeamButton = 0;
+    let teamSearch = $state("");
+    
+    let showDeleteTeamButton = $state(0);
+    
 
-    $: teams = simulationData ? writable(Object.keys(simulationData[dataStore])) : writable([]);
-    $: teamsData = simulationData[dataStore];
+    let teams = $derived(simulationData ? writable(Object.keys(simulationData[dataStore])) : writable([]));
+    let teamsData = $derived(simulationData[dataStore]);
 
-    let preventMoreTeams = false;
-    let showMaxTeamToast = false;
+    let preventMoreTeams = $state(false);
+    let showMaxTeamToast = $state(false);
 
-    $: if($teams.length == 3){
-		preventMoreTeams = true
-	}else{
-		preventMoreTeams = false
-	};
+    run(() => {
+        if($teams.length == 3){
+    		preventMoreTeams = true
+    	}else{
+    		preventMoreTeams = false
+    	}
+    });;
 
-    $: if(teamSearch != "" && preventMoreTeams){
-        teamSearch = "";
-        showMaxTeamToast = true;
-    }
+    run(() => {
+        if(teamSearch != "" && preventMoreTeams){
+            teamSearch = "";
+            showMaxTeamToast = true;
+        }
+    });
 
     function handleTabClose(teamNumber){
         delete simulationData[dataStore][teamNumber];
@@ -71,9 +85,11 @@
             )
     }
 
-    $: if($teams.length > 0){
-        console.log($teams)
-    }
+    run(() => {
+        if($teams.length > 0){
+            console.log($teams)
+        }
+    });
 
     function analyseAlliance(){
         matchAnalysisData.set(simulationData[dataStore])
@@ -90,25 +106,25 @@
 
     
     <div class="w-full flex mb-1 px-6 flex-row items-start h-fit">
-        <button on:click={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(1)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-r-none">
             {#if showDeleteTeamButton == 1}
-                <span on:click={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(1)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[0] ? $teams[0] : "No team"}</div>
             <br>
             <div class="text-primary-base">{$teams[0] ? getAvgTeamPoints($teams[0]) + " pts" : ""}</div>
         </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(2)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-none">
             {#if showDeleteTeamButton == 2}
-                <span on:click={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(2)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
                 {/if}
                 <div>{$teams[1] ? $teams[1] : "No team"}</div>
                 <br>
                 <div class="text-primary-base">{$teams[1] ? getAvgTeamPoints($teams[1]) + " pts" : ""}</div>
             </button>
-        <button on:click={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
+        <button onclick={()=>{handleDeleteTeamButtonState(3)}} class="indicator grow py-1 basis-1 btn btn-outline rounded-l-none">
             {#if showDeleteTeamButton == 3}
-                <span on:click={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
+                <span onclick={()=>{deleteTeam(3)}} class="z-50 indicator-item badge badge-secondary h-5 w-5 p-0">X</span>                
             {/if}
             <div>{$teams[2] ? $teams[2] : "No team"}</div>
             <br>
@@ -116,7 +132,7 @@
         </button>
     </div>
     <div class="w-full px-6 mb-4">
-        <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" disabled={$teams.length==0} on:click={()=>{analyseAlliance()}} >
+        <button class="m-0 mt-4 font-bold btn w-full btn-primary hover:bg-primary-base bg-buttons border-buttons" disabled={$teams.length==0} onclick={()=>{analyseAlliance()}} >
             {$_("dataAnalysis.simulation.analyze_alliance")}
         </button> 
     </div>

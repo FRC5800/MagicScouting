@@ -1,5 +1,12 @@
 <script>
   import { _ } from 'svelte-i18n';
+  /**
+   * @typedef {Object} Props
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let { children } = $props();
 </script>
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
     <div class="w-full flex grow gap-4 px-6 pt-6 pb-3 flex-col items-center rounded-b-xl">
@@ -7,6 +14,6 @@
     </div>
 
     <div class="px-6 w-full mb-20">
-        <slot/>
+        {@render children?.()}
     </div>
 </main>

@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     // @ts-nocheck
     import { TeamsDB } from "$lib/shared/stores/teamsData";
     import { _ } from 'svelte-i18n';
@@ -10,30 +12,13 @@
 
     let allTeams = getSortedTeams($TeamsDB);
     console.log($TeamsDB)
-    let displayFilter = "all";
+    let displayFilter = $state("all");
 
-    let teamsData = [];
+    let teamsData = $state([]);
 
-    $: if(displayFilter == "all"){
-        createAllTable();
-    } else if(displayFilter == "auto"){
-        createAutoTable();
-    } else if(displayFilter == "teleop"){
-        createTeleopTable();
-    } else {
-        createEndgameTable();
-    }
 
-    $: activeFilter = "score_by_match"
-    let reverseFilter = false
+    let reverseFilter = $state(false)
 
-    $: teamsData = teamsData.sort((a, b) => {
-        if(reverseFilter){
-            return a[activeFilter] - b[activeFilter]
-        } else {
-            return b[activeFilter] - a[activeFilter]
-        }
-    })
 
 
     function createAllTable(){
@@ -138,24 +123,46 @@
         teamsData = data;
     }
 
+    run(() => {
+        if(displayFilter == "all"){
+            createAllTable();
+        } else if(displayFilter == "auto"){
+            createAutoTable();
+        } else if(displayFilter == "teleop"){
+            createTeleopTable();
+        } else {
+            createEndgameTable();
+        }
+    });
+    let activeFilter = $state("score_by_match");
+    
+    run(() => {
+        teamsData = teamsData.sort((a, b) => {
+            if(reverseFilter){
+                return a[activeFilter] - b[activeFilter]
+            } else {
+                return b[activeFilter] - a[activeFilter]
+            }
+        })
+    });
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-20">
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-        <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <i onclick={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.picklist.title")}</h1>
     </div>
     <div class="w-full flex flex-row gap-2 px-6 mb-2">
-        <button on:click={()=>{displayFilter="all"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="all" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+        <button onclick={()=>{displayFilter="all"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="all" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
           {$_('storage.filters.all')}
         </button>
-        <button on:click={()=>{displayFilter="auto"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="auto" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+        <button onclick={()=>{displayFilter="auto"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="auto" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
           Auto
         </button>
-        <button on:click={()=>{displayFilter="teleop"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="teleop" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+        <button onclick={()=>{displayFilter="teleop"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="teleop" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
           Teleop
         </button>
-        <button on:click={()=>{displayFilter="endgame"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="endgame" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+        <button onclick={()=>{displayFilter="endgame"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="endgame" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
           Endgame
         </button>
       </div>  
@@ -165,7 +172,7 @@
             <table class="table">
                 <thead>
                     {#each Object.keys(teamsData[0]) as heading}
-                    <th on:click={()=>{if (activeFilter.includes(heading) && !reverseFilter) {activeFilter = heading; reverseFilter = true} else{activeFilter = heading; reverseFilter = false}}} class="bg-primary-opac">
+                    <th onclick={()=>{if (activeFilter.includes(heading) && !reverseFilter) {activeFilter = heading; reverseFilter = true} else{activeFilter = heading; reverseFilter = false}}} class="bg-primary-opac">
                         {$_(`dataAnalysis.picklist.${heading}`)}
                         {#if activeFilter.includes(heading) && !reverseFilter}
                             <i class="fi fi-rr-arrow-small-up"></i>

@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
 // @ts-nocheck
     import { _ } from "svelte-i18n";
     
@@ -12,13 +14,14 @@
     import { onMount } from "svelte";
 	import Toast from "./Toast.svelte";
 
-    export let payload = {"team":5800, "match":2};
-    export let index;
+    let { payload = $bindable({"team":5800, "match":2}), index } = $props();
     
-    let src = ''
+    let src = $state('')
 
     let showQrCode = false
-    $: console.log(showQrCode)
+    run(() => {
+        console.log(showQrCode)
+    });
     
     function avgArray(arr){
         let sum = 0;
@@ -26,10 +29,10 @@
         return arr.length > 0 ? sum/arr.length : 0;
     }
     let buttonColor = ""
-    let uploadDisabled = false;
-    let uploadSuccess = 'undefined';
+    let uploadDisabled = $state(false);
+    let uploadSuccess = $state('undefined');
     let buttonText = "Upload";
-    let showRepeatedDataToast = false;
+    let showRepeatedDataToast = $state(false);
 
     async function HandleUpload(){
         try{
@@ -76,7 +79,7 @@
         src = url;
     })
     }
-    let teamData = {name:"Team", logo: getDefaultLogo()};
+    let teamData = $state({name:"Team", logo: getDefaultLogo()});
     onMount(() => {
         getTBAData(payload.team).then((r) => {
             teamData = r
@@ -103,7 +106,7 @@
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
                 <!-- <li><a>Edit</a></li> -->
-                <li on:keydown={(e) => {if(e.key == "Enter") HandleDelete()}} on:click={() => {HandleDelete()}}><a href="">{$_('misc.delete_button')}</a></li>
+                <li onkeydown={(e) => {if(e.key == "Enter") HandleDelete()}} onclick={() => {HandleDelete()}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
         </div>
         <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
@@ -113,8 +116,8 @@
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
-            <button on:click={()=>{document.getElementById('entry_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
-            <button on:click={()=>{if(uploadSuccess != false) HandleUpload()}} class="btn btn-circle {(uploadDisabled || !$useDB) && uploadSuccess != false ? "btn-disabled" : ""} {!uploadSuccess ? 'btn-warning' : 'btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons'}">
+            <button onclick={()=>{document.getElementById('entry_'+index).showModal()}} class="btn grow bg-primary-opac">{$_('misc.visualize_button')}</button>
+            <button onclick={()=>{if(uploadSuccess != false) HandleUpload()}} class="btn btn-circle {(uploadDisabled || !$useDB) && uploadSuccess != false ? "btn-disabled" : ""} {!uploadSuccess ? 'btn-warning' : 'btn-primary hover:bg-primary-base bg-buttons border-buttons dark:bg-bg-buttons'}">
                 {#if (uploadDisabled && uploadSuccess == "undefined")}
                     <span class="loading loading-spinner"></span>
                 {:else}
