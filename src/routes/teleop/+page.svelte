@@ -8,12 +8,12 @@
 	import { App } from '@capacitor/app';
 	import { goto, beforeNavigate } from '$app/navigation';
 	import storeData from "$lib/shared/scripts/controlData.js";
-  import ResetModal from '$lib/components/ResetModal.svelte';
+    import ResetModal from '$lib/components/ResetModal.svelte';
 	import SelectInput from '$lib/components/SelectInput.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { page } from '$app/stores';
-  import { get } from 'svelte/store';
-  import ReefImage from "$lib/assets/reef_image.png";
+    import { get } from 'svelte/store';
+    import ReefImage from "$lib/assets/reef_image.png";
 	import ProcessorImage from "$lib/assets/processor_image.png";
 	import NetImage from "$lib/assets/net_image.png";
 	import BargeImage from "$lib/assets/barge_image.png";
@@ -31,7 +31,7 @@
 	let lvl2CoralMisses = $state(0);
 	let lvl3CoralMisses = $state(0);
 	let lvl4CoralMisses = $state(0);
-	
+
 	//ALGAE VALUES
 	let lowAlgae = $state(0);
 	let highAlgae = $state(0);
@@ -42,7 +42,7 @@
 	let processorMisses = $state(0);
 
 	let netPoints = $state(0);
-	let netMisses = $state(0);	
+	let netMisses = $state(0);
 	//BARGE VALUES
 	let barge = $state("none")
 
@@ -150,7 +150,7 @@
 	function handleGamePieceCycle(location){
 		console.log("this is floorcycle: " + coralFloorCycle)
 		console.log("this is location: " + location);
-		location.push(Math.round(gamePieceCycle*10)/10);	
+		location.push(Math.round(gamePieceCycle*10)/10);
 		gamePieceCycle = 0;
 	}
 
@@ -186,7 +186,7 @@
 		<h1 class="text-4xl header">{$_('teleop.title')}</h1>
 		<div class="separator w-full"></div>
 	</div>
-	
+
 
 	<div class="container items-center justify-center rounded">
 		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
@@ -273,7 +273,7 @@
 			<div onclick={()=>{barge = "shallow"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="shallow" ? 'bg-primary-base text-[#E0E0E0]':''}">Shallow</div>
 			<div onclick={()=>{barge = "deep"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="deep" ? 'bg-primary-base text-[#E0E0E0]':''}">Deep</div>
 		</div>
-		
+
 	</div>
 
 	<div class="w-full flex flex-col items-center justify-center CycleBarge">
@@ -289,18 +289,18 @@
 				</div>
 			{:else}
 				<div class="flex flex-row items-center justify-around w-1/2 h-full p-3 border-l cursor-pointer">
-					
-					<i 
+
+					<i
 					role="button" tabindex="0"
 					onkeydown={(e) => {if(e.key == "Enter") pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
 					onclick={() => {pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
 					class="w-3/12 text-center flex text-[1.7rem] {pauseBargeCycle == 'paused' ? 'fi fi-sr-play text-[1.6rem]' : 'fi fi-sr-pause text-[1.7rem]'}">
 					</i>
-					
+
 					<i role="button" tabindex="0" onkeydown={(e) => {if (e.key == "Enter") stopBargeCycle()}} onclick={stopBargeCycle} class="w-3/12 flex text-center text-[1.8rem] fi fi-sr-check"></i>
-					
+
 					<i role="button" tabindex="0" onkeydown={(e) => {if (e.key == "Enter") discardBargeCycle()}} onclick={discardBargeCycle} class="fi fi-br-cross flex w-3/12 text-center text-[1.6rem]"></i>
-				
+
 				</div>
 			{/if}
 		</div>
@@ -335,7 +335,7 @@
 					<div onclick={()=>{sourceType="station"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="station" ? 'bg-primary-base':''}">Station</div>
 					<div onclick={()=>{sourceType="floor"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="floor" ? 'bg-primary-base':''}">{$_('teleop.note_cycle.option_floor')}</div>
 			</div>
-		</div>		
+		</div>
 	{/if}
 
 
@@ -351,7 +351,7 @@
 		<div class="w-full flex items-center">
 			<div onclick={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">{$_('misc.cancel_button')}</div>
 			<div onclick={()=>{if(pauseGamePieceCycle!="paused"){pauseGamePieceCycle="paused"}else{pauseGamePieceCycle=""}}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D6EAF8] text-black">{pauseGamePieceCycle!="paused" ? $_('teleop.note_cycle.pause') : $_('teleop.note_cycle.start_cycle')}</div>
-			{#if selectedTimerOption!=-1}				
+			{#if selectedTimerOption!=-1}
 			<div onclick={()=>{stopGamePieceCycle(); TimerOptions[selectedTimerOption].handler()}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">{$_('misc.save_button')}</div>
 			{/if}
 		</div>
