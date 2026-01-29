@@ -18,53 +18,49 @@
 	import NetImage from "$lib/assets/net_image.png";
 	import BargeImage from "$lib/assets/barge_image.png";
 
-	let showModal = $state(false);
-	let cancelCycle = $state(false);
+	let scoredFuelNumber = $state(0);
+	let collectsFromGround = $state(false);
+	let collectsFromOutpost = $state(false);
+	let collectsFromNeutral = $state(false);
+	let collectsFromDepot = $state(false);
 
-	//CORAL VALUES
-	let lvl1CoralPoints = $state(0);
-	let lvl2CoralPoints = $state(0);
-	let lvl3CoralPoints = $state(0);
-	let lvl4CoralPoints = $state(0);
-	let coralSelectedLevel = $state("lvl1")
-	let lvl1CoralMisses = $state(0);
-	let lvl2CoralMisses = $state(0);
-	let lvl3CoralMisses = $state(0);
-	let lvl4CoralMisses = $state(0);
+	let climbTime = $state(0);
+	let climbLevel = $state("none")
 
-	//ALGAE VALUES
-	let lowAlgae = $state(0);
-	let highAlgae = $state(0);
-	let algaeSelectedLevel = $state("low")
+	let climbTimeCounting = $state(false);
+	let pauseClimbTime = $state(false);
+	let climbTimer;
 
-	// PROCESSOR
-	let processorPoints = $state(0);
-	let processorMisses = $state(0);
+	let passesByBump = $state(false);
+	let passesByLowBar = $state(false);
 
-	let netPoints = $state(0);
-	let netMisses = $state(0);
-	//BARGE VALUES
-	let barge = $state("none")
+	let feedingFuelNumber = $state(0);
+
+	function startClimbTime() {
+		climbTimeCounting = true;
+		climbTime = 0;
+		pauseClimbTime = false;
+		climbTimer = setInterval(() => {
+		if(!pauseClimbTime) climbTime = Math.round((climbTime+0.1)*10)/10;
+		}, 100);
+	}
+
+	function stopClimbTime() {
+		climbTimeCounting = false;
+		pauseClimbTime = true;
+		clearInterval(climbTimer);
+		console.log(climbTime);
+	}
+	function discardClimbTime() {
+		climbTimeCounting = false;
+		pauseClimbTime = true;
+		clearInterval(climbTimer);
+		climbTime = 0;
+	}
+
+
 
 	let resetConfirmation = $state(false);
-	let redirectUrl = ""
-
-	function setCoralPoint(point){
-		if (coralSelectedLevel == "lvl1" && !(point<0 && lvl1CoralPoints == 0)) {lvl1CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl2" && !(point<0 && lvl2CoralPoints == 0)) {lvl2CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl3" && !(point<0 && lvl3CoralPoints == 0)) {lvl3CoralPoints+=point}
-		else if (coralSelectedLevel == "lvl4" && !(point<0 && lvl4CoralPoints == 0)) {lvl4CoralPoints+=point}
-	}
-	function setCoralMiss(miss){
-		if (coralSelectedLevel == "lvl1" && !(miss<0 && lvl1CoralMisses == 0)) {lvl1CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl2" && !(miss<0 && lvl2CoralMisses == 0)) {lvl2CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl3" && !(miss<0 && lvl3CoralMisses == 0)) {lvl3CoralMisses+=miss}
-		else if (coralSelectedLevel == "lvl4" && !(miss<0 && lvl4CoralMisses == 0)) {lvl4CoralMisses+=miss}
-	}
-	function setAlgaePoint(point){
-		if (algaeSelectedLevel == "low" && !(point<0 && lowAlgae == 0)) {lowAlgae+=point}
-		else if (algaeSelectedLevel == "high" && !(point<0 && highAlgae == 0)) {highAlgae+=point}
-	}
 
 	App.addListener("backButton", () => {resetConfirmation = true;});
 	beforeNavigate(({ to, cancel }) => {
@@ -75,291 +71,105 @@
     	}
   	});
 
-	//barge timer
-	let bargeCycle = $state(0);
-	let bargeTimer;
-	let bargeCycleCounting = $state(false);
-	let pauseBargeCycle = $state('');
-
-	//GamePiece timer
-	let gamePieceCycle = $state(0);
-	let coralFloorCycle = [];
-	let coralStationCycle = [];
-	let algaeCycle = [];
-	let gamePieceTimer;
-	let gamePieceCycleCounting = false;
-	let pauseGamePieceCycle = $state('');
-	let gpType = $state("");
-	let sourceType = $state("");
-	let selectedTimerOption = $derived(gpType=="algae" ? 2 : gpType=="coral" && sourceType=="station" ? 1 : gpType=="coral" && sourceType=="floor" ? 0 : -1);
-	run(() => {
-		console.log(selectedTimerOption)
-	});
-	let TimerOptions = [
-		{ id: '0', content: "Coral Chão", value: 'coralFloor', handler: () => {handleGamePieceCycle(coralFloorCycle)} },
-		{ id: '1', content: "Coral Station", value: 'coralStation', handler: () => {handleGamePieceCycle(coralStationCycle)}},
-		{ id: '2', content: "Algae", value: 'algae', handler: () => {handleGamePieceCycle(algaeCycle)}}
-	];
-
-	function startBargeCycle() {
-		bargeCycleCounting = true;
-		bargeCycle = 0;
-		bargeTimer = setInterval(() => {
-			if(pauseBargeCycle != 'paused') bargeCycle = Math.round((bargeCycle+0.1)*10)/10;
-		}, 100);
-	}
-
-	function stopBargeCycle() {
-		bargeCycleCounting = false;
-		pauseBargeCycle = '';
-		clearInterval(bargeTimer);
-		console.log(bargeCycle);
-	}
-	function discardBargeCycle() {
-		bargeCycleCounting = false;
-		pauseBargeCycle = '';
-		clearInterval(bargeTimer);
-		bargeCycle = 0;
-	}
-
-	function startGamePieceCycle() {
-		gamePieceCycleCounting = true;
-		gamePieceCycle = 0;
-		gamePieceTimer = setInterval(() => {
-			if(pauseGamePieceCycle != 'paused') gamePieceCycle = Math.round((gamePieceCycle+0.1)*10)/10;
-		}, 100);
-	}
-
-	function stopGamePieceCycle() {
-		gamePieceCycleCounting = false;
-		pauseGamePieceCycle = '';
-		clearInterval(gamePieceTimer);
-		console.log(gamePieceCycle);
-		showModal = false;
-		cancelCycle = false;
-	}
-	function discardGamePieceCycle() {
-		gamePieceCycleCounting = false;
-		pauseGamePieceCycle = '';
-		clearInterval(gamePieceTimer);
-		gamePieceCycle = 0;
-		showModal = false;
-		cancelCycle = false;
-	}
-
-	function handleGamePieceCycle(location){
-		console.log("this is floorcycle: " + coralFloorCycle)
-		console.log("this is location: " + location);
-		location.push(Math.round(gamePieceCycle*10)/10);
-		gamePieceCycle = 0;
-	}
-
 	function onSubmit() {
 		storeData({
-			 	"teleopROneScore": lvl1CoralPoints,
-				"teleopRTwoScore": lvl2CoralPoints,
-				"teleopRThreeScore": lvl3CoralPoints,
-				"teleopRFourScore": lvl4CoralPoints,
-				"teleopROneMiss": lvl1CoralMisses,
-				"teleopRTwoMiss": lvl2CoralMisses,
-				"teleopRThreeMiss": lvl3CoralMisses,
-				"teleopRFourMiss": lvl4CoralMisses,
-				"teleopRemoveAlgaeHigh": highAlgae,
-				"teleopRemoveAlgaeLow": lowAlgae,
-				"teleopProcessorScore": processorPoints,
-				"teleopProcessorMiss": processorMisses,
-				"teleopNetScore": netPoints,
-				"teleopNetMiss": netMisses,
-				"bargeStatus": barge,
-				"bargeTime": String(bargeCycle).replace(".", ","),
-				"coralStationCycleTime": JSON.stringify(coralStationCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
-				"coralFloorCycleTime": JSON.stringify(coralFloorCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
-				"algaeCycleTime":JSON.stringify(algaeCycle).replaceAll("[", "").replaceAll("]", "").replaceAll(",", ";").replaceAll(".", ","),
-				});
+			 	"teleopFuelNumber": scoredFuelNumber,
+               	"teleopCollectsFromGround": collectsFromGround,
+               	"teleopCollectsFromOutpost": collectsFromOutpost,
+               	"teleopCollectsFromNeutral": collectsFromNeutral,
+               	"teleopCollectsFromDepot": collectsFromDepot,
+                "teleopClimb": climbLevel,
+                "teleopClimbTime": climbTime,
+                "passesByBump": passesByBump,
+                "passesByLowBar": passesByLowBar,
+                "feedingFuelNumber": feedingFuelNumber
+		});
 		goto('/info');
 	}
+
+	$effect( () => {
+	    console.log($state.snapshot({
+				"teleopFuelNumber": scoredFuelNumber,
+               	"teleopCollectsFromGround": collectsFromGround,
+               	"teleopCollectsFromOutpost": collectsFromOutpost,
+               	"teleopCollectsFromNeutral": collectsFromNeutral,
+               	"teleopCollectsFromDepot": collectsFromDepot,
+                "teleopClimb": climbLevel,
+                "teleopClimbTime": climbTime,
+                "passesByBump": passesByBump,
+                "passesByLowBar": passesByLowBar,
+                "feedingFuelNumber": feedingFuelNumber
+			}))
+	})
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
-
-<section class="w-4/5 gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center mb-20">
-	<div class="flex flex-col w-full">
+<section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
+	<div class="flex flex-col">
 		<h1 class="text-4xl header">{$_('teleop.title')}</h1>
 		<div class="separator w-full"></div>
 	</div>
 
-
 	<div class="container items-center justify-center rounded">
 		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
-			<h2 class="text-white text-normal font-medium">Reef - Coral</h2>
+			<h2 class="text-white text-normal font-medium">HUB</h2>
 			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div onclick={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralPoints : coralSelectedLevel=="lvl2" ? lvl2CoralPoints : coralSelectedLevel=="lvl3" ? lvl3CoralPoints : coralSelectedLevel=="lvl4" ? lvl4CoralPoints : ''}</div>
-			<div onclick={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8 select-none">+</div>
+		    <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -1</button>
+
+		<!-- main hub score block -->
+		<!-- <div class="bg-blue-600 rounded-xl px-4 py-2 flex items-center gap-3 shadow-lg"> -->
+    		<div class="w-16 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
+    		<div class="grid grid-cols-3 gap-1">
+    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=1}}>+1</button>
+    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=5}}>+5</button>
+    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=10}}>+10</button>
+    		</div>
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
-			<div onclick={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
-			<div onclick={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
-		</div>
-		<div class="w-full flex items-center rounded-b overflow-hidden">
-			<div onclick={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
-			<div onclick={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
-			<div onclick={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
-			<div onclick={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base':''}">LVL4</div>
-		</div>
+
+        <div class="w-full flex items-center rounded-b overflow-hidden">
+           	<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
+           	<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromDepot ? 'bg-primary-base':''}">DEPOT</button>
+           	<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromNeutral ? 'bg-primary-base':''}">NEUTRAL</button>
+           	<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromOutpost ? 'bg-primary-base':''}">OUTPOST</button>
+        </div>
+	</div>
+	<div class="w-full flex items-center rounded-b overflow-hidden">
+        <button onclick={()=>{climbLevel = "none"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "none" ? 'bg-primary-base':''}">No Climb</button>
+	    <button onclick={()=>{climbLevel = "L1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L1" ? 'bg-primary-base':''}">L1</button>
+		<button onclick={()=>{climbLevel = "L2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L2" ? 'bg-primary-base':''}">L2</button>
+		<button onclick={()=>{climbLevel = "L3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L3" ? 'bg-primary-base':''}">L3</button>
 	</div>
 
-	<div class="container items-center justify-center">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
-			<h2 class="text-white text-normal font-medium">Reef - Algae</h2>
+	<div class="w-full flex items-center rounded-b overflow-hidden">
+       	<button onclick={()=>{passesByBump=!passesByBump}} class="grow flex items-center justify-center align-middle p-3 text-normal {passesByBump ? 'bg-primary-base':''}">BUMP</button>
+       	<button onclick={()=>{passesByLowBar=!passesByLowBar}} class="grow flex items-center justify-center align-middle p-3 text-normal {passesByLowBar ? 'bg-primary-base':''}">LOW-BAR</button>
+    </div>
+
+
+    <div class="container items-center justify-center rounded">
+		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
+			<h2 class="text-white text-normal font-medium">Feed</h2>
 			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#F4F4F4]">
-			<div onclick={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{algaeSelectedLevel=="low" ? lowAlgae : algaeSelectedLevel=="high" ? highAlgae : ''}</div>
-			<div onclick={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
-		</div>
-		<div class="w-full flex items-center justify-around rounded-b overflow-hidden">
-			<div onclick={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
-			<div onclick={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">HIGH</div>
-		</div>
-	</div>
-
-	<div class="container items-center justify-center">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
-			<h2 class="text-white text-normal font-medium">Processor</h2>
-			<img src={ProcessorImage} alt="" class="absolute right-0 -top-3 w-14">
-		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div onclick={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
-			<div onclick={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+		    <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {feedingFuelNumber-=1}}> -1</button>
+
+		<!-- main hub score block -->
+		<!-- <div class="bg-blue-600 rounded-xl px-4 py-2 flex items-center gap-3 shadow-lg"> -->
+       		<div class="w-16 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-2xl font-extrabold">{feedingFuelNumber}</div>
+       		<div class="grid grid-cols-3 gap-1">
+       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=1}}>+1</button>
+       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=5}}>+5</button>
+       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=10}}>+10</button>
+       		</div>
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
-			<div onclick={()=>{if(processorMisses!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
-			<div onclick={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
-		</div>
-	</div>
+    </div>
 
-	<div class="container items-center justify-center">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t relative">
-			<h2 class="text-white text-normal font-medium">Net</h2>
-			<img src={NetImage} alt="" class="absolute right-0 -top-3 w-14">
-		</div>
-		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div onclick={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
-			<div onclick={()=>{netPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
-		</div>
-		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
-			<div onclick={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
-			<div onclick={()=>{netMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
-		</div>
-	</div>
+    <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('teleop.continue_button')}</button>
 
-	<div class="flex flex-col">
-		<h3 class="text-4xl header">{$_('teleop.endgame_title')}</h3>
-		<div class="separator w-full"></div>
-	</div>
-	<div class="w-full flex flex-col items-center relative">
-		<h4 class="text-normal" >{$_('teleop.barge_points')}</h4>
-		<div class="input input-bordered p-0 flex justify-between w-full overflow-hidden" >
-			<div onclick={()=>{barge = "none"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="none" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('misc.none')}</div>
-			<div onclick={()=>{barge = "park"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="park" ? 'bg-primary-base text-[#E0E0E0]':''}">Park</div>
-			<div onclick={()=>{barge = "shallow"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="shallow" ? 'bg-primary-base text-[#E0E0E0]':''}">Shallow</div>
-			<div onclick={()=>{barge = "deep"}} class="p-3 grow basis-1 items-center flex justify-center {barge=="deep" ? 'bg-primary-base text-[#E0E0E0]':''}">Deep</div>
-		</div>
-
-	</div>
-
-	<div class="w-full flex flex-col items-center justify-center CycleBarge">
-		<h4 class="time-barge-title">{$_('teleop.barge_cycle.title')}</h4>
-
-		<div class="input input-bordered overflow-hidden p-0 w-full flex flex-row items-center justify-between">
-			<div class="w-1/2 text-center">
-				<p class="p-3"><b> {bargeCycle.toFixed(1)} </b></p>
-			</div>
-			{#if !bargeCycleCounting}
-				<div role="button" tabindex="0" onkeydown={(e) => {if (e.key == "Enter") startBargeCycle()}} onclick={startBargeCycle} class="startCycle">
-					<p class="">{bargeCycle==0 ? $_('teleop.barge_cycle.start_cycle') : "Restart"}</p>
-				</div>
-			{:else}
-				<div class="flex flex-row items-center justify-around w-1/2 h-full p-3 border-l cursor-pointer">
-
-					<i
-					role="button" tabindex="0"
-					onkeydown={(e) => {if(e.key == "Enter") pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
-					onclick={() => {pauseBargeCycle = pauseBargeCycle == 'paused' ? '' : 'paused'}}
-					class="w-3/12 text-center flex text-[1.7rem] {pauseBargeCycle == 'paused' ? 'fi fi-sr-play text-[1.6rem]' : 'fi fi-sr-pause text-[1.7rem]'}">
-					</i>
-
-					<i role="button" tabindex="0" onkeydown={(e) => {if (e.key == "Enter") stopBargeCycle()}} onclick={stopBargeCycle} class="w-3/12 flex text-center text-[1.8rem] fi fi-sr-check"></i>
-
-					<i role="button" tabindex="0" onkeydown={(e) => {if (e.key == "Enter") discardBargeCycle()}} onclick={discardBargeCycle} class="fi fi-br-cross flex w-3/12 text-center text-[1.6rem]"></i>
-
-				</div>
-			{/if}
-		</div>
-	</div>
-	<button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('teleop.continue_button')}</button>
 </section>
 
-<div class="fixed right-8 bottom-24 p-1 backdrop-blur-md rounded-full">
-	<div onclick={()=>{showModal=true; startGamePieceCycle();console.log(showModal)}} class="bg-primary-base w-8 h-8 p-2 rounded-full flex items-center justify-center box-content">
-		<i class="fi fi-sr-pending flex dark:text-[#121212] text-[#E0E0E0]"></i>
-	</div>
-</div>
-
-<Modal bind:showModal showX={false} changeNameLater={false}>
-	<h2 class="text-2xl">{$_('teleop.note_cycle.title')}</h2>
-	<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
-    <div class="w-full flex items-center justify-center bg-primary-base p-1">
-        <h2 class="text-white text-normal font-medium">Game Piece</h2>
-    </div>
-    <div class="w-full flex items-center justify-between">
-        <div onclick={()=>{gpType="coral"}} class="grow flex items-center justify-center align-middle p-3 text-normal {gpType=="coral" ? 'bg-primary-base':''}">Coral</div>
-        <div onclick={()=>{gpType="algae"}} class="grow flex items-center justify-center align-middle p-3 text-normal {gpType=="algae" ? 'bg-primary-base':''}">Algae</div>
-    </div>
-	</div>
-
-	{#if gpType=="coral"}
-		<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
-			<div class="w-full flex items-center justify-center bg-primary-base p-1">
-					<h2 class="text-white text-normal font-medium">{$_('teleop.note_cycle.source')}</h2>
-			</div>
-			<div class="w-full flex items-center justify-between">
-					<div onclick={()=>{sourceType="station"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="station" ? 'bg-primary-base':''}">Station</div>
-					<div onclick={()=>{sourceType="floor"}} class="grow flex items-center justify-center align-middle p-3 text-normal {sourceType=="floor" ? 'bg-primary-base':''}">{$_('teleop.note_cycle.option_floor')}</div>
-			</div>
-		</div>
-	{/if}
-
-
-	<div class="container items-center justify-center rounded overflow-hidden ">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1">
-			<h2 class="text-white text-normal font-medium">{$_('teleop.note_cycle.timer')}</h2>
-		</div>
-		<div class="w-full flex items-center justify-between bg-[#F4F4F4] py-1">
-			<div onclick={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
-			<div class="text-[#474747]  p-1 px-8 rounded-md">{gamePieceCycle}</div>
-			<div onclick={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
-		</div>
-		<div class="w-full flex items-center">
-			<div onclick={()=>{cancelCycle=true}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#F8D7DA] text-black">{$_('misc.cancel_button')}</div>
-			<div onclick={()=>{if(pauseGamePieceCycle!="paused"){pauseGamePieceCycle="paused"}else{pauseGamePieceCycle=""}}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D6EAF8] text-black">{pauseGamePieceCycle!="paused" ? $_('teleop.note_cycle.pause') : $_('teleop.note_cycle.start_cycle')}</div>
-			{#if selectedTimerOption!=-1}
-			<div onclick={()=>{stopGamePieceCycle(); TimerOptions[selectedTimerOption].handler()}} class="grow flex items-center justify-center align-middle p-3 text-normal bg-[#D4EDDA] text-black">{$_('misc.save_button')}</div>
-			{/if}
-		</div>
-	</div>
-	{#if cancelCycle}
-		<div onclick={()=>{discardGamePieceCycle();console.log(showModal)}} class="text-red-500 underline">{$_('teleop.note_cycle.cancel_confirmation')}</div>
-	{/if}
-</Modal>
 
 <style lang="postcss">
 	h3 {
