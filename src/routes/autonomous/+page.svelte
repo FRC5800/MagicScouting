@@ -62,10 +62,10 @@
 	function onSubmit() {
 		storeData({
 			"autoFuelNumber": scoredFuelNumber,
-			"collectsFromGround": collectsFromGround,
-			"collectsFromOutpost": collectsFromOutpost,
-			"collectsFromNeutral": collectsFromNeutral,
-			"collectsFromDepot": collectsFromDepot,
+			"autoCollectsFromGround": collectsFromGround,
+			"autoCollectsFromOutpost": collectsFromOutpost,
+			"autoCollectsFromNeutral": collectsFromNeutral,
+			"autoCollectsFromDepot": collectsFromDepot,
 			"autoClimb": climb,
 			"autoClimbTime": climbTime,
 		});
