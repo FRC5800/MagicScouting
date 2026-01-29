@@ -13,18 +13,18 @@
 
     let teamRole = $state("");
     let robotStatus = $state("safe");
-    let coopertition = $state("");
+    let humanPlayer = $state("");
     let validationError = $state(false);
 
     async function onSubmit() {
-		if(teamRole == '' || robotStatus == '' || coopertition == '') {
+		if(teamRole == '' || robotStatus == '' || humanPlayer == '') {
 			validationError = true;
 		}else {
 			validationError = false;
 			storeData({
             "robotFunction": teamRole,
             "robotStatus": robotStatus,
-            "coopBonus": coopertition,
+            "humanPlayer": humanPlayer,
             });
             goto("/qrcode")
 		}
@@ -50,10 +50,9 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div onclick={()=>{teamRole="coral"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="coral" ? 'bg-primary-base text-[#E0E0E0]':''}">Coral</div>
-        <div onclick={()=>{teamRole="algae"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="algae" ? 'bg-primary-base text-[#E0E0E0]':''}">Algae</div>
-        <div onclick={()=>{teamRole="alg_cor"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="alg_cor" ? 'bg-primary-base text-[#E0E0E0]':''}">Both</div>
-         <div onclick={()=>{teamRole="def"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="def" ? 'bg-primary-base text-[#E0E0E0]':''}">Def</div>
+        <div onclick={()=>{teamRole="score"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="score" ? 'bg-primary-base text-[#E0E0E0]':''}">Score</div>
+        <div onclick={()=>{teamRole="feed"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="feed" ? 'bg-primary-base text-[#E0E0E0]':''}">Feed</div>
+        <div onclick={()=>{teamRole="defense"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="defense" ? 'bg-primary-base text-[#E0E0E0]':''}">Defense</div>
     </div>
 </div>
 <span class="validation-error-message {((validationError) && (teamRole == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
@@ -72,16 +71,15 @@
 
 <div class="mt-4 container items-center justify-center rounded overflow-hidden ">
     <div class="w-full flex items-center justify-center bg-primary-base p-1">
-        <h2 class="text-white text-normal font-medium">{$_('info.coopertition')}</h2>
+        <h2 class="text-white text-normal font-medium">{$_('Human Player ativo?')}</h2>
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div onclick={()=>{coopertition="yes"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="yes" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.yes')}</div>
-        <div onclick={()=>{coopertition="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {coopertition=="no" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.no')}</div>
+        <div onclick={()=>{humanPlayer="yes"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {humanPlayer=="yes" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.yes')}</div>
+        <div onclick={()=>{humanPlayer="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {humanPlayer=="no" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.no')}</div>
     </div>
 </div>
-<span class="validation-error-message {((validationError) && (coopertition == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
-
+<span class="validation-error-message {((validationError) && (humanPlayer == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
