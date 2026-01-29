@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   // @ts-nocheck
   
   import SelectInput from '$lib/components/SelectInput.svelte';
@@ -16,8 +18,14 @@
 	import entriesSync, { syncedEntries } from '$lib/shared/stores/toSyncData';
 	import simulationData from '$lib/shared/stores/simulationData';
 
-    export let showDataBase = false;
-    $: team_database = $useDB ? $dataBase : '';
+  /**
+   * @typedef {Object} Props
+   * @property {boolean} [showDataBase]
+   */
+
+  /** @type {Props} */
+  let { showDataBase = $bindable(false) } = $props();
+    let team_database = $derived($useDB ? $dataBase : '');
   
     let linguagens = [
       { id: '1', content: 'English', value: 'en-US' },
@@ -25,11 +33,11 @@
       { id: '3', content: 'Español', value: 'es' }
     ];
   
-    $: themes = [
+    let themes = $derived([
       { id: '1', content: $_('home_page.settings.option_theme.option_light'), value: 'light' },
       { id: '2', content: $_('home_page.settings.option_theme.option_dark'), value: 'dark' },
       { id: '3', content: $_('home_page.settings.option_theme.option_system'), value: 'system' }
-    ];
+    ]);
   
     let colors = [
       { content: 'blue', color: "#35CEE8", background: 'checked:bg-[#35CEE8]' },
@@ -43,14 +51,18 @@
     let showMoreLanguages = 'hidden';
   
     // @ts-ignore
-    let selected_language = $locale;
-    let selected_theme = $theme;
-    let selected_color = $colorTheme;
-    $: if(selected_color != $colorTheme) {
-      $colorTheme = selected_color;
-      document.querySelector("html")?.setAttribute("theme", $colorTheme);
-    }
-    $: $colorTheme = selected_color;
+    let selected_language = $state($locale);
+    let selected_theme = $state($theme);
+    let selected_color = $state($colorTheme);
+    run(() => {
+    if(selected_color != $colorTheme) {
+        $colorTheme = selected_color;
+        document.querySelector("html")?.setAttribute("theme", $colorTheme);
+      }
+  });
+    run(() => {
+    $colorTheme = selected_color;
+  });
   
     function handle_theme_selection() {
       $theme = selected_theme;
@@ -86,7 +98,7 @@
             alert("Url invalido");
         }        
     }
-    let showDatabaseConfirm = false;
+    let showDatabaseConfirm = $state(false);
 
     function triggerToast() {
       if (team_database.includes("script.google")){
@@ -98,7 +110,7 @@
       }
     }
 
-    let showDatabaseAlert = false;
+    let showDatabaseAlert = $state(false);
 
       function handleToggleChange() {
         if (JSON.parse($useDB) == "") {
@@ -174,10 +186,10 @@
     <div class="form-control">
       <label class="label cursor-pointer">
         <input type="checkbox" class="toggle toggle-success" name="useDB" checked={JSON.parse($useDB)}
-        on:click={(params) => {
+        onclick={(params) => {
           $useDB = !$useDB
       }} 
-        on:change={()=>{handleToggleChange()}}/>
+        onchange={()=>{handleToggleChange()}}/>
       </label>
     </div>
   </div>
@@ -191,7 +203,7 @@
   </div>
   <div class="flex flex-row gap-2 w-full">
     <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="input input-bordered p-2 text-base rounded-md grow w-full">
-    <button disabled={!JSON.parse($useDB)} on:click={()=>{handleDataBase();triggerToast()}} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} btn-primary hover:bg-primary-base bg-buttons border-buttons p-2 px-4 w-fit rounded-lg btn  mt-0 min-w-8">
+    <button disabled={!JSON.parse($useDB)} onclick={()=>{handleDataBase();triggerToast()}} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} btn-primary hover:bg-primary-base bg-buttons border-buttons p-2 px-4 w-fit rounded-lg btn  mt-0 min-w-8">
       <i class="fi fi-br-angle-right text-xl flex"></i>
     </button>
   </div>
@@ -199,7 +211,7 @@
 
 <div class="divider"></div>
 
-<button class="m-0 font-bold btn btn-block btn-error" on:click={()=>{document.getElementById('resetDataConfirmation').showModal()}} >
+<button class="m-0 font-bold btn btn-block btn-error" onclick={()=>{document.getElementById('resetDataConfirmation').showModal()}} >
   {$_('home_page.settings.reset_data_button')}
 </button> 
 <!-- DAVI EMBONITAR ISSO AQUI -->
@@ -227,7 +239,7 @@
           <h1 class="text-[1.8rem] font-semibold">{$_('home_page.settings.reset_data_title')}</h1>
           <h1 class="text-[1.0rem] mt-2 font-semibold">{$_('home_page.settings.reset_data_message')}</h1>
       </div>
-      <button class="m-0 mt-4 font-bold btn btn-block btn-error" on:click={()=>{handleClearData()}} >
+      <button class="m-0 mt-4 font-bold btn btn-block btn-error" onclick={()=>{handleClearData()}} >
         {$_('misc.confirm_button')}
       </button> 
 

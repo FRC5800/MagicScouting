@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 // @ts-nocheck
 	import { onMount } from "svelte";
 	import { TeamsDB, PitTeamsDB, MatchSchema, PitSchema } from "$lib/shared/stores/teamsData";
@@ -12,13 +14,15 @@
 	import simulationData from "$lib/shared/stores/simulationData";
 
 
-	let isSyncing = false;
-	let isDataBaseSet;
-	$: if ($dataBase != '' && $dataBase != '?' || !$useDB) {
-		isDataBaseSet = true;
-	} else {
-		isDataBaseSet = false;
-	}
+	let isSyncing = $state(false);
+	let isDataBaseSet = $state();
+	run(() => {
+		if ($dataBase != '' && $dataBase != '?' || !$useDB) {
+			isDataBaseSet = true;
+		} else {
+			isDataBaseSet = false;
+		}
+	});
 
 	function formatEntry(schema, data){
 		let entry = {}
@@ -62,7 +66,7 @@
 
 	}
 	
-	$: buttonText = $_("dataAnalysis.sync_button")
+	let buttonText = $derived($_("dataAnalysis.sync_button"))
 
 	async function SyncData(){
 		if ($entriesSync.length != 0){
@@ -105,7 +109,7 @@
 	// $: console.log($TeamsDB)
 </script>
 
-<button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block {buttonText=="Data Synced" ? "bg-green-700" : ""}" on:click={() => {SyncData()}}>
+<button disabled={!isDataBaseSet} class="{!isDataBaseSet ? "btn-disabled skeleton" : ""} m-0 btn btn-block {buttonText=="Data Synced" ? "bg-green-700" : ""}" onclick={() => {SyncData()}}>
 	{#if isSyncing}
 	<span class="loading loading-spinner"></span>
 	{:else}

@@ -1,6 +1,13 @@
 <script>
 	import '../../app.css'
 	import { _ } from 'svelte-i18n'
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let { children } = $props();
 
 </script>
 
@@ -9,7 +16,7 @@
 		<h1 class="text-4xl text-neutral-900 dark:text-white">{$_('qrcode.title')}</h1>
 
 		<div class="w-[30vw] separator mb-1"></div>
-		<slot />
+		{@render children?.()}
 	</main>
 
 </div>

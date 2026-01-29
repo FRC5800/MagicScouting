@@ -1,15 +1,25 @@
 <script>
+    import { run } from 'svelte/legacy';
+
 	import { fade } from "svelte/transition";
 
 
-    export let showToast = false;
-    export let message = "Default Toast message";
+    /**
+     * @typedef {Object} Props
+     * @property {boolean} [showToast]
+     * @property {string} [message]
+     */
 
-    $: if(showToast) {
-        setTimeout(() => {
-            showToast = false;
-        }, 3000); // Disappears after 3 seconds
-    }
+    /** @type {Props} */
+    let { showToast = $bindable(false), message = "Default Toast message" } = $props();
+
+    run(() => {
+        if(showToast) {
+            setTimeout(() => {
+                showToast = false;
+            }, 3000); // Disappears after 3 seconds
+        }
+    });
 
 </script>
 

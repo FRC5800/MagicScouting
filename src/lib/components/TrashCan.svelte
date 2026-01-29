@@ -1,11 +1,26 @@
 <script>
-    export let scale = 1;
-    export let trashColor1 = '#95afc0';
-    export let trashColor2 = '#535c68';
-    export let trashColor3 = '#dff9fb';
-    export let transition = 'all 0.2s ease-in-out';
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	/**
+	 * @typedef {Object} Props
+	 * @property {number} [scale]
+	 * @property {string} [trashColor1]
+	 * @property {string} [trashColor2]
+	 * @property {string} [trashColor3]
+	 * @property {string} [transition]
+	 */
+
+	/** @type {Props} */
+	let {
+		scale = 1,
+		trashColor1 = '#95afc0',
+		trashColor2 = '#535c68',
+		trashColor3 = '#dff9fb',
+		transition = 'all 0.2s ease-in-out'
+	} = $props();
 </script>
-<div tabindex="0" role="button" class="trash-box" on:keydown on:click style="--scale: {100*scale}%; --trashColor1: {trashColor1}; --trashColor2: {trashColor2}; --trashColor3: {trashColor3}; --transition: {transition};">
+<div tabindex="0" role="button" class="trash-box" onkeydown={bubble('keydown')} onclick={bubble('click')} style="--scale: {100*scale}%; --trashColor1: {trashColor1}; --trashColor2: {trashColor2}; --trashColor3: {trashColor3}; --transition: {transition};">
     <div class="trash"></div>
     <div class="trash-top"></div>
     <div class="trash-btm">

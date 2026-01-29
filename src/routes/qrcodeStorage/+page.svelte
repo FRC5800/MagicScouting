@@ -9,7 +9,7 @@
 
   App.addListener("backButton", ()=>{goto('/')});
 
-  let displayFilter = "all";
+  let displayFilter = $state("all");
   
 </script>
 
@@ -17,13 +17,13 @@
   <div class="w-full flex grow gap-4 px-6 mt-6 mb-6 flex-col items-start">
     <h1 class="text-2xl font-medium tracking-wide">{$_('storage.title')}</h1>
     <div class="w-full flex flex-row gap-2">
-      <button on:click={()=>{displayFilter="all"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="all" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+      <button onclick={()=>{displayFilter="all"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="all" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
         {$_('storage.filters.all')}
       </button>
-      <button on:click={()=>{displayFilter="not-sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="not-sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+      <button onclick={()=>{displayFilter="not-sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="not-sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
         {$_('storage.filters.not_sent')}
       </button>
-      <button on:click={()=>{displayFilter="sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
+      <button onclick={()=>{displayFilter="sent"}} class="py-2 px-4 text-sm w-fit rounded-md font-medium {displayFilter=="sent" ? "box-border border-2 text-primary-light border-primary-light" : "text-primary-light bg-primary-opac"}">
         {$_('storage.filters.sent')}
       </button>
     </div>        

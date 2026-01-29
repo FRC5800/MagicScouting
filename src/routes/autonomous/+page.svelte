@@ -14,32 +14,33 @@
 	import NetImage from "$lib/assets/net_image.png";
 
 	//CORAL VALUES
-	let lvl1CoralPoints = 0;
-	let lvl2CoralPoints = 0;
-	let lvl3CoralPoints = 0;
-	let lvl4CoralPoints = 0;
-	let coralSelectedLevel = "lvl1"
-	let lvl1CoralMisses = 0;
-	let lvl2CoralMisses = 0;
-	let lvl3CoralMisses = 0;
-	let lvl4CoralMisses = 0;
+	let lvl1CoralPoints = $state(0);
+	let lvl2CoralPoints = $state(0);
+	let lvl3CoralPoints = $state(0);
+	let lvl4CoralPoints = $state(0);
+	let coralSelectedLevel = $state("lvl1")
+	let lvl1CoralMisses = $state(0);
+	let lvl2CoralMisses = $state(0);
+	let lvl3CoralMisses = $state(0);
+	let lvl4CoralMisses = $state(0);
 	
 	//ALGAE VALUES
-	let lowAlgae = 0;
-	let highAlgae = 0;
-	let algaeSelectedLevel = "low"
+	let lowAlgae = $state(0);
+	let highAlgae = $state(0);
+	let algaeSelectedLevel = $state("low")
 
 	// PROCESSOR
-	let processorPoints = 0;
-	let processorMisses = 0;
+	let processorPoints = $state(0);
+	let processorMisses = $state(0);
 
-	let netPoints = 0;
-	let netMisses = 0;
+	let netPoints = $state(0);
+	let netMisses = $state(0);
 	
 	//LEAVE VALUE
-	$: leave = false;
+	let leave = $state(false);
 	
-	let resetConfirmation = false;
+	
+	let resetConfirmation = $state(false);
 	App.addListener("backButton", ()=>{resetConfirmation = true;});
 	beforeNavigate(({ to, cancel }) => {
 		if (to?.route.id !== "/teleop") {
@@ -95,7 +96,7 @@
 		<div class="separator w-full"></div>
 	</div>
 	<button
-		on:click={() => {leave = !leave;}}
+		onclick={() => {leave = !leave;}}
 		id="leave"
 		class="btn btn-block p-2 rounded-xl box-border border-2 dark:border-0 {leave
 			? ' text-white bg-primary-base border-primary-base'
@@ -108,20 +109,20 @@
 			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div on:click={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8 select-none">-</div>
+			<div onclick={()=>{setCoralPoint(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralPoints : coralSelectedLevel=="lvl2" ? lvl2CoralPoints : coralSelectedLevel=="lvl3" ? lvl3CoralPoints : coralSelectedLevel=="lvl4" ? lvl4CoralPoints : ''}</div>
-			<div on:click={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8 select-none">+</div>
+			<div onclick={()=>{setCoralPoint(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F8D7DA]">
-			<div on:click={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8">-</div>
+			<div onclick={()=>{setCoralMiss(-1)}} class="text-2xl text-[#474747] py-1 px-4 pl-8">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{coralSelectedLevel=="lvl1" ? lvl1CoralMisses : coralSelectedLevel=="lvl2" ? lvl2CoralMisses : coralSelectedLevel=="lvl3" ? lvl3CoralMisses : coralSelectedLevel=="lvl4" ? lvl4CoralMisses : ''}</div>
-			<div on:click={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
+			<div onclick={()=>{setCoralMiss(1)}} class="text-2xl text-[#474747] py-1 px-4 pr-8">+</div>
 		</div>
 		<div class="w-full flex items-center rounded-b overflow-hidden">
-			<div on:click={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
-			<div on:click={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
-			<div on:click={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
-			<div on:click={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base':''}">LVL4</div>
+			<div onclick={()=>{coralSelectedLevel="lvl1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl1" ? 'bg-primary-base':''}">LVL1</div>
+			<div onclick={()=>{coralSelectedLevel="lvl2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl2" ? 'bg-primary-base':''}">LVL2</div>
+			<div onclick={()=>{coralSelectedLevel="lvl3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl3" ? 'bg-primary-base':''}">LVL3</div>
+			<div onclick={()=>{coralSelectedLevel="lvl4"}} class="grow flex items-center justify-center align-middle p-3 text-normal {coralSelectedLevel=="lvl4" ? 'bg-primary-base':''}">LVL4</div>
 		</div>
 	</div>
 
@@ -131,13 +132,13 @@
 			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F4F4F4]">
-			<div on:click={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div onclick={()=>{setAlgaePoint(-1)}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{algaeSelectedLevel=="low" ? lowAlgae : algaeSelectedLevel=="high" ? highAlgae : ''}</div>
-			<div on:click={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+			<div onclick={()=>{setAlgaePoint(1)}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-around rounded-b overflow-hidden">
-			<div on:click={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
-			<div on:click={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">HIGH</div>
+			<div onclick={()=>{algaeSelectedLevel="low"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="low" ? 'bg-primary-base':''}">LOW</div>
+			<div onclick={()=>{algaeSelectedLevel="high"}} class="grow flex items-center justify-center align-middle p-3 text-normal {algaeSelectedLevel=="high" ? 'bg-primary-base':''}">HIGH</div>
 		</div>
 	</div>
 
@@ -147,14 +148,14 @@
 			<img src={ProcessorImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div on:click={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div onclick={()=>{if(processorPoints!=0)processorPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorPoints}</div>
-			<div on:click={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+			<div onclick={()=>{processorPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
-			<div on:click={()=>{if(processorMisses!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div onclick={()=>{if(processorMisses!=0)processorMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{processorMisses}</div>
-			<div on:click={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+			<div onclick={()=>{processorMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 	</div>
 
@@ -164,19 +165,19 @@
 			<img src={NetImage} alt="" class="absolute right-0 -top-3 w-14">
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-			<div on:click={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div onclick={()=>{if(netPoints!=0)netPoints-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netPoints}</div>
-			<div on:click={()=>{netPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+			<div onclick={()=>{netPoints+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#F8D7DA] rounded-b overflow-hidden ">
-			<div on:click={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
+			<div onclick={()=>{if(netMisses!=0)netMisses-=1}} class="text-2xl text-[#474747] px-4 py-1 pl-8 select-none">-</div>
 			<div class="text-[#474747]  p-1 px-8 rounded-md">{netMisses}</div>
-			<div on:click={()=>{netMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
+			<div onclick={()=>{netMisses+=1}} class="text-2xl text-[#474747] px-4 py-1 pr-8 select-none">+</div>
 		</div>
 	</div>
 	
 
-	<button class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={onSubmit}> {$_('autonomous.continue_button')} </button>
+	<button class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons" onclick={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">

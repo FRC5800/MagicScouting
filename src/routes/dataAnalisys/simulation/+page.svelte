@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
     // @ts-nocheck
     
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
@@ -22,7 +24,6 @@
     import { allPoints, autoPoints, teleopPoints, algaePoints, coralPoints } from "$lib/shared/scripts/points";
 	import AllianceSelector from "$lib/components/AllianceSelector.svelte";
 	
-	$: winPredict = predictMatch()
 
 	function getAllianceTeams(alliance){
 		if (alliance == "alliance1"){
@@ -105,17 +106,28 @@
 		return Math.round(certain_win_prob*100)
 	}
 
-	$: console.log($simulationData)
-	$: $simulationData, console.log(`Alliance 1 average: ${getAvgAlliancePoints("alliance1", allPoints)}`)
-	$: $simulationData, console.log(`Alliance 2 average: ${getAvgAlliancePoints("alliance2", allPoints)}`)
-	$: $simulationData, winPredict = predictMatch()
-	$: $simulationData, console.log(winPredict)
 
+	let winPredict = $derived(predictMatch())
+	run(() => {
+		console.log($simulationData)
+	});
+	run(() => {
+		$simulationData, console.log(`Alliance 1 average: ${getAvgAlliancePoints("alliance1", allPoints)}`)
+	});
+	run(() => {
+		$simulationData, console.log(`Alliance 2 average: ${getAvgAlliancePoints("alliance2", allPoints)}`)
+	});
+	run(() => {
+		$simulationData, winPredict = predictMatch()
+	});
+	run(() => {
+		$simulationData, console.log(winPredict)
+	});
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-        <i on:click={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <i onclick={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.simulation.title")}</h1>
     </div>
 

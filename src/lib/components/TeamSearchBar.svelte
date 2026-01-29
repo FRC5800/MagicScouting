@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     // @ts-nocheck
 
     import { writable } from "svelte/store";
@@ -9,16 +11,29 @@
     import { Keyboard } from "@capacitor/keyboard";
     import { Capacitor } from "@capacitor/core";
 
-    $: data = $TeamsDB
+    let data = $derived($TeamsDB)
 
-    let focus = false;
+    let focus = $state(false);
 
-    export let teamSearch = "";
-    export let selectedTeam = "";
-    export let analysisData;
-    export let storeMode = null;
+    /**
+     * @typedef {Object} Props
+     * @property {string} [teamSearch]
+     * @property {string} [selectedTeam]
+     * @property {any} analysisData
+     * @property {any} [storeMode]
+     */
 
-    $: console.log(analysisData)
+    /** @type {Props} */
+    let {
+        teamSearch = $bindable(""),
+        selectedTeam = $bindable(""),
+        analysisData = $bindable(),
+        storeMode = null
+    } = $props();
+
+    run(() => {
+        console.log(analysisData)
+    });
 
     async function search(autocomplete){
         focus = true;
@@ -44,23 +59,25 @@
         }
     }
 
-    $: autoCompleteTeams = writable([]);
+    let autoCompleteTeams = $derived(writable([]));
 
     let debounceTimeout;
 
-    $: if (teamSearch != "") {
-        console.log(teamSearch);
-        let alreadyIn = [];
-        let filterSugestions = data.filter((entry) => {
-            let condition = entry["team"].toString().includes(teamSearch) && !alreadyIn.includes(entry["team"].toString());
-            alreadyIn.push(entry["team"].toString());
-            return condition;
-        });
+    run(() => {
+        if (teamSearch != "") {
+            console.log(teamSearch);
+            let alreadyIn = [];
+            let filterSugestions = data.filter((entry) => {
+                let condition = entry["team"].toString().includes(teamSearch) && !alreadyIn.includes(entry["team"].toString());
+                alreadyIn.push(entry["team"].toString());
+                return condition;
+            });
 
-        autoCompleteTeams.set(filterSugestions);
-    } else {
-        autoCompleteTeams.set([]);
-    }
+            autoCompleteTeams.set(filterSugestions);
+        } else {
+            autoCompleteTeams.set([]);
+        }
+    });
 
     async function createTeam(){
         
@@ -115,14 +132,14 @@
 
     <i class="fi fi-rs-search flex"></i>
 
-    <input class="grow" type="search" name="search" on:focusout={()=>{handleFocus(false)}} on:focusin={()=>{handleFocus(true)}} on:keydown={(e)=>{if(e.key == "Enter") search(false)}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
+    <input class="grow" type="search" name="search" onfocusout={()=>{handleFocus(false)}} onfocusin={()=>{handleFocus(true)}} onkeydown={(e)=>{if(e.key == "Enter") search(false)}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
 
         {#if $autoCompleteTeams.length > 0 && focus}    
             <div class="flex justify-center items-center absolute top-[calc(100%+1rem)] z-10 left-0 border-primary-heavy border-2 rounded-md max-h-80 overflow-y-scroll">
                 <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center px-3">
                     {#each $autoCompleteTeams as team}
                     <li>
-                        <button on:click={() => {teamSearch=team.team; search(true)}}>{team.team}</button>
+                        <button onclick={() => {teamSearch=team.team; search(true)}}>{team.team}</button>
                     </li>
                     {/each}
                 </div>

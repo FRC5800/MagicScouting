@@ -1,5 +1,5 @@
 <script>
-	export let data;
+	let { data, children } = $props();
 </script>
 
-		<slot />
+		{@render children?.()}

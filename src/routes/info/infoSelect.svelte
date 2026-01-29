@@ -1,12 +1,25 @@
 <script>
 
-    export let instance_options;
     
-    export let options = instance_options.options;
-    export let name = instance_options.name;
-    export let content = instance_options.content;
-    export let selectedOption = false;
-    export let width = '';
+    /**
+     * @typedef {Object} Props
+     * @property {any} instance_options
+     * @property {any} [options]
+     * @property {any} [name]
+     * @property {any} [content]
+     * @property {boolean} [selectedOption]
+     * @property {string} [width]
+     */
+
+    /** @type {Props} */
+    let {
+        instance_options,
+        options = instance_options.options,
+        name = instance_options.name,
+        content = instance_options.content,
+        selectedOption = $bindable(false),
+        width = ''
+    } = $props();
 </script>
 
 <div class="box-border flex flex-row overflow-auto overflow-y-hidden rounded-lg border-[3px] border-neutral-800 dark:bg-grey-heavy">

@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 // @ts-nocheck
 
 	import SelectInput from '$lib/components/SelectInput.svelte';
@@ -12,11 +14,11 @@
 		{ id: '3', content: 'Español', value: 'es' }
 	];
 
-	$: themes = [
+	let themes = $derived([
 		{ id: '1', content: $_('home_page.settings.option_theme.option_light'), value: 'light' },
 		{ id: '2', content: $_('home_page.settings.option_theme.option_dark'), value: 'dark' },
 		{ id: '3', content: $_('home_page.settings.option_theme.option_system'), value: 'system' }
-	];
+	]);
 
 	let colors = [
 		{ id: '1', content: 'blue', border: 'border-[#35CEE8]', background: 'bg-[#35CEE8]' },
@@ -30,17 +32,23 @@
 	let showMoreLanguages = 'hidden';
 
 	// @ts-ignore
-	let selected_language;
+	let selected_language = $state();
 	let inicialLanguage = $locale;
-	$: console.log(inicialLanguage + ', ' + $locale);
+	run(() => {
+		console.log(inicialLanguage + ', ' + $locale);
+	});
 	let inicialTheme = $theme;
-	let selected_theme;
-	let selected_color = $colorTheme;
-	$: if(selected_color != $colorTheme) {
+	let selected_theme = $state();
+	let selected_color = $state($colorTheme);
+	run(() => {
+		if(selected_color != $colorTheme) {
+			$colorTheme = selected_color;
+			document.querySelector("html")?.setAttribute("theme", $colorTheme);
+		}
+	});
+	run(() => {
 		$colorTheme = selected_color;
-		document.querySelector("html")?.setAttribute("theme", $colorTheme);
-	}
-	$: $colorTheme = selected_color;
+	});
 
 	function handle_theme_selection() {
 		$theme = selected_theme['value'];

@@ -1,4 +1,7 @@
 <script>
+    import { createBubbler } from 'svelte/legacy';
+
+    const bubble = createBubbler();
 // @ts-nocheck
 
     import { _ } from 'svelte-i18n';
@@ -6,8 +9,14 @@
     import { useDB }  from '$lib/shared/stores/dataBase';
     import { goto } from '$app/navigation';
 
-    export let showDataBase = false;
-    $: team_database = $useDB ? $dataBase : '';
+    /**
+     * @typedef {Object} Props
+     * @property {boolean} [showDataBase]
+     */
+
+    /** @type {Props} */
+    let { showDataBase = $bindable(false) } = $props();
+    let team_database = $derived($useDB ? $dataBase : '');
 
     function handleDataBase() {
         if (team_database.includes("script.google")){
@@ -24,13 +33,13 @@
     <div class="separator" style="width: 50%;"></div>
 
     <div class="flex flex-col items-center sm:px-[5vw] font-defaultText font-bold text-[1.2rem]">
-        <div tabindex="0" role="button" on:keydown on:click class="py-2 cursor-pointer option">{$_('home_page.menu.option_config')}</div>
+        <div tabindex="0" role="button" onkeydown={bubble('keydown')} onclick={bubble('click')} class="py-2 cursor-pointer option">{$_('home_page.menu.option_config')}</div>
         <hr class="border-[#666666] w-[70%] h-1"/>
-        <div tabindex="0" role="button" on:keydown on:click={() => {showDataBase = true}} class="py-2 option">{$_('home_page.menu.option_database')}</div>
+        <div tabindex="0" role="button" onkeydown={bubble('keydown')} onclick={() => {showDataBase = true}} class="py-2 option">{$_('home_page.menu.option_database')}</div>
         <hr class="border-[#666666] w-[70%] h-1">
         <div class="py-2 option"><a href="https://github.com/FRC5800/MagicScouting/wiki">{$_('home_page.menu.option_guide')}</a></div>
         <hr class="border-[#666666] w-[70%] h-1">
-        <div on:click={() => {goto('/about')} } class="py-2 pb-10 option">{$_('home_page.menu.option_about')}</div>
+        <div onclick={() => {goto('/about')}} class="py-2 pb-10 option">{$_('home_page.menu.option_about')}</div>
         
     </div>
 
@@ -56,7 +65,7 @@
                     checked={JSON.parse($useDB)}
 					class="align-middle sr-only peer"
 					name="useDB"
-                    on:click={(params) => {
+                    onclick={(params) => {
                         $useDB = !$useDB
                     }}
 				/>
@@ -67,7 +76,7 @@
         </div>
     </div>
     <input disabled={!JSON.parse($useDB)} type="text" bind:value={team_database} placeholder="Database" class="w-full p-2 text-base rounded-md text-neutral-600">
-    <button disabled={!JSON.parse($useDB)} on:click={handleDataBase} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} mb-10 mt-4 bg-buttons p-2 rounded-lg w-[80%] btn">{$_('home_page.database.confirm_button')}</button>
+    <button disabled={!JSON.parse($useDB)} onclick={handleDataBase} class="{JSON.parse($useDB) ? '' : 'disabled-btn'} mb-10 mt-4 bg-buttons p-2 rounded-lg w-[80%] btn">{$_('home_page.database.confirm_button')}</button>
 {/if}
 
 
