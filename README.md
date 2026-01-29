@@ -1,8 +1,8 @@
 <div align="center">
 <picture >
-  <source media="(prefers-color-scheme: dark)" width="50%" srcset="https://github.com/FRC5800/MagicScouting/blob/master/Images/logo-dark.svg">
-  <source media="(prefers-color-scheme: light)" width="50%" srcset="https://github.com/FRC5800/MagicScouting/blob/master/Images/logo.svg">
-  <img alt="MagicScouting Logo" src="https://github.com/FRC5800/MagicScouting/Images/logo.svg">
+  <source media="(prefers-color-scheme: dark)" width="50%" srcset="https://github.com/FRC5800/MagicScouting/blob/master/RepoImages/logo-dark.svg">
+  <source media="(prefers-color-scheme: light)" width="50%" srcset="https://github.com/FRC5800/MagicScouting/blob/master/RepoImages/logo.svg">
+  <img alt="MagicScouting Logo" src="https://github.com/FRC5800/MagicScouting/RepoImages/logo.svg">
 </picture>
 </div>
 
