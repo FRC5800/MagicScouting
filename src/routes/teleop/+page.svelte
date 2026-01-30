@@ -82,7 +82,7 @@
                 "teleopClimbTime": climbTime,
                 "passesByBump": passesByBump,
                 "passesByLowBar": passesByLowBar,
-                "feedingFuelNumber": feedingFuelNumber
+                "feedingFuelNumber": feedingFuelNumber,
 		});
 		goto('/info');
 	}

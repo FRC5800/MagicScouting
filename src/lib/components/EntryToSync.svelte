@@ -1,13 +1,11 @@
 <script>
     import { run } from 'svelte/legacy';
 
-// @ts-nocheck
+    // @ts-nocheck
     import { _ } from "svelte-i18n";
-    
+
     import Modal from '$lib/components/Modal.svelte';
     import QRCode from "qrcode";
-    import dataBase, { useDB } from "$lib/shared/stores/dataBase";
-    import TrashCan from '$lib/components/TrashCan.svelte'
 	import { entriesSync, syncedEntries } from "../shared/stores/toSyncData";
     import uploadPayload from "../shared/scripts/sheetsUpload";
     import { getDefaultLogo, getTBAData } from "$lib/shared/scripts/chartUtilities";
@@ -15,7 +13,7 @@
 	import Toast from "./Toast.svelte";
 
     let { payload = $bindable({"team":5800, "match":2}), index } = $props();
-    
+
     let src = $state('')
     let showEditModal = $state(false);
     let editedPayload = $state({});
@@ -26,36 +24,24 @@
     });
 
     // Field keys for type detection
-    const keys = [
-        "team", "match", "arenaPos", "red/blue",
-        "autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore",
-        "autoROneMiss", "autoRTwoMiss", "autoRThreeMiss", "autoRFourMiss",
-        "autoRemoveAlgaeLow", "autoRemoveAlgaeHigh", "autoProcessorScore", "autoProcessorMiss",
-        "autoNetScore", "autoNetMiss", "isLeave",
-        "teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore",
-        "teleopROneMiss", "teleopRTwoMiss", "teleopRThreeMiss", "teleopRFourMiss",
-        "teleopRemoveAlgaeHigh", "teleopRemoveAlgaeLow", "teleopProcessorScore", "teleopProcessorMiss",
-        "teleopNetScore", "teleopNetMiss", "bargeStatus", "bargeTime",
-        "coralStationCycleTime", "coralFloorCycleTime", "algaeCycleTime",
-        "robotFunction", "robotStatus", "coopBonus",
-    ];
+    //
+    import keys from '$lib/shared/stores/gameKeys';
 
     // Determine field type for proper editing
     function getFieldType(key) {
         if (key === 'robotStatus') {
             return 'select';
         }
-        
+
         // Boolean fields
         const booleanFields = ['isLeave', 'coopBonus', 'bargeStatus'];
         if (booleanFields.includes(key)) {
             return 'boolean';
         }
-        
+
         // Number fields (all score, miss, time fields)
-        const numberFields = keys.filter(k => 
-            k.includes('Score') || 
-            k.includes('Miss') || 
+        const numberFields = keys.filter(k =>
+            k.includes('Number') ||
             k.includes('Time') ||
             k === 'team' ||
             k === 'match' ||
@@ -64,7 +50,7 @@
         if (numberFields.includes(key)) {
             return 'number';
         }
-        
+
         // Default to text
         return 'text';
     }
@@ -94,7 +80,7 @@
     function updateEditedValue(key, value) {
         editedPayload[key] = value;
     }
-    
+
     function avgArray(arr){
         let sum = 0;
         arr.forEach((n) => {sum+=n});
@@ -128,8 +114,8 @@
         }catch(e){
             alert(e);
         }
-    } 
-    function HandleStore(){                
+    }
+    function HandleStore(){
         $entriesSync.splice($entriesSync.indexOf(payload), 1);
         $entriesSync = $entriesSync
         $syncedEntries.push(payload)
@@ -140,8 +126,8 @@
         console.log($entriesSync)
     }
 
-    function HandleDelete(){                
-        $entriesSync.splice($entriesSync.indexOf(payload), 1); 
+    function HandleDelete(){
+        $entriesSync.splice($entriesSync.indexOf(payload), 1);
         console.log($entriesSync);
         $entriesSync = $entriesSync
     }
@@ -162,7 +148,7 @@
         showRepeatedDataToast = true;
         setTimeout(() => {
             HandleDelete()
-        }, 3000); 
+        }, 3000);
     }
 
     createQr()
@@ -205,7 +191,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        
+
         <div class="flex flex-col justify-center items-center">
             <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
             <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
@@ -241,15 +227,15 @@
                             <th class="whitespace-nowrap">{key}</th>
                             <td>
                                 {#if fieldType === 'number'}
-                                    <input 
-                                        type="number" 
+                                    <input
+                                        type="number"
                                         value={editedPayload[key] || ''}
                                         oninput={(e) => updateEditedValue(key, e.target.value)}
                                         class="editable-input"
                                     />
                                 {:else if fieldType === 'boolean'}
-                                    <input 
-                                        type="checkbox" 
+                                    <input
+                                        type="checkbox"
                                         checked={editedPayload[key] === 'true' || editedPayload[key] === true || editedPayload[key] === '1'}
                                         onchange={(e) => {
                                             updateEditedValue(key, e.target.checked ? 'true' : 'false');
@@ -257,7 +243,7 @@
                                         class="editable-checkbox"
                                     />
                                 {:else if fieldType === 'select' && key === 'robotStatus'}
-                                    <select 
+                                    <select
                                         value={editedPayload[key] || 'safe'}
                                         onchange={(e) => {
                                             updateEditedValue(key, e.target.value);
@@ -269,8 +255,8 @@
                                         <option value="commLoss">Communication Loss</option>
                                     </select>
                                 {:else}
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         value={editedPayload[key] || ''}
                                         oninput={(e) => updateEditedValue(key, e.target.value)}
                                         class="editable-input"

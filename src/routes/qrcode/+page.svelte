@@ -9,59 +9,14 @@ import { onMount } from 'svelte';
 import { useDB } from "$lib/shared/stores/dataBase";
 
 import QRCode from 'qrcode';
-import dataBase from '$lib/shared/stores/dataBase';
 import ResetModal from '$lib/components/ResetModal.svelte';
 import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
 import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
-let payload = $state({});
-let localData = $derived($entriesSync);
-let visualAppData;
-let objAppData;
+import { keys, booleanKeys } from '$lib/shared/stores/gameKeys';
 
-let keys = [
-    "team",
-    "match",
-    "arenaPos",
-    "red/blue",
-    "autoROneScore",
-    "autoRTwoScore",
-    "autoRThreeScore",
-    "autoRFourScore",
-    "autoROneMiss",
-    "autoRTwoMiss",
-    "autoRThreeMiss",
-    "autoRFourMiss",
-    "autoRemoveAlgaeLow",
-    "autoRemoveAlgaeHigh",
-    "autoProcessorScore",
-    "autoProcessorMiss",
-    "autoNetScore",
-    "autoNetMiss",
-    "isLeave",
-    "teleopROneScore",
-    "teleopRTwoScore",
-    "teleopRThreeScore",
-    "teleopRFourScore",
-    "teleopROneMiss",
-    "teleopRTwoMiss",
-    "teleopRThreeMiss",
-    "teleopRFourMiss",
-    "teleopRemoveAlgaeHigh",
-    "teleopRemoveAlgaeLow",
-    "teleopProcessorScore",
-    "teleopProcessorMiss",
-    "teleopNetScore",
-    "teleopNetMiss",
-    "bargeStatus",
-    "bargeTime",
-    "coralStationCycleTime",
-    "coralFloorCycleTime",
-    "algaeCycleTime",
-    "robotFunction",
-    "robotStatus",
-    "coopBonus",
-];
+let payload = $state({});
+let visualAppData;
 
 let src = $state('');
 
@@ -93,26 +48,16 @@ function getFieldType(key) {
     if (key === 'robotStatus') {
         return 'select';
     }
-    
+
     // Boolean fields
-    const booleanFields = ['isLeave', 'coopBonus', 'bargeStatus'];
-    if (booleanFields.includes(key)) {
+    if (booleanKeys.includes(key)) {
         return 'boolean';
     }
-    
-    // Number fields (all score, miss, time fields)
-    const numberFields = keys.filter(k => 
-        k.includes('Score') || 
-        k.includes('Miss') || 
-        k.includes('Time') ||
-        k === 'team' ||
-        k === 'match' ||
-        k === 'arenaPos'
-    );
-    if (numberFields.includes(key)) {
+
+    if (key.includes('Number') || key.includes('Time')) {
         return 'number';
     }
-    
+
     // Default to text
     return 'text';
 }
@@ -138,12 +83,6 @@ onMount(() => {
 
     QRCode.toDataURL(visualAppData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
 })
-
-function avgArray(arr){
-    let sum = 0;
-    arr.forEach((n) => {sum+=n});
-    return arr.length > 0 ? sum/arr.length : 0;
-}
 
 function updateQr() {
     updateVisualData();
@@ -217,15 +156,15 @@ function HandleReset(){
                     <th class="whitespace-nowrap">{key}</th>
                     <td class="w-full">
                         {#if fieldType === 'number'}
-                            <input 
-                                type="number" 
+                            <input
+                                type="number"
                                 bind:value={payload[key]}
                                 oninput={() => updateQr()}
                                 class="editable-input"
                             />
                         {:else if fieldType === 'boolean'}
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 checked={payload[key] === 'true' || payload[key] === true || payload[key] === '1'}
                                 onchange={(e) => {
                                     payload[key] = e.target.checked ? 'true' : 'false';
@@ -234,7 +173,7 @@ function HandleReset(){
                                 class="editable-checkbox"
                             />
                         {:else if fieldType === 'select' && key === 'robotStatus'}
-                            <select 
+                            <select
                                 value={payload[key] || 'safe'}
                                 onchange={(e) => {
                                     payload[key] = e.target.value;
@@ -247,8 +186,8 @@ function HandleReset(){
                                 <option value="commLoss">Communication Loss</option>
                             </select>
                         {:else}
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 bind:value={payload[key]}
                                 oninput={() => updateQr()}
                                 class="editable-input"

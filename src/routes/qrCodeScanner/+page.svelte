@@ -8,72 +8,30 @@
 	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
     import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
-    
+
     import Modal from '$lib/components/Modal.svelte';
 	import entriesSync from "../../lib/shared/stores/toSyncData";
 
-    
+    import keys from '$lib/shared/stores/gameKeys';
+
 
     let scanning = $state(false);
     let data = {};
     let stored = $state('');
 
-    let keys = [
-        "team",
-        "match",
-        "arenaPos",
-        "red/blue",
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoROneMiss",
-        "autoRTwoMiss",
-        "autoRThreeMiss",
-        "autoRFourMiss",
-        "autoRemoveAlgaeLow",
-        "autoRemoveAlgaeHigh",
-        "autoProcessorScore", 
-        "autoProcessorMiss", 
-        "autoNetScore", 
-        "autoNetMiss",
-        "isLeave",
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-        "teleopROneMiss",
-        "teleopRTwoMiss",
-        "teleopRThreeMiss",
-        "teleopRFourMiss",
-        "teleopRemoveAlgaeHigh",
-        "teleopRemoveAlgaeLow",
-        "teleopProcessorScore",
-        "teleopProcessorMiss",
-        "teleopNetScore",
-        "teleopNetMiss",
-        "bargeStatus",
-        "bargeTime",
-        "coralStationCycleTime",
-        "coralFloorCycleTime",
-        "algaeCycleTime",
-        "robotFunction",
-        "robotStatus",
-        "coopBonus",
-    ]; 
     let showModal = $state(false);
-    
+
     const requestPermissions = async () => {
     	await BarcodeScanner.requestPermissions();
     };
-    
+
     onMount(() => {
         requestPermissions();
     })
-    
+
     function QrCodeToPayload(qrcode){
         let payload = {};
-        
+
         for (let i = 0; i < keys.length; i++){
             payload[keys[i]] = JSON.parse(qrcode)[i];
         }
@@ -85,10 +43,10 @@
         document.querySelector("body")?.classList.add("barcode-scanning-active");
         document.querySelector("html")?.classList.add("barcode-scanning-active");
         scanning = true;
-        
+
         await BarcodeScanner.addListener(
             "barcodeScanned",
-            async (result) => {                
+            async (result) => {
                 await stopScan();
 
                 if (JSON.parse(result.barcode.displayValue).length != keys.length){
@@ -100,18 +58,18 @@
             });
         await BarcodeScanner.startScan();
     };
-    
+
     const stopScan = async () => {
         document.querySelector("body")?.classList.remove("barcode-scanning-active");
         document.querySelector("html")?.classList.remove("barcode-scanning-active");
         scanning = false;
         goto('/');
         await BarcodeScanner.removeAllListeners();
-        
+
         await BarcodeScanner.stopScan();
-        
+
     };
-    
+
 
     function CheckRepeatedGame(newGame, games){
         games.forEach((item) => {
@@ -124,7 +82,7 @@
 
     function HandleStore(callbackSuccess = ()=>{}, callbackRepeated = ()=>{}){
         if (!CheckRepeatedGame(data, $entriesSync)) {
-            $entriesSync = $entriesSync.concat(data); 
+            $entriesSync = $entriesSync.concat(data);
             console.log($entriesSync);
             callbackSuccess();
         }else{
