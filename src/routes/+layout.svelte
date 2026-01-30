@@ -5,13 +5,12 @@
 	import './styles.css';
 	import '../app.css';
 	import { page } from '$app/stores';
-	import { beforeUpdate } from 'svelte';
 	import theme from '$lib/shared/stores/darkMode.js';
 	import { carbonTheme } from '$lib/shared/stores/darkMode.js';
 	import colorTheme from '$lib/shared/stores/colorTheme.js';
 	import { waitLocale } from 'svelte-i18n'
 	import { fade } from 'svelte/transition';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate } from '$app/navigation';
 
 	import '@carbon/charts-svelte/styles.css'
 
@@ -20,13 +19,57 @@
 	return waitLocale()
 	}
 
-	$: isActive = (path) => $page.url.pathname === path;
-	
-	beforeUpdate(() => {
+	let isNavigating = $state(false);
+	let navigationTimeout;
+
+	function isActive(path) {
+		return $page.url.pathname === path;
+	}
+
+	// Handle theme updates using $effect instead of beforeUpdate
+	$effect(() => {
 		let systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 		document.querySelector('html')?.setAttribute('data-theme', $theme == 'system' ? systemTheme : $theme);
 		document.querySelector('html')?.classList.add($theme == 'system' ? systemTheme : $theme);
 		document.querySelector('html')?.setAttribute('theme', $colorTheme);
+	});
+
+	function handleNavigation(path) {
+		// Prevent multiple simultaneous navigations
+		if (isNavigating) {
+			return;
+		}
+
+		// Clear any pending navigation timeout
+		if (navigationTimeout) {
+			clearTimeout(navigationTimeout);
+		}
+
+		// Don't navigate if already on that page
+		if ($page.url.pathname === path) {
+			return;
+		}
+
+		isNavigating = true;
+		
+		// Navigate immediately
+		goto(path, {
+			noScroll: false,
+			replaceState: false,
+			invalidateAll: false
+		}).finally(() => {
+			// Reset navigation state after a short delay
+			navigationTimeout = setTimeout(() => {
+				isNavigating = false;
+			}, 100);
+		});
+	}
+
+	// Cancel any pending navigation when a new one starts
+	beforeNavigate(() => {
+		if (navigationTimeout) {
+			clearTimeout(navigationTimeout);
+		}
 	});
 </script>
 
@@ -53,21 +96,46 @@
 </div>
 
 <div class="btm-nav">
-  <button on:click={()=>{goto('/')}} class="{isActive('/') ? "active" : ""}">
+  <button 
+    onclick={()=>{handleNavigation('/')}} 
+    class="{isActive('/') ? "active" : ""} {isNavigating ? 'nav-disabled' : ''}"
+    disabled={isNavigating}
+    aria-label="Home"
+  >
     <i class="fi fi-rr-home"></i>
   </button>
-  <button on:click={()=>{goto('/qrcodeStorage')}} class="{isActive('/qrcodeStorage') ? "active" : ""}">
+  <button 
+    onclick={()=>{handleNavigation('/qrcodeStorage')}} 
+    class="{isActive('/qrcodeStorage') ? "active" : ""} {isNavigating ? 'nav-disabled' : ''}"
+    disabled={isNavigating}
+    aria-label="QR Code Storage"
+  >
     <i class="fi fi-rr-database"></i>
   </button>
-  <button on:click={()=>{goto('/qrCodeScanner')}} class="{isActive('/qrCodeScanner') ? "active" : ""}">
+  <button 
+    onclick={()=>{handleNavigation('/qrCodeScanner')}} 
+    class="{isActive('/qrCodeScanner') ? "active" : ""} {isNavigating ? 'nav-disabled' : ''}"
+    disabled={isNavigating}
+    aria-label="QR Code Scanner"
+  >
 		<div class="bg-primary-base p-4 rounded-lg">
 			<i class="fi fi-rr-camera flex dark:text-primary-heavy text-[#E0E0E0]"></i>
 		</div>
   </button>
-  <button on:click={()=>{goto('/dataAnalisys')}} class="{isActive('/dataAnalisys') ? "active" : ""}">
+  <button 
+    onclick={()=>{handleNavigation('/dataAnalisys')}} 
+    class="{isActive('/dataAnalisys') ? "active" : ""} {isNavigating ? 'nav-disabled' : ''}"
+    disabled={isNavigating}
+    aria-label="Data Analysis"
+  >
     <i class="fi fi-rr-chart-histogram"></i>
   </button>
-  <button on:click={()=>{goto('/settings')}} class="{isActive('/settings') ? "active" : ""}">
+  <button 
+    onclick={()=>{handleNavigation('/settings')}} 
+    class="{isActive('/settings') ? "active" : ""} {isNavigating ? 'nav-disabled' : ''}"
+    disabled={isNavigating}
+    aria-label="Settings"
+  >
     <i class="fi fi-rr-settings-sliders"></i>
   </button>
 </div>
@@ -209,6 +277,12 @@
 		50% {
 			opacity: 1;
 		}
+	}
+
+	.nav-disabled {
+		opacity: 0.6;
+		pointer-events: none;
+		cursor: not-allowed;
 	}
 
 </style>
