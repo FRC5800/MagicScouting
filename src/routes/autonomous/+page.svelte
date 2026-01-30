@@ -9,6 +9,7 @@
 
 	import storeData from "$lib/shared/scripts/controlData.js";
   	import ResetModal from '$lib/components/ResetModal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import ReefImage from "$lib/assets/reef_image.png";
 	import Plus from "$lib/assets/minus.svg";
 	import Minus from "$lib/assets/plus.svg";
@@ -26,11 +27,13 @@
 	let climbTimeCounting = $state(false);
 	let pauseClimbTime = $state(false);
 	let climbTimer;
+	let showClimbTimer = $state(false);
 
 
 	function startClimbTime() {
 		climbTimeCounting = true;
 		climbTime = 0;
+		showClimbTimer = true;
 		climbTimer = setInterval(() => {
 		if(pauseClimbTime != 'paused') climbTime = Math.round((climbTime+0.1)*10)/10;
 		}, 100);
@@ -40,6 +43,8 @@
 		climbTimeCounting = false;
 		pauseClimbTime = '';
 		clearInterval(climbTimer);
+		showClimbTimer = false;
+		climb = true; // Mark that climb was completed
 		console.log(climbTime);
 	}
 	function discardClimbTime() {
@@ -47,6 +52,7 @@
 		pauseClimbTime = '';
 		clearInterval(climbTimer);
 		climbTime = 0;
+		showClimbTimer = false;
 	}
 
 
@@ -151,7 +157,12 @@
 		</div>
 	</div>
 
-	<button class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold">Go Climb!</button>
+	<button 
+		onclick={startClimbTime}
+		class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold"
+	>
+		Go Climb!
+	</button>
 	<!-- <button
 		onclick={() => {climb = !climb;}}
 		id="climb"
@@ -188,6 +199,24 @@
 
 	<button class="w-2/3 absolute bottom-[15%] self-end rounded-bl-none rounded-tr-none rounded-tl-xl rounded-br-xl btn btn-primary hover:bg-primary-base bg-buttons border-buttons" onclick={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
+
+<Modal bind:showModal={showClimbTimer} showX={false} changeNameLater={false}>
+	<div class="climb-timer-container">
+		<h2 class="climb-timer-title">Climb Timer</h2>
+		<div class="climb-timer-display">
+			<span class="climb-timer-value">
+				{climbTime.toFixed(1)}
+			</span>
+			<span class="climb-timer-unit">seconds</span>
+		</div>
+		<button 
+			onclick={stopClimbTime}
+			class="climb-timer-stop-btn"
+		>
+			Stop Timer
+		</button>
+	</div>
+</Modal>
 
 <style lang="postcss">
 	.header {
@@ -242,5 +271,76 @@
 
 	button, div{
 		@apply select-none;
+	}
+
+	.climb-timer-container {
+		@apply flex flex-col items-center justify-center py-8 px-6;
+		min-width: 300px;
+	}
+
+	.climb-timer-title {
+		@apply text-2xl font-bold mb-6 text-center;
+		color: inherit;
+	}
+
+	.climb-timer-display {
+		@apply flex flex-col items-center justify-center mb-8;
+	}
+
+	.climb-timer-value {
+		@apply text-7xl font-bold mb-2;
+		background: linear-gradient(135deg, var(--color-gradient-light) 0%, var(--color-gradient-heavy) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		animation: pulse 2s ease-in-out infinite, numberUpdate 0.1s ease-out;
+		display: inline-block;
+		font-variant-numeric: tabular-nums;
+		transition: transform 0.1s ease-out;
+	}
+
+	.climb-timer-unit {
+		@apply text-xl text-neutral-500 dark:text-neutral-400;
+	}
+
+	.climb-timer-stop-btn {
+		@apply px-8 py-4 text-lg font-semibold rounded-lg shadow-lg text-white;
+		background: var(--color-primary-light);
+		transition: all 0.3s ease;
+		transform: scale(1);
+	}
+
+	.climb-timer-stop-btn:hover {
+		background: var(--color-primary-light);
+		transform: scale(1.05);
+		box-shadow: 0 10px 25px var(--color-primary-light-opac);
+	}
+
+	.climb-timer-stop-btn:active {
+		transform: scale(0.98);
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.05);
+		}
+	}
+
+	@keyframes numberUpdate {
+		0% {
+			transform: scale(1) translateY(0);
+			opacity: 0.8;
+		}
+		50% {
+			transform: scale(1.02) translateY(-2px);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
 	}
 </style>
