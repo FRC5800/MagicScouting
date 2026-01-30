@@ -79,6 +79,7 @@
 	<div class="mt-0 separator"></div>
 
 	<hr />
+	
 
 	<form id="team-info" class="w-4/5 team_info" onforminput={() => {console.log('erro')}} onsubmit={preventDefault(onSubmit)}>
 		<div class="flex flex-row items-center justify-center center-container">
