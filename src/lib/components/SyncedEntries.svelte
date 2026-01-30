@@ -3,7 +3,7 @@
 
 // @ts-nocheck
     import { _ } from "svelte-i18n";
-    
+
     import Modal from '$lib/components/Modal.svelte';
     import QRCode from "qrcode";
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
@@ -13,15 +13,15 @@
     import { getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
 
-  let { payload = $bindable({"team":5800, "match":2}), index } = $props();
-    
+  let { payload = $bindable({"teamNumber":5800, "matchNumber":2}), index } = $props();
+
     let src = $state('')
 
     let showQrCode = false
     run(() => {
     console.log(showQrCode)
   });
-    
+
     function avgArray(arr){
         let sum = 0;
         arr.forEach((n) => {sum+=n});
@@ -49,8 +49,8 @@
         }catch(e){
             alert(e);
         }
-    } 
-    function HandleStore(){                
+    }
+    function HandleStore(){
         $entriesSync.splice($entriesSync.indexOf(payload), 1);
         $entriesSync = $entriesSync
         $syncedEntries.push(payload)
@@ -61,8 +61,8 @@
         console.log($entriesSync)
     }
 
-    function HandleDelete(){                
-        $syncedEntries.splice($syncedEntries.indexOf(payload), 1); 
+    function HandleDelete(){
+        $syncedEntries.splice($syncedEntries.indexOf(payload), 1);
         console.log($syncedEntries);
     }
 
@@ -115,7 +115,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        
+
         <div class="flex flex-col justify-center items-center">
             <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
             <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
@@ -129,7 +129,7 @@
         <button>{$_('misc.close_button')}</button>
     </form>
   </dialog>
-<!-- <Modal bind:showModal={showQrCode}> 
+<!-- <Modal bind:showModal={showQrCode}>
     <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
     <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
         <img class="h-auto" {src} alt="">

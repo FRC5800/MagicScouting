@@ -68,8 +68,8 @@
             console.log(teamSearch);
             let alreadyIn = [];
             let filterSugestions = data.filter((entry) => {
-                let condition = entry["team"].toString().includes(teamSearch) && !alreadyIn.includes(entry["team"].toString());
-                alreadyIn.push(entry["team"].toString());
+                let condition = entry["teamNumber"].toString().includes(teamSearch) && !alreadyIn.includes(entry["teamNumber"].toString());
+                alreadyIn.push(entry["teamNumber"].toString());
                 return condition;
             });
 
@@ -80,7 +80,7 @@
     });
 
     async function createTeam(){
-        
+
         let teamData = {
             logo: new Image(),
             team: "",
@@ -134,7 +134,7 @@
 
     <input class="grow" type="search" name="search" onfocusout={()=>{handleFocus(false)}} onfocusin={()=>{handleFocus(true)}} onkeydown={(e)=>{if(e.key == "Enter") search(false)}} bind:value={teamSearch} placeholder={$_("dataAnalysis.teamAnalysis.searchBar_placeholder")} />
 
-        {#if $autoCompleteTeams.length > 0 && focus}    
+        {#if $autoCompleteTeams.length > 0 && focus}
             <div class="flex justify-center items-center absolute top-[calc(100%+1rem)] z-10 left-0 border-primary-heavy border-2 rounded-md max-h-80 overflow-y-scroll">
                 <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center px-3">
                     {#each $autoCompleteTeams as team}
@@ -143,6 +143,6 @@
                     </li>
                     {/each}
                 </div>
-            </div>  
+            </div>
         {/if}
 </div>

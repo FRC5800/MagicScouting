@@ -13,7 +13,7 @@ import ResetModal from '$lib/components/ResetModal.svelte';
 import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
 import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
-import { keys, booleanKeys } from '$lib/shared/stores/gameKeys';
+import { keys, getFieldType } from '$lib/shared/stores/gameKeys';
 
 let payload = $state({});
 let visualAppData;
@@ -44,23 +44,7 @@ function getData(key){
 }
 
 // Determine field type for proper editing
-function getFieldType(key) {
-    if (key === 'robotStatus') {
-        return 'select';
-    }
 
-    // Boolean fields
-    if (booleanKeys.includes(key)) {
-        return 'boolean';
-    }
-
-    if (key.includes('Number') || key.includes('Time')) {
-        return 'number';
-    }
-
-    // Default to text
-    return 'text';
-}
 
 // Update payload value and refresh QR code
 function updatePayloadValue(key, value) {
@@ -120,7 +104,7 @@ async function HandleUpload(){
 
 function CheckRepeatedGame(newGame, games){
     games.forEach((item) => {
-        if (newGame["team"] == item["team"] && newGame["match"] == item["match"]){
+        if (newGame["teamNumber"] == item["teamNumber"] && newGame["matchNumber"] == item["matchNumber"]){
             return true;
         }
     })

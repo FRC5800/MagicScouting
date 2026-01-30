@@ -12,7 +12,7 @@
     import { onMount } from "svelte";
 	import Toast from "./Toast.svelte";
 
-    let { payload = $bindable({"team":5800, "match":2}), index } = $props();
+    let { payload = $bindable({"teamNumber":5800, "matchNumber":2}), index } = $props();
 
     let src = $state('')
     let showEditModal = $state(false);
@@ -25,35 +25,10 @@
 
     // Field keys for type detection
     //
-    import keys from '$lib/shared/stores/gameKeys';
+    import { keys , getFieldType } from '$lib/shared/stores/gameKeys';
 
     // Determine field type for proper editing
-    function getFieldType(key) {
-        if (key === 'robotStatus') {
-            return 'select';
-        }
 
-        // Boolean fields
-        const booleanFields = ['isLeave', 'coopBonus', 'bargeStatus'];
-        if (booleanFields.includes(key)) {
-            return 'boolean';
-        }
-
-        // Number fields (all score, miss, time fields)
-        const numberFields = keys.filter(k =>
-            k.includes('Number') ||
-            k.includes('Time') ||
-            k === 'team' ||
-            k === 'match' ||
-            k === 'arenaPos'
-        );
-        if (numberFields.includes(key)) {
-            return 'number';
-        }
-
-        // Default to text
-        return 'text';
-    }
 
     function openEditModal() {
         // Create a deep copy of the payload for editing
@@ -137,7 +112,7 @@
         src = url;
     })
     }
-    let teamData = $state({name:"Team", logo: getDefaultLogo()});
+    let teamData = $state({name:"TeamNumber", logo: getDefaultLogo()});
     onMount(() => {
         getTBAData(payload.team).then((r) => {
             teamData = r

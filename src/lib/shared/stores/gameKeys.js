@@ -51,5 +51,22 @@ export const booleanKeys = [
     "passesByLowBar",
 ];
 
+export function getFieldType(key) {
+    if (key === 'robotStatus') {
+        return 'select';
+    }
+
+    // Boolean fields
+    if (booleanKeys.includes(key)) {
+        return 'boolean';
+    }
+
+    if (key.includes('Number') || key.includes('Time')) {
+        return 'number';
+    }
+
+    // Default to text
+    return 'text';
+}
 
 export default keys;

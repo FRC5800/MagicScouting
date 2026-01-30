@@ -73,7 +73,7 @@
 
     function CheckRepeatedGame(newGame, games){
         games.forEach((item) => {
-            if (newGame["team"] == item["team"] && newGame["match"] == item["match"]){
+            if (newGame["teamNumber"] == item["teamNumber"] && newGame["matchNumber"] == item["matchNumber"]){
                 return true;
             }
         })
