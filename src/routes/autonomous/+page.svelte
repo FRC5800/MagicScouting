@@ -89,8 +89,7 @@
 
 <section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<div class="flex flex-col">
-		<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
-		<div class="separator w-full"></div>
+		<h1 class="text-4xl header">{$_('autonomous.title')}</h1>	
 	</div>
 
 	<div class="container items-center justify-center rounded">

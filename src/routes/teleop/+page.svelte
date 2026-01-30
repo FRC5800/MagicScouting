@@ -1,7 +1,7 @@
 <script>
-	import { run } from 'svelte/legacy';
+// @ts-nocheck
 
-	// @ts-nocheck
+	import { run } from 'svelte/legacy';
 
 	import '../.././app.css';
 	import { _ } from 'svelte-i18n'
@@ -105,64 +105,44 @@
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 <section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<div class="flex flex-col">
-		<h1 class="text-4xl header">{$_('teleop.title')}</h1>
-		<div class="separator w-full"></div>
+		<h1 class=" page-title header">{$_('teleop.title')}</h1>
+		
 	</div>
 
-	<div class="container items-center justify-center rounded">
+	<div class="hub-div container items-center justify-center rounded">
 		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
-			<h2 class="text-white text-normal font-medium">HUB</h2>
-			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
+			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
+			
 		</div>
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-		    <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -1</button>
 
-		<!-- main hub score block -->
-		<!-- <div class="bg-blue-600 rounded-xl px-4 py-2 flex items-center gap-3 shadow-lg"> -->
-    		<div class="w-16 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
-    		<div class="grid grid-cols-3 gap-1">
-    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=1}}>+1</button>
-    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=5}}>+5</button>
-    			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=10}}>+10</button>
-    		</div>
+		    <button class="grow w-10 h-10 rounded-100 bg-gray-500 hover:bg-gray-700 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -</button>
+    		<div class="grow center w-16 h-10 bg-blue-700  flex items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
+    		<button class="grow flex px-3 py-2  bg-gray-500 hover:bg-gray-700 items-center text-center font-semibold" onclick={() => {scoredFuelNumber+=1}}>   +</button>
+    		
 		</div>
 
         <div class="w-full flex items-center rounded-b overflow-hidden">
-           	<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
-           	<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromDepot ? 'bg-primary-base':''}">DEPOT</button>
-           	<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromNeutral ? 'bg-primary-base':''}">NEUTRAL</button>
-           	<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromOutpost ? 'bg-primary-base':''}">OUTPOST</button>
+           	<button onclick={()=>{scoredFuelNumber-=10}} class="minus10 grow flex items-center justify-center align-middle p-3 text-normal">-10</button>
+           	<button onclick={()=>{scoredFuelNumber-=5}} class="minus5 grow flex items-center justify-center align-middle p-3 text-normal ">-5</button>
+           	<button onclick={()=>{scoredFuelNumber+=5}} class="plus5 grow flex items-center justify-center align-middle p-3 text-normal ">+5</button>
+           	<button onclick={()=>{scoredFuelNumber+=10}} class="plus10 grow flex items-center justify-center align-middle p-3 text-normal">+10</button>
         </div>
 	</div>
-	<div class="w-full flex items-center rounded-b overflow-hidden">
-        <button onclick={()=>{climbLevel = "none"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "none" ? 'bg-primary-base':''}">No Climb</button>
-	    <button onclick={()=>{climbLevel = "L1"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L1" ? 'bg-primary-base':''}">L1</button>
-		<button onclick={()=>{climbLevel = "L2"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L2" ? 'bg-primary-base':''}">L2</button>
-		<button onclick={()=>{climbLevel = "L3"}} class="grow flex items-center justify-center align-middle p-3 text-normal {climbLevel == "L3" ? 'bg-primary-base':''}">L3</button>
-	</div>
+	
 
-	<div class="w-full flex items-center rounded-b overflow-hidden">
-       	<button onclick={()=>{passesByBump=!passesByBump}} class="grow flex items-center justify-center align-middle p-3 text-normal {passesByBump ? 'bg-primary-base':''}">BUMP</button>
-       	<button onclick={()=>{passesByLowBar=!passesByLowBar}} class="grow flex items-center justify-center align-middle p-3 text-normal {passesByLowBar ? 'bg-primary-base':''}">LOW-BAR</button>
-    </div>
-
-
-    <div class="container items-center justify-center rounded">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
-			<h2 class="text-white text-normal font-medium">Feed</h2>
-			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
+    <div class="flex-direction:column mb-5 items-center justify-center  w-200"> 
+		<div class=" flex items-center justify-center pt-1 relative rounded-t">
+			<h2 class="text-white mb-2 text-normal font-size:10em text-2xl">Collected In</h2>
+			
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-		    <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {feedingFuelNumber-=1}}> -1</button>
-
-		<!-- main hub score block -->
-		<!-- <div class="bg-blue-600 rounded-xl px-4 py-2 flex items-center gap-3 shadow-lg"> -->
-       		<div class="w-16 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-2xl font-extrabold">{feedingFuelNumber}</div>
-       		<div class="grid grid-cols-3 gap-1">
-       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=1}}>+1</button>
-       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=5}}>+5</button>
-       			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {feedingFuelNumber+=10}}>+10</button>
-       		</div>
+		<div class="pt-3 gap-7 flex items-center justify-between">
+	
+       		
+       			<button class="w-20 h-10 container py-1 rounded-md font-semibold  " onclick={() => {!collectsFromDepot}}>Depot</button>
+       			<button class="w-20 h-10 container py-1 rounded-md font-semibold" onclick={() => {!collectsFromGround}}>Ground</button>
+       			<button class="w-20 h-10 container py-1 rounded-md font-semibold" onclick={() => {!collectsFromOutpost}}>Outpost</button>
+       		
 		</div>
     </div>
 
@@ -205,7 +185,7 @@
 	}
 
 	.container {
-		@apply shadow rounded-md mb-3 flex flex-col justify-around w-full;
+		@apply shadow rounded-md mb-3 flex flex-col justify-around ;
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
 	.containerBox {
@@ -242,5 +222,36 @@
 
 	button, div{
 		@apply select-none;
+	}
+	.page-title{
+		margin-top: 0;
+		margin-bottom: 1em;
+		font-size: 3em;
+	}
+	.hub-div{
+		margin-top: 0;
+		margin-bottom: 2em;
+		width: 30em;
+		border-radius: 1em;
+		align-items:flex-start ;
+		align-self: center;
+
+	}
+	.minus10{
+		color: black;
+		background-color: rgb(255, 56, 60);
+	}
+	.minus5{
+		color: white;
+		background-color: #ff686a;
+	}
+	.plus5{
+		color: white;
+		background-color: #80e99e;
+	}
+	.plus10{
+		color: white;
+		background-color: #34c758;
+
 	}
 </style>
