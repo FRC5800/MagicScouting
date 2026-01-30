@@ -33,7 +33,7 @@ export const keys = [
     "robotStatus",
 ];
 
-export const booleanKeys = [
+const booleanKeys = [
     //AUTO
     "autoCollectsFromGround",
     "autoCollectsFromOutpost",
@@ -51,8 +51,16 @@ export const booleanKeys = [
     "passesByLowBar",
 ];
 
+const selectKeys = [
+    "robotFunction",
+    "robotStatus",
+    "teleopClimb",
+    "arenaPosNumber",
+    "red/blue",
+];
+
 export function getFieldType(key) {
-    if (key === 'robotStatus') {
+    if (selectKeys.includes(key)) {
         return 'select';
     }
 

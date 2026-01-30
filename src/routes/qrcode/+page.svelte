@@ -134,7 +134,7 @@ function HandleReset(){
             </tr>
         </thead>
         <tbody>
-            {#each Object.keys(payload) as key}
+            {#each Object.keys(payload).filter((a) => a != "uploaded") as key}
                 {@const fieldType = getFieldType(key)}
                 <tr>
                     <th class="whitespace-nowrap">{key}</th>
@@ -156,19 +156,73 @@ function HandleReset(){
                                 }}
                                 class="editable-checkbox"
                             />
-                        {:else if fieldType === 'select' && key === 'robotStatus'}
-                            <select
-                                value={payload[key] || 'safe'}
-                                onchange={(e) => {
-                                    payload[key] = e.target.value;
-                                    updateQr();
-                                }}
-                                class="editable-select"
-                            >
-                                <option value="safe">Safe</option>
-                                <option value="broke">Broke</option>
-                                <option value="commLoss">Communication Loss</option>
-                            </select>
+                        {:else if fieldType === 'select'}
+                            {#if key === 'robotStatus'}
+                                <select
+                                    value={payload[key] || 'safe'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="safe">Safe</option>
+                                    <option value="broke">Broke</option>
+                                    <option value="commLoss">Communication Loss</option>
+                                </select>
+                            {:else if key === 'robotFunction'}
+                                <select
+                                    value={payload[key] || 'score'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="score">Score</option>
+                                    <option value="feed">Feed</option>
+                                    <option value="defense">Deffense</option>
+                                </select>
+                            {:else if key === 'red/blue'}
+                                <select
+                                    value={payload[key] || 'BLUE'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="RED">RED</option>
+                                    <option value="BLUE">BLUE</option>
+                                </select>
+                            {:else if key === 'teleopClimb'}
+                                <select
+                                    value={payload[key] || 'No Climb'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="none">No Climb</option>
+                                    <option value="L1">L1</option>
+                                    <option value="L2">L2</option>
+                                    <option value="L3">L3</option>
+                                </select>
+                            {:else if key === 'arenaPosNumber'}
+                                <select
+                                    value={payload[key] || '1'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            {/if}
                         {:else}
                             <input
                                 type="text"
