@@ -73,7 +73,7 @@
     }
     let teamData = $state({name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="});
     onMount(() => {
-        getTBAData(payload.team).then((r) => {
+        getTBAData(payload.teamNumber).then((r) => {
             teamData = r
         })
     })
@@ -94,10 +94,10 @@
             </ul>
         </div>
 
-        <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
+        <h3 class="ml-10 text-lg">Team {payload.teamNumber} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
-            <span>{$_('storage.match')}: {payload.match}</span>
+            <span>{$_('storage.match')}: {payload.matchNumber}</span>
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">

@@ -11,6 +11,8 @@
     import { getDefaultLogo, getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
 	import Toast from "./Toast.svelte";
+	import { useDB } from '$lib/shared/stores/dataBase';
+
 
     let { payload = $bindable({"teamNumber":5800, "matchNumber":2}), index } = $props();
 
@@ -25,7 +27,7 @@
 
     // Field keys for type detection
     //
-    import { keys , getFieldType } from '$lib/shared/stores/gameKeys';
+    import { getFieldType } from '$lib/shared/stores/gameKeys';
 
     // Determine field type for proper editing
 
@@ -112,9 +114,9 @@
         src = url;
     })
     }
-    let teamData = $state({name:"TeamNumber", logo: getDefaultLogo()});
+    let teamData = $state({name:"Team", logo: getDefaultLogo()});
     onMount(() => {
-        getTBAData(payload.team).then((r) => {
+        getTBAData(payload.teamNumber).then((r) => {
             teamData = r
         })
     })
@@ -142,10 +144,10 @@
                 <li onkeydown={(e) => {if(e.key == "Enter") HandleDelete()}} onclick={() => {HandleDelete()}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
         </div>
-        <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
+        <h3 class="ml-10 text-lg">Team {payload.teamNumber} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
-            <span>{$_('storage.match')}: {payload.match}</span>
+            <span>{$_('storage.match')}: {payload.matchNumber}</span>
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
@@ -196,16 +198,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each Object.keys(editedPayload) as key}
+                    {#each Object.keys(editedPayload).filter((a) => a != "uploaded") as key}
                         {@const fieldType = getFieldType(key)}
                         <tr>
                             <th class="whitespace-nowrap">{key}</th>
-                            <td>
+                            <td class="w-full">
                                 {#if fieldType === 'number'}
                                     <input
                                         type="number"
-                                        value={editedPayload[key] || ''}
-                                        oninput={(e) => updateEditedValue(key, e.target.value)}
+                                        bind:value={editedPayload[key]}
+                                        oninput={() => createQr()}
                                         class="editable-input"
                                     />
                                 {:else if fieldType === 'boolean'}
@@ -213,27 +215,83 @@
                                         type="checkbox"
                                         checked={editedPayload[key] === 'true' || editedPayload[key] === true || editedPayload[key] === '1'}
                                         onchange={(e) => {
-                                            updateEditedValue(key, e.target.checked ? 'true' : 'false');
+                                            editedPayload[key] = e.target.checked ? 'true' : 'false';
+                                            createQr();
                                         }}
                                         class="editable-checkbox"
                                     />
-                                {:else if fieldType === 'select' && key === 'robotStatus'}
-                                    <select
-                                        value={editedPayload[key] || 'safe'}
-                                        onchange={(e) => {
-                                            updateEditedValue(key, e.target.value);
-                                        }}
-                                        class="editable-select"
-                                    >
-                                        <option value="safe">Safe</option>
-                                        <option value="broke">Broke</option>
-                                        <option value="commLoss">Communication Loss</option>
-                                    </select>
+                                {:else if fieldType === 'select'}
+                                    {#if key === 'robotStatus'}
+                                        <select
+                                            value={editedPayload[key] || 'safe'}
+                                            onchange={(e) => {
+                                                editedPayload[key] = e.target.value;
+                                                createQr();
+                                            }}
+                                            class="editable-select"
+                                        >
+                                            <option value="safe">Safe</option>
+                                            <option value="broke">Broke</option>
+                                            <option value="commLoss">Communication Loss</option>
+                                        </select>
+                                    {:else if key === 'robotFunction'}
+                                        <select
+                                            value={editedPayload[key] || 'score'}
+                                            onchange={(e) => {
+                                                editedPayload[key] = e.target.value;
+                                                createQr();
+                                            }}
+                                            class="editable-select"
+                                        >
+                                            <option value="score">Score</option>
+                                            <option value="feed">Feed</option>
+                                            <option value="defense">Deffense</option>
+                                        </select>
+                                    {:else if key === 'red/blue'}
+                                        <select
+                                            value={editedPayload[key] || 'BLUE'}
+                                            onchange={(e) => {
+                                                editedPayload[key] = e.target.value;
+                                                createQr();
+                                            }}
+                                            class="editable-select"
+                                        >
+                                            <option value="RED">RED</option>
+                                            <option value="BLUE">BLUE</option>
+                                        </select>
+                                    {:else if key === 'teleopClimb'}
+                                        <select
+                                            value={editedPayload[key] || 'No Climb'}
+                                            onchange={(e) => {
+                                                editedPayload[key] = e.target.value;
+                                                createQr();
+                                            }}
+                                            class="editable-select"
+                                        >
+                                            <option value="none">No Climb</option>
+                                            <option value="L1">L1</option>
+                                            <option value="L2">L2</option>
+                                            <option value="L3">L3</option>
+                                        </select>
+                                    {:else if key === 'arenaPosNumber'}
+                                        <select
+                                            value={editedPayload[key] || '1'}
+                                            onchange={(e) => {
+                                                editedPayload[key] = e.target.value;
+                                                createQr();
+                                            }}
+                                            class="editable-select"
+                                        >
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    {/if}
                                 {:else}
                                     <input
                                         type="text"
-                                        value={editedPayload[key] || ''}
-                                        oninput={(e) => updateEditedValue(key, e.target.value)}
+                                        bind:value={editedPayload[key]}
+                                        oninput={() => createQr()}
                                         class="editable-input"
                                     />
                                 {/if}

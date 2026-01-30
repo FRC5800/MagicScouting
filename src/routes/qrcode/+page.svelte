@@ -129,7 +129,7 @@ function HandleReset(){
     <table class="table w-full">
         <thead>
             <tr>
-                <th>Camp</th>
+                <th>Field</th>
                 <th>Value</th>
             </tr>
         </thead>

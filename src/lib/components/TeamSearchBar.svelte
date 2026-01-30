@@ -37,7 +37,7 @@
 
     async function search(autocomplete){
         focus = true;
-        if(!Object.values($autoCompleteTeams.length > 0 && $autoCompleteTeams[0]).team == teamSearch && !autocomplete){
+        if(!Object.values($autoCompleteTeams.length > 0 && $autoCompleteTeams[0]).teamNumber == teamSearch && !autocomplete){
             return
         }
         if(teamSearch != ""){
@@ -53,9 +53,9 @@
 
     function setAnalisysData(teamData){
         if (storeMode != null) {
-            analysisData[storeMode][String(teamData.team)] = teamData
+            analysisData[storeMode][String(teamData.teamNumber)] = teamData
         }else{
-            analysisData[String(teamData.team)] = teamData
+            analysisData[String(teamData.teamNumber)] = teamData
         }
     }
 
@@ -89,7 +89,7 @@
             name: "",
             rawData: getTeamScoutingData(selectedTeam)
         }
-        teamData.team = selectedTeam
+        teamData.teamNumber = selectedTeam
 
         setAnalisysData(teamData)
 
@@ -139,7 +139,7 @@
                 <div class="menu rounded-md text-base bg-base-200 min-w-fit w-2/5 text-center px-3">
                     {#each $autoCompleteTeams as team}
                     <li>
-                        <button onclick={() => {teamSearch=team.team; search(true)}}>{team.team}</button>
+                        <button onclick={() => {teamSearch=team.teamNumber; search(true)}}>{team.teamNumber}</button>
                     </li>
                     {/each}
                 </div>

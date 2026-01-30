@@ -140,7 +140,7 @@ export function getSortedTeams(allData){
 	let teams = {}
 
 	allData.forEach((match) => {
-		teams[match.team] = 1
+		teams[match.teamNumber] = 1
 	})
 
 	teams = Object.keys(teams)
@@ -382,7 +382,7 @@ export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{retur
 
 			let entry = {
 				group: group,
-				key: String(match.match),
+				key: String(match.matchNumber),
 			}
 
 			entry[groups[group].valueName] = points
