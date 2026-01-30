@@ -154,6 +154,7 @@
 			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base':''}">Depot</button>
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base':''}">Ground</button>
 			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromOutpost ? 'bg-primary-base':''}">Outpost</button>
+			<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromNeutral ? 'bg-primary-base':''}">Neutral</button>
 		</div>
 	</div>
 

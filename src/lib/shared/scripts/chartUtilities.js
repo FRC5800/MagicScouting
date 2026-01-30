@@ -5,7 +5,7 @@ import defaultLogo from "./defautLogo";
 
 /**
  * An object representing the points awarded for various actions in the game.
- * 
+ *
  * Properties:
  * @property {number} autoROneScore - Points for auto Reef L1 Score.
  * @property {number} autoRTwoScore - Points for auto Reef L2 Score.
@@ -31,8 +31,8 @@ let gamePointsByAction = {
 	"autoRTwoScore": 4,
 	"autoRThreeScore": 6,
 	"autoRFourScore": 7,
-	"autoProcessorScore": 6, 
-	"autoNetScore": 4, 
+	"autoProcessorScore": 6,
+	"autoNetScore": 4,
 	"isLeave": 3,
 	"teleopROneScore": 2,
 	"teleopRTwoScore": 3,
@@ -125,7 +125,7 @@ export function getAverageDBvalues(data, fields, points=true, avg=true, customHa
  */
 export function getTeamScoutingData(team){
 	let teamData = get(TeamsDB).filter((entry) => {
-		return entry["team"] == team
+		return entry["teamNumber"] == team
 	})
 	return teamData
 }
@@ -138,15 +138,15 @@ export function getTeamScoutingData(team){
  */
 export function getSortedTeams(allData){
 	let teams = {}
-	
+
 	allData.forEach((match) => {
-		teams[match.team] = 1
+		teams[match.teamNumber] = 1
 	})
 
 	teams = Object.keys(teams)
 
 	teams.sort((a,b) => {
-		let aPoints = getAverageDBvalues(getTeamScoutingData(a),Object.keys(gamePointsByAction), true); 
+		let aPoints = getAverageDBvalues(getTeamScoutingData(a),Object.keys(gamePointsByAction), true);
 		let bPoints = getAverageDBvalues(getTeamScoutingData(b),Object.keys(gamePointsByAction), true);
 
 		return aPoints - bPoints
@@ -175,28 +175,28 @@ export function averageTeamPerformance(teams){
 		let fields = {
 			avgAutoPoints: [
 				"autoROneScore",
-				"autoRTwoScore", 
-				"autoRThreeScore", 
-				"autoRFourScore", 
-				"autoProcessorScore", 
-				"autoNetScore", 
+				"autoRTwoScore",
+				"autoRThreeScore",
+				"autoRFourScore",
+				"autoProcessorScore",
+				"autoNetScore",
 				"isLeave"
 			],
 			avgTeleopCoralPoints: [
 				"teleopROneScore",
-				"teleopRTwoScore", 
-				"teleopRThreeScore", 
-				"teleopRFourScore", 
+				"teleopRTwoScore",
+				"teleopRThreeScore",
+				"teleopRFourScore",
 			],
 			avgTeleopAlgaePoints: [
-				"teleopProcessorScore", 
+				"teleopProcessorScore",
 				"teleopNetScore"
 			],
 			avgEndGame: [
 				"bargeStatus",
 			]
 		}
-	
+
 		Object.keys(fields).forEach((field) => {
 			let points = getAverageDBvalues(matches, fields[field], true)
 			chartData.push({
@@ -207,27 +207,27 @@ export function averageTeamPerformance(teams){
 		})
 	})
 	return chartData
-	
+
 }
 
 /**
  * Extracts an array of values for a specific parameter from the provided data.
  * If the parameter is 'bargeStatus', it converts the values to points.
- * 
+ *
  * @param {Array} data - The array of match data objects.
  * @param {string} param - The parameter to extract from each match data object.
  * @param {boolean} [bargePoints=false] - Whether to convert 'bargeStatus' values to points.
  * @returns {Array} - An array of extracted values or points.
  */
 export function getParameterArray(data, param, bargePoints=false){
-	
+
 	let entryArray = []
 	data.forEach((e) => {
 		if (bargePoints){
 			entryArray.push(gamePointsByAction.bargeStatus[e[param]])
 		}else{
 			entryArray.push(e[param])
-			
+
 		}
 	})
 	return entryArray
@@ -297,7 +297,7 @@ export function getAverageCycleData(data, fields){
 	CycleTimes = parseCycleString(CycleTimes)
 
 	let cycleAverage = isNaN(CycleTimes) ? 0 : CycleTimes
-	
+
 	return Math.round(cycleAverage*10)/10
 }
 
@@ -371,20 +371,20 @@ export async function getTBAData(team){
 export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{return a}){
 	let chartData = [];
 	data.forEach((match) => {
-	
+
 		Object.keys(groups).forEach((group) => {
-	
+
 			let points = 0;
 			groups[group].fields.forEach((field) => {
 				points += handleGetActionAttributes(match, field, groups[group].showPoints, false)
 			})
-		
+
 
 			let entry = {
 				group: group,
-				key: String(match.match),
+				key: String(match.matchNumber),
 			}
-			
+
 			entry[groups[group].valueName] = points
 
 			chartData.push(entry)
@@ -405,7 +405,7 @@ export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{retur
  */
 export function setupBarChartsData(data, chartReference, showPoints=false, namePatterns=["Score", "Miss"]){
 	if (!data){return []}
-	
+
 	let chartData = []
 
 	Object.keys(chartReference).forEach((group) => {
@@ -414,11 +414,11 @@ export function setupBarChartsData(data, chartReference, showPoints=false, nameP
 			let bar = {
 				"group": (pattern != "")? pattern : group,
 				"key": group,
-				"value": handleGetActionAttributes(data, chartReference[group]+pattern, false, true) 
+				"value": handleGetActionAttributes(data, chartReference[group]+pattern, false, true)
 			}
 			chartData.push(bar)
 		})
-		
+
 	})
 	console.log(chartData)
 	return chartData
@@ -436,16 +436,16 @@ export function setupBarChartsData(data, chartReference, showPoints=false, nameP
  */
 export function setupSimpleChartsData(data, chartReference, chartType="donut", GP=false){
 	if (!data){return []}
-	
+
 	let chartData = []
 
 	Object.keys(chartReference).forEach((gpEntries) => {
 		let label = gpEntries
 
 		gpEntries = chartReference[gpEntries]
-		
+
 		let points = 0;
-		
+
 		gpEntries.forEach((e) => {
 			points += handleGetActionAttributes(data, e, !GP, true)
 		})
@@ -463,9 +463,9 @@ export function setupSimpleChartsData(data, chartReference, chartType="donut", G
 				"value": points
 			}
 		}
-		chartData.push(bar)	
+		chartData.push(bar)
 	})
-		
+
 	return chartData
 }
 
@@ -492,10 +492,10 @@ export function getBargeByType(data, type){
  */
 export function setupModeChartsData(data, field, chartReference){
 	if (!data){return []}
-	
+
 	let chartData = []
 
-	Object.keys(chartReference).forEach((mode) => {		
+	Object.keys(chartReference).forEach((mode) => {
 
 		let qty = 0;
 		getParameterArray(data, field).forEach((e) => {
@@ -503,9 +503,9 @@ export function setupModeChartsData(data, field, chartReference){
 				qty += 1;
 			}
 		})
-	
+
 		let bar;
-		
+
 		bar = {
 			"group": chartReference[mode],
 			"value": qty
@@ -513,7 +513,7 @@ export function setupModeChartsData(data, field, chartReference){
 
 		chartData.push(bar)
 	})
-		
+
 	return chartData
 }
 
@@ -537,11 +537,11 @@ export function setupAllianceChartData(chartReference){
 
 	Object.keys(chartReference).forEach((group) => {
 		let points = 0;
-	
+
 		chartReference[group].teams.forEach((team) => {
 			points += getAverageDBvalues(getTeamScoutingData(team), chartReference[group].fields, true)
 		})
-		
+
 		let bar = {
 			"group": group,
 			"key": chartReference[group].teams.length == 1 ? chartReference[group].teams[0] : group,

@@ -22,8 +22,8 @@ https://svelte.dev/e/node_invalid_placement -->
     export let data;
     let teamData = $teamAnalysisData[data.selectedTeam];
 
-    let rawData = writable(getTeamScoutingData(teamData.team));
-    console.log(teamData.team)
+    let rawData = writable(getTeamScoutingData(teamData.teamNumber));
+    console.log(teamData.teamNumber)
 
     console.log($rawData)
 
@@ -37,7 +37,7 @@ https://svelte.dev/e/node_invalid_placement -->
 
             <img width="50px" src={teamData.logo} alt="Team Logo" />
             <div class="flex flex-row gap-2">
-                <div>{teamData.team}</div>
+                <div>{teamData.teamNumber}</div>
                 <div>{teamData.name}</div>
             </div>
         </div>
@@ -106,9 +106,9 @@ https://svelte.dev/e/node_invalid_placement -->
                 </thead>
                 <tbody>
                     {#key $rawData}
-                        {#each $rawData.slice().sort((a,b) => a.match - b.match) as status}
+                        {#each $rawData.slice().sort((a,b) => a.matchNumber - b.matchNumber) as status}
                             <tr>
-                                <th>{status.match}</th>
+                                <th>{status.matchNumber}</th>
                                 <td>{status.bargeStatus}</td>
                             </tr>
                         {/each}

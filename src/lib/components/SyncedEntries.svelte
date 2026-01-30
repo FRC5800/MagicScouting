@@ -3,7 +3,7 @@
 
 // @ts-nocheck
     import { _ } from "svelte-i18n";
-    
+
     import Modal from '$lib/components/Modal.svelte';
     import QRCode from "qrcode";
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
@@ -13,15 +13,15 @@
     import { getTBAData } from "$lib/shared/scripts/chartUtilities";
     import { onMount } from "svelte";
 
-  let { payload = $bindable({"team":5800, "match":2}), index } = $props();
-    
+  let { payload = $bindable({"teamNumber":5800, "matchNumber":2}), index } = $props();
+
     let src = $state('')
 
     let showQrCode = false
     run(() => {
     console.log(showQrCode)
   });
-    
+
     function avgArray(arr){
         let sum = 0;
         arr.forEach((n) => {sum+=n});
@@ -49,8 +49,8 @@
         }catch(e){
             alert(e);
         }
-    } 
-    function HandleStore(){                
+    }
+    function HandleStore(){
         $entriesSync.splice($entriesSync.indexOf(payload), 1);
         $entriesSync = $entriesSync
         $syncedEntries.push(payload)
@@ -61,8 +61,8 @@
         console.log($entriesSync)
     }
 
-    function HandleDelete(){                
-        $syncedEntries.splice($syncedEntries.indexOf(payload), 1); 
+    function HandleDelete(){
+        $syncedEntries.splice($syncedEntries.indexOf(payload), 1);
         console.log($syncedEntries);
     }
 
@@ -73,7 +73,7 @@
     }
     let teamData = $state({name:"Team", logo:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFlSURBVFhH7ZbrcoYgDER9/3fW1t0eHApeUCNfO+P5Iwlhs6IyDi8v8JUxTROjGso/Ax52DSZY0h/6N6EbYVk/xnGk/Q9pN1t2VSDzPPS7jG4UqXjoEQKSMaD5CLS4DjphlO/srQ8KjTCQXdVlqh3WhYL0qnbTTqowXZ/CjWYIK5iuSZOu6sDW+WkzJcyFGkxaupaH/BFas6BE/vxdEYC0ZCwdzFs7tobqDbEp47tIT6Zyk0wdolpDbMo4gmTQzYCpXZYnSmxaF1/FDYHULpU5QXgb5Co90pv5XzBnSN02iEwMaBpSlwzmJ0Ao5WevHMNTWGwmH4cQYdBCM4SxBtFcUK40fUSuo3E4aBvFOrNascAM4fMGxVpuCwvMEP5dg+m1IIzH6kCqySSlprvJ1o/Fi6GMQ3E3IHV6Fx+HntWuHEFpP87+Hul1oPRz4OUQyj8HPnb5Vzsqs+WJgEQ/6LsLpS8dGYZvcbHBRHh4pVkAAAAASUVORK5CYII="});
     onMount(() => {
-        getTBAData(payload.team).then((r) => {
+        getTBAData(payload.teamNumber).then((r) => {
             teamData = r
         })
     })
@@ -94,10 +94,10 @@
             </ul>
         </div>
 
-        <h3 class="ml-10 text-lg">Team {payload.team} - {teamData.name ?? ""}</h3>
+        <h3 class="ml-10 text-lg">Team {payload.teamNumber} - {teamData.name ?? ""}</h3>
         <div class="flex flex-col gap-2 mt-2 justify-center items-center">
           <div class="flex flex-row gap-2">
-            <span>{$_('storage.match')}: {payload.match}</span>
+            <span>{$_('storage.match')}: {payload.matchNumber}</span>
             <span>{$_('storage.team_position')}: {payload.arenaPos}</span>
           </div>
           <div class="flex flex-row w-full gap-6">
@@ -115,7 +115,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        
+
         <div class="flex flex-col justify-center items-center">
             <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
             <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
@@ -129,7 +129,7 @@
         <button>{$_('misc.close_button')}</button>
     </form>
   </dialog>
-<!-- <Modal bind:showModal={showQrCode}> 
+<!-- <Modal bind:showModal={showQrCode}>
     <h1 class="text-[1.8rem] font-semibold">{$_('storage.modal.title')}</h1>
     <div class="flex items-center justify-center border-[1rem] rounded-lg border-primary-base w-fit">
         <img class="h-auto" {src} alt="">

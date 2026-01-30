@@ -9,59 +9,14 @@ import { onMount } from 'svelte';
 import { useDB } from "$lib/shared/stores/dataBase";
 
 import QRCode from 'qrcode';
-import dataBase from '$lib/shared/stores/dataBase';
 import ResetModal from '$lib/components/ResetModal.svelte';
 import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
 import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
-let payload = $state({});
-let localData = $derived($entriesSync);
-let visualAppData;
-let objAppData;
+import { keys, getFieldType } from '$lib/shared/stores/gameKeys';
 
-let keys = [
-    "team",
-    "match",
-    "arenaPos",
-    "red/blue",
-    "autoROneScore",
-    "autoRTwoScore",
-    "autoRThreeScore",
-    "autoRFourScore",
-    "autoROneMiss",
-    "autoRTwoMiss",
-    "autoRThreeMiss",
-    "autoRFourMiss",
-    "autoRemoveAlgaeLow",
-    "autoRemoveAlgaeHigh",
-    "autoProcessorScore",
-    "autoProcessorMiss",
-    "autoNetScore",
-    "autoNetMiss",
-    "isLeave",
-    "teleopROneScore",
-    "teleopRTwoScore",
-    "teleopRThreeScore",
-    "teleopRFourScore",
-    "teleopROneMiss",
-    "teleopRTwoMiss",
-    "teleopRThreeMiss",
-    "teleopRFourMiss",
-    "teleopRemoveAlgaeHigh",
-    "teleopRemoveAlgaeLow",
-    "teleopProcessorScore",
-    "teleopProcessorMiss",
-    "teleopNetScore",
-    "teleopNetMiss",
-    "bargeStatus",
-    "bargeTime",
-    "coralStationCycleTime",
-    "coralFloorCycleTime",
-    "algaeCycleTime",
-    "robotFunction",
-    "robotStatus",
-    "coopBonus",
-];
+let payload = $state({});
+let visualAppData;
 
 let src = $state('');
 
@@ -89,33 +44,7 @@ function getData(key){
 }
 
 // Determine field type for proper editing
-function getFieldType(key) {
-    if (key === 'robotStatus') {
-        return 'select';
-    }
-    
-    // Boolean fields
-    const booleanFields = ['isLeave', 'coopBonus', 'bargeStatus'];
-    if (booleanFields.includes(key)) {
-        return 'boolean';
-    }
-    
-    // Number fields (all score, miss, time fields)
-    const numberFields = keys.filter(k => 
-        k.includes('Score') || 
-        k.includes('Miss') || 
-        k.includes('Time') ||
-        k === 'team' ||
-        k === 'match' ||
-        k === 'arenaPos'
-    );
-    if (numberFields.includes(key)) {
-        return 'number';
-    }
-    
-    // Default to text
-    return 'text';
-}
+
 
 // Update payload value and refresh QR code
 function updatePayloadValue(key, value) {
@@ -138,12 +67,6 @@ onMount(() => {
 
     QRCode.toDataURL(visualAppData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
 })
-
-function avgArray(arr){
-    let sum = 0;
-    arr.forEach((n) => {sum+=n});
-    return arr.length > 0 ? sum/arr.length : 0;
-}
 
 function updateQr() {
     updateVisualData();
@@ -181,7 +104,7 @@ async function HandleUpload(){
 
 function CheckRepeatedGame(newGame, games){
     games.forEach((item) => {
-        if (newGame["team"] == item["team"] && newGame["match"] == item["match"]){
+        if (newGame["teamNumber"] == item["teamNumber"] && newGame["matchNumber"] == item["matchNumber"]){
             return true;
         }
     })
@@ -206,26 +129,26 @@ function HandleReset(){
     <table class="table w-full">
         <thead>
             <tr>
-                <th>Camp</th>
+                <th>Field</th>
                 <th>Value</th>
             </tr>
         </thead>
         <tbody>
-            {#each Object.keys(payload) as key}
+            {#each Object.keys(payload).filter((a) => a != "uploaded") as key}
                 {@const fieldType = getFieldType(key)}
                 <tr>
                     <th class="whitespace-nowrap">{key}</th>
                     <td class="w-full">
                         {#if fieldType === 'number'}
-                            <input 
-                                type="number" 
+                            <input
+                                type="number"
                                 bind:value={payload[key]}
                                 oninput={() => updateQr()}
                                 class="editable-input"
                             />
                         {:else if fieldType === 'boolean'}
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 checked={payload[key] === 'true' || payload[key] === true || payload[key] === '1'}
                                 onchange={(e) => {
                                     payload[key] = e.target.checked ? 'true' : 'false';
@@ -233,22 +156,76 @@ function HandleReset(){
                                 }}
                                 class="editable-checkbox"
                             />
-                        {:else if fieldType === 'select' && key === 'robotStatus'}
-                            <select 
-                                value={payload[key] || 'safe'}
-                                onchange={(e) => {
-                                    payload[key] = e.target.value;
-                                    updateQr();
-                                }}
-                                class="editable-select"
-                            >
-                                <option value="safe">Safe</option>
-                                <option value="broke">Broke</option>
-                                <option value="commLoss">Communication Loss</option>
-                            </select>
+                        {:else if fieldType === 'select'}
+                            {#if key === 'robotStatus'}
+                                <select
+                                    value={payload[key] || 'safe'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="safe">Safe</option>
+                                    <option value="broke">Broke</option>
+                                    <option value="commLoss">Communication Loss</option>
+                                </select>
+                            {:else if key === 'robotFunction'}
+                                <select
+                                    value={payload[key] || 'score'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="score">Score</option>
+                                    <option value="feed">Feed</option>
+                                    <option value="defense">Deffense</option>
+                                </select>
+                            {:else if key === 'red/blue'}
+                                <select
+                                    value={payload[key] || 'BLUE'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="RED">RED</option>
+                                    <option value="BLUE">BLUE</option>
+                                </select>
+                            {:else if key === 'teleopClimb'}
+                                <select
+                                    value={payload[key] || 'No Climb'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="none">No Climb</option>
+                                    <option value="L1">L1</option>
+                                    <option value="L2">L2</option>
+                                    <option value="L3">L3</option>
+                                </select>
+                            {:else if key === 'arenaPosNumber'}
+                                <select
+                                    value={payload[key] || '1'}
+                                    onchange={(e) => {
+                                        payload[key] = e.target.value;
+                                        updateQr();
+                                    }}
+                                    class="editable-select"
+                                >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            {/if}
                         {:else}
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 bind:value={payload[key]}
                                 oninput={() => updateQr()}
                                 class="editable-input"
