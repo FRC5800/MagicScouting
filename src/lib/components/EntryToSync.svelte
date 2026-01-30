@@ -35,7 +35,7 @@
     function openEditModal() {
         // Create a deep copy of the payload for editing
         editedPayload = JSON.parse(JSON.stringify(payload));
-        showEditModal = true;
+        document.getElementById('entry_edit_'+index).showModal();
     }
 
     function saveEdit() {
@@ -183,11 +183,13 @@
     </form>
 </dialog>
 
-<Toast showToast={showRepeatedDataToast} message={"Repeated Data! Data wil be deleted"}/>
+<dialog id={"entry_edit_"+index} class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
 
-<!-- Edit Modal -->
-<Modal bind:showModal={showEditModal} showX={true}>
-    <div class="edit-modal-container">
+       <div class="edit-modal-container">
         <h2 class="edit-modal-title">Edit Match Data</h2>
         <div class="table-container">
             <table class="edit-table">
@@ -302,15 +304,24 @@
             </table>
         </div>
         <div class="button-container">
+            <form method="dialog">
             <button onclick={() => {showEditModal = false}} class="btn btn-ghost btn-sm">
                 {$_('misc.cancel_button')}
             </button>
+            </form>
             <button onclick={saveEdit} class="btn btn-primary btn-sm hover:bg-primary-base bg-buttons border-buttons">
                 {$_('misc.save_button')}
             </button>
         </div>
     </div>
-</Modal>
+
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>{$_('misc.close_button')}</button>
+    </form>
+</dialog>
+
+<Toast showToast={showRepeatedDataToast} message={"Repeated Data! Data wil be deleted"}/>
 
 <style lang="postcss">
     .edit-modal-container {
