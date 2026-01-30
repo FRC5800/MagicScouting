@@ -10,6 +10,8 @@
 	import storeData from "$lib/shared/scripts/controlData.js";
   	import ResetModal from '$lib/components/ResetModal.svelte';
 	import ReefImage from "$lib/assets/reef_image.png";
+	import Plus from "$lib/assets/minus.svg";
+	import Minus from "$lib/assets/plus.svg";
 
 	//CORAL VALUES
 	let scoredFuelNumber = $state(0);
@@ -89,36 +91,68 @@
 
 <section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
 	<div class="flex flex-col">
-		<h1 class="text-4xl header">{$_('autonomous.title')}</h1>
+		<h1 class="text-2xl header">{$_('autonomous.title')}</h1>
 		<div class="separator w-full"></div>
 	</div>
 
 	<div class="container items-center justify-center rounded">
-		<div class="w-full flex items-center justify-center bg-primary-base p-1 relative rounded-t">
-			<h2 class="text-white text-normal font-medium">HUB</h2>
-			<img src={ReefImage} alt="" class="absolute right-0 -top-3 w-14">
+		<div class="w-full flex items-center justify-center bg-primary-base p-2 relative rounded-t-xl">
+			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
 		</div>
-		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
-		    <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -1</button>
+		<div class="w-full flex flex-row items-center justify-between ">
+			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber-=1}}>
+				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
+				<g>
+					<path d="M480,288H32c-17.673,0-32-14.327-32-32s14.327-32,32-32h448c17.673,0,32,14.327,32,32S497.673,288,480,288z"/>
+				</g>
+				</svg>
+			</button>
+			<div class="grow flex flex-col justify-center h-[60px] box-border items-center">
+				<div class="bg-white px-6 text-black rounded-full">
+					{scoredFuelNumber}
+				</div>
+			</div>
+			<button aria-label="plus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber+=1}}>
+				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
+				<g>
+					<path d="M480,224H288V32c0-17.673-14.327-32-32-32s-32,14.327-32,32v192H32c-17.673,0-32,14.327-32,32s14.327,32,32,32h192v192   c0,17.673,14.327,32,32,32s32-14.327,32-32V288h192c17.673,0,32-14.327,32-32S497.673,224,480,224z"/>
+				</g>
+				</svg>
+			</button>
+		    <!-- <button class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -1</button>
 
-		<!-- main hub score block -->
-		<!-- <div class="bg-blue-600 rounded-xl px-4 py-2 flex items-center gap-3 shadow-lg"> -->
     		<div class="w-16 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
     		<div class="grid grid-cols-3 gap-1">
     			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=1}}>+1</button>
     			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=5}}>+5</button>
     			<button class="px-3 py-1 rounded-md bg-blue-400 hover:bg-blue-500 font-semibold" onclick={() => {scoredFuelNumber+=10}}>+10</button>
-    		</div>
+    		</div> -->
 		</div>
 
-		<div class="w-full flex items-center rounded-b overflow-hidden">
+		<div class="w-full flex items-center rounded-b-xl overflow-hidden">
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]">-10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]">-5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]">+5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]">+10</button>
+		</div>
+		<!-- <div class="w-full flex items-center rounded-b overflow-hidden">
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
 			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromDepot ? 'bg-primary-base':''}">DEPOT</button>
 			<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromNeutral ? 'bg-primary-base':''}">NEUTRAL</button>
 			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromOutpost ? 'bg-primary-base':''}">OUTPOST</button>
+		</div> -->
+	</div>
+	<div class="flex flex-col justify-around w-[80vw]">
+		<h1 class="text-lg header mb-2">Collected in:</h1>
+		<div class="flex flex-row gap-2">
+			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base':''}">Depot</button>
+			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base':''}">Ground</button>
+			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromOutpost ? 'bg-primary-base':''}">Outpost</button>
 		</div>
 	</div>
-	<button
+
+	<button class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold">Go Climb!</button>
+	<!-- <button
 		onclick={() => {climb = !climb;}}
 		id="climb"
 		class="btn btn-block p-2 rounded-xl box-border border-2 dark:border-0 {climb
@@ -150,9 +184,9 @@
 
     		</div>
     	{/if}
-	</div>
+	</div> -->
 
-	<button class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons" onclick={onSubmit}> {$_('autonomous.continue_button')} </button>
+	<button class="w-2/3 absolute bottom-[15%] self-end rounded-bl-none rounded-tr-none rounded-tl-xl rounded-br-xl btn btn-primary hover:bg-primary-base bg-buttons border-buttons" onclick={onSubmit}> {$_('autonomous.continue_button')} </button>
 </section>
 
 <style lang="postcss">
