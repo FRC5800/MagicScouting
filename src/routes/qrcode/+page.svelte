@@ -14,8 +14,8 @@ import ResetModal from '$lib/components/ResetModal.svelte';
 import { entriesSync, syncedEntries } from "$lib/shared/stores/toSyncData";
 import uploadPayload from '$lib/shared/scripts/sheetsUpload';
 
-let payload = {};
-$: localData =  $entriesSync;
+let payload = $state({});
+let localData = $derived($entriesSync);
 let visualAppData;
 let objAppData;
 
@@ -63,14 +63,14 @@ let keys = [
     "coopBonus",
 ];
 
-var src = '';
+let src = $state('');
 
-let showQrCode = false;
-let uploadStatus = 'Upload'
-let stored = false;
-let buttonColor;
-let uploadDisabled = false;
-let resetConfirmation = false;
+let showQrCode = $state(false);
+let uploadStatus = $state('Upload');
+let stored = $state(false);
+let buttonColor = $state('');
+let uploadDisabled = $state(false);
+let resetConfirmation = $state(false);
 
 
 App.addListener("backButton", ()=>{goto("/")});
@@ -88,12 +88,53 @@ function getData(key){
     return localStorage.getItem(key);
 }
 
-onMount(() => {
-    keys.forEach((key)=>{payload[key] = getData(key)});
+// Determine field type for proper editing
+function getFieldType(key) {
+    if (key === 'robotStatus') {
+        return 'select';
+    }
+    
+    // Boolean fields
+    const booleanFields = ['isLeave', 'coopBonus', 'bargeStatus'];
+    if (booleanFields.includes(key)) {
+        return 'boolean';
+    }
+    
+    // Number fields (all score, miss, time fields)
+    const numberFields = keys.filter(k => 
+        k.includes('Score') || 
+        k.includes('Miss') || 
+        k.includes('Time') ||
+        k === 'team' ||
+        k === 'match' ||
+        k === 'arenaPos'
+    );
+    if (numberFields.includes(key)) {
+        return 'number';
+    }
+    
+    // Default to text
+    return 'text';
+}
 
-    payload["uploaded"] = false
+// Update payload value and refresh QR code
+function updatePayloadValue(key, value) {
+    payload[key] = value;
+    updateVisualData();
+    updateQr();
+}
 
+function updateVisualData() {
     visualAppData = JSON.stringify(Object.keys(payload).map(function(key){return payload[key]}));
+}
+
+onMount(() => {
+    const initialPayload = {};
+    keys.forEach((key)=>{initialPayload[key] = getData(key)});
+    initialPayload["uploaded"] = false;
+    payload = initialPayload;
+
+    updateVisualData();
 
     QRCode.toDataURL(visualAppData, { errorCorrectionLevel: 'L' }, function (err, url) {src = url;})
 })
@@ -105,9 +146,10 @@ function avgArray(arr){
 }
 
 function updateQr() {
+    updateVisualData();
     QRCode.toDataURL(visualAppData, { errorCorrectionLevel: 'L' }, function (err, url) {
-    src = url;
-})
+        src = url;
+    })
 }
 
 
@@ -160,8 +202,8 @@ function HandleReset(){
 }
 </script>
 
-<div class="box-border h-auto break-words p-2 w-fit max-h-52 overflow-y-scroll rounded-lg text-[#EAEAEC] bg-grey-heavy mt-4 overflow-x-auto">
-    <table class="table">
+<div class="box-border h-auto break-words p-2 w-full max-w-full max-h-52 overflow-y-scroll rounded-lg text-[#EAEAEC] bg-grey-heavy mt-4 overflow-x-auto">
+    <table class="table w-full">
         <thead>
             <tr>
                 <th>Camp</th>
@@ -170,17 +212,57 @@ function HandleReset(){
         </thead>
         <tbody>
             {#each Object.keys(payload) as key}
-                    <tr>
-                        <th>{key}</th>
-                        <td>{payload[key]}</td>
-                    </tr>
+                {@const fieldType = getFieldType(key)}
+                <tr>
+                    <th class="whitespace-nowrap">{key}</th>
+                    <td class="w-full">
+                        {#if fieldType === 'number'}
+                            <input 
+                                type="number" 
+                                bind:value={payload[key]}
+                                oninput={() => updateQr()}
+                                class="editable-input"
+                            />
+                        {:else if fieldType === 'boolean'}
+                            <input 
+                                type="checkbox" 
+                                checked={payload[key] === 'true' || payload[key] === true || payload[key] === '1'}
+                                onchange={(e) => {
+                                    payload[key] = e.target.checked ? 'true' : 'false';
+                                    updateQr();
+                                }}
+                                class="editable-checkbox"
+                            />
+                        {:else if fieldType === 'select' && key === 'robotStatus'}
+                            <select 
+                                value={payload[key] || 'safe'}
+                                onchange={(e) => {
+                                    payload[key] = e.target.value;
+                                    updateQr();
+                                }}
+                                class="editable-select"
+                            >
+                                <option value="safe">Safe</option>
+                                <option value="broke">Broke</option>
+                                <option value="commLoss">Communication Loss</option>
+                            </select>
+                        {:else}
+                            <input 
+                                type="text" 
+                                bind:value={payload[key]}
+                                oninput={() => updateQr()}
+                                class="editable-input"
+                            />
+                        {/if}
+                    </td>
+                </tr>
             {/each}
         </tbody>
     </table>
 </div>
 
 <span class="mt-4">(Offline)</span>
-<button on:click={() => {showQrCode = !showQrCode}} disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] border-0 m-0 btn btn-block {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'disabled' : ''}">
+<button onclick={() => {showQrCode = !showQrCode}} disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class="transition-none {showQrCode ? 'dark:text-white rounded-b-none dark:border-0 dark:bg-buttons' : ''} min-w-[50vw] border-0 m-0 btn btn-block {uploadStatus == 'Uploaded' ? 'disabled' : stored ? 'disabled' : ''}">
     {$_('qrcode.qrcode_button')}
 </button>
 
@@ -191,19 +273,19 @@ function HandleReset(){
 {/if}
 
 {#if !(uploadStatus == 'Uploaded' || stored)}
-    <i role="button" tabindex="0" on:keydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} on:click={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>
+    <i role="button" tabindex="0" onkeydown={(e) => {showQrCode = e.key == "Enter" ? !showQrCode : showQrCode}} onclick={() => {showQrCode = !showQrCode}} class="fa-solid fa-chevron-down {showQrCode ? 'transform rotate-180' : '' }"></i>
 {/if}
 
 <span class="m-2">{$_('qrcode.or')}</span>
 
 <span >(Online)</span>
-<button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} on:click={HandleUpload}>{uploadStatus}</button>
+<button class=" m-0 {buttonColor} btn btn-block {stored || !$useDB ? 'disabled' : ''}" disabled={uploadDisabled || !$useDB || stored ? true : false} onclick={HandleUpload}>{uploadStatus}</button>
 
-<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled text-primary-heavy' : stored ? 'stored' : ''}" on:click={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
+<button disabled={uploadStatus == 'Uploaded' ? true : stored ? true : false} class=" m-0 btn btn-block mt-8 {uploadStatus == 'Uploaded' ? 'disabled text-primary-heavy' : stored ? 'stored' : ''}" onclick={() => {stored = true; HandleStore()}}>{$_('qrcode.store_button')}</button>
 
 <div class="w-[30vw] separator my-6"></div>
 
-<button class="w-full m-0 btn btn-primary hover:bg-primary-base bg-buttons border-buttons" on:click={HandleReset}>{$_('qrcode.finish_button')}</button>
+<button class="w-full m-0 btn btn-primary hover:bg-primary-base bg-buttons border-buttons" onclick={HandleReset}>{$_('qrcode.finish_button')}</button>
 
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 
@@ -213,6 +295,35 @@ function HandleReset(){
     }
     .stored{
         @apply bg-green-600 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-600 text-[#E0E0E0] hover:text-[#E0E0E0] dark:hover:text-[#E0E0E0];
+    }
+
+    .editable-input {
+        @apply bg-transparent border border-primary-base rounded px-2 py-1 text-[#EAEAEC] dark:text-white;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .editable-input:focus {
+        @apply outline-none border-primary-light ring-2 ring-primary-light;
+    }
+
+    .editable-checkbox {
+        @apply w-5 h-5 cursor-pointer;
+        accent-color: var(--color-primary-base);
+    }
+
+    .editable-select {
+        @apply bg-transparent border border-primary-base rounded px-2 py-1 text-[#EAEAEC] dark:text-white cursor-pointer;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .editable-select:focus {
+        @apply outline-none border-primary-light ring-2 ring-primary-light;
+    }
+
+    .editable-select option {
+        @apply bg-grey-heavy text-white;
     }
 
 </style>
