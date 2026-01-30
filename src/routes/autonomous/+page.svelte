@@ -136,10 +136,10 @@
 		</div>
 
 		<div class="w-full flex items-center rounded-b-xl overflow-hidden">
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]">-10</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]">-5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]">+5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]">+10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {scoredFuelNumber-=10}}>-10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {scoredFuelNumber-=1}}>-5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]" onclick={() => {scoredFuelNumber+=5}} >+5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]" onclick={() => {scoredFuelNumber+=10}}>+10</button>
 		</div>
 		<!-- <div class="w-full flex items-center rounded-b overflow-hidden">
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
@@ -157,7 +157,7 @@
 		</div>
 	</div>
 
-	<button 
+	<button
 		onclick={startClimbTime}
 		class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold"
 	>
@@ -245,7 +245,7 @@
 			</span>
 			<span class="climb-timer-unit">seconds</span>
 		</div>
-		<button 
+		<button
 			onclick={stopClimbTime}
 			class="climb-timer-stop-btn"
 		>
