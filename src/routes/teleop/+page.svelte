@@ -36,6 +36,10 @@
 
 	let feedingFuelNumber = $state(0);
 
+	let depotClicked = $state(false);
+	let groundClicked = $state(false);
+	let outpostClicked = $state(false);
+
 	function startClimbTime() {
 		climbTimeCounting = true;
 		climbTime = 0;
@@ -104,7 +108,8 @@
 </script>
 <ResetModal bind:resetConfirmation={resetConfirmation}/>
 <section class="w-full gap-3 text-neutral-600 dark:text-white mt-[3vh] flex flex-col items-center">
-	<div class="flex flex-col">
+
+	<div class="flex flex-col items-center">
 		<h1 class=" page-title header">{$_('teleop.title')}</h1>
 		
 	</div>
@@ -114,39 +119,45 @@
 			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
 			
 		</div>
+
 		<div class="w-full flex items-center justify-between bg-[#D4EDDA]">
 
-		    <button class="grow w-10 h-10 rounded-100 bg-gray-500 hover:bg-gray-700 flex items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -</button>
-    		<div class="grow center w-16 h-10 bg-blue-700  flex items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
-    		<button class="grow flex px-3 py-2  bg-gray-500 hover:bg-gray-700 items-center text-center font-semibold" onclick={() => {scoredFuelNumber+=1}}>   +</button>
+		    <button class="grow flex w-10 h-10 bg-gray-500 hover:bg-gray-700 items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber-=1}}> -</button>
+    		<div class="grow flex center w-16 h-10 bg-blue-700 items-center justify-center text-2xl font-extrabold">{scoredFuelNumber}</div>
+    		<button class="grow flex w-10 h-10 bg-gray-500 hover:bg-gray-700 items-center justify-center text-white font-bold shadow" onclick={() => {scoredFuelNumber+=1}}>+</button>
     		
 		</div>
 
-        <div class="w-full flex items-center rounded-b overflow-hidden">
+        <div class="w-full flex  rounded-b overflow-hidden">
            	<button onclick={()=>{scoredFuelNumber-=10}} class="minus10 grow flex items-center justify-center align-middle p-3 text-normal">-10</button>
-           	<button onclick={()=>{scoredFuelNumber-=5}} class="minus5 grow flex items-center justify-center align-middle p-3 text-normal ">-5</button>
-           	<button onclick={()=>{scoredFuelNumber+=5}} class="plus5 grow flex items-center justify-center align-middle p-3 text-normal ">+5</button>
+           	<button onclick={()=>{scoredFuelNumber-=5}} class="minus5 grow flex items-center justify-center align-middle  p-3 text-normal ">-5</button>
+           	<button onclick={()=>{scoredFuelNumber+=5}} class="plus5 grow flex items-center justify-center align-middle   p-3 text-normal ">+5</button>
            	<button onclick={()=>{scoredFuelNumber+=10}} class="plus10 grow flex items-center justify-center align-middle p-3 text-normal">+10</button>
         </div>
 	</div>
 	
 
-    <div class="flex-direction:column mb-5 items-center justify-center  w-200"> 
-		<div class=" flex items-center justify-center pt-1 relative rounded-t">
+    <div class="flex-direction:column mb-5 items-center justify-center h-30 w-90"> 
+
+		<div class=" flex items-center justify-center pt-1 relative rounded-t flex-direction:column">
 			<h2 class="text-white mb-2 text-normal font-size:10em text-2xl">Collected In</h2>
-			
 		</div>
-		<div class="pt-3 gap-7 flex items-center justify-between">
-	
+		
+		<div class="pt-3 gap-3 flex items-center justify-between w-full">
        		
-       			<button class="w-20 h-10 container py-1 rounded-md font-semibold  " onclick={() => {!collectsFromDepot}}>Depot</button>
-       			<button class="w-20 h-10 container py-1 rounded-md font-semibold" onclick={() => {!collectsFromGround}}>Ground</button>
-       			<button class="w-20 h-10 container py-1 rounded-md font-semibold" onclick={() => {!collectsFromOutpost}}>Outpost</button>
+       			<button class="w-40 h-20 container py-1 rounded-md font-semibold {depotClicked ? 'bg-blue-800' : ''} " onclick={() => {!collectsFromDepot, depotClicked=!depotClicked}}>Depot</button>
+       			<button class="w-40 h-20 container py-1 rounded-md font-semibold {groundClicked ? 'bg-blue-800' : ''} " onclick={() => {!collectsFromGround, groundClicked=!groundClicked}}>Ground</button>
+       			<button class="w-40 h-20 container py-1 rounded-md font-semibold {outpostClicked ? 'bg-blue-800' : ''}" onclick={() => {!collectsFromOutpost, outpostClicked=!outpostClicked}}>Outpost</button>
        		
 		</div>
     </div>
 
-    <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('teleop.continue_button')}</button>
+    <button onclick={onSubmit} class="w-40 text-black h-8 rounded-xl mt-2 text-color:black hover:bg-yellow-600 bg-yellow-400 ">Go climb!</button>
+
+	<div class="w-1/3 flex gap-60 ">
+		<button onclick={nadaporenquanto} class="w-40 rounded-xl h-8 self-start justify-end justify-self-start bg-blue-500 hover:bg-blue-700 " >Back</button>
+		<button onclick={nadaporenquanto} class="w-40 rounded-xl h-8 self-end align-bottom justify-self-end bg-blue-500 hover:bg-blue-700 " >Next</button>
+	</div>
 
 </section>
 
