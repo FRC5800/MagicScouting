@@ -14,17 +14,24 @@
     let teamRole = $state("");
     let robotStatus = $state("safe");
     let humanPlayer = $state("");
+    let passesByBump = $state(false);
+    let passesByLowBar = $state(false);
     let validationError = $state(false);
+    let animationTrigger = $state(0);
 
     async function onSubmit() {
 		if(teamRole == '' || robotStatus == '' || humanPlayer == '') {
 			validationError = true;
+			// Increment trigger to retrigger animation
+			animationTrigger++;
 		}else {
 			validationError = false;
 			storeData({
             "robotFunction": teamRole,
             "robotStatus": robotStatus,
             "humanPlayer": humanPlayer,
+            "passesByBump": passesByBump,
+            "passesByLowBar": passesByLowBar,
             });
             goto("/qrcode")
 		}
@@ -55,7 +62,9 @@
         <div onclick={()=>{teamRole="defense"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="defense" ? 'bg-primary-base text-[#E0E0E0]':''}">Defense</div>
     </div>
 </div>
-<span class="validation-error-message {((validationError) && (teamRole == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{#key animationTrigger}
+    <span class="validation-error-message {((validationError) && (teamRole == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{/key}
 
 <div class="mt-4 container items-center justify-center rounded overflow-hidden ">
     <div class="w-full flex items-center justify-center bg-primary-base p-1">
@@ -67,7 +76,9 @@
         <div onclick={()=>{if(robotStatus=="commLoss"){robotStatus="safe"}else{robotStatus="commLoss"}}} class="text-normal flex justify-center items-center grow basis-1 p-3 {robotStatus=="commLoss" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.communication_fault')}</div>
     </div>
 </div>
-<span class="validation-error-message {((validationError) && (robotStatus == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{#key animationTrigger}
+    <span class="validation-error-message {((validationError) && (robotStatus == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{/key}
 
 <div class="mt-4 container items-center justify-center rounded overflow-hidden ">
     <div class="w-full flex items-center justify-center bg-primary-base p-1">
@@ -79,7 +90,21 @@
         <div onclick={()=>{humanPlayer="no"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {humanPlayer=="no" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_('info.no')}</div>
     </div>
 </div>
-<span class="validation-error-message {((validationError) && (humanPlayer == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{#key animationTrigger}
+    <span class="validation-error-message {((validationError) && (humanPlayer == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
+{/key}
+
+<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
+    <div class="w-full flex items-center justify-center bg-primary-base p-1">
+        <h2 class="text-white text-normal font-medium">Passes</h2>
+    </div>
+    <div class="w-full border-b-2 invisible"></div>
+    <div class="w-full flex items-center justify-between">
+        <div onclick={()=>{passesByBump=!passesByBump}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByBump ? 'bg-primary-base text-[#E0E0E0]':''}">Bump</div>
+        <div onclick={()=>{passesByLowBar=!passesByLowBar}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByLowBar ? 'bg-primary-base text-[#E0E0E0]':''}">Trench</div>
+    </div>
+</div>
+
 <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
@@ -90,5 +115,35 @@
 		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
+    
+    .validation-error-message{
+        @apply text-red-600 font-bold;
+        display: block;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .validation-error-message.visible {
+        animation: shakeAndFade 0.5s ease-in-out;
+    }
+    
+    @keyframes shakeAndFade {
+        0% {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        10%, 30%, 50%, 70%, 90% {
+            transform: translateX(10px);
+        }
+        20%, 40%, 60%, 80% {
+            transform: translateX(-10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        }
+
 
 </style>

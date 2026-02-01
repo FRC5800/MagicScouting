@@ -1,7 +1,7 @@
 <script>
+    // @ts-nocheck
     import { run } from 'svelte/legacy';
 
-    // @ts-nocheck
     import { _ } from "svelte-i18n";
 
     import Modal from '$lib/components/Modal.svelte';
@@ -203,13 +203,17 @@
                     {#each Object.keys(editedPayload).filter((a) => a != "uploaded") as key}
                         {@const fieldType = getFieldType(key)}
                         <tr>
-                            <th class="whitespace-nowrap">{key}</th>
+                            <th class="whitespace-nowrap overflow-auto">{key}</th>
                             <td class="w-full">
                                 {#if fieldType === 'number'}
                                     <input
                                         type="number"
+                                        min="0"
                                         bind:value={editedPayload[key]}
-                                        oninput={() => createQr()}
+                                        oninput={(e) => {
+                                            if (e.target.value < 0) e.target.value = 0;
+                                            createQr();
+                                        }}
                                         class="editable-input"
                                     />
                                 {:else if fieldType === 'boolean'}
