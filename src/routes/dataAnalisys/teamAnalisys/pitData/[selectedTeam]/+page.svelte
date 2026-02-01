@@ -44,8 +44,8 @@ https://svelte.dev/e/node_invalid_placement -->
 
             <img width="50px" src={teamData.logo} alt="Team Logo" />
             <div class="flex flex-row gap-2">
-                <div>{teamData.team}</div>
-                <div>{teamData.name}</div>
+                <div>{teamData.teamNumber}</div>
+                <div>{teamData.nameNumber}</div>
             </div>
         </div>
     </div>

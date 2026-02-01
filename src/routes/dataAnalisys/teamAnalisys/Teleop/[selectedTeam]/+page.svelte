@@ -21,12 +21,12 @@
     let { data } = $props();
     let teamData = $teamAnalysisData[data.selectedTeam];
 
-    let rawData = writable(getTeamScoutingData(teamData.team));
-    console.log(teamData.team)
+    let rawData = writable(getTeamScoutingData(teamData.teamNumber));
+    console.log(teamData.teamNumber)
 
     console.log($rawData)
-    
-    
+
+
 
 </script>
 
@@ -37,15 +37,15 @@
 
             <img width="50px" src={teamData.logo} alt="Team Logo" />
             <div class="flex flex-row gap-2">
-                <div>{teamData.team}</div>
+                <div>{teamData.teamNumber}</div>
                 <div>{teamData.name}</div>
             </div>
         </div>
-    </div>  
+    </div>
 {/if}
 
 <div class="w-full px-6 mb-20 flex flex-col items-center sm:flex-row sm:flex-wrap sm:gap-10 sm:items-center sm:justify-center sm:pt-6">
-    
+
     {#if $rawData.length > 0}
         <div class="w-full flex">
             <div class=" w-full relative mb-2 mx-6 grow">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        
+
         <BarChartGrouped
         data={setupBarChartsData(
             $rawData,
@@ -94,7 +94,7 @@
                 }
             }
         }
-        /> 
+        />
 
         <div class="divider"></div>
 
@@ -126,7 +126,7 @@
                 }
             }
         }
-        /> 
+        />
 
         <div class="divider"></div>
 
@@ -135,23 +135,23 @@
                 data={setupSimpleChartsData(
                 $rawData,
                     {
-                        "L1" : ["teleopROneScore"], 
-                        "L2" : ["teleopRTwoScore"], 
-                        "L3" : ["teleopRThreeScore"], 
+                        "L1" : ["teleopROneScore"],
+                        "L2" : ["teleopRTwoScore"],
+                        "L3" : ["teleopRThreeScore"],
                         "L4" : ["teleopRFourScore"],
                         "Proc" : ["teleopProcessorScore"],
-                        "Net": ["teleopNetScore"] 
+                        "Net": ["teleopNetScore"]
                     },
                     "radar"
                 ).concat(setupSimpleChartsData(
                     $rawData,
                     {
-                        "L1" : ["teleopROneScore"], 
-                        "L2" : ["teleopRTwoScore"], 
-                        "L3" : ["teleopRThreeScore"], 
+                        "L1" : ["teleopROneScore"],
+                        "L2" : ["teleopRTwoScore"],
+                        "L3" : ["teleopRThreeScore"],
                         "L4" : ["teleopRFourScore"],
                         "Proc" : ["teleopProcessorScore"],
-                        "Net": ["teleopNetScore"] 
+                        "Net": ["teleopNetScore"]
                     },
                     "radar",
                     true
@@ -175,7 +175,7 @@
         {/key}
 
         <div class="divider"></div>
-            
+
         <LineChart
             data={setupBarChartDataByMatch(
                 $rawData,
@@ -194,7 +194,7 @@
                 axes: {
                         left: {
                             title: "Seconds",
-                            mapsTo: "Seconds"                        
+                            mapsTo: "Seconds"
                         },
                         bottom: {
                             scaleType: "labels",
@@ -205,7 +205,7 @@
                 }
             }
         />
-        
+
         <div class="divider"></div>
 
         <ComboChart
@@ -216,7 +216,7 @@
                     Coral: {fields: coralTeleopPoints, valueName: "GPs", showPoints: false},
                     Algae: {fields: algaeTeleopPoints, valueName: "GPs", showPoints: false}
                 },
-                
+
             )}
             options={{
                 theme: $carbonTheme,
@@ -241,7 +241,7 @@
                 axes: {
                         left: {
                             title: "Score",
-                            mapsTo: "Points"                        
+                            mapsTo: "Points"
                         },
                         bottom: {
                             scaleType: "labels",

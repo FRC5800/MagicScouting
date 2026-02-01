@@ -2,11 +2,11 @@
 // @ts-nocheck
 
     import "../../app.css";
-    
+
     import { _ } from 'svelte-i18n';
 	import { App } from '@capacitor/app';
     import { goto, beforeNavigate } from '$app/navigation';
-    
+
     import storeData from "$lib/shared/scripts/controlData.js";
     import InfoSelect from "./infoSelect.svelte";
     import ResetModal from '$lib/components/ResetModal.svelte';
@@ -90,5 +90,5 @@
 		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
-    
+
 </style>

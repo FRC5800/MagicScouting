@@ -1,0 +1,25 @@
+name: Release on Merge
+
+on:
+  push:
+    branches:
+      - master # or your default branch name
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required to create tags and releases
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Create release
+        uses: dexwritescode/release-on-merge-action@v1
+        with:
+          # Optional: specify how to increment the version (default is 'patch')
+          version-increment-strategy: minor
+          # Optional: customize the tag prefix (default is 'v')
+          tag-prefix: v
+          # Optional: automatically generate release notes (default is true)
+          generate-release-notes: true

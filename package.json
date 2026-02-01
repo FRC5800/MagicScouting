@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite dev --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host :: --port 8080",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.4",
+    "@capacitor/cli": "^8.0.0",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.50.1",
@@ -40,17 +41,19 @@
   "prepare": "svelte-kit sync",
   "dependencies": {
     "@capacitor-mlkit/barcode-scanning": "^7.0.0",
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/app": "^7.0.0",
-    "@capacitor/cli": "^7.0.0",
-    "@capacitor/core": "^7.0.0",
-    "@capacitor/device": "^7.0.0",
-    "@capacitor/keyboard": "^7.0.0",
-    "@capacitor/preferences": "^7.0.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/device": "^8.0.0",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/preferences": "^8.0.0",
+    "@capawesome/capacitor-app-update": "^8.0.2",
+    "@capawesome/capacitor-live-update": "^8.1.0",
     "@carbon/charts-svelte": "^1.22.15",
     "@flaticon/flaticon-uicons": "^3.3.1",
     "qrcode": "^1.5.4",
     "svelte-i18n": "^4.0.0",
-    "svelte-preprocess": "^6.0.3"
+    "svelte-preprocess": "^6.0.3",
+    "yaml": "^2.8.2"
   }
 }

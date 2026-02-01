@@ -1,17 +1,17 @@
 function doPost(e) {
 
-  try {    
+  try {
     const pairTeamMatch = getTeamAndMatch();
-    const newEntryTeamMatch = [parseInt(e.parameters["team"][0]), parseInt(e.parameters["match"][0])];
-    
+    const newEntryTeamMatch = [parseInt(e.parameters["teamNumber"][0]), parseInt(e.parameters["matchNumber"][0])];
+
     let repeated = false;
     for (let i = 0; i < pairTeamMatch.length; i++){
       if (pairTeamMatch[i][0] == newEntryTeamMatch[0] && pairTeamMatch[i][1] == newEntryTeamMatch[1]){
         repeated=true
         break;
       }
-    }  
-    
+    }
+
     if(!repeated){
       record_data(e);
     }
@@ -41,43 +41,43 @@ function getTeamAndMatch() {
 function record_data(e) {
   var lock = LockService.getDocumentLock();
   lock.waitLock(30000);
-  
-  try {    
+
+  try {
     var sheet = SpreadsheetApp.getActiveSheet();
-    
+
     var oldHeader = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     var newHeader = oldHeader.slice();
     var fieldsFromForm = getDataColumns(e.parameters);
-    
-    var currentdate = new Date(); 
+
+    var currentdate = new Date();
     var datetime = currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
 
 
-    var row = [datetime]; 
-    
+    var row = [datetime];
+
     for (var i = 1; i < oldHeader.length; i++) {
       var field = oldHeader[i];
       var output = getFieldFromData(field, e.parameters);
       row.push(output);
-      
+
       var formIndex = fieldsFromForm.indexOf(field);
       if (formIndex > -1) {
         fieldsFromForm.splice(formIndex, 1);
       }
     }
-    
+
     for (var i = 0; i < fieldsFromForm.length; i++) {
       var field = fieldsFromForm[i];
       var output = getFieldFromData(field, e.parameters);
       row.push(output);
       newHeader.push(field);
     }
-    
+
     var nextRow = sheet.getLastRow() + 1; // get next row
     sheet.getRange(nextRow, 1, 1, row.length).setValues([row]);
 

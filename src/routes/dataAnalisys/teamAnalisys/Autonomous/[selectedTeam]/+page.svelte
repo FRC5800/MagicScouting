@@ -21,29 +21,29 @@
     let { data } = $props();
     let teamData = $teamAnalysisData[data.selectedTeam];
 
-    let rawData = writable(getTeamScoutingData(teamData.team));
-    console.log(teamData.team)
+    let rawData = writable(getTeamScoutingData(teamData.teamNumber));
+    console.log(teamData.teamNumber)
 
     console.log($rawData)
-    
+
     let autoPoints = [
         "autoROneScore",
-        "autoRTwoScore", 
-        "autoRThreeScore", 
-        "autoRFourScore", 
-        "autoProcessorScore", 
-        "autoNetScore", 
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
+        "autoProcessorScore",
+        "autoNetScore",
         "isLeave"
     ]
     let coralAutoPoints = [
         "autoROneScore",
-        "autoRTwoScore", 
-        "autoRThreeScore", 
-        "autoRFourScore", 
+        "autoRTwoScore",
+        "autoRThreeScore",
+        "autoRFourScore",
     ]
     let algaeAutoPoints = [
-        "autoProcessorScore", 
-        "autoNetScore", 
+        "autoProcessorScore",
+        "autoNetScore",
     ]
 
 </script>
@@ -55,15 +55,15 @@
 
             <img width="50px" src={teamData.logo} alt="Team Logo" />
             <div class="flex flex-row gap-2">
-                <div>{teamData.team}</div>
+                <div>{teamData.teamNumber}</div>
                 <div>{teamData.name}</div>
             </div>
         </div>
-    </div>    
+    </div>
 {/if}
 
 <div class="w-full px-6 mb-20 flex flex-col items-center sm:flex-row sm:flex-wrap sm:gap-10 sm:items-center sm:justify-center sm:pt-6">
-    
+
     {#if $rawData.length > 0}
         <div class="w-full flex">
             <div class=" w-full relative mb-2 mx-6 grow">
@@ -109,7 +109,7 @@
                 }
             }
         }
-        /> 
+        />
 
         <div class="divider"></div>
 
@@ -141,32 +141,32 @@
                 }
             }
         }
-        /> 
+        />
 
         <div class="divider"></div>
-    
+
         {#key $rawData}
             <RadarChart
                 data={setupSimpleChartsData(
                 $rawData,
                     {
-                        "L1" : ["autoROneScore"], 
-                        "L2" : ["autoRTwoScore"], 
-                        "L3" : ["autoRThreeScore"], 
+                        "L1" : ["autoROneScore"],
+                        "L2" : ["autoRTwoScore"],
+                        "L3" : ["autoRThreeScore"],
                         "L4" : ["autoRFourScore"],
                         "Proc" : ["autoProcessorScore"],
-                        "Net": ["autoNetScore"] 
+                        "Net": ["autoNetScore"]
                     },
                     "radar"
                 ).concat(setupSimpleChartsData(
                     $rawData,
                     {
-                        "L1" : ["autoROneScore"], 
-                        "L2" : ["autoRTwoScore"], 
-                        "L3" : ["autoRThreeScore"], 
+                        "L1" : ["autoROneScore"],
+                        "L2" : ["autoRTwoScore"],
+                        "L3" : ["autoRThreeScore"],
                         "L4" : ["autoRFourScore"],
                         "Proc" : ["autoProcessorScore"],
-                        "Net": ["autoNetScore"] 
+                        "Net": ["autoNetScore"]
                     },
                     "radar",
                     true
@@ -199,7 +199,7 @@
                     Coral: {fields: coralAutoPoints, valueName: "GPs", showPoints: false},
                     Algae: {fields: algaeAutoPoints, valueName: "GPs", showPoints: false}
                 },
-                
+
             )}
             options={{
                 theme: $carbonTheme,
@@ -224,7 +224,7 @@
                 axes: {
                         left: {
                             title: "Score",
-                            mapsTo: "Points"                        
+                            mapsTo: "Points"
                         },
                         bottom: {
                             scaleType: "labels",

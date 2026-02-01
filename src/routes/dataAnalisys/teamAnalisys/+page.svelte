@@ -2,7 +2,7 @@
     import { run } from 'svelte/legacy';
 
     // @ts-nocheck
-    
+
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import { onMount } from "svelte";
     import { _ } from 'svelte-i18n';
@@ -26,11 +26,11 @@
     let data = $derived($TeamsDB)
     console.log(data)
 
-    
+
     let selectedTeam = $state("");
-    
+
     let activeTab = $derived(Object.keys($teamAnalysisData)[0] ?? "");
-    
+
     let autoCompleteTeams = $derived(writable([]));
 
     run(() => {
@@ -38,7 +38,7 @@
     });
 
     let debounceTimeout;
-    
+
     function handleTabClose(teamNumber){
         delete $teamAnalysisData[teamNumber];
         $teamAnalysisData = $teamAnalysisData;
@@ -48,15 +48,15 @@
         }
         console.log($teamAnalysisData);
     }
-    
+
     </script>
-    
+
     <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
         <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
             <i onclick={()=>{goto("/dataAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
             <h1 class="grow flex flex-row items-center text-2xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.title")}</h1>
         </div>
-    
+
         <div class="w-full sm:w-[600px] flex gap-4 mb-4 px-6 flex-col items-start">
             <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.searchBar_text")}</h2>
             <TeamSearchBar {teamSearch} bind:selectedTeam={selectedTeam} bind:analysisData={$teamAnalysisData}/>
@@ -69,12 +69,12 @@
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <!-- svelte-ignore a11y_no_static_element_interactions -->
                             <span onclick={()=>{activeTab=teamNumber}}>{teamNumber}</span>
-                            {#if activeTab==teamNumber}                            
+                            {#if activeTab==teamNumber}
                                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                                 <!-- svelte-ignore a11y_no_static_element_interactions -->
-                                <i onclick={()=>{handleTabClose(teamNumber)}} class="fi fi-rr-cross-small flex"></i> 
+                                <i onclick={()=>{handleTabClose(teamNumber)}} class="fi fi-rr-cross-small flex"></i>
                             {/if}
-                        </span>           
+                        </span>
                     {/each}
                 {/key}
             </div>
@@ -85,8 +85,8 @@
                 <div class="flex max-w-[400px] flex-row gap-4 items-center justify-center mt-6">
                     <img width="50px" src={$teamAnalysisData[activeTab].logo} alt="Team Logo" />
                     <div class="flex flex-row gap-2">
-                        <div>{$teamAnalysisData[activeTab].team}</div>
-                        <div>{$teamAnalysisData[activeTab].name}</div>
+                        <div>{$teamAnalysisData[activeTab].teamNumber}</div>
+                        <div>{$teamAnalysisData[activeTab].nameNumber}</div>
                     </div>
                 </div>
                 <div class="w-full flex max-w-[400px]">
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 {#if $teamAnalysisData[activeTab].rawData.length > 0}
                     <div class="w-full flex mb-3 max-w-[400px]">
                         <div class=" w-full relative my-2 mx-6 grow">
@@ -117,10 +117,10 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start sm:items-center">
                         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
-                        
+
                         <div class="w-full flex flex-col gap-2 max-w-[400px]">
                             <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} disabled=true class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-bank"></i>
@@ -150,17 +150,17 @@
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
                             </button>
-                        </div>   
-                    </div>     
-                    
+                        </div>
+                    </div>
+
                     <div class="carousel carousel-center w-full max-w-fit">
                         <div class="carousel-item">
                             <DonutChart
                             data={setupSimpleChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 {
-                                    "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"], 
-                                    "Processor": ["autoProcessorScore", "teleopProcessorScore"], 
+                                    "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"],
+                                    "Processor": ["autoProcessorScore", "teleopProcessorScore"],
                                     "Net": ["autoNetScore", "teleopNetScore"]
                                 },
                             )}
@@ -175,15 +175,15 @@
                                     }
                                 }
                             }
-                        /> 
+                        />
                         </div>
                         <div class="carousel-item">
                             <DonutChart
                             data={setupSimpleChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 {
-                                    "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"], 
-                                    "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"], 
+                                    "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"],
+                                    "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"],
                                     "Endgame": ["bargeStatus"]
                                 },
                             )}
@@ -213,7 +213,7 @@
                                 "coral": "Coral",
                                 "algae": "Algae",
                                 "alg_cor": "Fullstack",
-                                "def": "Defense" 
+                                "def": "Defense"
                             },
                         )}
                         options={{
@@ -227,7 +227,7 @@
                                 }
                             }
                         }
-                            /> 
+                            />
                         </div>
                         <div class="carousel-item">
                             <DonutChart
@@ -238,7 +238,7 @@
                                     "none": "None",
                                     "park": "Park",
                                     "deep": "Deep",
-                                    "shallow": "Shallow" 
+                                    "shallow": "Shallow"
                                 },
                             )}
                             options={{
@@ -252,34 +252,34 @@
                                     }
                                 }
                             }
-                            /> 
+                            />
                         </div>
                     </div>
-        
+
         <div class="divider w-full"></div>
-        
+
         {#key $teamAnalysisData[activeTab].rawData}
             <RadarChart
                 data={setupSimpleChartsData(
                 $teamAnalysisData[activeTab].rawData,
                     {
-                        "L1" : ["autoROneScore", "teleopROneScore"], 
-                        "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
-                        "L3" : ["autoRThreeScore", "teleopRThreeScore"], 
+                        "L1" : ["autoROneScore", "teleopROneScore"],
+                        "L2" : ["autoRTwoScore", "teleopRTwoScore"],
+                        "L3" : ["autoRThreeScore", "teleopRThreeScore"],
                         "L4" : ["autoRFourScore", "teleopRFourScore"],
                         "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
-                        "Net": ["teleopNetScore", "autoNetScore"] 
+                        "Net": ["teleopNetScore", "autoNetScore"]
                     },
                     "radar"
                 ).concat(setupSimpleChartsData(
                     $teamAnalysisData[activeTab].rawData,
                     {
-                        "L1" : ["autoROneScore", "teleopROneScore"], 
-                        "L2" : ["autoRTwoScore", "teleopRTwoScore"], 
-                        "L3" : ["autoRThreeScore", "teleopRThreeScore"], 
+                        "L1" : ["autoROneScore", "teleopROneScore"],
+                        "L2" : ["autoRTwoScore", "teleopRTwoScore"],
+                        "L3" : ["autoRThreeScore", "teleopRThreeScore"],
                         "L4" : ["autoRFourScore", "teleopRFourScore"],
                         "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
-                        "Net": ["teleopNetScore", "autoNetScore"] 
+                        "Net": ["teleopNetScore", "autoNetScore"]
                     },
                     "radar",
                     true
@@ -334,7 +334,7 @@
                 axes: {
                         left: {
                             title: "Score",
-                            mapsTo: "Points"                        
+                            mapsTo: "Points"
                         },
                         bottom: {
                             scaleType: "labels",
@@ -355,8 +355,8 @@
             }
         />
     {/if}
-    
+
             </section>
         {/if}
-        
+
     </main>
