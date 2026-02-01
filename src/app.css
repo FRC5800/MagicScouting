@@ -57,7 +57,7 @@
 	.separator {
 		@apply bg-gradient-to-r from-gradient-light to-gradient-heavy;
 		height: 2px;
-		margin: 15px 0;
+		/* margin: 15px 0; */
 		width: 80%;
 	}
 
