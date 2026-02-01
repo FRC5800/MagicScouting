@@ -1,3 +1,23 @@
+function doGet(e){
+  Logger.log(e.parameter)
+  console.log(e.parameter)
+  if (e.parameter["sheet"] == "MagicScouting"){
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("MagicScouting");
+  }else if(e.parameter["sheet"] == "PitScouting"){
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("PitScouting");
+  }else{
+    return ContentService
+        .createTextOutput(JSON.stringify({status:"Bad request"}))
+        .setMimeType(ContentService.MimeType.JSON);
+  }
+  const data = sheet.getDataRange().getValues();
+
+  return ContentService
+        .createTextOutput(JSON.stringify({status:"success", "data":data}))
+        .setMimeType(ContentService.MimeType.JSON);
+
+}
+
 function doPost(e) {
 
   try {

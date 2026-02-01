@@ -43,11 +43,13 @@
 		}).then((r) => {
 			return r.json()
 		})
-		
+
 		sheetData = sheetData.data
 
 		let schema = sheetData[0];
 		sheetData = sheetData.splice(1)
+
+		console.log(sheetData)
 		return {schema: schema, data: sheetData}
 	}
 
@@ -55,23 +57,23 @@
 		await getSheetData(sheet).then((r) => {
 			let schema = r.schema;
 			let data = r.data;
-			
+
 			SchemaStore.set(schema);
-			
+
 			DataStore.set(data.map((line) => {
 				return formatEntry(schema, line)
 			}));
-			
+
 		})
 
 	}
-	
+
 	let buttonText = $derived($_("dataAnalysis.sync_button"))
 
 	async function SyncData(){
 		if ($entriesSync.length != 0){
 			alert("There are entries to sync, please sync them first or delete them.")
-			return            
+			return
 		}
 
 		isSyncing = true;
@@ -89,7 +91,7 @@
 				alliance1: {},
 				alliance2: {}
 			})
-			
+
 
 		}catch (error){
 			alert("Sync error")
@@ -98,7 +100,7 @@
 		isSyncing = false;
 
 	}
-	
+
 
 	onMount(async () => {
 		let testDB = localStorage.getItem("TeamsDB")

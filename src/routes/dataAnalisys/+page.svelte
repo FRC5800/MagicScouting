@@ -28,9 +28,9 @@
     let showDatabaseAlert = $state(false);
     let leaderboardData = writable([]);
     let avgCompetitionScore = $state(0);
-    
+
     let avgCompetitionCycle = $state(0);
-    
+
     let isDataBaseSet = $state();
 	run(() => {
         if ($dataBase != '' && $dataBase != '?' || !$useDB) {
@@ -41,27 +41,17 @@
     });
 
     let allPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoProcessorScore",
-        "autoNetScore",
-        "isLeave",
-        "teleopROneScore",
-        "teleopRTwoScore",
-        "teleopRThreeScore",
-        "teleopRFourScore",
-        "teleopProcessorScore",
-        "teleopNetScore",
-        "bargeStatus"
+        "autoFuelNumber",
+        "autoClimb",
+        "teleopFuelNumber",
+        "teleopClimb",
     ];
 
     let biggestScore = $state(50);
     function updateEventValues(TeamsData){
         let totalCycleAvg = [];
         let totalScore = [];
-        let allTeams = getSortedTeams(TeamsData); 
+        let allTeams = getSortedTeams(TeamsData);
         biggestScore = getAverageDBvalues(getTeamScoutingData(allTeams[allTeams.length-1]), allPoints, true)
         allTeams.forEach(team => {
             let teamData = getTeamScoutingData(team)
@@ -70,7 +60,7 @@
                                             allPoints,
                                             true
                                             )
-    
+
             let teamCycle = getAverageCycleData(
                             teamData,
                             [
@@ -86,10 +76,10 @@
                 totalScore.push(teamScore)
             }
         });
-    
+
         avgCompetitionScore = Math.round(avgArray(totalScore))
         avgCompetitionCycle = Math.round(avgArray(totalCycleAvg)*100)/100
-    
+
         leaderboardData.set(averageTeamPerformance(allTeams))
         console.log($leaderboardData)
 
@@ -107,13 +97,13 @@
 
     function triggerToast() {
       showDatabaseAlert = true;
-      
+
       setTimeout(() => {
         showDatabaseAlert = false;
       }, 3000); // Disappears after 3 seconds
     }
 
-    
+
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white mb-16">
@@ -136,7 +126,7 @@
                 </div>
             </div>
         </div>
-    
+
     {/if}
     <div class="w-full px-6 mb-6">
         <SyncDataButton/>
@@ -144,7 +134,7 @@
     {#if $TeamsDB.length > 0}
         <div class="w-full flex grow gap-4 px-6 mb-6 flex-col items-start">
             <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.analytics_subtitle")}</h2>
-            
+
             <div class="w-full flex flex-col gap-2 ">
                 <button onclick={() => {if(!isDataBaseSet){triggerToast()}else{goto('/dataAnalisys/teamAnalisys')}}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                     <i class="fi fi-rr-users-alt flex"></i>
@@ -178,7 +168,7 @@
 
         </div>
 
-        
+
         {#if $leaderboardData.length > 0}
             <div class="w-full flex grow gap-4 px-6 flex-col items-start">
                 <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.leaderboard_subtitle")}</h2>
@@ -193,7 +183,7 @@
                         title: '',
                         height: String(50 + Math.max($leaderboardData.length * 5.5, 100))+"px",
                         width: '85%',
-                        bars: {    
+                        bars: {
                             width: 10,
                         },
                         axes: {
@@ -202,7 +192,7 @@
                             }
                         }
                     }
-                /> 
+                />
             </div>
         {/if}
     {/if}
