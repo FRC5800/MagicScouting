@@ -1,34 +1,57 @@
 <script>
+// @ts-nocheck
+
+	// @ts-ignore
 	import { run, preventDefault } from 'svelte/legacy';
 
 	// @ts-nocheck
 	import '../app.css';
 	import '$lib/assets/App_Title.svg';
+	
+	// @ts-ignore
 
 	import { _ } from 'svelte-i18n'
+	// @ts-ignore
 	import { App } from '@capacitor/app';
+	// @ts-ignore
 	import { goto } from '$app/navigation';
+	// @ts-ignore
 	import { useDB }  from '$lib/shared/stores/dataBase';
+	// @ts-ignore
 	import dataBase from '$lib/shared/stores/dataBase';
+	
+  // @ts-ignore
 
   import Modal from '$lib/components/Modal.svelte';
+	// @ts-ignore
 	import MenuBar from './MenuBar.svelte';
+	// @ts-ignore
 	import storeData from "$lib/shared/scripts/controlData.js";
 	import MenuOptions from './MenuOptions.svelte';
 	import ConfigOptions from './ConfigOptions.svelte';
 	import DataBaseAlert from './DataBaseAlert.svelte';
+	// @ts-ignore
 	import SelectInput from '$lib/components/SelectInput.svelte';
 
+	// @ts-ignore
 	let alliance = $derived($_('home_page.alliance.option_blue'));
 
+	// @ts-ignore
 	let showModal = $state(false);
+	// @ts-ignore
 	let showConfig = $state(false);
+	// @ts-ignore
 	let showDataBase = $state(false);
 
+	// @ts-ignore
 	let team_number = $state('');
+	// @ts-ignore
 	let match_number = $state('');
+	// @ts-ignore
 	let team_position = $state('');
+	// @ts-ignore
 	let validationError = $state(false);
+	// @ts-ignore
 	let isDataBaseSet = $state();
 	run(() => {
 		if ($dataBase != '' && $dataBase != '?' || !$useDB) {
@@ -61,7 +84,9 @@
 		{ id: '2', content: '2', value: '2' },
 		{ id: '3', content: '3', value: '3' }
 	];
+	// @ts-ignore
 	let showMorePositions = 'hidden';
+	// @ts-ignore
 	let inicialPosition = 0;
 
 	run(() => {
