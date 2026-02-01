@@ -143,8 +143,20 @@
      * Get climb success rate
      */
     function getClimbSuccessRate(teamData, phase) {
+        if (!teamData || teamData.length === 0) return 0;
         const climbField = phase === 'auto' ? 'autoClimb' : 'teleopClimb';
-        return getPercentage(teamData, climbField);
+        
+        if (phase === 'auto') {
+            // For auto, it's a boolean
+            return getPercentage(teamData, climbField);
+        } else {
+            // For teleop, it's a string: 'none', 'L1', 'L2', 'L3'
+            const successCount = teamData.filter(match => {
+                const climb = String(match[climbField] || '').toLowerCase();
+                return climb && climb !== 'none' && climb !== '';
+            }).length;
+            return (successCount / teamData.length) * 100;
+        }
     }
 
     function createAllTable(){
