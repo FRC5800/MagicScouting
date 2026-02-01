@@ -40,19 +40,15 @@
     	}
     });
 
-    let allPoints = [
-        "autoFuelNumber",
-        "autoClimb",
-        "teleopFuelNumber",
-        "teleopClimb",
-    ];
+    import { allPoints } from '$lib/shared/stores/gameKeys';
 
     let biggestScore = $state(50);
     function updateEventValues(TeamsData){
-        let totalCycleAvg = [];
         let totalScore = [];
         let allTeams = getSortedTeams(TeamsData);
+        console.log(allTeams);
         biggestScore = getAverageDBvalues(getTeamScoutingData(allTeams[allTeams.length-1]), allPoints, true)
+        console.log(biggestScore);
         allTeams.forEach(team => {
             let teamData = getTeamScoutingData(team)
             let teamScore = getAverageDBvalues(
@@ -78,7 +74,7 @@
         });
 
         avgCompetitionScore = Math.round(avgArray(totalScore))
-        avgCompetitionCycle = Math.round(avgArray(totalCycleAvg)*100)/100
+        // avgCompetitionCycle = Math.round(avgArray(totalCycleAvg)*100)/100
 
         leaderboardData.set(averageTeamPerformance(allTeams))
         console.log($leaderboardData)

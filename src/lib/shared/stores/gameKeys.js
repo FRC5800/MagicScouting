@@ -59,6 +59,20 @@ const selectKeys = [
     "red/blue",
 ];
 
+export const gamePointsByAction = {
+    "autoFuelNumber" : 1,
+    "autoClimb" : 15,
+    "teleopFuelNumber" : 1,
+    "teleopClimb" : {"none":0, "L1":10, "L2":20, "L3":30},
+}
+
+export const allPoints = [
+    "autoFuelNumber",
+    "autoClimb",
+    "teleopFuelNumber",
+    "teleopClimb",
+]
+
 export function getFieldType(key) {
     if (selectKeys.includes(key)) {
         return 'select';

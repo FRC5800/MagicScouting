@@ -26,22 +26,7 @@ import defaultLogo from "./defautLogo";
  * @property {number} bargeStatus.shallow - Points for shallow barge status.
  * @property {number} bargeStatus.deep - Points for deep barge status.
  */
-let gamePointsByAction = {
-	"autoROneScore": 3,
-	"autoRTwoScore": 4,
-	"autoRThreeScore": 6,
-	"autoRFourScore": 7,
-	"autoProcessorScore": 6,
-	"autoNetScore": 4,
-	"isLeave": 3,
-	"teleopROneScore": 2,
-	"teleopRTwoScore": 3,
-	"teleopRThreeScore": 4,
-	"teleopRFourScore": 5,
-	"teleopProcessorScore": 6,
-	"teleopNetScore": 4,
-	"bargeStatus": {"none": 0, "park": 2, "shallow": 6, "deep": 12},
-};
+ import { gamePointsByAction } from "../stores/gameKeys";
 
 /**
  * Checks if the provided data is a valid JSON string.
@@ -137,16 +122,15 @@ export function getTeamScoutingData(team){
  * @returns {Array} teams - Lista de equipes ordenadas pela média de pontuação.
  */
 export function getSortedTeams(allData){
-	let teams = {}
+	let teams = []
 
 	allData.forEach((match) => {
-		teams[match.teamNumber] = 1
+        teams.push(match.teamNumber);
 	})
 
-	teams = Object.keys(teams)
-
-	teams.sort((a,b) => {
+    teams.sort((a, b) => {
 		let aPoints = getAverageDBvalues(getTeamScoutingData(a),Object.keys(gamePointsByAction), true);
+        console.log("Points: " + aPoints);
 		let bPoints = getAverageDBvalues(getTeamScoutingData(b),Object.keys(gamePointsByAction), true);
 
 		return aPoints - bPoints
@@ -216,15 +200,15 @@ export function averageTeamPerformance(teams){
  *
  * @param {Array} data - The array of match data objects.
  * @param {string} param - The parameter to extract from each match data object.
- * @param {boolean} [bargePoints=false] - Whether to convert 'bargeStatus' values to points.
+ * @param {boolean}  teleopClimb=false] - Whether to convert 'bargeStatus' values to points.
  * @returns {Array} - An array of extracted values or points.
  */
-export function getParameterArray(data, param, bargePoints=false){
+export function getParameterArray(data, param, teleopClimb=false){
 
 	let entryArray = []
 	data.forEach((e) => {
-		if (bargePoints){
-			entryArray.push(gamePointsByAction.bargeStatus[e[param]])
+		if  (teleopClimb){
+			entryArray.push(gamePointsByAction.teleopClimb[e[param]])
 		}else{
 			entryArray.push(e[param])
 
@@ -248,14 +232,14 @@ function handleGetActionAttributes(data, field, points = true, avg = true){
 	let total;
 
 	if (avg){
-		if (field == "bargeStatus"){
+		if (field == "teleopClimb"){
 			total = avgArray(getParameterArray(data, field, true))
 		}else{
 			total = avgArray(getParameterArray(data, field).slice().map(parseFloat)) * (points ? gamePointsByAction[field] : 1)
 		}
 	}else{
-		if (field == "bargeStatus"){
-			total = gamePointsByAction.bargeStatus[data[field]]
+		if (field == "teleopClimb"){
+		total = gamePointsByAction.teleopClimb[data[field]]
 		}else{
 			total = points? (data[field] * gamePointsByAction[field]) : data[field]
 		}

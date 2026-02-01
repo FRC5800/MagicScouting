@@ -49,7 +49,7 @@
 		let schema = sheetData[0];
 		sheetData = sheetData.splice(1)
 
-		console.log(sheetData)
+
 		return {schema: schema, data: sheetData}
 	}
 
