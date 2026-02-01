@@ -1,40 +1,109 @@
-<!-- @migration-task Error while migrating Svelte code: `<th>` cannot be a child of `<thead>`. `<thead>` only allows these children: `<tr>`, `<style>`, `<script>`, `<template>`. The browser will 'repair' the HTML (by moving, removing, or inserting elements) which breaks Svelte's assumptions about the structure of your components.
-https://svelte.dev/e/node_invalid_placement -->
 <script>
 // @ts-nocheck
 
-    import dataBase, { useDB } from "$lib/shared/stores/dataBase";
-    import { onMount } from "svelte";
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
     import { _ } from 'svelte-i18n';
     import { App } from '@capacitor/app';
+    import { goto } from '$app/navigation';
     App.addListener("backButton", () => {goto("/dataAnalisys/teamAnalisys")});
 
-    import { BarChartSimple, BarChartGrouped, DonutChart, RadarChart, ComboChart } from '@carbon/charts-svelte'
-
+    import { DonutChart } from '@carbon/charts-svelte'
     import { writable } from 'svelte/store';
-    import { TeamsDB } from "$lib/shared/stores/teamsData";
-
-    import { goto } from '$app/navigation';
+    import { getTeamScoutingData } from "$lib/shared/scripts/chartUtilities";
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
-    import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getParameterArray } from "$lib/shared/scripts/chartUtilities";
 
     export let data;
     let teamData = $teamAnalysisData[data.selectedTeam];
-
     let rawData = writable(getTeamScoutingData(teamData.teamNumber));
-    console.log(teamData.teamNumber)
 
-    console.log($rawData)
+    /**
+     * Calculate climb success rate
+     */
+    function getClimbSuccessRate() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const successCount = $rawData.filter(match => {
+            const climb = match.teleopClimb;
+            return climb && climb !== 'none' && climb !== '';
+        }).length;
+        return (successCount / $rawData.length) * 100;
+    }
 
+    /**
+     * Get average climb time (only for successful climbs)
+     */
+    function getAverageClimbTime() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const climbTimes = $rawData
+            .filter(match => {
+                const climb = match.teleopClimb;
+                return climb && climb !== 'none' && climb !== '';
+            })
+            .map(match => Number(match.teleopClimbTime) || 0)
+            .filter(time => time > 0);
+        
+        if (climbTimes.length === 0) return 0;
+        return climbTimes.reduce((sum, time) => sum + time, 0) / climbTimes.length;
+    }
 
+    /**
+     * Get percentage of matches with passes by bump
+     */
+    function getPassesByBumpRate() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const passCount = $rawData.filter(match => {
+            const value = match.passesByBump;
+            return value === 'true' || value === true || value === '1';
+        }).length;
+        return (passCount / $rawData.length) * 100;
+    }
+
+    /**
+     * Get percentage of matches with passes by trench
+     */
+    function getPassesByTrenchRate() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const passCount = $rawData.filter(match => {
+            const value = match.passesByLowBar;
+            return value === 'true' || value === true || value === '1';
+        }).length;
+        return (passCount / $rawData.length) * 100;
+    }
+
+    /**
+     * Setup climb level distribution chart data
+     */
+    function getClimbLevelDistribution() {
+        if (!$rawData || $rawData.length === 0) return [];
+        
+        const distribution = {
+            'none': 0,
+            'L1': 0,
+            'L2': 0,
+            'L3': 0
+        };
+        
+        $rawData.forEach(match => {
+            const climb = match.teleopClimb || 'none';
+            if (distribution.hasOwnProperty(climb)) {
+                distribution[climb]++;
+            } else {
+                distribution['none']++;
+            }
+        });
+        
+        return [
+            { group: 'No Climb', value: distribution['none'] },
+            { group: 'L1', value: distribution['L1'] },
+            { group: 'L2', value: distribution['L2'] },
+            { group: 'L3', value: distribution['L3'] }
+        ];
+    }
 </script>
 
 {#if teamData}
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
-        <i on:click={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
+        <i onclick={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <div class="grow flex flex-row gap-4 items-center">
-
             <img width="50px" src={teamData.logo} alt="Team Logo" />
             <div class="flex flex-row gap-2">
                 <div>{teamData.teamNumber}</div>
@@ -47,51 +116,43 @@ https://svelte.dev/e/node_invalid_placement -->
 <div class="w-full px-6 mb-16 flex flex-col items-center">
     {#if $rawData.length > 0}
         <div class="w-full flex">
-            <div class=" w-full relative mb-2 mx-6 grow">
+            <div class="w-full relative mb-2 mx-6 grow">
                 <div class="flex flex-row justify-around items-center gap-2">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>{$_("dataAnalysis.teamAnalysis.barge_points")}</h3>
-                        <span class="text-primary-base text-xl">{getAverageDBvalues(
-                            $rawData,
-                            ["bargeStatus"],
-                            true
-                        )}</span>
+                        <h3>Climb Success Rate</h3>
+                        <span class="text-primary-base text-xl">{getClimbSuccessRate().toFixed(1)}%</span>
                     </div>
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>{$_("dataAnalysis.teamAnalysis.barge_time")}</h3>
-                        <span class="text-primary-base text-xl">{getAverageDBvalues(
-                            $rawData,
-                            ["bargeTime"],
-                            false
-                        )}s</span>
+                        <h3>Avg Climb Time</h3>
+                        <span class="text-primary-base text-xl">{getAverageClimbTime().toFixed(1)}s</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <svelte:component
-            this={DonutChart}
-            data={setupModeChartsData(
-                $rawData,
-                "bargeStatus",
-                {
-                    "none": "None",
-                    "park": "Park",
-                    "deep": "Deep",
-                    "shallow": "Shallow"
-                },
-            )}
+        <div class="w-full flex">
+            <div class="w-full relative mb-2 mx-6 grow">
+                <div class="flex flex-row justify-around items-center gap-2">
+                    <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
+                        <h3>Passes by Bump</h3>
+                        <span class="text-primary-base text-xl">{getPassesByBumpRate().toFixed(1)}%</span>
+                    </div>
+                    <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
+                        <h3>Passes by Trench</h3>
+                        <span class="text-primary-base text-xl">{getPassesByTrenchRate().toFixed(1)}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <DonutChart
+            data={getClimbLevelDistribution()}
             options={{
                 theme: $carbonTheme,
-                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
+                title: "Climb Level Distribution",
                 height: "300px",
                 width: "300px",
-                axes: {
-                    left: { mapsTo: "value" },
-                    bottom: { mapsTo: "group", scaleType: "labels" }
-                    }
-                }
-            }
+            }}
         />
 
         <div class="divider"></div>
@@ -101,15 +162,21 @@ https://svelte.dev/e/node_invalid_placement -->
                 <thead>
                     <tr>
                         <th>Match</th>
-                        <th>Climb</th>
+                        <th>Climb Level</th>
+                        <th>Climb Time</th>
+                        <th>Passes by Bump</th>
+                        <th>Passes by Trench</th>
                     </tr>
                 </thead>
                 <tbody>
                     {#key $rawData}
-                        {#each $rawData.slice().sort((a,b) => a.matchNumber - b.matchNumber) as status}
+                        {#each $rawData.slice().sort((a,b) => Number(a.matchNumber) - Number(b.matchNumber)) as match}
                             <tr>
-                                <th>{status.matchNumber}</th>
-                                <td>{status.bargeStatus}</td>
+                                <th>{match.matchNumber}</th>
+                                <td>{match.teleopClimb || 'none'}</td>
+                                <td>{match.teleopClimbTime ? Number(match.teleopClimbTime).toFixed(1) + 's' : '-'}</td>
+                                <td>{(match.passesByBump === 'true' || match.passesByBump === true || match.passesByBump === '1') ? 'Yes' : 'No'}</td>
+                                <td>{(match.passesByLowBar === 'true' || match.passesByLowBar === true || match.passesByLowBar === '1') ? 'Yes' : 'No'}</td>
                             </tr>
                         {/each}
                     {/key}
@@ -117,8 +184,11 @@ https://svelte.dev/e/node_invalid_placement -->
             </table>
         </div>
 
+    {:else}
+        <div class="w-full flex justify-center items-center p-8">
+            <p class="text-neutral-500">No data available</p>
+        </div>
     {/if}
-
 
     <div class="divider"></div>
 </div>
