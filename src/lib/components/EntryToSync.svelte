@@ -203,7 +203,7 @@
                     {#each Object.keys(editedPayload).filter((a) => a != "uploaded") as key}
                         {@const fieldType = getFieldType(key)}
                         <tr>
-                            <th class="whitespace-nowrap">{key}</th>
+                            <th class="whitespace-nowrap overflow-auto">{key}</th>
                             <td class="w-full">
                                 {#if fieldType === 'number'}
                                     <input
