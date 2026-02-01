@@ -142,8 +142,12 @@ function HandleReset(){
                         {#if fieldType === 'number'}
                             <input
                                 type="number"
+                                min="0"
                                 bind:value={payload[key]}
-                                oninput={() => updateQr()}
+                                oninput={(e) => {
+                                    if (e.target.value < 0) e.target.value = 0;
+                                    updateQr();
+                                }}
                                 class="editable-input"
                             />
                         {:else if fieldType === 'boolean'}

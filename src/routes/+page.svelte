@@ -51,6 +51,12 @@
 	let team_position = $state('');
 	// @ts-ignore
 	let validationError = $state(false);
+
+	// Ensure numbers never go negative
+	$effect(() => {
+		if (team_number !== '' && Number(team_number) < 0) team_number = '0';
+		if (match_number !== '' && Number(match_number) < 0) match_number = '0';
+	});
 	// @ts-ignore
 	let isDataBaseSet = $state();
 	run(() => {
@@ -129,12 +135,12 @@
 
 		<div class="flex flex-col justify-center items-center">
 			<label for="team_number" class="home-label mb-2 in">{$_('home_page.team_number')}</label>
-			<input bind:value={team_number} name="team_number" type="number" class="input input-bordered w-full {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.team_number')}" />
+			<input bind:value={team_number} name="team_number" type="number" min="0" oninput={(e) => {if (e.target.value < 0) e.target.value = 0;}} class="input input-bordered w-full {((validationError) && (team_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.team_number')}" />
 			<span class="validation-error-message {((validationError) && (team_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="flex flex-col justify-center items-center">
 			<label for="match_number" class="home-label mb-2">{$_('home_page.match_number')}</label>
-			<input bind:value={match_number} name="match_number" type="number" class="input input-bordered w-full {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.match_number')}" />
+			<input bind:value={match_number} name="match_number" type="number" min="0" oninput={(e) => {if (e.target.value < 0) e.target.value = 0;}} class="input input-bordered w-full {((validationError) && (match_number == '')) ? 'validation-error' : ''}" placeholder="{$_('home_page.match_number')}" />
 			<span class="validation-error-message {((validationError) && (match_number == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 		</div>
 		<div class="">

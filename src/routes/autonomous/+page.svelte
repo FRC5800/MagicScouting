@@ -31,8 +31,16 @@
 
 
 	function startClimbTime() {
+		// Check if timer was already run
+		if (climb || climbTime > 0) {
+			if (!confirm("The climb timer has already been run. Do you want to restart it? This will reset the previous time.")) {
+				return; // User cancelled, don't start the timer
+			}
+		}
+		
 		climbTimeCounting = true;
 		climbTime = 0;
+		climb = false; // Reset climb status when restarting
 		showClimbTimer = true;
 		climbTimer = setInterval(() => {
 		if(pauseClimbTime != 'paused') climbTime = Math.round((climbTime+0.1)*10)/10;
@@ -106,7 +114,7 @@
 			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
 		</div>
 		<div class="w-full flex flex-row items-center justify-between ">
-			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber-=1}}>
+			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 1);}}>
 				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
 				<g>
 					<path d="M480,288H32c-17.673,0-32-14.327-32-32s14.327-32,32-32h448c17.673,0,32,14.327,32,32S497.673,288,480,288z"/>
@@ -114,7 +122,7 @@
 				</svg>
 			</button>
 			<div class="grow flex flex-col justify-center h-[60px] box-border items-center">
-				<div class="bg-white px-6 text-black rounded-full">
+				<div class="bg-white px-6 text-black rounded-full text-2xl font-bold">
 					{scoredFuelNumber}
 				</div>
 			</div>
@@ -136,8 +144,8 @@
 		</div>
 
 		<div class="w-full flex items-center rounded-b-xl overflow-hidden">
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {scoredFuelNumber-=10}}>-10</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {scoredFuelNumber-=1}}>-5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 10);}}>-10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 5);}}>-5</button>
 			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]" onclick={() => {scoredFuelNumber+=5}} >+5</button>
 			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]" onclick={() => {scoredFuelNumber+=10}}>+10</button>
 		</div>
@@ -158,12 +166,17 @@
 		</div>
 	</div>
 
-	<button
-		onclick={startClimbTime}
-		class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold"
-	>
-		Go Climb!
-	</button>
+	<div class="flex flex-row gap-2 w-[80vw] items-center">
+		<button
+			onclick={startClimbTime}
+			class="btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold flex-1"
+		>
+			Go Climb!
+		</button>
+		<div class="climb-timer-display-box">
+			{climbTime.toFixed(1)}s
+		</div>
+	</div>
 
 	<div class="separator w-[80%]"></div>
 	<button onclick={onSubmit} class="w-[80%] btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
@@ -372,6 +385,18 @@
 
 	.climb-timer-stop-btn:active {
 		transform: scale(0.98);
+	}
+
+	.climb-timer-display-box {
+		@apply flex items-center justify-center;
+		min-width: 80px;
+		height: 50px;
+		color: white;
+		border-radius: 8px;
+		font-weight: bold;
+		font-size: 18px;
+		margin-top: 16px;
+		border: solid 3px var(--color-primary-light);
 	}
 
 	@keyframes pulse {

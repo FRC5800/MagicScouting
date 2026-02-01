@@ -23,6 +23,13 @@
 	let collectsFromOutpost = $state(false);
 	let collectsFromNeutral = $state(false);
 	let collectsFromDepot = $state(false);
+	let hubScoreMode = $state(true); // true for Hub Score, false for Feeding
+
+	// Ensure numbers never go negative
+	$effect(() => {
+		if (scoredFuelNumber < 0) scoredFuelNumber = 0;
+		if (feedingFuelNumber < 0) feedingFuelNumber = 0;
+	});
 
 	let climb = $state(false);
 	let climbTime = $state(0);
@@ -34,8 +41,17 @@
 	let showClimbTimer = $state(false);
 
 	function startClimbTime() {
+		// Check if timer was already run
+		if (climb || climbTime > 0) {
+			if (!confirm("The climb timer has already been run. Do you want to restart it? This will reset the previous time.")) {
+				return; // User cancelled, don't start the timer
+			}
+		}
+		
 		climbTimeCounting = true;
 		climbTime = 0;
+		climb = false; // Reset climb status when restarting
+		climbLevel = "none"; // Reset climb level when restarting
 		showClimbTimer = true;
 		climbTimer = setInterval(() => {
 		if(pauseClimbTime != 'paused') climbTime = Math.round((climbTime+0.1)*10)/10;
@@ -48,6 +64,10 @@
 		clearInterval(climbTimer);
 		showClimbTimer = false;
 		climb = true; // Mark that climb was completed
+		// Auto-select L1 when timer finishes
+		if (climbTime > 0) {
+			climbLevel = "L1";
+		}
 		console.log(climbTime);
 	}
 	function discardClimbTime() {
@@ -56,10 +76,9 @@
 		clearInterval(climbTimer);
 		climbTime = 0;
 		showClimbTimer = false;
+		climb = false;
+		climbLevel = "none";
 	}
-
-	let passesByBump = $state(false);
-	let passesByLowBar = $state(false);
 
 	let feedingFuelNumber = $state(0);
 
@@ -68,6 +87,13 @@
 	let outpostClicked = $state(false);
 
 	let resetConfirmation = $state(false);
+
+	// Initialize climb level based on timer state
+	$effect(() => {
+		if (!climb && climbTime === 0) {
+			climbLevel = "none";
+		}
+	});
 
 	App.addListener("backButton", () => {resetConfirmation = true;});
 	beforeNavigate(({ to, cancel }) => {
@@ -87,8 +113,6 @@
                	"teleopCollectsFromDepot": collectsFromDepot,
                 "teleopClimb": climbLevel,
                 "teleopClimbTime": climbTime,
-                "passesByBump": passesByBump,
-                "passesByLowBar": passesByLowBar,
                 "feedingFuelNumber": feedingFuelNumber,
 		});
 		goto('/info');
@@ -103,8 +127,6 @@
                	"teleopCollectsFromDepot": collectsFromDepot,
                 "teleopClimb": climbLevel,
                 "teleopClimbTime": climbTime,
-                "passesByBump": passesByBump,
-                "passesByLowBar": passesByLowBar,
                 "feedingFuelNumber": feedingFuelNumber
 			}))
 	})
@@ -118,11 +140,22 @@
 	</div>
 
 	<div class="container items-center justify-center rounded">
-		<div class="w-full flex items-center justify-center bg-primary-base p-2 relative rounded-t-xl">
-			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
+		<div class="w-full flex items-center justify-center p-0 relative rounded-t-xl overflow-hidden">
+			<button 
+				onclick={() => {hubScoreMode = true}} 
+				class="flex-1 flex items-center justify-center p-2 text-white text-normal font-medium box-border border-2 border-primary-base rounded-tl-xl {hubScoreMode ? 'bg-primary-base':''}"
+			>
+				Hub Score
+			</button>
+			<button 
+				onclick={() => {hubScoreMode = false}} 
+				class="flex-1 flex items-center justify-center p-2 text-white text-normal font-medium box-border border-2 border-primary-base rounded-tr-xl {!hubScoreMode ? 'bg-primary-base':''}"
+			>
+				Feeding
+			</button>
 		</div>
 		<div class="w-full flex flex-row items-center justify-between ">
-			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber-=1}}>
+			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {if (hubScoreMode) { scoredFuelNumber = Math.max(0, scoredFuelNumber - 1); } else { feedingFuelNumber = Math.max(0, feedingFuelNumber - 1); }}}>
 				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
 				<g>
 					<path d="M480,288H32c-17.673,0-32-14.327-32-32s14.327-32,32-32h448c17.673,0,32,14.327,32,32S497.673,288,480,288z"/>
@@ -130,11 +163,11 @@
 				</svg>
 			</button>
 			<div class="grow flex flex-col justify-center h-[60px] box-border items-center">
-				<div class="bg-white px-6 text-black rounded-full">
-					{scoredFuelNumber}
+				<div class="bg-white px-6 text-black rounded-full text-2xl font-bold">
+					{hubScoreMode ? scoredFuelNumber : feedingFuelNumber}
 				</div>
 			</div>
-			<button aria-label="plus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber+=1}}>
+			<button aria-label="plus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {hubScoreMode ? scoredFuelNumber+=1 : feedingFuelNumber+=1}}>
 				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
 				<g>
 					<path d="M480,224H288V32c0-17.673-14.327-32-32-32s-32,14.327-32,32v192H32c-17.673,0-32,14.327-32,32s14.327,32,32,32h192v192   c0,17.673,14.327,32,32,32s32-14.327,32-32V288h192c17.673,0,32-14.327,32-32S497.673,224,480,224z"/>
@@ -152,10 +185,10 @@
 		</div>
 
 		<div class="w-full flex items-center rounded-b-xl overflow-hidden">
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {scoredFuelNumber-=10}}>-10</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {scoredFuelNumber-=1}}>-5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]" onclick={() => {scoredFuelNumber+=5}} >+5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]" onclick={() => {scoredFuelNumber+=10}}>+10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {if (hubScoreMode) { scoredFuelNumber = Math.max(0, scoredFuelNumber - 10); } else { feedingFuelNumber = Math.max(0, feedingFuelNumber - 10); }}}>-10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {if (hubScoreMode) { scoredFuelNumber = Math.max(0, scoredFuelNumber - 5); } else { feedingFuelNumber = Math.max(0, feedingFuelNumber - 5); }}}>-5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]" onclick={() => {hubScoreMode ? scoredFuelNumber+=5 : feedingFuelNumber+=5}} >+5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]" onclick={() => {hubScoreMode ? scoredFuelNumber+=10 : feedingFuelNumber+=10}}>+10</button>
 		</div>
 		<!-- <div class="w-full flex items-center rounded-b overflow-hidden">
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
@@ -175,15 +208,50 @@
 		</div>
 	</div>
 
-    <button
-		onclick={startClimbTime}
-		class="w-[80vw] btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold"
-	>
-		Go Climb!
-	</button>
+	<div class="flex flex-row gap-2 w-[80vw] items-center">
+		<button
+			onclick={startClimbTime}
+			class="btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold flex-1"
+		>
+			Go Climb!
+		</button>
+		<div class="climb-timer-display-box">
+			{climbTime.toFixed(1)}s
+		</div>
+	</div>
+	<div class="flex flex-row gap-2 w-[80vw] mt-2">
+		<button 
+			onclick={()=>{climbLevel="none"}} 
+			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "none" ? 'bg-primary-base':''}"
+			disabled={climb}
+		>
+			No climb
+		</button>
+		<button 
+			onclick={()=>{climbLevel="L1"}} 
+			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L1" ? 'bg-primary-base':''}"
+			disabled={!climb}
+		>
+			L1
+		</button>
+		<button 
+			onclick={()=>{climbLevel="L2"}} 
+			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L2" ? 'bg-primary-base':''}"
+			disabled={!climb}
+		>
+			L2
+		</button>
+		<button 
+			onclick={()=>{climbLevel="L3"}} 
+			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L3" ? 'bg-primary-base':''}"
+			disabled={!climb}
+		>
+			L3
+		</button>
+	</div>
 
 	<div class="separator w-[80%]"></div>
-	<button onclick={onSubmit} class="w-[80%] btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
+	<button onclick={onSubmit} class="w-[80%] btn mb-32 mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 
 </section>
 
@@ -463,5 +531,23 @@
 			transform: scale(1) translateY(0);
 			opacity: 1;
 		}
+	}
+
+	.climb-timer-display-box {
+		@apply flex items-center justify-center;
+		min-width: 80px;
+		height: 50px;
+		color: white;
+		border-radius: 8px;
+		font-weight: bold;
+		font-size: 18px;
+		margin-top: 16px;
+		border: solid 3px var(--color-primary-light);
+	}
+
+	button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
 	}
 </style>

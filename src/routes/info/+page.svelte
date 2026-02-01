@@ -14,6 +14,8 @@
     let teamRole = $state("");
     let robotStatus = $state("safe");
     let humanPlayer = $state("");
+    let passesByBump = $state(false);
+    let passesByLowBar = $state(false);
     let validationError = $state(false);
     let animationTrigger = $state(0);
 
@@ -28,6 +30,8 @@
             "robotFunction": teamRole,
             "robotStatus": robotStatus,
             "humanPlayer": humanPlayer,
+            "passesByBump": passesByBump,
+            "passesByLowBar": passesByLowBar,
             });
             goto("/qrcode")
 		}
@@ -89,6 +93,18 @@
 {#key animationTrigger}
     <span class="validation-error-message {((validationError) && (humanPlayer == '')) ? 'visible' : 'invisible'}">{$_('home_page.validation_error_message')}</span>
 {/key}
+
+<div class="mt-4 container items-center justify-center rounded overflow-hidden ">
+    <div class="w-full flex items-center justify-center bg-primary-base p-1">
+        <h2 class="text-white text-normal font-medium">Passes</h2>
+    </div>
+    <div class="w-full border-b-2 invisible"></div>
+    <div class="w-full flex items-center justify-between">
+        <div onclick={()=>{passesByBump=!passesByBump}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByBump ? 'bg-primary-base text-[#E0E0E0]':''}">Bump</div>
+        <div onclick={()=>{passesByLowBar=!passesByLowBar}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByLowBar ? 'bg-primary-base text-[#E0E0E0]':''}">Trench</div>
+    </div>
+</div>
+
 <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 
 <style lang="postcss">
