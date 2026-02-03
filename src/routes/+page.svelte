@@ -7,7 +7,7 @@
 	// @ts-nocheck
 	import '../app.css';
 	import '$lib/assets/App_Title.svg';
-	
+
 	// @ts-ignore
 
 	import { _ } from 'svelte-i18n'
@@ -19,7 +19,7 @@
 	import { useDB }  from '$lib/shared/stores/dataBase';
 	// @ts-ignore
 	import dataBase from '$lib/shared/stores/dataBase';
-	
+
   // @ts-ignore
 
   import Modal from '$lib/components/Modal.svelte';
@@ -108,9 +108,9 @@
 	</header>
 
 	<div class="mt-0 separator"></div>
-
+	TESTE
 	<hr />
-	
+
 
 	<form id="team-info" class="w-4/5 team_info" onforminput={() => {console.log('erro')}} onsubmit={preventDefault(onSubmit)}>
 		<div class="flex flex-row items-center justify-center center-container">
