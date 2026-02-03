@@ -13,3 +13,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 bundle.zip
 android/app/my-release-key.keystore
+bundle/build
+bundle.zip

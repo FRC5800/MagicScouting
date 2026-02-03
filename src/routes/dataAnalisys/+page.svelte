@@ -115,10 +115,6 @@
                         <h3>{$_("dataAnalysis.average_points")}</h3>
                         <span class="text-primary-base text-xl">{avgCompetitionScore}</span>
                     </div>
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <h3>{$_("dataAnalysis.average_cycle")}</h3>
-                        <span class="text-primary-base text-xl">{avgCompetitionCycle}s</span>
-                    </div>
                 </div>
             </div>
         </div>
