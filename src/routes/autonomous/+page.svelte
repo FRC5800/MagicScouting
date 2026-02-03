@@ -37,7 +37,7 @@
 				return; // User cancelled, don't start the timer
 			}
 		}
-		
+
 		climbTimeCounting = true;
 		climbTime = 0;
 		climb = false; // Reset climb status when restarting
@@ -78,11 +78,11 @@
 	function onSubmit() {
 		storeData({
 			"autoFuelNumber": scoredFuelNumber,
-			"autoCollectsFromGround": collectsFromGround,
-			"autoCollectsFromOutpost": collectsFromOutpost,
-			"autoCollectsFromNeutral": collectsFromNeutral,
-			"autoCollectsFromDepot": collectsFromDepot,
-			"autoClimb": climb,
+			"autoCollectsFromGround": collectsFromGround ? 1 : 0,
+			"autoCollectsFromOutpost": collectsFromOutpost ? 1 : 0,
+			"autoCollectsFromNeutral": collectsFromNeutral ? 1 : 0,
+			"autoCollectsFromDepot": collectsFromDepot ? 1 : 0,
+			"autoClimb": climb  ? 1 : 0,
 			"autoClimbTime": climbTime,
 		});
 		goto('/teleop');

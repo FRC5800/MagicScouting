@@ -47,7 +47,7 @@
 				return; // User cancelled, don't start the timer
 			}
 		}
-		
+
 		climbTimeCounting = true;
 		climbTime = 0;
 		climb = false; // Reset climb status when restarting
@@ -107,10 +107,10 @@
 	function onSubmit() {
 		storeData({
 			 	"teleopFuelNumber": scoredFuelNumber,
-               	"teleopCollectsFromGround": collectsFromGround,
-               	"teleopCollectsFromOutpost": collectsFromOutpost,
-               	"teleopCollectsFromNeutral": collectsFromNeutral,
-               	"teleopCollectsFromDepot": collectsFromDepot,
+               	"teleopCollectsFromGround": collectsFromGround ? 1 : 0,
+               	"teleopCollectsFromOutpost": collectsFromOutpost ? 1 : 0,
+               	"teleopCollectsFromNeutral": collectsFromNeutral ? 1 : 0,
+               	"teleopCollectsFromDepot": collectsFromDepot ? 1 : 0,
                 "teleopClimb": climbLevel,
                 "teleopClimbTime": climbTime,
                 "feedingFuelNumber": feedingFuelNumber,
@@ -141,14 +141,14 @@
 
 	<div class="container items-center justify-center rounded">
 		<div class="w-full flex items-center justify-center p-0 relative rounded-t-xl overflow-hidden">
-			<button 
-				onclick={() => {hubScoreMode = true}} 
+			<button
+				onclick={() => {hubScoreMode = true}}
 				class="flex-1 flex items-center justify-center p-2 text-white text-normal font-medium box-border border-2 border-primary-base rounded-tl-xl {hubScoreMode ? 'bg-primary-base':''}"
 			>
 				Hub Score
 			</button>
-			<button 
-				onclick={() => {hubScoreMode = false}} 
+			<button
+				onclick={() => {hubScoreMode = false}}
 				class="flex-1 flex items-center justify-center p-2 text-white text-normal font-medium box-border border-2 border-primary-base rounded-tr-xl {!hubScoreMode ? 'bg-primary-base':''}"
 			>
 				Feeding
@@ -197,7 +197,7 @@
 			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromOutpost ? 'bg-primary-base':''}">OUTPOST</button>
 		</div> -->
 	</div>
-	
+
     <div class="flex flex-col justify-around w-[80vw]">
 		<h1 class="text-lg header mb-2">Collected in:</h1>
 		<div class="flex flex-row gap-2">
@@ -220,29 +220,29 @@
 		</div>
 	</div>
 	<div class="flex flex-row gap-2 w-[80vw] mt-2">
-		<button 
-			onclick={()=>{climbLevel="none"}} 
+		<button
+			onclick={()=>{climbLevel="none"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "none" ? 'bg-primary-base':''}"
 			disabled={climb}
 		>
 			No climb
 		</button>
-		<button 
-			onclick={()=>{climbLevel="L1"}} 
+		<button
+			onclick={()=>{climbLevel="L1"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L1" ? 'bg-primary-base':''}"
 			disabled={!climb}
 		>
 			L1
 		</button>
-		<button 
-			onclick={()=>{climbLevel="L2"}} 
+		<button
+			onclick={()=>{climbLevel="L2"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L2" ? 'bg-primary-base':''}"
 			disabled={!climb}
 		>
 			L2
 		</button>
-		<button 
-			onclick={()=>{climbLevel="L3"}} 
+		<button
+			onclick={()=>{climbLevel="L3"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L3" ? 'bg-primary-base':''}"
 			disabled={!climb}
 		>

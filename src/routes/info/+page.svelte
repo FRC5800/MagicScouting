@@ -30,8 +30,8 @@
             "robotFunction": teamRole,
             "robotStatus": robotStatus,
             "humanPlayer": humanPlayer,
-            "passesByBump": passesByBump,
-            "passesByLowBar": passesByLowBar,
+            "passesByBump": passesByBump ? 1 : 0,
+            "passesByLowBar": passesByLowBar ? 1 : 0,
             });
             goto("/qrcode")
 		}
@@ -115,7 +115,7 @@
 		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
-    
+
     .validation-error-message{
         @apply text-red-600 font-bold;
         display: block;
@@ -123,11 +123,11 @@
         margin-bottom: 0.5rem;
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    
+
     .validation-error-message.visible {
         animation: shakeAndFade 0.5s ease-in-out;
     }
-    
+
     @keyframes shakeAndFade {
         0% {
             opacity: 0;

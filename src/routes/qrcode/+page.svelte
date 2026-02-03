@@ -153,9 +153,9 @@ function HandleReset(){
                         {:else if fieldType === 'boolean'}
                             <input
                                 type="checkbox"
-                                checked={payload[key] === 'true' || payload[key] === true || payload[key] === '1'}
+                                checked={payload[key] === 1 || payload[key] === '1'}
                                 onchange={(e) => {
-                                    payload[key] = e.target.checked ? 'true' : 'false';
+                                    payload[key] = e.target.checked ? 1 : 0;
                                     updateQr();
                                 }}
                                 class="editable-checkbox"

@@ -219,9 +219,9 @@
                                 {:else if fieldType === 'boolean'}
                                     <input
                                         type="checkbox"
-                                        checked={editedPayload[key] === 'true' || editedPayload[key] === true || editedPayload[key] === '1'}
+                                        checked={editedPayload[key] === 1 || editedPayload[key] === '1'}
                                         onchange={(e) => {
-                                            editedPayload[key] = e.target.checked ? 'true' : 'false';
+                                            editedPayload[key] = e.target.checked ? 1 : 0;
                                             createQr();
                                         }}
                                         class="editable-checkbox"
