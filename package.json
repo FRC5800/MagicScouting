@@ -16,6 +16,7 @@
   "devDependencies": {
     "@capacitor/assets": "^3.0.4",
     "@capacitor/cli": "^8.0.0",
+    "@carbon/charts-svelte": "^1.27.2",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.50.1",
@@ -49,7 +50,6 @@
     "@capacitor/preferences": "^8.0.0",
     "@capawesome/capacitor-app-update": "^8.0.2",
     "@capawesome/capacitor-live-update": "^8.1.0",
-    "@carbon/charts-svelte": "^1.22.15",
     "@flaticon/flaticon-uicons": "^3.3.1",
     "qrcode": "^1.5.4",
     "svelte-i18n": "^4.0.0",

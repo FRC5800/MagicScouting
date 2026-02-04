@@ -171,7 +171,7 @@ export function averageTeamPerformance(teams){
 			let points = getAverageDBvalues(matches, fields[field], true)
 			chartData.push({
 				group: field,
-				key: team,
+				key: team.toString(),
 				value: points
 			})
 		})

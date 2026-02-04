@@ -8,7 +8,7 @@
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
     import { _ } from 'svelte-i18n';
 
-	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
+	import { BarChartStacked, BarChartGrouped, ScaleTypes } from '@carbon/charts-svelte'
 
     import { goto } from "$app/navigation";
     import { App } from '@capacitor/app';
@@ -166,8 +166,8 @@
                             width: 10,
                         },
                         axes: {
-                            bottom: { mapsTo: 'value', scaleType: 'linear', domain: [0, biggestScore]},
-                            left: { mapsTo: 'key', scaleType: 'labels' }
+                            bottom: { stacked: true, scaleType: ScaleTypes.LINEAR, mapsTo: 'value', domain: [0, biggestScore]},
+                            left: { scaleType: ScaleTypes.LABELS, mapsTo: 'key' }
                             }
                         }
                     }
