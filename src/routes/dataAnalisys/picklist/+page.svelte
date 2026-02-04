@@ -118,7 +118,7 @@
         if (!teamData || teamData.length === 0) return 0;
         return teamData.filter(match => {
             const value = match[field];
-            return value === 'true' || value === true || value === '1';
+            return value === 'true' || value === true || value === '1' || value === 1;
         }).length;
     }
 
@@ -142,7 +142,7 @@
     /**
      * Get climb success rate
      */
-    function getClimbSuccessRate(teamData, phase) {
+    function getClimbSuccessRate(teamData, phase, lvl = "L1") {
         if (!teamData || teamData.length === 0) return 0;
         const climbField = phase === 'auto' ? 'autoClimb' : 'teleopClimb';
         
@@ -153,7 +153,7 @@
             // For teleop, it's a string: 'none', 'L1', 'L2', 'L3'
             const successCount = teamData.filter(match => {
                 const climb = String(match[climbField] || '').toLowerCase();
-                return climb && climb !== 'none' && climb !== '';
+                return climb && climb == lvl.toLowerCase();
             }).length;
             return (successCount / teamData.length) * 100;
         }
@@ -167,14 +167,17 @@
             data.push({
                 teamNumber: team,
                 score_by_match: getAverageAllPoints(teamData),
+                fuel_by_match: getAverageValue(teamData, 'teleopFuelNumber') + getAverageValue(teamData, 'autoFuelNumber'),
                 auto_points: getAverageAutoPoints(teamData),
-                teleop_points: getAverageTeleopPoints(teamData),
                 avg_auto_fuel: getAverageValue(teamData, 'autoFuelNumber'),
-                avg_teleop_fuel: getAverageValue(teamData, 'teleopFuelNumber'),
-                avg_feeding_fuel: getAverageValue(teamData, 'feedingFuelNumber'),
                 auto_climb_rate: getClimbSuccessRate(teamData, 'auto'),
                 avg_auto_climb_time: getAverageClimbTime(teamData, 'auto'),
-                teleop_climb_rate: getClimbSuccessRate(teamData, 'teleop'),
+                teleop_points: getAverageTeleopPoints(teamData),
+                avg_teleop_fuel: getAverageValue(teamData, 'teleopFuelNumber'),
+                avg_feeding_fuel: getAverageValue(teamData, 'feedingFuelNumber'),
+                teleop_l1_rate: getClimbSuccessRate(teamData, 'teleop', 'L1'),
+                teleop_l2_rate: getClimbSuccessRate(teamData, 'teleop', 'L2'),
+                teleop_l3_rate: getClimbSuccessRate(teamData, 'teleop', 'L3'),
                 avg_teleop_climb_time: getAverageClimbTime(teamData, 'teleop'),
                 passes_by_bump_rate: getPercentage(teamData, 'passesByBump'),
                 passes_by_trench_rate: getPercentage(teamData, 'passesByLowBar'),
@@ -191,13 +194,15 @@
             data.push({
                 teamNumber: team,
                 score_by_match: getAverageAutoPoints(teamData),
+                fuel_by_match: getAverageValue(teamData, 'teleopFuelNumber') + getAverageValue(teamData, 'autoFuelNumber'),
+                auto_points: getAverageAutoPoints(teamData),
                 avg_auto_fuel: getAverageValue(teamData, 'autoFuelNumber'),
                 auto_climb_rate: getClimbSuccessRate(teamData, 'auto'),
                 avg_auto_climb_time: getAverageClimbTime(teamData, 'auto'),
-                collects_from_ground: getPercentage(teamData, 'autoCollectsFromGround'),
-                collects_from_outpost: getPercentage(teamData, 'autoCollectsFromOutpost'),
-                collects_from_neutral: getPercentage(teamData, 'autoCollectsFromNeutral'),
-                collects_from_depot: getPercentage(teamData, 'autoCollectsFromDepot'),
+                collects_from_ground_rate: getPercentage(teamData, 'autoCollectsFromGround'),
+                collects_from_outpost_rate: getPercentage(teamData, 'autoCollectsFromOutpost'),
+                collects_from_neutral_rate: getPercentage(teamData, 'autoCollectsFromNeutral'),
+                collects_from_depot_rate: getPercentage(teamData, 'autoCollectsFromDepot'),
             });
         });
         teamsData = data;
@@ -211,16 +216,20 @@
             data.push({
                 teamNumber: team,
                 score_by_match: getAverageTeleopPoints(teamData),
+                fuel_by_match: getAverageValue(teamData, 'teleopFuelNumber') + getAverageValue(teamData, 'autoFuelNumber'),
+                teleop_points: getAverageTeleopPoints(teamData),
                 avg_teleop_fuel: getAverageValue(teamData, 'teleopFuelNumber'),
                 avg_feeding_fuel: getAverageValue(teamData, 'feedingFuelNumber'),
-                teleop_climb_rate: getClimbSuccessRate(teamData, 'teleop'),
+                teleop_l1_rate: getClimbSuccessRate(teamData, 'teleop', 'L1'),
+                teleop_l2_rate: getClimbSuccessRate(teamData, 'teleop', 'L2'),
+                teleop_l3_rate: getClimbSuccessRate(teamData, 'teleop', 'L3'),
                 avg_teleop_climb_time: getAverageClimbTime(teamData, 'teleop'),
-                collects_from_ground: getPercentage(teamData, 'teleopCollectsFromGround'),
-                collects_from_outpost: getPercentage(teamData, 'teleopCollectsFromOutpost'),
-                collects_from_neutral: getPercentage(teamData, 'teleopCollectsFromNeutral'),
-                collects_from_depot: getPercentage(teamData, 'teleopCollectsFromDepot'),
                 passes_by_bump_rate: getPercentage(teamData, 'passesByBump'),
                 passes_by_trench_rate: getPercentage(teamData, 'passesByLowBar'),
+                collects_from_ground_rate: getPercentage(teamData, 'teleopCollectsFromGround'),
+                collects_from_outpost_rate: getPercentage(teamData, 'teleopCollectsFromOutpost'),
+                collects_from_neutral_rate: getPercentage(teamData, 'teleopCollectsFromNeutral'),
+                collects_from_depot_rate: getPercentage(teamData, 'teleopCollectsFromDepot'),
             });
         });
         teamsData = data;
