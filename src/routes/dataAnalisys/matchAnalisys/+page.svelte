@@ -21,7 +21,7 @@
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo, setupAllianceChartData } from "$lib/shared/scripts/chartUtilities";
     import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
 	import Toast from "$lib/components/Toast.svelte";
-    import { allPoints, autoPoints, teleopPoints, algaePoints, coralPoints } from "$lib/shared/scripts/points";
+    import { allPoints, autoPoints, teleopPoints, feedingPoints, fuelPoints, climbPoints } from "$lib/shared/scripts/points";
     // import { Keyboard } from "@capacitor/keyboard";
 
     let data = $derived($TeamsDB)
@@ -100,8 +100,8 @@
     let lookupFields = {
         "Auto": autoPoints,
         "Teleop": teleopPoints,
-        "Coral": coralPoints,
-        "Algae": algaePoints,
+        "Fuel": fuelPoints,
+        "Climb": climbPoints,
         "Total": allPoints
     }
 
