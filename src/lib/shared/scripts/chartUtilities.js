@@ -158,27 +158,13 @@ export function averageTeamPerformance(teams){
 		let matches = getTeamScoutingData(team)
 		let fields = {
 			avgAutoPoints: [
-				"autoROneScore",
-				"autoRTwoScore",
-				"autoRThreeScore",
-				"autoRFourScore",
-				"autoProcessorScore",
-				"autoNetScore",
-				"isLeave"
+                "autoFuelNumber",
+                "autoClimb"
+            ],
+			avgTeleopPoints: [
+                "teleopFuelNumber",
+                "teleopClimb"
 			],
-			avgTeleopCoralPoints: [
-				"teleopROneScore",
-				"teleopRTwoScore",
-				"teleopRThreeScore",
-				"teleopRFourScore",
-			],
-			avgTeleopAlgaePoints: [
-				"teleopProcessorScore",
-				"teleopNetScore"
-			],
-			avgEndGame: [
-				"bargeStatus",
-			]
 		}
 
 		Object.keys(fields).forEach((field) => {
