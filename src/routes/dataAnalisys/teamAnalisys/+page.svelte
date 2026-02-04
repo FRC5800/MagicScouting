@@ -26,6 +26,7 @@
     let data = $derived($TeamsDB)
     console.log(data)
 
+    let teamSearch = $state("");
 
     let selectedTeam = $state("");
 
