@@ -109,13 +109,13 @@
 		<div class="separator w-full"></div>
 	</div>
 
-	<div class="container items-center justify-center rounded">
+	<div class="container items-center justify-center rounded-xl">
 		<div class="w-full flex items-center justify-center bg-primary-base p-2 relative rounded-t-xl">
 			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
 		</div>
 		<div class="w-full flex flex-row items-center justify-between ">
 			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 1);}}>
-				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
+				<svg class="fill-black dark:fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
 				<g>
 					<path d="M480,288H32c-17.673,0-32-14.327-32-32s14.327-32,32-32h448c17.673,0,32,14.327,32,32S497.673,288,480,288z"/>
 				</g>
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<button aria-label="plus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber+=1}}>
-				<svg class="fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
+				<svg class="fill-black dark:fill-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="25" height="25">
 				<g>
 					<path d="M480,224H288V32c0-17.673-14.327-32-32-32s-32,14.327-32,32v192H32c-17.673,0-32,14.327-32,32s14.327,32,32,32h192v192   c0,17.673,14.327,32,32,32s32-14.327,32-32V288h192c17.673,0,32-14.327,32-32S497.673,224,480,224z"/>
 				</g>
@@ -144,10 +144,10 @@
 		</div>
 
 		<div class="w-full flex items-center rounded-b-xl overflow-hidden">
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF383C]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 10);}}>-10</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#FF686B]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 5);}}>-5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#80E89E]" onclick={() => {scoredFuelNumber+=5}} >+5</button>
-			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal bg-[#34C759]" onclick={() => {scoredFuelNumber+=10}}>+10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal text-white font-bold bg-[#FF383C]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 10);}}>-10</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal text-white font-bold bg-[#FF686B]" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 5);}}>-5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal text-white font-bold bg-[#80E89E]" onclick={() => {scoredFuelNumber+=5}} >+5</button>
+			<button class="grow flex-1 flex h-[60px] items-center justify-center align-middle text-normal text-white font-bold bg-[#34C759]" onclick={() => {scoredFuelNumber+=10}}>+10</button>
 		</div>
 		<!-- <div class="w-full flex items-center rounded-b overflow-hidden">
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle p-3 text-normal {collectsFromGround ? 'bg-primary-base':''}">GROUND</button>
@@ -159,10 +159,10 @@
 	<div class="flex flex-col justify-around w-[80vw]">
 		<h1 class="text-lg header mb-2">Collected in:</h1>
 		<div class="flex flex-row gap-2">
-			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base':''}">Depot</button>
-			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base':''}">Ground</button>
-			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromOutpost ? 'bg-primary-base':''}">Outpost</button>
-			<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromNeutral ? 'bg-primary-base':''}">Neutral</button>
+			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base text-white':''}">Depot</button>
+			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base text-white':''}">Ground</button>
+			<button onclick={()=>{collectsFromOutpost=!collectsFromOutpost}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromOutpost ? 'bg-primary-base text-white':''}">Outpost</button>
+			<button onclick={()=>{collectsFromNeutral=!collectsFromNeutral}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromNeutral ? 'bg-primary-base text-white':''}">Neutral</button>
 		</div>
 	</div>
 
@@ -236,7 +236,7 @@
 		width: 75%;
 	}
 	.container {
-		@apply shadow rounded-md mb-3 flex flex-col justify-around w-[80vw];
+		@apply shadow rounded-xl mb-3 flex flex-col justify-around w-[80vw];
 		box-shadow: 0 1px 6px 0 rgba(15,98,254,.3);
 	}
 
@@ -391,7 +391,6 @@
 		@apply flex items-center justify-center;
 		min-width: 80px;
 		height: 50px;
-		color: white;
 		border-radius: 8px;
 		font-weight: bold;
 		font-size: 18px;

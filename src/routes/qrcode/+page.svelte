@@ -129,8 +129,8 @@ function HandleReset(){
     <table class="table w-full">
         <thead>
             <tr>
-                <th>Field</th>
-                <th>Value</th>
+                <th class="text-white">Field</th>
+                <th class="text-white">Value</th>
             </tr>
         </thead>
         <tbody>
@@ -272,7 +272,7 @@ function HandleReset(){
 
 <style lang="postcss">
     .disabled{
-        @apply bg-neutral-600 hover:bg-neutral-600 dark:bg-neutral-600 dark:hover:bg-neutral-600 hover:text-[#060024] dark:hover:text-[#060024];
+        @apply bg-neutral-600 text-gray-400 hover:bg-neutral-600 dark:bg-neutral-600 dark:hover:bg-neutral-600 hover:text-[#060024] dark:hover:text-[#060024];
     }
     .stored{
         @apply bg-green-600 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-600 text-[#E0E0E0] hover:text-[#E0E0E0] dark:hover:text-[#E0E0E0];
