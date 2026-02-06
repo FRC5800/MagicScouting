@@ -73,6 +73,18 @@ export const allPoints = [
     "teleopClimb",
 ]
 
+export const autoPoints = [
+    "autoFuelNumber",
+    "autoClimb",
+]
+
+export const teleopPoints = [
+    "teleopFuelNumber",
+    "teleopClimb",
+]
+
+
+
 export function getFieldType(key) {
     if (selectKeys.includes(key)) {
         return 'select';

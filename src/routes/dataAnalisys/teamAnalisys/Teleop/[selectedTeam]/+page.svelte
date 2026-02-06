@@ -16,7 +16,8 @@
     import { goto } from '$app/navigation';
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, getAverageCycleData, setupBarChartDataByMatch, parseCycleString } from "$lib/shared/scripts/chartUtilities";
-    import { algaeTeleopPoints, coralTeleopPoints, teleopPoints } from "$lib/shared/scripts/points.js";
+
+    import { teleopPoints } from "$lib/shared/stores/gameKeys";
 
     let { data } = $props();
     let teamData = $teamAnalysisData[data.selectedTeam];
@@ -25,6 +26,43 @@
     console.log(teamData.teamNumber)
 
     console.log($rawData)
+
+    function getAverageClimbTime() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const climbTimes = $rawData
+            .filter(match => {
+                const climb = match.teleopClimb;
+                return climb && climb !== 'none' && climb !== '';
+            })
+            .map(match => Number(match.teleopClimbTime) || 0)
+            .filter(time => time > 0);
+
+        if (climbTimes.length === 0) return 0;
+        return climbTimes.reduce((sum, time) => sum + time, 0) / climbTimes.length;
+    }
+    /**
+     * Get percentage of matches with passes by bump
+     */
+    function getPassesByBumpRate() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const passCount = $rawData.filter(match => {
+            const value = match.passesByBump;
+            return value === 'true' || value === true || value === '1';
+        }).length;
+        return (passCount / $rawData.length) * 100;
+    }
+
+    /**
+     * Get percentage of matches with passes by trench
+     */
+    function getPassesByTrenchRate() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const passCount = $rawData.filter(match => {
+            const value = match.passesByLowBar;
+            return value === 'true' || value === true || value === '1';
+        }).length;
+        return (passCount / $rawData.length) * 100;
+    }
 
 
 
@@ -58,22 +96,19 @@
                             true
                         )}</span>
                     </div>
+                </div>
+            </div>
+            <div class=" w-full relative mb-2 mx-6 grow">
+                <div class="flex flex-row justify-around items-center gap-4">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>{$_("dataAnalysis.average_cycle")}</h3>
-                        <span class="text-primary-base text-xl"> {getAverageCycleData(
-                            $rawData,
-                            [
-                                "coralStationCycleTime",
-                                "coralFloorCycleTime",
-                                "algaeCycleTime"
-                            ],
-                        )} s</span>
+                        <h3>{"Avg climb time"}</h3>
+                        <span class="text-primary-base text-xl">{Math.round(getAverageClimbTime()*10)/10}</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <BarChartGrouped
+        <!-- <BarChartGrouped
         data={setupBarChartsData(
             $rawData,
             {
@@ -126,57 +161,11 @@
                 }
             }
         }
-        />
+        /> -->
 
         <div class="divider"></div>
 
-        {#key $rawData}
-            <RadarChart
-                data={setupSimpleChartsData(
-                $rawData,
-                    {
-                        "L1" : ["teleopROneScore"],
-                        "L2" : ["teleopRTwoScore"],
-                        "L3" : ["teleopRThreeScore"],
-                        "L4" : ["teleopRFourScore"],
-                        "Proc" : ["teleopProcessorScore"],
-                        "Net": ["teleopNetScore"]
-                    },
-                    "radar"
-                ).concat(setupSimpleChartsData(
-                    $rawData,
-                    {
-                        "L1" : ["teleopROneScore"],
-                        "L2" : ["teleopRTwoScore"],
-                        "L3" : ["teleopRThreeScore"],
-                        "L4" : ["teleopRFourScore"],
-                        "Proc" : ["teleopProcessorScore"],
-                        "Net": ["teleopNetScore"]
-                    },
-                    "radar",
-                    true
-                ))}
-                options={{
-                    theme: $carbonTheme,
-                    title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
-                    radar: {
-                        axes: {
-                            angle: "group",
-                            value: "value"
-                        }
-                    },
-                    data: {
-                        groupMapsTo: "product"
-                    },
-                    height: "400px",
-                    width: "300px"
-                }}
-            />
-        {/key}
-
-        <div class="divider"></div>
-
-        <LineChart
+        <!-- <LineChart
             data={setupBarChartDataByMatch(
                 $rawData,
                 {
@@ -204,8 +193,32 @@
                     }
                 }
             }
-        />
+        /> -->
 
+
+        <DonutChart
+        data={setupModeChartsData(
+            $rawData,
+            "teleopClimb",
+            {
+                "none": "None",
+                "L1": "L1",
+                "L2": "L2",
+                "L3": "L3"
+            },
+        )}
+        options={{
+            theme: $carbonTheme,
+            title: "Climb Profile",
+            height: "300px",
+            width: "300px",
+            axes: {
+                left: { mapsTo: "value" },
+                bottom: { mapsTo: "group", scaleType: "labels" }
+                }
+            }
+        }
+        />
         <div class="divider"></div>
 
         <ComboChart
@@ -213,22 +226,21 @@
                 $rawData,
                 {
                     Score: {fields: teleopPoints, valueName: "Points", showPoints: true},
-                    Coral: {fields: coralTeleopPoints, valueName: "GPs", showPoints: false},
-                    Algae: {fields: algaeTeleopPoints, valueName: "GPs", showPoints: false}
-                },
-
-            )}
+                    Fuel: {fields: ["teleopFuelNumber"], valueName: "Points", showPoints: true},
+                    Climb: {fields: ["teleopClimb"], valueName: "Points", showPoints: true}
+                }
+                )}
             options={{
                 theme: $carbonTheme,
                 title: $_("dataAnalysis.teamAnalysis.score_by_match"),
                 height: "200px",
-                width: "320px",
+                width: "330px",
                 comboChartTypes:[
                     {
                         type: "grouped-bar",
                         correspondingDatasets: [
-                            "Coral",
-                            "Algae"
+                            "Climb",
+                            "Fuel",
                         ]
                     },
                     {
@@ -248,18 +260,46 @@
                             title: "Match",
                             mapsTo: "key",
                         },
-                        right: {
-                            title: "Game Pieces",
-                            scaleType: "linear",
-                            mapsTo: "GPs",
-                            correspondingDatasets: [
-                                "Coral",
-                                "Algae"
-                            ]
-                        }
+                        // right: {
+                        //     title: "Game Pieces",
+                        //     scaleType: "linear",
+                        //     mapsTo: "Points",
+                        //     correspondingDatasets: [
+                        //         "Fuel",
+                        //         "Climb"
+                        //     ]
+                        // }
                     }
                 }
             }
         />
     {/if}
+    <div class="divider"></div>
+
+    <div class="overflow-x-auto w-full">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Climb Level</th>
+                    <th>Climb Time</th>
+                    <th>Passes by Bump</th>
+                    <th>Passes by Trench</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#key $rawData}
+                    {#each $rawData.slice().sort((a,b) => Number(a.matchNumber) - Number(b.matchNumber)) as match}
+                        <tr>
+                            <th>{match.matchNumber}</th>
+                            <td>{match.teleopClimb || 'none'}</td>
+                            <td>{match.teleopClimbTime ? Number(match.teleopClimbTime).toFixed(1) + 's' : '-'}</td>
+                            <td>{(match.passesByBump === 'true' || match.passesByBump === true || match.passesByBump === '1') ? 'Yes' : 'No'}</td>
+                            <td>{(match.passesByLowBar === 'true' || match.passesByLowBar === true || match.passesByLowBar === '1') ? 'Yes' : 'No'}</td>
+                        </tr>
+                    {/each}
+                {/key}
+            </tbody>
+        </table>
+    </div>
 </div>
