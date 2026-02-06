@@ -343,7 +343,7 @@
     }
 
     .table-container {
-        @apply w-full;
+        @apply w-full dark:text-[#EAEAEC];
         box-sizing: border-box;
         margin-bottom: 0.5rem;
         max-height: calc(85vh - 120px);
@@ -365,7 +365,7 @@
     }
 
     .edit-table th {
-        @apply bg-grey-heavy text-left;
+        @apply bg-opacity-10 bg-primary-opac text-left;
         width: 40%;
     }
 
