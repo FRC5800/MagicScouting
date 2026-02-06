@@ -523,6 +523,33 @@ export function setupAllianceChartData(chartReference){
 		let points = 0;
 
 		chartReference[group].teams.forEach((team) => {
+			console.log("Team data: ")
+			console.log(getTeamScoutingData(team))
+			points += getAverageDBvalues(getTeamScoutingData(team), chartReference[group].fields, true)
+		})
+
+		let bar = {
+			"group": group,
+			"key": chartReference[group].teams.length == 1 ? chartReference[group].teams[0] : group,
+			"value": points
+		}
+		chartData.push(bar)
+	})
+
+	return chartData
+
+
+}
+
+export function setupPointsChartData(chartReference){
+	let chartData = []
+
+	console.log(chartReference)
+
+	Object.keys(chartReference).forEach((group) => {
+		let points = 0;
+
+		chartReference[group].teams.forEach((team) => {
 			points += getAverageDBvalues(getTeamScoutingData(team), chartReference[group].fields, true)
 		})
 

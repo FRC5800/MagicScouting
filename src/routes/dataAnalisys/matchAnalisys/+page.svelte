@@ -4,7 +4,7 @@
     // @ts-nocheck
     
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
-    import { onMount } from "svelte";
+    import { getContext, onMount } from "svelte";
 
     import { _ } from 'svelte-i18n';
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
@@ -33,22 +33,24 @@
     
     let autoCompleteTeams = $derived(writable([]));
     let teams = $derived($matchAnalysisData ? writable(Object.keys($matchAnalysisData)) : writable([]));
+    console.log("Teams: ")
+    console.log($state.snapshot($teams))
     let teamsData = $derived($matchAnalysisData);
     let preventMoreTeams = $state(false);
     let showMaxTeamToast = $state(false);
-
+    
     run(() => {
         if($teams.length == 3){preventMoreTeams = true}
         else{preventMoreTeams = false}
     });;
-
+    
     run(() => {
         if(teamSearch != "" && preventMoreTeams){
             teamSearch = "";
             showMaxTeamToast = true;
         }
     });
-
+    
     function handleTabClose(teamNumber){
         delete $matchAnalysisData[teamNumber];
         $matchAnalysisData = $matchAnalysisData;
@@ -63,28 +65,28 @@
         if (showDeleteTeamButton == state) {showDeleteTeamButton = 0}
         else if($teams[state-1]){showDeleteTeamButton = state}
     }
-
+    
     function deleteTeam(team){
         showDeleteTeamButton = 0;
         delete teamsData[$teams[team-1]]
         $matchAnalysisData = teamsData;
     }
-
-
+    
+    
     run(() => {
         if($teams.length > 0){
             console.log($teams)
         }
     });
-
+    
     function getAvgTeamPoints(team){
         return getAverageDBvalues(
-                $matchAnalysisData[team].rawData,
-                allPoints,
-                true
-            )
+            $matchAnalysisData[team].rawData,
+            allPoints,
+            true
+        )
     }
-
+    
     function getAvgAlliancePoints(allianceTeams, fields){
         let total = 0;
         allianceTeams.forEach(team => {
@@ -96,7 +98,7 @@
         });
         return total
     }
-
+    
     let lookupFields = {
         "Auto": autoPoints,
         "Teleop": teleopPoints,
@@ -104,16 +106,16 @@
         "Climb": climbPoints,
         "Total": allPoints
     }
-
+    
     function formatChartReference(allianceTeams){
         let chartData = {};
         allianceTeams.forEach(team => {
             chartData[team] = {fields: allPoints, teams: [team]}            
-            })
+        })
         console.log(chartData)
         return chartData
     }
-
+    
 </script>
 
 <main class="w-full flex flex-col justify-center items-center bg-[#EAEAEC] dark:bg-primary-heavy dark:text-white">
@@ -178,7 +180,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: $_("dataAnalysis.matchAnalysis.gp_points_teams"),
+                title: "Points per Team",
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -194,17 +196,14 @@
             <BarChartSimple
             data={setupAllianceChartData(
                 {
-                    "L1" : {fields:["autoROneScore", "teleopROneScore"], teams: $teams}, 
-                    "L2" : {fields:["autoRTwoScore", "teleopRTwoScore"], teams: $teams}, 
-                    "L3" : {fields:["autoRThreeScore", "teleopRThreeScore"], teams: $teams}, 
-                    "L4" : {fields:["autoRFourScore", "teleopRFourScore"], teams: $teams},
-                    "Proc" : {fields:["teleopProcessorScore", "autoProcessorScore"], teams: $teams},
-                    "Net": {fields:["teleopNetScore", "autoNetScore"], teams: $teams} 
+                    "Auto Climb" : {fields:["autoClimb"], teams: $teams}, 
+                    "Teleop Climb" : {fields:["teleopClimb"], teams: $teams}, 
+                    "Fuels" : {fields:["autoFuelNumber", "teleopFuelNumber"], teams: $teams},
                 },
             )}
             options={{
                 theme: $carbonTheme,
-                title: $_("dataAnalysis.matchAnalysis.gp_points_spots"),
+                title: "Points per Score Type",
                 height: "200px",
                 width: "300px",
                 bars: {    
@@ -222,14 +221,31 @@
 
             <div class="w-full flex items-center justify-center">
                 <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
-                    <h2 class="text-xl font-medium tracking-wide mb-2">{$_("dataAnalysis.matchAnalysis.barge_subtitle")}</h2>
+                    <h2 class="text-xl font-medium tracking-wide mb-2">Auto Climbing</h2>
                     <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
                         {#each $teams as team}
                             <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
                                 <h3>{team}</h3>
                                 <span class="text-primary-base text-xl">{getAverageDBvalues(
                                     $matchAnalysisData[team].rawData,
-                                    ["bargeTime"],
+                                    ["autoClimbTime"],
+                                    false
+                                )}s</span>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            </div>
+            <div class="w-full flex items-center justify-center">
+                <div class=" w-full relative my-2 mx-6 grow flex flex-col items-center">
+                    <h2 class="text-xl font-medium tracking-wide mb-2">Teleop Climbing</h2>
+                    <div class="flex flex-row justify-around items-center gap-2 flex-wrap">
+                        {#each $teams as team}
+                            <div class="grow-[2] basis-0 p-4 py-2 rounded-md flex flex-col items-center justify-center gap-2">
+                                <h3>{team}</h3>
+                                <span class="text-primary-base text-xl">{getAverageDBvalues(
+                                    $matchAnalysisData[team].rawData,
+                                    ["teleopClimbTime"],
                                     false
                                 )}s</span>
                             </div>
