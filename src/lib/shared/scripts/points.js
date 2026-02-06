@@ -1,86 +1,25 @@
 export const allPoints = [
-	"autoROneScore",
-	"autoRTwoScore",
-	"autoRThreeScore",
-	"autoRFourScore",
-	"autoProcessorScore",
-	"autoNetScore",
-	"isLeave",
-	"teleopROneScore",
-	"teleopRTwoScore",
-	"teleopRThreeScore",
-	"teleopRFourScore",
-	"teleopProcessorScore",
-	"teleopNetScore",
-	"bargeStatus"
+	"autoFuelNumber",
+    "autoClimb",
+	"teleopFuelNumber",
+    "teleopClimb",
 ];
-export const coralPoints = [
-	"autoROneScore",
-	"autoRTwoScore",
-	"autoRThreeScore",
-	"autoRFourScore",
-	"teleopROneScore",
-	"teleopRTwoScore",
-	"teleopRThreeScore",
-	"teleopRFourScore",
+export const fuelPoints = [
+	"teleopFuelNumber",
+	"autoFuelNumber",
 ];
-export const algaePoints = [
-	"autoProcessorScore",
-	"autoNetScore",
-	"teleopProcessorScore",
-	"teleopNetScore",
+export const climbPoints = [
+	"autoClimb",
+	"teleopClimb",
 ];
 export const teleopPoints = [
-	"teleopROneScore",
-	"teleopRTwoScore", 
-	"teleopRThreeScore", 
-	"teleopRFourScore", 
-	"teleopProcessorScore", 
-	"teleopNetScore", 
+	"teleopFuelNumber",
+    "teleopClimb",
 ];
-export const coralTeleopPoints = [
-	"teleopROneScore",
-	"teleopRTwoScore", 
-	"teleopRThreeScore", 
-	"teleopRFourScore", 
-];
-export const algaeTeleopPoints = [
-	"teleopProcessorScore", 
-	"teleopNetScore", 
+export const feedingPoints = [
+	"feedingFuelNumber",
 ];
 export const autoPoints = [
-	"autoROneScore",
-	"autoRTwoScore", 
-	"autoRThreeScore", 
-	"autoRFourScore", 
-	"autoProcessorScore", 
-	"autoNetScore", 
-	"isLeave"
-];
-export const coralAutoPoints = [
-	"autoROneScore",
-	"autoRTwoScore", 
-	"autoRThreeScore", 
-	"autoRFourScore", 
-];
-export const algaeAutoPoints = [
-	"autoProcessorScore", 
-	"autoNetScore", 
-];
-
-export const allMisses = [
-	"autoROneMiss",
-	"autoRTwoMiss",
-	"autoRThreeMiss",
-	"autoRFourMiss",
-	"autoProcessorMiss",
-	"autoNetMiss",
-	"isLeave",
-	"teleopROneMiss",
-	"teleopRTwoMiss",
-	"teleopRThreeMiss",
-	"teleopRFourMiss",
-	"teleopProcessorMiss",
-	"teleopNetMiss",
-	"bargeStatus"
+	"autoFuelNumber",
+    "autoClimb",
 ];
