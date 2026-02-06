@@ -17,6 +17,7 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupBarChartsData ,setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch } from "$lib/shared/scripts/chartUtilities";
 
+    import { autoPoints } from "$lib/shared/stores/gameKeys.js";
 
     let { data } = $props();
     let teamData = $teamAnalysisData[data.selectedTeam];
@@ -26,25 +27,21 @@
 
     console.log($rawData)
 
-    let autoPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-        "autoProcessorScore",
-        "autoNetScore",
-        "isLeave"
-    ]
-    let coralAutoPoints = [
-        "autoROneScore",
-        "autoRTwoScore",
-        "autoRThreeScore",
-        "autoRFourScore",
-    ]
-    let algaeAutoPoints = [
-        "autoProcessorScore",
-        "autoNetScore",
-    ]
+    function getAverageClimbTime() {
+        if (!$rawData || $rawData.length === 0) return 0;
+        const climbTimes = $rawData
+            .filter(match => {
+                const climb = match.autoClimb;
+                return climb && climb !== 'none' && climb !== '';
+            })
+            .map(match => Number(match.autoClimbTime) || 0)
+            .filter(time => time > 0);
+
+        if (climbTimes.length === 0) return 0;
+        return climbTimes.reduce((sum, time) => sum + time, 0) / climbTimes.length;
+    }
+
+
 
 </script>
 
@@ -76,118 +73,18 @@
                             true
                         )}</span>
                     </div>
+                </div>
+            </div>
+            <div class=" w-full relative mb-2 mx-6 grow">
+                <div class="flex flex-row justify-around items-center gap-4">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>{$_("dataAnalysis.average_leave")}</h3>
-                        <span class="text-primary-base text-xl">{getAverageDBvalues(
-                            $rawData,
-                            ["isLeave"],
-                            true
-                        )}</span>
+                        <h3>{"Avg climb time"}</h3>
+                        <span class="text-primary-base text-xl">{Math.round(getAverageClimbTime()*10)/10}</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <BarChartGrouped
-        data={setupBarChartsData(
-            $rawData,
-            {
-                "L1": "autoROne",
-                "L2": "autoRTwo",
-                "L3": "autoRThree",
-                "L4": "autoRFour",
-            }
-        )}
-        options={{
-            theme: $carbonTheme,
-            title: 'CORAL',
-            height: '200px',
-            width: '320px',
-            axes: {
-                bottom: { mapsTo: 'value' },
-                left: { mapsTo: 'key', scaleType: 'labels' }
-                }
-            }
-        }
-        />
-
-        <div class="divider"></div>
-
-        <BarChartGrouped
-        data={setupBarChartsData(
-            $rawData,
-            {
-                "HIGH": "autoRemoveAlgaeLow",
-                "LOW": "autoRemoveAlgaeHigh",
-            },
-            false,
-            [""]
-        ).concat(setupBarChartsData(
-            $rawData,
-            {
-            "PROC": ["autoProcessor"],
-            "NET": ["autoNet"],
-            },
-            false
-        ))}
-        options={{
-            theme: $carbonTheme,
-            title: 'ALGAE',
-            height: '200px',
-            width: '320px',
-            axes: {
-                bottom: { mapsTo: 'value' },
-                left: { mapsTo: 'key', scaleType: 'labels' }
-                }
-            }
-        }
-        />
-
-        <div class="divider"></div>
-
-        {#key $rawData}
-            <RadarChart
-                data={setupSimpleChartsData(
-                $rawData,
-                    {
-                        "L1" : ["autoROneScore"],
-                        "L2" : ["autoRTwoScore"],
-                        "L3" : ["autoRThreeScore"],
-                        "L4" : ["autoRFourScore"],
-                        "Proc" : ["autoProcessorScore"],
-                        "Net": ["autoNetScore"]
-                    },
-                    "radar"
-                ).concat(setupSimpleChartsData(
-                    $rawData,
-                    {
-                        "L1" : ["autoROneScore"],
-                        "L2" : ["autoRTwoScore"],
-                        "L3" : ["autoRThreeScore"],
-                        "L4" : ["autoRFourScore"],
-                        "Proc" : ["autoProcessorScore"],
-                        "Net": ["autoNetScore"]
-                    },
-                    "radar",
-                    true
-                ))}
-                options={{
-                    theme: $carbonTheme,
-                    title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
-                    radar: {
-                        axes: {
-                            angle: "group",
-                            value: "value"
-                        }
-                    },
-                    data: {
-                        groupMapsTo: "product"
-                    },
-                    height: "400px",
-                    width: "300px"
-                }}
-            />
-        {/key}
 
         <div class="divider"></div>
 
@@ -196,22 +93,21 @@
                 $rawData,
                 {
                     Score: {fields: autoPoints, valueName: "Points", showPoints: true},
-                    Coral: {fields: coralAutoPoints, valueName: "GPs", showPoints: false},
-                    Algae: {fields: algaeAutoPoints, valueName: "GPs", showPoints: false}
-                },
-
-            )}
+                    Fuel: {fields: ["autoFuelNumber"], valueName: "Points", showPoints: true},
+                    Climb: {fields: ["autoClimb"], valueName: "Points", showPoints: true}
+                }
+                )}
             options={{
                 theme: $carbonTheme,
                 title: $_("dataAnalysis.teamAnalysis.score_by_match"),
                 height: "200px",
-                width: "320px",
+                width: "330px",
                 comboChartTypes:[
                     {
                         type: "grouped-bar",
                         correspondingDatasets: [
-                            "Coral",
-                            "Algae"
+                            "Climb",
+                            "Fuel",
                         ]
                     },
                     {
@@ -231,15 +127,15 @@
                             title: "Match",
                             mapsTo: "key",
                         },
-                        right: {
-                            title: "Game Pieces",
-                            scaleType: "linear",
-                            mapsTo: "GPs",
-                            correspondingDatasets: [
-                                "Coral",
-                                "Algae"
-                            ]
-                        }
+                        // right: {
+                        //     title: "Game Pieces",
+                        //     scaleType: "linear",
+                        //     mapsTo: "Points",
+                        //     correspondingDatasets: [
+                        //         "Fuel",
+                        //         "Climb"
+                        //     ]
+                        // }
                     }
                 }
             }

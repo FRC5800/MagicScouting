@@ -40,7 +40,7 @@
             })
             .map(match => Number(match.teleopClimbTime) || 0)
             .filter(time => time > 0);
-        
+
         if (climbTimes.length === 0) return 0;
         return climbTimes.reduce((sum, time) => sum + time, 0) / climbTimes.length;
     }
@@ -74,14 +74,14 @@
      */
     function getClimbLevelDistribution() {
         if (!$rawData || $rawData.length === 0) return [];
-        
+
         const distribution = {
             'none': 0,
             'L1': 0,
             'L2': 0,
             'L3': 0
         };
-        
+
         $rawData.forEach(match => {
             const climb = match.teleopClimb || 'none';
             if (distribution.hasOwnProperty(climb)) {
@@ -90,7 +90,7 @@
                 distribution['none']++;
             }
         });
-        
+
         return [
             { group: 'No Climb', value: distribution['none'] },
             { group: 'L1', value: distribution['L1'] },

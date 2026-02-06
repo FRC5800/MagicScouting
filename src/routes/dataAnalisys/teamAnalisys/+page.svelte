@@ -123,13 +123,6 @@
                         <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.teamAnalysis.analytics_subtitle")}</h2>
 
                         <div class="w-full flex flex-col gap-2 max-w-[400px]">
-                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/pitData/${activeTab}`)}} disabled=true class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
-                                <i class="fi fi-rr-bank"></i>
-                                <span>{$_("dataAnalysis.teamAnalysis.pit_data")}</span>
-                                <div class="flex items-center justify-end grow">
-                                    <i class="fi fi-rr-angle-right flex"></i>
-                                </div>
-                            </button>
                             <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/Teleop/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-users-alt flex"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.teleop_analytics")}</span>
@@ -140,13 +133,6 @@
                             <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/Autonomous/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
                                 <i class="fi fi-rr-overview flex"></i>
                                 <span>{$_("dataAnalysis.teamAnalysis.auto_analytics")}</span>
-                                <div class="flex items-center justify-end grow">
-                                    <i class="fi fi-rr-angle-right flex"></i>
-                                </div>
-                            </button>
-                            <button onclick={() => {goto(`/dataAnalisys/teamAnalisys/EndGame/${activeTab}`)}} class="btn btn-block flex flex-row justify-start gap-4 bg-primary-opac text-primary-light">
-                                <i class="fi fi-rr-hourglass-end"></i>
-                                <span>{$_("dataAnalysis.teamAnalysis.endgame_analytics")}</span>
                                 <div class="flex items-center justify-end grow">
                                     <i class="fi fi-rr-angle-right flex"></i>
                                 </div>
@@ -274,15 +260,15 @@
                             title: "Match",
                             mapsTo: "key",
                         },
-                        right: {
-                            title: "Game Pieces",
-                            scaleType: "linear",
-                            mapsTo: "Points",
-                            correspondingDatasets: [
-                                "Fuel",
-                                "Climb"
-                            ]
-                        }
+                        // right: {
+                        //     title: "Game Pieces",
+                        //     scaleType: "linear",
+                        //     mapsTo: "Points",
+                        //     correspondingDatasets: [
+                        //         "Fuel",
+                        //         "Climb"
+                        //     ]
+                        // }
                     }
                 }
             }
