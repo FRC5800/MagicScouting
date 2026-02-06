@@ -158,34 +158,20 @@ export function averageTeamPerformance(teams){
 		let matches = getTeamScoutingData(team)
 		let fields = {
 			avgAutoPoints: [
-				"autoROneScore",
-				"autoRTwoScore",
-				"autoRThreeScore",
-				"autoRFourScore",
-				"autoProcessorScore",
-				"autoNetScore",
-				"isLeave"
+                "autoFuelNumber",
+                "autoClimb"
+            ],
+			avgTeleopPoints: [
+                "teleopFuelNumber",
+                "teleopClimb"
 			],
-			avgTeleopCoralPoints: [
-				"teleopROneScore",
-				"teleopRTwoScore",
-				"teleopRThreeScore",
-				"teleopRFourScore",
-			],
-			avgTeleopAlgaePoints: [
-				"teleopProcessorScore",
-				"teleopNetScore"
-			],
-			avgEndGame: [
-				"bargeStatus",
-			]
 		}
 
 		Object.keys(fields).forEach((field) => {
 			let points = getAverageDBvalues(matches, fields[field], true)
 			chartData.push({
 				group: field,
-				key: team,
+				key: team.toString(),
 				value: points
 			})
 		})
@@ -352,15 +338,15 @@ export async function getTBAData(team){
  * @param {Function} [customHandler=(a)=>{return a}] - A custom handler function to process the data.
  * @returns {Array} The formatted chart data.
  */
-export function setupBarChartDataByMatch(data, groups, customHandler=(a)=>{return a}){
+export function setupBarChartDataByMatch(data, groups, customHandler=(a, b)=>{return a}){
 	let chartData = [];
 	data.forEach((match) => {
 
 		Object.keys(groups).forEach((group) => {
 
 			let points = 0;
-			groups[group].fields.forEach((field) => {
-				points += handleGetActionAttributes(match, field, groups[group].showPoints, false)
+            groups[group].fields.forEach((field) => {
+				points += customHandler(handleGetActionAttributes(match, field, groups[group].showPoints, false), field)
 			})
 
 

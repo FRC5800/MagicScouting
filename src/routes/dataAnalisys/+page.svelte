@@ -8,7 +8,7 @@
     import { carbonTheme } from '$lib/shared/stores/darkMode.js';
     import { _ } from 'svelte-i18n';
 
-	import { BarChartStacked, BarChartGrouped } from '@carbon/charts-svelte'
+	import { BarChartStacked, BarChartGrouped, ScaleTypes } from '@carbon/charts-svelte'
 
     import { goto } from "$app/navigation";
     import { App } from '@capacitor/app';
@@ -26,7 +26,7 @@
     App.addListener("backButton", () => {goto("/")});
 
     let showDatabaseAlert = $state(false);
-    let leaderboardData = writable([]);
+    let leaderboardData = $state([]);
     let avgCompetitionScore = $state(0);
 
     let avgCompetitionCycle = $state(0);
@@ -54,20 +54,7 @@
             let teamScore = getAverageDBvalues(
                                             teamData,
                                             allPoints,
-                                            true
-                                            )
-
-            let teamCycle = getAverageCycleData(
-                            teamData,
-                            [
-                                "coralStationCycleTime",
-                                "coralFloorCycleTime",
-                                "algaeCycleTime"
-                            ],
-                        )
-            if (teamCycle != 0){
-                totalCycleAvg.push(teamCycle)
-            }
+                                            true)
             if(teamScore != 0){
                 totalScore.push(teamScore)
             }
@@ -76,9 +63,9 @@
         avgCompetitionScore = Math.round(avgArray(totalScore))
         // avgCompetitionCycle = Math.round(avgArray(totalCycleAvg)*100)/100
 
-        leaderboardData.set(averageTeamPerformance(allTeams))
-        console.log($leaderboardData)
-
+        leaderboardData = averageTeamPerformance(allTeams)
+        console.log(leaderboardData)
+        console.log(leaderboardData.length)
     }
 
     onMount(async () => {
@@ -161,26 +148,26 @@
         </div>
 
 
-        {#if $leaderboardData.length > 0}
+        {#if leaderboardData.length > 0}
             <div class="w-full flex grow gap-4 px-6 flex-col items-start">
                 <h2 class="text-xl font-medium tracking-wide">{$_("dataAnalysis.leaderboard_subtitle")}</h2>
             </div>
 
             <div class="w-full flex flex-col items-center mb-6">
                 <BarChartStacked
-                    data={$leaderboardData}
+                    data={leaderboardData}
                     options={{
                         toolbar: {enabled:false},
                         theme: $carbonTheme,
                         title: '',
-                        height: String(50 + Math.max($leaderboardData.length * 5.5, 100))+"px",
+                        height: String(50 + Math.max(leaderboardData.length * 5.5, 100))+"px",
                         width: '85%',
                         bars: {
                             width: 10,
                         },
                         axes: {
-                            bottom: { mapsTo: 'value', scaleType: "linear", domain: [0, biggestScore]},
-                            left: { mapsTo: 'key', scaleType: 'labels' }
+                            bottom: { stacked: true, scaleType: ScaleTypes.LINEAR, mapsTo: 'value', domain: [0, biggestScore]},
+                            left: { scaleType: ScaleTypes.LABELS, mapsTo: 'key' }
                             }
                         }
                     }
