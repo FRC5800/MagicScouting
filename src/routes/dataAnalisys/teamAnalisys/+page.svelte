@@ -20,7 +20,7 @@
     import teamAnalysisData from "$lib/shared/stores/teamAnalysisData";
     import { setupSimpleChartsData, getTeamScoutingData, getTBAData, getStatBoticsData, setupModeChartsData, getAverageDBvalues, setupBarChartDataByMatch, getDefaultLogo } from "$lib/shared/scripts/chartUtilities";
     import TeamSearchBar from "$lib/components/TeamSearchBar.svelte";
-    import { allPoints, coralPoints, algaePoints } from "$lib/shared/scripts/points";
+    import { allPoints, } from "$lib/shared/stores/gameKeys.js";
 
 
     let data = $derived($TeamsDB)
@@ -155,37 +155,14 @@
                     </div>
 
                     <div class="carousel carousel-center w-full max-w-fit">
+
                         <div class="carousel-item">
                             <DonutChart
                             data={setupSimpleChartsData(
                                 $teamAnalysisData[activeTab].rawData,
                                 {
-                                    "Coral" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore","teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore"],
-                                    "Processor": ["autoProcessorScore", "teleopProcessorScore"],
-                                    "Net": ["autoNetScore", "teleopNetScore"]
-                                },
-                            )}
-                            options={{
-                                theme: $carbonTheme,
-                                title: $_("dataAnalysis.teamAnalysis.gp_points"),
-                                // height: "300px",
-                                width: "100%",
-                                axes: {
-                                    left: { mapsTo: "value" },
-                                    bottom: { mapsTo: "group", scaleType: "labels" }
-                                    }
-                                }
-                            }
-                        />
-                        </div>
-                        <div class="carousel-item">
-                            <DonutChart
-                            data={setupSimpleChartsData(
-                                $teamAnalysisData[activeTab].rawData,
-                                {
-                                    "Auto" : ["autoROneScore", "autoRTwoScore", "autoRThreeScore", "autoRFourScore", "autoProcessorScore", "autoNetScore", "isLeave"],
-                                    "Teleop": ["teleopROneScore", "teleopRTwoScore", "teleopRThreeScore", "teleopRFourScore", "teleopProcessorScore", "teleopNetScore"],
-                                    "Endgame": ["bargeStatus"]
+                                    "Auto" : ["autoClimb", "autoFuelNumber"],
+                                    "Teleop": ["teleopFuelNumber", "teleopClimb"],
                                 },
                             )}
                             options={{
@@ -211,10 +188,9 @@
                             $teamAnalysisData[activeTab].rawData,
                             "robotFunction",
                             {
-                                "coral": "Coral",
-                                "algae": "Algae",
-                                "alg_cor": "Fullstack",
-                                "def": "Defense"
+                                "score": "Scorer",
+                                "defense": "Defender",
+                                "feed": "Feeder",
                             },
                         )}
                         options={{
@@ -234,17 +210,17 @@
                             <DonutChart
                             data={setupModeChartsData(
                                 $teamAnalysisData[activeTab].rawData,
-                                "bargeStatus",
+                                "teleopClimb",
                                 {
                                     "none": "None",
-                                    "park": "Park",
-                                    "deep": "Deep",
-                                    "shallow": "Shallow"
+                                    "L1": "L1",
+                                    "L2": "L2",
+                                    "L3": "L3"
                                 },
                             )}
                             options={{
                                 theme: $carbonTheme,
-                                title: $_("dataAnalysis.teamAnalysis.barge_profile"),
+                                title: "Climb Profile",
                                 height: "300px",
                                 width: "300px",
                                 axes: {
@@ -259,59 +235,15 @@
 
         <div class="divider w-full"></div>
 
-        {#key $teamAnalysisData[activeTab].rawData}
-            <RadarChart
-                data={setupSimpleChartsData(
-                $teamAnalysisData[activeTab].rawData,
-                    {
-                        "L1" : ["autoROneScore", "teleopROneScore"],
-                        "L2" : ["autoRTwoScore", "teleopRTwoScore"],
-                        "L3" : ["autoRThreeScore", "teleopRThreeScore"],
-                        "L4" : ["autoRFourScore", "teleopRFourScore"],
-                        "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
-                        "Net": ["teleopNetScore", "autoNetScore"]
-                    },
-                    "radar"
-                ).concat(setupSimpleChartsData(
-                    $teamAnalysisData[activeTab].rawData,
-                    {
-                        "L1" : ["autoROneScore", "teleopROneScore"],
-                        "L2" : ["autoRTwoScore", "teleopRTwoScore"],
-                        "L3" : ["autoRThreeScore", "teleopRThreeScore"],
-                        "L4" : ["autoRFourScore", "teleopRFourScore"],
-                        "Proc" : ["teleopProcessorScore", "autoProcessorScore"],
-                        "Net": ["teleopNetScore", "autoNetScore"]
-                    },
-                    "radar",
-                    true
-                ))}
-                options={{
-                    theme: $carbonTheme,
-                    title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
-                    radar: {
-                        axes: {
-                            angle: "group",
-                            value: "value"
-                        }
-                    },
-                    data: {
-                        groupMapsTo: "product"
-                    },
-                    height: "400px",
-                    width: "300px"
-                }}
-            />
-        {/key}
-        <div class="divider w-full sm:hidden"></div>
         <ComboChart
             data={setupBarChartDataByMatch(
                 $teamAnalysisData[activeTab].rawData,
                 {
                     Score: {fields: allPoints, valueName: "Points", showPoints: true},
-                    Coral: {fields: coralPoints, valueName: "GPs", showPoints: false},
-                    Algae: {fields: algaePoints, valueName: "GPs", showPoints: false}
+                    Fuel: {fields: ["autoFuelNumber", "teleopFuelNumber"], valueName: "Points", showPoints: true},
+                    Climb: {fields: ["autoClimb", "teleopClimb"], valueName: "Points", showPoints: true}
                 }
-            )}
+                )}
             options={{
                 theme: $carbonTheme,
                 title: $_("dataAnalysis.teamAnalysis.score_by_match"),
@@ -321,8 +253,8 @@
                     {
                         type: "grouped-bar",
                         correspondingDatasets: [
-                            "Coral",
-                            "Algae"
+                            "Climb",
+                            "Fuel",
                         ]
                     },
                     {
@@ -345,10 +277,10 @@
                         right: {
                             title: "Game Pieces",
                             scaleType: "linear",
-                            mapsTo: "GPs",
+                            mapsTo: "Points",
                             correspondingDatasets: [
-                                "Coral",
-                                "Algae"
+                                "Fuel",
+                                "Climb"
                             ]
                         }
                     }
