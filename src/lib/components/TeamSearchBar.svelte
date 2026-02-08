@@ -1,7 +1,7 @@
 <script>
+    // @ts-nocheck
     import { run } from 'svelte/legacy';
 
-    // @ts-nocheck
 
     import { writable } from "svelte/store";
     import { TeamsDB } from "$lib/shared/stores/teamsData";

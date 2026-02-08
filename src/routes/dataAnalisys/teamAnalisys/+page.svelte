@@ -1,7 +1,6 @@
 <script>
-    import { run } from 'svelte/legacy';
-
     // @ts-nocheck
+    import { run } from 'svelte/legacy';
 
     import dataBase, { useDB } from "$lib/shared/stores/dataBase";
     import { onMount } from "svelte";
@@ -65,7 +64,7 @@
         <div class="w-full flex sm:w-[600px]">
             <div role="tablist" class="tabs tabs-lifted min-w-80:overflow-x-scroll">
                 {#key $teamAnalysisData}
-                    {#each Object.keys($teamAnalysisData) as teamNumber (Object.keys($teamAnalysisData))}
+                    {#each Object.keys($teamAnalysisData) as teamNumber}
                         <span role="tab" class="tab {activeTab==teamNumber ? "tab-active" : ""} flex flex-row gap-2 justify-center items-center min-w-max">
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <!-- svelte-ignore a11y_no_static_element_interactions -->
