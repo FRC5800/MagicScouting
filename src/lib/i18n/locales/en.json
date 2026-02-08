@@ -107,8 +107,6 @@
 		},
 	"autonomous": {
 		"title": "Autonomous",
-		"speaker": "Speaker",
-		"amp": "Amp",
 		"scores": "Scores",
 		"misses": "Misses",
 		"leave_button": "Leave Point",
@@ -136,13 +134,12 @@
 			"option2": "Missed",
 			"option3": "Scored"
 		},
-		"barge": {
-			"title": "Barge",
-			"option1": "Tried and Missed",
-			"option2": "Didn't try",
-			"option3": "Climbed alone",
-			"option4": "Climbed with 1+ Robot",
-			"option5": "Climbed with 2+ Robots"
+		"climb": {
+			"title": "Climb",
+			"no_climb": "No Climb",
+			"l1": "L1",
+			"l2": "L2",
+			"l3": "L3"
 		},
 		"note_cycle": {
 			"title": "Cycle Control",
@@ -153,9 +150,9 @@
 			"pause": "Pause",
 			"cancel_confirmation": "Click again to cancel"
 		},
-		"barge_points": "Barge Points",
-		"barge_cycle": {
-			"title": "Barge Cycle",
+		"climb_points": "Climb Points",
+		"climb_cycle": {
+			"title": "Climb Cycle",
 			"start_cycle": "Start"
 		},
 		"continue_button": "Continue"
@@ -165,15 +162,16 @@
 		"team_role": "Team Role",
 		"robot_status": "Any Problems?",
 		"coopertition": "Coopertition Bonus",
-		"attack": "Attacker",
+		"attack": "Scorer",
 		"defense": "Defender",
-		"support": "Supporter",
+		"support": "Feeder",
 		"yes": "Yes",
 		"no": "No",
 		"continue_button": "Continue",
 		"safe": "Safe",
 		"broke": "Broke",
-		"communication_fault": "Comm. Loss"
+		"communication_fault": "Comm. Loss",
+		"mobility": "Mobility"
 	},
 	"qrcode": {
 		"title": "Scouting Data",
@@ -192,10 +190,17 @@
 		"close_button": "Close",
 		"visualize_button": "Visualize",
 		"confirm_button": "Confirm",
+		"edit_button": "Edit",
 		"delete_button": "Delete",
 		"cancel_button": "Cancel",
 		"save_button": "Save",
-		"none": "None"
+		"none": "None",
+		"seconds": "Seconds",
+		"collected_title": "Collected in:",
+		"feeding": "Feeding",
+		"field": "Field",
+		"value": "Value",
+		"edit_table": "Edit Table"
 	},
 	"dataAnalysis": {
 		"title": "Dashboard",
@@ -227,12 +232,12 @@
 			"gp_points": "Game Piece Points",
 			"points_by_period": "Points By Game Period",
 			"team_function": "Team Function",
-			"barge_profile": "Barge profile",
+			"climb_profile": "Climb profile",
 			"scoring_profile": "Scoring profile",
 			"score_by_match": "Score by match",
 			"cycle_by_match": "Cycle by match",
-			"barge_time": "Barge Time",
-			"barge_points": "Barge Points"
+			"climb_time": "Climb Time",
+			"climb_points": "Climb Points"
 		},
 
 		"matchAnalysis": {
@@ -240,7 +245,7 @@
 			"searchBar_text": "Search for a team",
 			"searchBar_placeholder": "Team Number",
 			"points_subtitle": "Points Analytics",
-			"barge_subtitle": "Barge Analytics",
+			"climb_subtitle": "Climb Analytics",
 
 			"gp_points_teams": "GP Points Teams",
 			"gp_points_spots": "GP Points Spots"
@@ -270,7 +275,7 @@
 			"attempts_deep": "Deep Attempts",
 			"score_deep": "Deep Hits",
 			"hit_rate_deep": "Hit Rate Deep",
-			"avg_cycle_barge": "Avg Cycle Barge"
+			"avg_cycle_climb": "Avg Cycle Climb"
 		},
 
 		"simulation": {

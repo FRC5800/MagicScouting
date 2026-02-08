@@ -145,13 +145,13 @@
 				onclick={() => {hubScoreMode = true}}
 				class="flex-1 flex items-center justify-center p-2 text-normal font-medium box-border border-2 border-primary-base rounded-tl-xl {hubScoreMode ? 'bg-primary-base text-white':''}"
 			>
-				Hub Score
+				{`Hub ${$_('autonomous.scores')}`}
 			</button>
 			<button
 				onclick={() => {hubScoreMode = false}}
 				class="flex-1 flex items-center justify-center p-2 text-normal font-medium box-border border-2 border-primary-base rounded-tr-xl {!hubScoreMode ? 'bg-primary-base text-white':''}"
 			>
-				Feeding
+				{$_('misc.feeding')}
 			</button>
 		</div>
 		<div class="w-full flex flex-row items-center justify-between ">
@@ -199,7 +199,7 @@
 	</div>
 
     <div class="flex flex-col justify-around w-[80vw]">
-		<h1 class="text-lg header mb-2">Collected in:</h1>
+		<h1 class="text-lg header mb-2">{$_('misc.collected_title')}</h1>
 		<div class="flex flex-row gap-2">
 			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base text-white':''}">Depot</button>
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base text-white':''}">Ground</button>
@@ -213,7 +213,7 @@
 			onclick={startClimbTime}
 			class="btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold flex-1"
 		>
-			Go Climb!
+			Climb
 		</button>
 		<div class="climb-timer-display-box">
 			{climbTime.toFixed(1)}s
@@ -225,28 +225,28 @@
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "none" ? 'bg-primary-base text-white':''}"
 			disabled={climb}
 		>
-			No climb
+			{$_("teleop.climb.no_climb")}
 		</button>
 		<button
 			onclick={()=>{climbLevel="L1"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L1" ? 'bg-primary-base text-white':''}"
 			disabled={!climb}
 		>
-			L1
+			{$_("teleop.climb.l1")}
 		</button>
 		<button
 			onclick={()=>{climbLevel="L2"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L2" ? 'bg-primary-base text-white':''}"
 			disabled={!climb}
 		>
-			L2
+			{$_("teleop.climb.l2")}
 		</button>
 		<button
 			onclick={()=>{climbLevel="L3"}}
 			class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {climbLevel == "L3" ? 'bg-primary-base text-white':''}"
 			disabled={!climb}
 		>
-			L3
+			{$_("teleop.climb.l3")}
 		</button>
 	</div>
 
@@ -257,18 +257,18 @@
 
 <Modal bind:showModal={showClimbTimer} showX={false} changeNameLater={false}>
 	<div class="climb-timer-container">
-		<h2 class="climb-timer-title">Climb Timer</h2>
+		<h2 class="climb-timer-title">{$_('dataAnalysis.teamAnalysis.climb_time')}</h2>
 		<div class="climb-timer-display">
 			<span class="climb-timer-value">
 				{climbTime.toFixed(1)}
 			</span>
-			<span class="climb-timer-unit">seconds</span>
+			<span class="climb-timer-unit">{$_('misc.seconds')}</span>
 		</div>
 		<button
 			onclick={stopClimbTime}
 			class="climb-timer-stop-btn"
 		>
-			Stop Timer
+			{$_('misc.save_button')}
 		</button>
 	</div>
 </Modal>

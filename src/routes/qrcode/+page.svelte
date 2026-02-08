@@ -129,8 +129,8 @@ function HandleReset(){
     <table class="table w-full">
         <thead>
             <tr>
-                <th class="text-white">Field</th>
-                <th class="text-white">Value</th>
+                <th class="text-white">{$_("misc.field")}</th>
+                <th class="text-white">{$_("misc.value")}</th>
             </tr>
         </thead>
         <tbody>

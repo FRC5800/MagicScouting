@@ -123,7 +123,7 @@
                         <span class="text-primary-base text-xl">{getClimbSuccessRate().toFixed(1)}%</span>
                     </div>
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>Avg Climb Time</h3>
+                        <h3>Climb Time</h3>
                         <span class="text-primary-base text-xl">{getAverageClimbTime().toFixed(1)}s</span>
                     </div>
                 </div>

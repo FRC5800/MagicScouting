@@ -62,56 +62,6 @@
           </div>
         {/if}
       </div>
-      <!-- <div class="bg-[#282828] w-full rounded-md relative p-4 my-2">
-        <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
-          <img width="45px" height="45px" src={teamImage} alt="">
-        </div>
-        <details class="dropdown absolute right-4 top-0 dropdown-end">
-          <summary class="btn m-1 p-0 bg-[#282828] border-[#282828]"><i class="fi fi-br-menu-dots-vertical text-lg"></i></summary>
-          <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-            <li>Edit</li>
-            <li>Delete</li>
-          </ul>
-        </details>
-        <h3 class="ml-10 text-lg">Team 1156 - Under Control</h3>
-        <div class="flex flex-col gap-2 mt-2 justify-center items-center">
-          <div class="flex flex-row gap-2">
-            <span>Match: 32</span>
-            <span>Position: 2</span>
-          </div>
-          <div class="flex flex-row w-full gap-6">
-            <button class="btn grow">Visualize</button>
-            <button class="btn btn-circle">
-              <i class="fi fi-rr-progress-upload text-2xl"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="bg-[#282828] w-full rounded-md relative p-4 my-2">
-        <div class="absolute -left-4 -top-4 rounded-full w-fit h-fit p-1 bg-[#121212] border-[#121212]">
-          <img width="45px" height="45px" src={teamImage} alt="">
-        </div>
-        <details class="dropdown absolute right-4 top-0 dropdown-end">
-          <summary class="btn m-1 p-0 bg-[#282828] border-[#282828]"><i class="fi fi-br-menu-dots-vertical text-lg"></i></summary>
-          <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-            <li>Edit</li>
-            <li>Delete</li>
-          </ul>
-        </details>
-        <h3 class="ml-10 text-lg">Team 1156 - Under Control</h3>
-        <div class="flex flex-col gap-2 mt-2 justify-center items-center">
-          <div class="flex flex-row gap-2">
-            <span>Match: 32</span>
-            <span>Position: 2</span>
-          </div>
-          <div class="flex flex-row w-full gap-6">
-            <button class="btn grow">Visualize</button>
-            <button class="btn btn-circle">
-              <i class="fi fi-rr-progress-upload text-2xl"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
     </div>
   {/if}
 </main>

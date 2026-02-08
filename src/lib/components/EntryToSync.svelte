@@ -140,7 +140,7 @@
         <div class="dropdown absolute right-0 top-0 dropdown-end">
             <div tabindex="0" role="button" class="btn m-1"><i class="fi fi-br-menu-dots-vertical text-lg"></div>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-36 shadow">
-                <li onkeydown={(e) => {if(e.key == "Enter") openEditModal()}} onclick={() => {openEditModal()}}><a href="">Edit</a></li>
+                <li onkeydown={(e) => {if(e.key == "Enter") openEditModal()}} onclick={() => {openEditModal()}}><a href="">{$_("misc.edit_button")}</a></li>
                 <li onkeydown={(e) => {if(e.key == "Enter") HandleDelete()}} onclick={() => {HandleDelete()}}><a href="">{$_('misc.delete_button')}</a></li>
             </ul>
         </div>
@@ -190,13 +190,13 @@
         </form>
 
        <div class="edit-modal-container">
-        <h2 class="edit-modal-title">Edit Match Data</h2>
+        <h2 class="edit-modal-title">{$_("misc.edit_table")}</h2>
         <div class="table-container">
             <table class="edit-table">
                 <thead>
                     <tr>
-                        <th>Field</th>
-                        <th>Value</th>
+                        <th>{$_("misc.field")}</th>
+                        <th>{$_("misc.value")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -236,9 +236,9 @@
                                             }}
                                             class="editable-select"
                                         >
-                                            <option value="safe">Safe</option>
-                                            <option value="broke">Broke</option>
-                                            <option value="commLoss">Communication Loss</option>
+                                            <option value="safe">{$_('info.safe')}</option>
+                                            <option value="broke">{$_('info.broke')}</option>
+                                            <option value="commLoss">{$_('info.communication_fault')}</option>
                                         </select>
                                     {:else if key === 'robotFunction'}
                                         <select
@@ -249,9 +249,9 @@
                                             }}
                                             class="editable-select"
                                         >
-                                            <option value="score">Score</option>
-                                            <option value="feed">Feed</option>
-                                            <option value="defense">Deffense</option>
+                                            <option value="score">{$_("info.attack")}</option>
+                                            <option value="feed">{$_("info.support")}</option>
+                                            <option value="defense">{$_("info.defense")}</option>
                                         </select>
                                     {:else if key === 'red/blue'}
                                         <select
@@ -274,7 +274,7 @@
                                             }}
                                             class="editable-select"
                                         >
-                                            <option value="none">No Climb</option>
+                                            <option value="none">{$_("teleop.climb.no_climb")}</option>
                                             <option value="L1">L1</option>
                                             <option value="L2">L2</option>
                                             <option value="L3">L3</option>

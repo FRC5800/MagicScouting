@@ -57,9 +57,9 @@
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">
-        <div onclick={()=>{teamRole="score"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="score" ? 'bg-primary-base text-[#E0E0E0]':''}">Score</div>
-        <div onclick={()=>{teamRole="feed"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="feed" ? 'bg-primary-base text-[#E0E0E0]':''}">Feed</div>
-        <div onclick={()=>{teamRole="defense"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="defense" ? 'bg-primary-base text-[#E0E0E0]':''}">Defense</div>
+        <div onclick={()=>{teamRole="score"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="score" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_("info.attack")}</div>
+        <div onclick={()=>{teamRole="feed"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="feed" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_("info.support")}</div>
+        <div onclick={()=>{teamRole="defense"}} class="text-normal flex justify-center items-center grow basis-1 p-3 {teamRole=="defense" ? 'bg-primary-base text-[#E0E0E0]':''}">{$_("info.defense")}</div>
     </div>
 </div>
 {#key animationTrigger}
@@ -96,7 +96,7 @@
 
 <div class="mt-4 container items-center justify-center rounded overflow-hidden ">
     <div class="w-full flex items-center justify-center bg-primary-base p-1">
-        <h2 class="text-white text-normal font-medium">Passes</h2>
+        <h2 class="text-white text-normal font-medium">{$_("info.mobility")}</h2>
     </div>
     <div class="w-full border-b-2 invisible"></div>
     <div class="w-full flex items-center justify-between">

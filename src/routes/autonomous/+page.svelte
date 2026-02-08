@@ -111,7 +111,7 @@
 
 	<div class="container items-center justify-center rounded-xl">
 		<div class="w-full flex items-center justify-center bg-primary-base p-2 relative rounded-t-xl">
-			<h2 class="text-white text-normal font-medium">Hub Scores</h2>
+			<h2 class="text-white text-normal font-medium">{`Hub ${$_('autonomous.scores')}`}</h2>
 		</div>
 		<div class="w-full flex flex-row items-center justify-between ">
 			<button aria-label="minus_score" class="w-1/4 bg-white bg-opacity-30 flex flex-col justify-center h-[60px] box-border items-center" onclick={() => {scoredFuelNumber = Math.max(0, scoredFuelNumber - 1);}}>
@@ -157,7 +157,7 @@
 		</div> -->
 	</div>
 	<div class="flex flex-col justify-around w-[80vw]">
-		<h1 class="text-lg header mb-2">Collected in:</h1>
+		<h1 class="text-lg header mb-2">{$_('misc.collected_title')}</h1>
 		<div class="flex flex-row gap-2">
 			<button onclick={()=>{collectsFromDepot=!collectsFromDepot}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromDepot ? 'bg-primary-base text-white':''}">Depot</button>
 			<button onclick={()=>{collectsFromGround=!collectsFromGround}} class="grow flex items-center justify-center align-middle h-[60px] border-primary-base border-2 rounded-md text-normal {collectsFromGround ? 'bg-primary-base text-white':''}">Ground</button>
@@ -171,7 +171,7 @@
 			onclick={startClimbTime}
 			class="btn mt-4 btn-primary bg-[#FFCC00] border-none hover:bg-[#CCA400] bg-buttons border-buttons font-bold flex-1"
 		>
-			Go Climb!
+			Climb
 		</button>
 		<div class="climb-timer-display-box">
 			{climbTime.toFixed(1)}s
@@ -184,18 +184,18 @@
 
 <Modal bind:showModal={showClimbTimer} showX={false} changeNameLater={false}>
 	<div class="climb-timer-container">
-		<h2 class="climb-timer-title">Climb Timer</h2>
+		<h2 class="climb-timer-title">{$_('dataAnalysis.teamAnalysis.climb_time')}</h2>
 		<div class="climb-timer-display">
 			<span class="climb-timer-value">
 				{climbTime.toFixed(1)}
 			</span>
-			<span class="climb-timer-unit">seconds</span>
+			<span class="climb-timer-unit">{$_('misc.seconds')}</span>
 		</div>
 		<button
 			onclick={stopClimbTime}
 			class="climb-timer-stop-btn"
 		>
-			Stop Timer
+			{$_('misc.save_button')}
 		</button>
 	</div>
 </Modal>

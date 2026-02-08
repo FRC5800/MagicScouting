@@ -101,7 +101,7 @@
             <div class=" w-full relative mb-2 mx-6 grow">
                 <div class="flex flex-row justify-around items-center gap-4">
                     <div class="grow basis-0 p-4 rounded-md flex flex-col items-center justify-center gap-2">
-                        <h3>{"Avg climb time"}</h3>
+                        <h3>{"Climb Time"}</h3>
                         <span class="text-primary-base text-xl">{Math.round(getAverageClimbTime()*10)/10}</span>
                     </div>
                 </div>
