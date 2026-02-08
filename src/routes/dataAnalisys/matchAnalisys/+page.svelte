@@ -180,7 +180,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Points per Team",
+                title: $_("dataAnalysis.teamAnalysis.average_points"),
                 height: "300px",
                 width: "300px",
                 axes: {
@@ -203,7 +203,7 @@
             )}
             options={{
                 theme: $carbonTheme,
-                title: "Points per Score Type",
+                title: $_("dataAnalysis.teamAnalysis.scoring_profile"),
                 height: "200px",
                 width: "300px",
                 bars: {    

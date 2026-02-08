@@ -5,7 +5,6 @@
       "option_red": "Roja",
       "option_blue": "Azul"
     },
-
     "team_number": "Número de Equipo",
     "match_number": "Número de Partido",
     "team_position": "Posición del Equipo",
@@ -13,7 +12,6 @@
     "validation_error_message": "¡Campo vacío!",
     "storage_button": "Almacenamiento",
     "continue_button": "Comenzar",
-
     "menu": {
       "title": "Menú",
       "option_config": "Configuración",
@@ -21,7 +19,6 @@
       "option_about": "Acerca de",
       "option_database": "Base de Datos"
     },
-
     "database": {
       "title": "Base de Datos",
       "message": "Seleccione la base de datos utilizada para subir los datos. Si tiene dudas sobre cómo crear una, acceda al README en nuestro repositorio:",
@@ -29,7 +26,6 @@
       "useDB": "¿Usar Base de Datos?",
       "confirm_button": "Confirmar"
     },
-
     "settings": {
       "title": "Configuración",
       "themes_title": "Tema",
@@ -49,7 +45,6 @@
       "toast_confirmation": "Base de datos guardada",
       "toast_warning": "¡Advertencia! No puede subir datos sin una base de datos"
     },
-
     "database_alert": {
       "title": "Alerta",
       "message": "Antes de usar la aplicación, recomendamos agregar la base de datos que se utilizará para almacenar los partidos en el menú. Si tiene dudas sobre cómo crear una, acceda a la WIKI del proyecto:",
@@ -57,7 +52,6 @@
       "menu_button": "Ir a \"Base de Datos\""
     }
   },
-
   "scanner": {
     "title": "Escáner de QR Code",
     "message": "Use este escáner para escanear los QR Codes de los partidos. Presione \"Escanear\" para encender la cámara.",
@@ -72,7 +66,6 @@
       "failure_alert": "Datos Repetidos"
     }
   },
-
   "storage": {
     "title": "Mi Almacenamiento",
     "filters": {
@@ -91,7 +84,6 @@
       "scan_me": "¡Escanéame!"
     }
   },
-
   "about": {
     "title": "Sobre el Proyecto",
     "paragraph_1": "El proyecto de una aplicación de scouting surgió a comienzos de 2023, cuando un miembro del equipo de programación encontró un repositorio de una aplicación simple pero eficaz. Como la aplicación estaba destinada al juego de 2022, fue necesario realizar cambios para la nueva temporada. Tras un año utilizando este proyecto inicial, decidimos dar un paso más y crear una aplicación propia del equipo.",
@@ -108,7 +100,6 @@
     "paragraph_3": "Si desea ayudar al proyecto, tenemos una recaudación abierta para que cualquier colaborador pueda apoyar. Actualmente, el dinero recaudado se utilizará para pagar la suscripción de la aplicación en la Apple Store. Enlace abajo:",
     "fundraise_link": "Recaudación FRC5800 Magic Scouting"
   },
-
   "autonomous": {
     "title": "Autónomo",
     "scores": "Aciertos",
@@ -116,7 +107,6 @@
     "leave_button": "Punto de Leave",
     "continue_button": "Continuar"
   },
-
   "teleop": {
     "title": "TeleOp",
     "endgame_title": "End Game",
@@ -125,7 +115,6 @@
     "amp": "Amp",
     "scores": "Aciertos",
     "misses": "Errores",
-
     "high_notes": {
       "title": "High Notes",
       "option1": "Human Player de otro equipo",
@@ -134,14 +123,12 @@
       "option4": "2",
       "option5": "3"
     },
-
     "trap": {
       "title": "Trap",
       "option1": "No intentó",
       "option2": "Falló",
       "option3": "Anotó"
     },
-
     "climb": {
       "title": "Climb",
       "no_climb": "Sin Climb",
@@ -149,7 +136,6 @@
       "l2": "L2",
       "l3": "L3"
     },
-
     "note_cycle": {
       "title": "Control de Ciclo",
       "source": "Fuente",
@@ -159,17 +145,13 @@
       "pause": "Pausa",
       "cancel_confirmation": "Presione nuevamente para cancelar"
     },
-
     "climb_points": "Puntos de Climb",
-
     "climb_cycle": {
       "title": "Ciclo de Climb",
       "start_cycle": "Iniciar"
     },
-
     "continue_button": "Continuar"
   },
-
   "info": {
     "title": "Información Adicional",
     "team_role": "Rol del Equipo",
@@ -186,7 +168,6 @@
     "communication_fault": "Comunicación",
     "mobility": "Movilidad"
   },
-
   "qrcode": {
     "title": "Datos de Scouting",
     "or": "O",
@@ -200,7 +181,6 @@
       "no_button": "No"
     }
   },
-
   "misc": {
     "close_button": "Cerrar",
     "visualize_button": "Visualizar",
@@ -216,5 +196,79 @@
     "field": "Campo",
     "value": "Valor",
     "edit_table": "Editar Tabla"
+  },
+  "dataAnalysis": {
+    "title": "Tablero",
+    "average_points": "Puntos Promedio",
+    "average_cycle": "Ciclo Promedio",
+    "average_leave": "Leave Promedio",
+    "sync_button": "Sincronizar Datos",
+    "database_alert": "¡Advertencia! Configura tu base de datos primero",
+    "analytics_subtitle": "Análisis",
+    "leaderboard_subtitle": "Clasificación",
+    "teams_analytics": "Análisis de Equipos",
+    "match_analytics": "Análisis de Partidos",
+    "teams_picklist": "Picklist de Equipos",
+    "match_simulation": "Simulación de Partidos",
+    "teamAnalysis": {
+      "title": "Análisis de Equipos",
+      "searchBar_text": "Buscar por equipo",
+      "searchBar_placeholder": "Número de Equipo",
+      "team_epa": "EPA del Equipo",
+      "team_winrate": "Winrate",
+      "average_points": "Puntos Promedio",
+      "analytics_subtitle": "Análisis Profundo",
+      "pit_data": "Datos de Pit",
+      "teleop_analytics": "Análisis de TeleOp",
+      "auto_analytics": "Análisis de Auto",
+      "endgame_analytics": "Análisis de Endgame",
+      "gp_points": "Puntos de Game Piece",
+      "points_by_period": "Puntos por Período",
+      "team_function": "Función del Equipo",
+      "climb_profile": "Desempeño Climb",
+      "scoring_profile": "Desempeño de Puntuación",
+      "score_by_match": "Puntos por Partido",
+      "cycle_by_match": "Ciclo por Partido",
+      "climb_time": "Duración Climb",
+      "climb_points": "Puntos Climb"
+    },
+    "matchAnalysis": {
+      "title": "Análisis de Partidos",
+      "searchBar_text": "Buscar un equipo",
+      "searchBar_placeholder": "Número de Equipo",
+      "points_subtitle": "Análisis de Puntos",
+      "climb_subtitle": "Análisis de Climb",
+      "gp_points_teams": "Puntos GP Equipos",
+      "gp_points_spots": "Puntos GP Lugares"
+    },
+    "picklist": {
+      "title": "Lista de Equipos",
+      "teamNumber": "Equipo",
+      "score_by_match": "Puntuación por partido",
+      "fuel_by_match": "Fuel/Part",
+      "auto_points": "Pts Auto",
+      "avg_auto_fuel": "Fuel Auto",
+      "auto_climb_rate": "Esc Auto %",
+      "avg_auto_climb_time": "Tiempo Esc Auto",
+      "teleop_points": "Pts TeleOp",
+      "avg_teleop_fuel": "Fuel TeleOp",
+      "avg_feeding_fuel": "Fuel Feed",
+      "teleop_l1_rate": "L1 %",
+      "teleop_l2_rate": "L2 %",
+      "teleop_l3_rate": "L3 %",
+      "avg_teleop_climb_time": "Tiempo Esc TeleOp",
+      "passes_by_bump_rate": "Pase Bump %",
+      "passes_by_trench_rate": "Pase Trench %"
+    },
+    "simulation": {
+      "title": "Simulación de Partido",
+      "analyze_alliance": "Analizar Alianza",
+      "win_chance": "Probabilidad de Victoria",
+      "points_analytics": "Análisis de Puntos",
+      "winner": "Ganador",
+      "tie": "Empate",
+      "alliance_one": "Alianza 1",
+      "alliance_two": "Alianza 2"
+    }
   }
 }
