@@ -1,7 +1,7 @@
 <script>
+  // @ts-nocheck
   import { run } from 'svelte/legacy';
 
-  // @ts-nocheck
   
   import SelectInput from '$lib/components/SelectInput.svelte';
   import theme from '$lib/shared/stores/darkMode.js';
@@ -51,7 +51,7 @@
     let showMoreLanguages = 'hidden';
   
     // @ts-ignore
-    let selected_language = $state($locale);
+    let selected_language = $derived($locale);
     let selected_theme = $state($theme);
     let selected_color = $state($colorTheme);
     run(() => {
@@ -86,7 +86,7 @@
     }
   
     function handle_language_selection() {
-      $locale = selected_language;
+      while($locale != selected_language) $locale = selected_language;
       window.localStorage.setItem('language', $locale);
     }
   
