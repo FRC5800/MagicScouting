@@ -77,6 +77,9 @@ function updateQr() {
 
 
 async function HandleUpload(){
+    console.log("PAYLOAD: \n");
+    console.log(payload);
+
     uploadDisabled = true;
 
     let dotsAnimation = "";
