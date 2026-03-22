@@ -47,7 +47,7 @@
 				return; // User cancelled, don't start the timer
 			}
 		}
-
+		
 		climbTimeCounting = true;
 		climbTime = 0;
 		climb = false; // Reset climb status when restarting

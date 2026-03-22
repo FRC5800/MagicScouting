@@ -107,7 +107,7 @@
         <div onclick={()=>{passesByLowBar=!passesByLowBar}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByLowBar ? 'bg-primary-base text-[#E0E0E0]':''}">Trench</div>
     </div>
 </div>
-    <div class="container items-center justify-center ">
+    <div class="mt-12 container items-center justify-center ">
         <div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t-lg">
             <h2 class="text-white text-normal font-medium"> Observações </h2>
         </div>
