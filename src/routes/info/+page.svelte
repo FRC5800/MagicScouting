@@ -18,6 +18,8 @@
     let passesByLowBar = $state(false);
     let validationError = $state(false);
     let animationTrigger = $state(0);
+    let observations = $state("");
+    let obsPlaceHolder = $state("e.g. Equipe não veio, partida cancelada, etc.");
 
     async function onSubmit() {
 		if(teamRole == '' || robotStatus == '' || humanPlayer == '') {
@@ -32,6 +34,7 @@
             "humanPlayer": humanPlayer,
             "passesByBump": passesByBump ? 1 : 0,
             "passesByLowBar": passesByLowBar ? 1 : 0,
+            "Observations": observations,
             });
             goto("/qrcode")
 		}
@@ -104,6 +107,13 @@
         <div onclick={()=>{passesByLowBar=!passesByLowBar}} class="text-normal flex justify-center items-center grow basis-1 p-3 {passesByLowBar ? 'bg-primary-base text-[#E0E0E0]':''}">Trench</div>
     </div>
 </div>
+    <div class="mt-12 container items-center justify-center ">
+        <div class="w-full flex items-center justify-center bg-primary-base p-1 rounded-t-lg">
+            <h2 class="text-white text-normal font-medium"> Observações </h2>
+        </div>
+        <textarea class="rounded-b-lg h-full w-full border-2 border-gray-500 flex border-b-2 " bind:value={observations} name="observations" id="observations" placeholder= {obsPlaceHolder}></textarea>
+        
+    </div>
 
 <button onclick={onSubmit} class="w-full btn mt-4 btn-primary hover:bg-primary-base bg-buttons border-buttons">{$_('info.continue_button')}</button>
 

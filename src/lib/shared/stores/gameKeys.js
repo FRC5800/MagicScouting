@@ -27,6 +27,7 @@ export const keys = [
     "passesByBump",
     "passesByLowBar",
     "feedingFuelNumber",
+    "Observations",
 
     //INFO
     "robotFunction",
