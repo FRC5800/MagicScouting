@@ -308,16 +308,87 @@
 				/>
 
 				<div class="w-80 h-full flex-col flex mb-24">
-
-					<div class="flex justify-between ">
+					<div class="flex justify-between">
 						<div class="flex w-full h-full ml-0">
-							<p class="title">Resumo das observações</p>
+							<p class="title cds--cc--title font-semibold">Resumo das observações</p>
 						</div>
 
-						<div class="w-40 h-full mr-0">
-							<button class="" >VAtxt </button>
-							<button> FS </button>
-							<button> MO </button>
+						<div class="w-50 h-full mr-0 gap-2 flex-row flex">
+							<button type="button" class=" w-7 h-7 justify-center items-center flex" aria-haspopup="true" aria-label="View as txt">
+								<svg
+									w-4
+									h-4
+									focusable="false"
+									fill="currentColor"
+									preserveAspectRatio="xMidYMid meet"
+									xmlns="http://www.w3.org/2000/svg"
+									class=" "
+									viewBox="0 0 32 32"
+									aria-hidden="true"
+									style="pointer-events: none; will-change: transform; width: 20px; height: 20px; "
+								>
+									<rect xmlns="http://www.w3.org/2000/svg" 
+									x="4" 
+									y="6" 
+									width="22" 
+									height="2"
+									></rect><rect
+										xmlns="http://www.w3.org/2000/svg"
+										x="4"
+										y="12"
+										width="22"
+										height="2"
+									></rect><rect
+										xmlns="http://www.w3.org/2000/svg"
+										x="4"
+										y="18"
+										width="22"
+										height="2"
+									></rect><rect
+										xmlns="http://www.w3.org/2000/svg"
+										x="4"
+										y="24"
+										width="22"
+										height="2"
+									></rect>
+								</svg>
+							</button>
+							<button class=" w-7 h-7 justify-center items-center flex " aria-label="See Fullscreen"
+								><svg
+									fill="currentColor"
+									focusable="false"
+									preserveAspectRatio="xMidYMid meet"
+									xmlns="http://www.w3.org/2000/svg"
+									class="cds--overflow-menu__icon cds--overflow-menu__icon"
+									viewBox="0 0 32 32"
+									aria-hidden="true"
+									style="pointer-events: none; will-change: transform; width: 15px; height: 15px;"
+								>
+									<polygon
+										xmlns="http://www.w3.org/2000/svg"
+										points="21 2 21 4 26.59 4 17 13.58 18.41 15 28 5.41 28 11 30 11 30 2 21 2"
+									></polygon><polygon
+										xmlns="http://www.w3.org/2000/svg"
+										points="15 18.42 13.59 17 4 26.59 4 21 2 21 2 30 11 30 11 28 5.41 28 15 18.42"
+									></polygon>
+								</svg></button
+							>
+							<button class=" w-7 h-7 justify-center items-center flex" aria-label="More Options"
+								><svg
+									fill="currentColor"
+									focusable="false"
+									preserveAspectRatio="xMidYMid meet"
+									xmlns="http://www.w3.org/2000/svg"
+									class="cds--overflow-menu__icon cds--overflow-menu__icon"
+									viewBox="0 0 32 32"
+									aria-hidden="true"
+									style="pointer-events: none; will-change: transform; width: 20px; height: 20px;"
+								>
+									<circle xmlns="http://www.w3.org/2000/svg" cx="16" cy="8" r="2"></circle>
+									<circle xmlns="http://www.w3.org/2000/svg" cx="16" cy="16" r="2"></circle>
+									<circle xmlns="http://www.w3.org/2000/svg" cx="16" cy="24" r="2"></circle>
+								</svg></button
+							>
 						</div>
 					</div>
 
@@ -335,12 +406,13 @@
 						></div>
 					</div>
 
-					<div class="w-full h-full ml-0 bg-velvet-raven border-20 border">resumo das observations aqui
-
-
-
-                        
-                    </div>
+					<div class="w-full h-full ml-0 bg-velvet-raven border-20 border">
+						resumo das observations aqui
+						<br />
+						<br />
+						<br />
+						<br />
+					</div>
 				</div>
 			{/if}
 		</section>
