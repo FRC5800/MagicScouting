@@ -79,3 +79,7 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+.bg-velvet-raven{
+	background-color: #161616;
+}
