@@ -39,6 +39,8 @@ https://svelte.dev/e/node_invalid_placement -->
 </script>
 {#if mounted}
     <div class="w-full flex flex-row gap-4 items-center justify-center pt-6 pb-6 bg-transparent sticky top-0 z-10 bg-opacity-50 rounded backdrop-blur-lg drop-shadow-lg">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <i on:click={()=>{goto("/dataAnalisys/teamAnalisys")}} class="fi fi-rr-angle-left flex mx-6 btn bg-transparent border-none"></i>
         <div class="grow flex flex-row gap-4 items-center">
 
@@ -67,7 +69,7 @@ https://svelte.dev/e/node_invalid_placement -->
                         </tr>
                     {/if}
                 {/each}
-            </tbody>
+            </tbody>    
         </table>
     </div>
 {/if}

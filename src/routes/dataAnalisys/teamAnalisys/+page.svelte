@@ -32,6 +32,33 @@
 	import TeamSearchBar from '$lib/components/TeamSearchBar.svelte';
 	import { allPoints } from '$lib/shared/stores/gameKeys.js';
 
+	import {GoogleGenAI} from "@google/generative-ai";
+
+	
+	//FALTA ADICIONAR A CHAVE DA API
+	const GEMINI_API_KEY = "";
+    const ai = new GoogleGenAI({GEMINI_API_KEY});
+	const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
+
+	//FALTA ADICIONAR UMA FORMA DE OBTER OS DADOS DA PLANILHA REFERENTES À EQUIPE DE ANÁLISE ATUAL
+    async function mainAI(dadosPlanilha){
+		try{
+			const prompt = `Os seguintes dados são observações de scouters de uma competição FRC sobre um robô: ${JSON.stringify(dadosPlanilha)} crie um resumo dos dados do robô ao menos 3 dos seguintes pontos: Forças, Fraquezas, Inconsistências, Habilidade do Human Player`;
+			
+			const result = await model.generateContent(prompt);
+			const response = await result.response;
+			const textoResumido = response.text();
+			
+			console.log(textoResumido);
+			return textoResumido;
+		}
+		catch (error){
+
+		console.error("Erro ao chamar IA: ", error)
+		}
+	}
+
+
 	let data = $derived($TeamsDB);
 	console.log(data);
 
@@ -407,7 +434,7 @@
 					</div>
 
 					<div class="w-full h-full ml-0 bg-velvet-raven border-20 border">
-						resumo das observations aqui
+						{textoResumido}
 						<br />
 						<br />
 						<br />

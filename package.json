@@ -51,6 +51,7 @@
     "@capawesome/capacitor-app-update": "^8.0.2",
     "@capawesome/capacitor-live-update": "^8.1.0",
     "@flaticon/flaticon-uicons": "^3.3.1",
+    "@google/genai": "^1.48.0",
     "qrcode": "^1.5.4",
     "svelte-i18n": "^4.0.0",
     "svelte-preprocess": "^6.0.3",
