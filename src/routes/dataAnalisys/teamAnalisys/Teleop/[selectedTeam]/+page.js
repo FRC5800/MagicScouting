@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const prerender = "auto";
 
 export async function load({ params }) {
