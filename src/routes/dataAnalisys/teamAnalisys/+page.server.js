@@ -2,11 +2,12 @@
 /** @type {import('./$types').PageServerLoad} */
 
 import {GoogleGenerativeAI} from "@google/generative-ai";
+import { GEMINI_API_KEY } from '$env/static/private';
 
 export async function load() {
     
     //FALTA ADICIONAR A CHAVE DA API
-    const ai = new GoogleGenerativeAI({apiKey: process.env.GEMINI_API_KEY});
+    const ai = new GoogleGenerativeAI({GEMINI_API_KEY});
 	const model = ai.getGenerativeModel({model: "gemini-1.5-flash"});
 
 
