@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+
 	import { run } from 'svelte/legacy';
 
 	import dataBase, { useDB } from '$lib/shared/stores/dataBase';
@@ -32,9 +33,11 @@
 	import TeamSearchBar from '$lib/components/TeamSearchBar.svelte';
 	import { allPoints } from '$lib/shared/stores/gameKeys.js';
 
-	
-	let data = $derived($TeamsDB);
-	console.log(data);
+	let {data} = $props();
+	let textoIA = $derived(data.textoIA);
+
+	let teamsData = $derived($TeamsDB);
+	console.log(teamsData);
 
 	let teamSearch = $state('');
 
@@ -61,6 +64,7 @@
 
 
 	}
+
 </script>
 
 <main
@@ -377,7 +381,7 @@
 								</svg></button
 							>
 							<button class=" w-7 h-7 justify-center items-center flex" aria-label="More Options"
-							onclick={rodarIA}
+							
 								><svg
 									fill="currentColor"
 									focusable="false"
@@ -411,11 +415,13 @@
 					</div>
 
 					<div class="w-full h-full ml-0 bg-velvet-raven border-20 border">
-						{($teamAnalysisData[activeTab].rawData, 'teamNumber', {
-							
-						})}
-
-
+						{#if textoIA}
+    					{textoIA}
+  						{:else}
+    					carregando...
+						{/if}
+						
+						
 						<br />
 						<br />
 						<br />
